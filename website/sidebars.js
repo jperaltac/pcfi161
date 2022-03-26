@@ -13,4 +13,15 @@ module.exports = {
       ],
     },
   ],
+
+  weeks: [
+    {
+      type: 'category',
+      label: 'Weeks',
+      items: [
+        'hello',
+      ],
+    },
+  ],
+
 };
