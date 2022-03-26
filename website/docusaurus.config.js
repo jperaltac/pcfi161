@@ -3,7 +3,7 @@ module.exports = {
   title: 'Programación para Física y Astromomía',
   tagline: 'Elmentos básicos de bash y Python3',
   url: 'https://jperaltac.gitarra.site',
-  baseUrl: '/',
+  baseUrl: '/pcfi161/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
