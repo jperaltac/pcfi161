@@ -4,8 +4,8 @@ module.exports = {
   tagline: 'Elmentos básicos de bash y Python3',
   url: 'https://jperaltac.gitarra.site',
   baseUrl: '/pcfi161/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'ignore',
+  onBrokenMarkdownLinks: 'ignore',
   favicon: 'img/favicon.ico',
   organizationName: 'GitLab', // Usually your GitHub org/user name.
   projectName: 'pcfi161', // Usually your repo name.
