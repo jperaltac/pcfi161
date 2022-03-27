@@ -111,13 +111,13 @@ module.exports = {
     [
       '@docusaurus/plugin-content-docs',
       {
-	weeks:
-        {
+	  id: 'weeks',
+	  path: 'weeks',
+	  routeBasePath: 'weeks',
           sidebarPath: require.resolve('./sidebars_weeks.js'),
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
-        },
+          //editUrl:
+          //  'https://github.com/facebook/docusaurus/edit/master/website/',
       },
     ],
   ],
