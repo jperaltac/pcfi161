@@ -1,5 +1,7 @@
 ---
 title: Hello, World!
+
+slug: /
 ---
 
 ## Hello, World!
