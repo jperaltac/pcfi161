@@ -17,7 +17,7 @@ module.exports = {
   weeks: [
     {
       type: 'category',
-      label: 'Weeks',
+      label: 'Semana a Semana',
       items: [
         'hello',
       ],
