@@ -11,7 +11,7 @@ module.exports = {
   projectName: 'pcfi161', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'Docusaurus on GitLab Pages',
+      title: 'PCFI161',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
