@@ -109,7 +109,7 @@ module.exports = {
 
   plugins: [
     [
-      '@docusaurus/preset-classic',
+      '@docusaurus/plugin-content-docs',
       {
 	weeks:
         {
