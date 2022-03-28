@@ -5,6 +5,7 @@ module.exports = {
       label: 'Semana a Semana',
       items: [
         'hello',
+	'Semana01',
       ],
     },
   ],
