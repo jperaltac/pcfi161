@@ -6,6 +6,9 @@ module.exports = {
       items: [
         'hello',
 	'Semana01',
+  'Semana02',
+  'Semana03',
+  'Semana04',
       ],
     },
   ],

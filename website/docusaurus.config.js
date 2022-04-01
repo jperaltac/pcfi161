@@ -20,13 +20,13 @@ module.exports = {
         {
           to: 'docs/',
           activeBasePath: 'docs',
-          label: 'Docs',
+          label: 'Documentación',
           position: 'left',
         },
 	{
 	  to: 'weeks/',
 	  activeBasePath: 'weeks',
-	  label: 'Weeks',
+	  label: 'Semana a Semana',
 	  position: 'left',
 	},
         {to: 'blog', label: 'Blog', position: 'left'},
@@ -80,7 +80,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Joaquín Peralta, Creado Docusaurus.`,
     },
   },
   presets: [
