@@ -9,7 +9,7 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 
 ## Archivos de clases y lecturas obligatorias
 
-* PCFI161\_S01.pdf
+* [PCFI161\_S01.pdf](lectures\PCFI161\_S01.pdf)
 > Este archivo contiene los *slides* presentados en la clase. Estos suelen incluir ejercicios al final de cada presentación.
 * Fases en resolución de problemas
 > Este documento corresponde a un capítulo introductorio a los elementos básicos para el uso de GNU/Linux. Es una lectura obligatoria del curso.
