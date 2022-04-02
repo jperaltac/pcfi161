@@ -11,6 +11,13 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 
 * [PCFI161\_S02.pdf](/lectures/PCFI161\_S02.pdf)
 > Este archivo contiene los *slides* presentados en la clase. Estos suelen incluir ejercicios al final de cada presentación.
+* [PCFI161\_G02.pdf](/lectures/PCFI161\_G02.pdf)
+> Este archivo contiene una guía con algunos ejercicios para desarrollar durante la clase.
+* [conversion-sel.csv](/lectures/conversion-sel.csv)
+> Este archivo será usado en los ejercicios de la guía de esta semana.
+
+### Documentación de Apoyo
+
 * Fases en resolución de problemas [frp.pdf](/others/frp.pdf)
 > Este documento corresponde a un capítulo introductorio a los elementos básicos para el uso de GNU/Linux. Es una lectura obligatoria del curso.
 * Escritura de Algoritmos [ea.pdf](/others/ea.pdf)
