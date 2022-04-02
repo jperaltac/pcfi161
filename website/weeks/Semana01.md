@@ -9,10 +9,10 @@ A continuación encontrarán los archivos con el contenido de clases, videos de 
 
 ## Archivos
 
-* PCFI161\_S01.pdf
+* [PCFI161\_S01.pdf](/lectures/PCFI161\_S01.pdf)
 	> Este archivo contiene los *slides* presentados en la clase. Estos suelen incluir ejercicios al final de cada presentación.
-* c2.pdf
-	> Este documento corresponde a un capítulo introductorio a los elementos básicos de GNU/Linux. Es una lectura obligatoria del curso.
+* [c2.pdf](/others/c2.pdf)
+	> Este documento corresponde a un capítulo introductorio a los elementos básicos de GNU/Linux. Es una lectura obligatoria del curso. El documento, es un trabajo en desarrollo.
 
 ## Videos
 
@@ -33,7 +33,6 @@ A continuación verán los videos principales, para distintos casos.
 ------
 
 # Otro Software para Microsoft Windows 10/11.
-
 
 
 ## Editores de Texto
