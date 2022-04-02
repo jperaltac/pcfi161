@@ -1,20 +1,20 @@
 ---
 title: Semana 01
 ---
-# Elementos Fundamentales
+## Elementos Fundamentales
 
 En esta sección encontrarán los recursos básicos para iniciar el curso de *Programación para la Física y Astronomía*. Durante esta primera semana se revisarán los elementos básicos de GNU/Linux, poniendo énfasis en el uso del terminal, junto con la administración de archivos y directorios dentro del sistema.
 
 A continuación encontrarán los archivos con el contenido de clases, videos de ayuda, y documentación adicional para complementar los contenidos.
 
-## Archivos
+### Archivos
 
 * [PCFI161\_S01.pdf](/lectures/PCFI161\_S01.pdf)
 	> Este archivo contiene los *slides* presentados en la clase. Estos suelen incluir ejercicios al final de cada presentación.
 * [c2.pdf](/others/c2.pdf)
 	> Este documento corresponde a un capítulo introductorio a los elementos básicos de GNU/Linux. Es una lectura obligatoria del curso. El documento, es un trabajo en desarrollo.
 
-## Videos
+### Videos
 
 En esta sección podrán encontrar videos de ayuda que las/los guiarán en el proceso de instalación de los recursos necesarios para el curso. Usted podrá utilizar un sistema GNU/Linux de la forma que más se acomode a sus necesidades entre las que destacan:
 
@@ -32,10 +32,9 @@ A continuación verán los videos principales, para distintos casos.
 
 ------
 
-# Otro Software para Microsoft Windows 10/11.
+## Otro Software para Microsoft Windows 10/11.
 
-
-## Editores de Texto
+### Editores de Texto
 
 Dentro del terminal de GNU/Linux utilizaremos `vim` de forma regular, pero luego de aprender lo fundamental, podrá sentirse libre de utilizar otros editores.
 
@@ -45,9 +44,7 @@ Acá existe una larga variedad de Editores para Windows, entre los que destacamo
 2. **visual studio code** :  https://code.visualstudio.com/Download
 3. **notepad++** : https://notepad-plus-plus.org/
 
-
-
-## GNU/Linux dentro de Windows
+### GNU/Linux dentro de Windows
 
 Para instalar un sistema GNU/Linux dentro de un computador con Windows, recomendamos **WSL** (preferido), o **MSYS2**.
 
