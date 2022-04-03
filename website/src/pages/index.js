@@ -8,32 +8,34 @@ import styles from './styles.module.css';
 
 const features = [
   {
-    title: 'Easy to Use',
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    title: 'GNU/Linux',
+    imageUrl: 'img/linux-svgrepo-com.svg',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Este curso se enfoca en enseñar las herramientas básicas 
+        del uso de GNU/Linux. La distribución recomendada es Ubuntu,
+	que es incluida en el sistema WSL de Microsoft Windows.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    title: 'Python3',
+    imageUrl: 'img/python-opened-svgrepo-com.svg',
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Se enseñaran, durante el desarrollo del curso, elementos fundamentales 
+        de programación, con el uso de Python3, como lenguaje principal.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    imageUrl: 'img/undraw_docusaurus_react.svg',
+    title: 'Documentación',
+    imageUrl: 'img/pumpkin-coco-fall-svgrepo-com.svg',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Este curso tratará de entregar documentación, y códigos de ejemplo de
+        forma continua, para que cada una/o de ustedes disfruten practicar, mientras
+	toman su café, o té.
       </>
     ),
   },
