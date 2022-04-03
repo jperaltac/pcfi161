@@ -1,28 +1,19 @@
 ---
-title: Getting Started
+title: Curso de Programación para la Física y Astronomía
 slug: /
 ---
 
-## Step 1: Generate a new Docusaurus site
+## Información del curso
 
-If you haven't already, generate a new Docusaurus site using the classic template:
+* Código : PCFI161
+* Período : Primer Semestre año 2022
+* Modalidad : Presencial
+* Coordinador/a del curso : Joaquín Peralta
+* Profesoras/es
+	* Claudia Loyola
+	* Alejandro Llanquihuen
+	* Joaquín Peralta
 
-```shell
-npx @docusaurus/init@latest init my-website classic
-```
+## Contacto Coordinador
 
-## Step 2: Start your Docusaurus site
-
-Run the development server in the newly created `my-website` folder:
-
-```shell
-cd my-website
-
-npx docusaurus start
-```
-
-Open `docs/getting-started.md` and edit some lines. The site reloads automatically and display your changes.
-
-## That's it!
-
-Congratulations! You've successfully run and modified your Docusaurus project.
+* Joaquín Peralta : joaquin.peralta@unab.cl || joa.peralta@uandresbello.edu
