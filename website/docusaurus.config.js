@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Programación para Física y Astromomía',
-  tagline: 'Elmentos básicos de bash y Python3',
+  tagline: 'Elmentos básicos de GNU/Linux, Bash y Python3',
   url: 'https://jperaltac.gitarra.site',
   baseUrl: '/pcfi161/',
   onBrokenLinks: 'log',
@@ -14,7 +14,7 @@ module.exports = {
       title: 'PCFI161',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo2.svg',
       },
       items: [
         {
@@ -41,46 +41,38 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Documentación',
           items: [
             {
-              label: 'Getting Started',
+              label: 'Documentos',
               to: 'docs/',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'El Equipo',
           items: [
             {
-              label: 'Stack Overflow',
+              label: 'Profesores',
               href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Más Información',
           items: [
             {
               label: 'Blog',
               to: 'blog',
             },
             {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              label: 'GitArra',
+              href: 'https://gitarra.cl',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Joaquín Peralta, Creado Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Joaquín Peralta, Creado con Docusaurus en GitArra.`,
     },
   },
   presets: [
