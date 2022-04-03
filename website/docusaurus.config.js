@@ -14,7 +14,7 @@ module.exports = {
       title: 'PCFI161',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo2.svg',
+        src: 'img/logo3.svg',
       },
       items: [
         {
