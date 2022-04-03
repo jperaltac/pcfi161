@@ -43,8 +43,7 @@ cd msys2-mingw-shortcut-menus
 se crea el archivo `install\_right\_click\_menu.reg` en la carpeta `msys2-mingw-shortcut-menus`  
 en windows busque el archivo `.reg` y hacer doble clic sobre él para finalizar la instalación
 
-![](C:\Users\jpera\Documents\pcfi161\website\static\img\menu_msys2.png) 
-
+![](/img/menu_msys2.png) 
 
 ### **WSL/ubuntu**
 
@@ -54,7 +53,7 @@ Podrá hacer clic con el botón derecho del mouse en windows y ejecute el shell 
 
 Al instalar WSL, puede abrir un terminal en la carpeta selecciona, pero debe presionar la tecla `Mayús` y después el botón derecho del mouse, en el menú emergente aparecerá la opción "**Abrir shell de Linux aquí**"
 
-![](C:\Users\jpera\Documents\pcfi161\website\static\img\menu_wsl2.png)
+![](/img/menu_wsl2.png)
 
 Si no está activa la primera opción, puede realizar la instalación con la segunda opción. 
 
@@ -66,7 +65,7 @@ Página del programa   [https://winaero.com/add-bash-context-menu-windows-10/](
 
 Ver video de instalación [https://www.youtube.com/watch?v=7dEnc5p0pqs](https://www.youtube.com/watch?v=7dEnc5p0pqs)  
 
-![](C:\Users\jpera\Documents\pcfi161\website\static\img\menu_wsl.png)
+![](/img/menu_wsl.png)
 
 
 ### MAC OS
@@ -145,7 +144,7 @@ ls -al
 Ejecute el `cmd` de anaconda como administrador, ver figura (Anaconda Prompt) o (Anacona Powershell)
 
 
-![](C:\Users\jpera\Documents\pcfi161\website\static\img\anaconda_cmd.png)  
+![](/img/anaconda_cmd.png)  
 
 
 En terminal escriba los siguientes comandos
@@ -163,4 +162,4 @@ bajar el archivo [anaconda\_menu.reg](https://unab.blackboard.com/bbcswebdav/pid
 Pruebe el funcionamiento de  pyinstaller con las instrucciones dadas anteriormente, pero habrá un terminal de windows conocido como `cmd` usando el botón derecho del mouse en la carpeta donde está el archivo python.
 
 
-![](C:\Users\jpera\Documents\pcfi161\website\static\img\anaconda_cmd2.png)
+![](/img/anaconda_cmd2.png)
