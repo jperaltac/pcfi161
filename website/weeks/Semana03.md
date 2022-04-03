@@ -144,7 +144,7 @@ ls -al
 Ejecute el `cmd` de anaconda como administrador, ver figura (Anaconda Prompt) o (Anacona Powershell)
 
 
-![](C:\Users\jpera\Documents\pcfi161\website\static\img\anaconda_cmd.png)  
+![](/img/anaconda_cmd.png)  
 
 
 En terminal escriba los siguientes comandos
@@ -162,4 +162,4 @@ bajar el archivo [anaconda\_menu.reg](https://unab.blackboard.com/bbcswebdav/pid
 Pruebe el funcionamiento de  pyinstaller con las instrucciones dadas anteriormente, pero habrá un terminal de windows conocido como `cmd` usando el botón derecho del mouse en la carpeta donde está el archivo python.
 
 
-![](C:\Users\jpera\Documents\pcfi161\website\static\img\anaconda_cmd2.png)
+![](/img/anaconda_cmd2.png)
