@@ -18,10 +18,10 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 
 > Este archivo contiene una guía con algunos ejercicios para desarrollar durante la clase.
 
-### **Actividad a realizar en la semana 3**
+### **Actividad adicionales para la semana 3**
 
-*   [trabajo\_personal\_semana03\_v04.pdf](https://unab.blackboard.com/bbcswebdav/pid-7923977-dt-content-rid-41152185_1/xid-41152185_1)
-*   [datos.txt](https://unab.blackboard.com/bbcswebdav/pid-7923977-dt-content-rid-41132866_1/xid-41132866_1)
+*   [trabajo\_personal\_semana03\_v04.pdf](/others/trabajo_personal_semana03_v04.pdf)
+*   [datos.txt](/others/datos.txt)
 
 ## Configurando un menú contextual "Bash"
 
@@ -62,7 +62,7 @@ Si no está activa la primera opción, puede realizar la instalación con la seg
 
 Página del programa   [https://winaero.com/add-bash-context-menu-windows-10/](https://winaero.com/add-bash-context-menu-windows-10/)
 
-Descargar el archivo [Add Bash to Context Menu.reg](https://unab.blackboard.com/bbcswebdav/pid-7923977-dt-content-rid-41132862_1/xid-41132862_1) y en windows busque el archivo .reg y hacer doble clic sobre él para finalizar la instalación.
+ unzip your-file.zip -d directorybash
 
 Ver video de instalación [https://www.youtube.com/watch?v=7dEnc5p0pqs](https://www.youtube.com/watch?v=7dEnc5p0pqs)  
 
