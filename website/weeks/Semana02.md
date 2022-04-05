@@ -13,7 +13,7 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 > Este archivo contiene los *slides* presentados en la clase. Estos suelen incluir ejercicios al final de cada presentación.
 * [PCFI161\_G02.pdf](/lectures/PCFI161\_G02.pdf)
 > Este archivo contiene una guía con algunos ejercicios para desarrollar durante la clase.
-* [conversion-sel.csv](/lectures/conversion-sel.csv)
+* [convertion-sel.csv](/lectures/convertion-sel.csv)
 > Este archivo será usado en los ejercicios de la guía de esta semana.
 
 ### Documentación de Apoyo
