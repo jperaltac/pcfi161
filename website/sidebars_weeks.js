@@ -9,7 +9,8 @@ module.exports = {
   'Semana02',
   'Semana03',
   'Semana04',
-  'Semana05-S01'
+  'Semana05-S01',
+  'Semana06',
       ],
     },
   ],
