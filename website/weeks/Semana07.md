@@ -11,7 +11,7 @@ Esta semana trabajaremos con listas y arreglos en Python3. Veremos la diferencia
 > Slides de la clase, incorporan actividades al final.
 * [PCFI161_G06.pdf](/lectures/PCFI161_G06.pdf)
 > Guía de ejercicios para trabajar en clases.
-* [TrabajoPersonal.pdf](/lectures/trabajo_personal_semana07_v01.pdf)
+* [TrabajoPersonal.pdf](/others/trabajo_personal_semana07_v03.pdf)
 > Guía con ejercicios para trabajar en casa y en clases.
 
 :::tip
