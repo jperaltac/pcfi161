@@ -1,5 +1,5 @@
 ---
-title: Semana 07
+title: Semana 08
 ---
 ## Actividades con Listas y Arreglos.
 
