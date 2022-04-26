@@ -15,6 +15,6 @@ Esta semana trabajaremos en las actividades de esta nueva guía, enfocada en las
 
 Repasaremos algunas cosas generales sobre el orden de las listas. Y visitaremos algunas propiedades de los errores numéricos en los computadores.
 
-* [Semana08.pdf]()
+* [Semana08.pdf](/lectures/PCFI161_S06.pdf)
 > Slides con contenido sobre orden en listas y errores numéricos
 
