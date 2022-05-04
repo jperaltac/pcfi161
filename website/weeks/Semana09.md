@@ -7,7 +7,7 @@ Esta semana trabajaremos nuevas actividades enfocadas al uso de iteradores, espe
 
 ### Archivo para desarrollar
 
-* [VectoresPython.pdf](/others/trabajo_personal_semana09_ver02.pdf)
+* [VectoresPython.pdf](/others/trabajo_personal_semana09_ver01.pdf)
 > Guía con ejercicios para trabajar en casa y en clases.
 
 
