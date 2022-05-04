@@ -17,7 +17,6 @@ El nuevo contenido consiste en la realización de gráficos y el uso de números
 
 * [Semana09.pdf](/lectures/PCFI161_S08.pdf)
 > Slides principales.
-
-* [Ficheros-datos.zip](/other/Ficheros-datos.zip)
-
+* [Ficheros-datos.zip](/others/Ficheros-datos.zip)
 > Ficheros con datos para graficar
+
