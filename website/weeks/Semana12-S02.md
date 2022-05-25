@@ -12,8 +12,6 @@ Tenga en consideración que usted :
 2. No puede copiar códigos de la web en sus respuestas de códigos computacionales.
 3. La prueba tiene una duración de 90 minutos. Los que inician, una vez que accede a la evaluación.
 
-Cualquier consula adicional, no duden en escribir a la/el profesora/profesor.
-
 ## Respuestas a los códigos.
 
 1. Semestre 202210
