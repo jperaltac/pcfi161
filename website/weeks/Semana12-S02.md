@@ -15,7 +15,7 @@ Tenga en consideración que usted :
 ## Respuestas a los códigos.
 
 1. Semestre 202210
-    * Pregunta 1 1/4 : 
-    * Pregunta 1 2/4 :
-    * Pregunta 1 3/4 :
-    * Pregunta 1 4/4 :
+> Cada pregunta incluye las 4 formas o datos relevantes.
+    * Pregunta 6 : [pregunta6_Sumas.tgz](/others/202210/pregunta6_Sumas.tgz)
+    * Pregunta 7 : [pregunta7_Diagonales.tgz](/others/202210/pregunta7_Diagonales.tgz)
+    * Pregunta 8 : [pregunta8_Grafico.tgz](/others/202210/pregunta8_Grafico.tgz)
