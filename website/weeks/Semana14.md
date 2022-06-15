@@ -5,7 +5,19 @@ title: Semana 14
 
 En esta clase revisaremos paralelización y multithreading, enfocandonos en la librería mpi4py de python3.
 
-### Archivo personal
+### Requerimientos
+
+Acualice su sistema 
+
+`sudo apt update`
+`sudo apt dist-upgrade`
+
+Instale las librerias necesarias. Estas instrucciones corresponden a sistema Ubuntu y WSL.
+
+`sudo apt install python3-mpi4py openmpi-bin`
+
+
+### Archivo con Slides
 
 Seguiremos con el trabajo que se había presentado anteriormente, pero esta vez sí cubriremos más allá de funciones.
 
