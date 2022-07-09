@@ -4,3 +4,6 @@
 [submodule "lectures/Semana02"]
 	path = lectures/Semana02
 	url = https://git.overleaf.com/5c7711ea3c27676f7bfb8fca
+[submodule "lectures/Semana03"]
+	path = lectures/Semana03
+	url = https://git.overleaf.com/5c7712803c27676f7bfb8fef
