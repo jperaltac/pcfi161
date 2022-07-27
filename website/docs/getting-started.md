@@ -6,14 +6,13 @@ slug: /
 ## Información del curso
 
 * Código : PCFI161
-* Período : Primer Semestre año 2022
+* Período : Segundo Semestre año 2022
 * Modalidad : Presencial
-* Coordinador/a del curso : Joaquín Peralta
+* Coordinador/a del curso : Felipe Moreno
 * Profesoras/es
-	* Claudia Loyola
-	* Alejandro Llanquihuen
-	* Joaquín Peralta
+	* Fabián Gómez
+	* Felipe Moreno
 
 ## Contacto Coordinador
 
-* Joaquín Peralta : joaquin.peralta@unab.cl || joa.peralta@uandresbello.edu
+* Felipe Moreno : f.morenomuoz@uandresbello.edu
