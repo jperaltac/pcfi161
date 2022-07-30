@@ -8,11 +8,12 @@ slug: /
 * Código : PCFI161
 * Período : Segundo Semestre año 2022
 * Modalidad : Presencial
-* Coordinador/a del curso : Felipe Moreno
-* Profesoras/es
-	* Fabián Gómez
+* Coordinador del curso : Felipe Moreno
+* Profesores:
 	* Felipe Moreno
+	* Fabián Gómez-Villafañe Pérez
 
-## Contacto Coordinador
+## Contacto
 
 * Felipe Moreno : f.morenomuoz@uandresbello.edu
+* Fabián Gómez-Villafañe: f.gmezprez@uandresbello.edu
