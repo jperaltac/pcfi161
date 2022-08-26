@@ -10,10 +10,17 @@ slug: /
 * Modalidad : Presencial
 * Coordinador del curso : Felipe Moreno
 * Profesores:
-	* Felipe Moreno
+	* Felipe Moreno Muñoz
 	* Fabián Gómez-Villafañe Pérez
+* Ayudantes:
+    * Michelle Hamasaki
+    * Marcela Lopez 
+    * Gustavo Worner
 
 ## Contacto
 
 * Felipe Moreno : f.morenomuoz@uandresbello.edu
 * Fabián Gómez-Villafañe: f.gmezprez@uandresbello.edu
+* Michelle Hamasaki : m.hamasakialegra@uandresbello.edu
+* Marcela Lopez : m.lpezulloa@uandresbello.edu  
+* Gustavo Worner : gustworner@hotmail.com
