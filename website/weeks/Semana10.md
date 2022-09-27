@@ -5,7 +5,7 @@ title: Semana 10
 
 Esta semana repasaremos contenidos para la segunda solemne.
 
-### Actualización archivo de trabajo personal
+### Tarea para segunda Solemne
 
-* [TrabajoPersonal.pdf](/others/trabajo_personal_semana09_v03.pdf)
+* Proximamente :O
 > Guía con ejercicios para trabajar en casa y en clases.
