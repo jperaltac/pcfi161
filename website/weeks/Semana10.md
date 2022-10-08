@@ -7,7 +7,7 @@ Esta semana repasaremos contenidos para la segunda solemne.
 
 ### Tarea para segunda Solemne
 
-* Proximamente :O
+* [Tarea.pdf](/others/Tarea_1_Programacion.pdf)
 > Tarea con ejercicios para segunda Solemne.
 
 :::tip Tenga Presente
