@@ -13,4 +13,4 @@ Tenga en consideración que usted :
 3. La prueba tiene una duración de 90 minutos. Los que inician, una vez que accede a la evaluación.
 
 ## Archivo de Datos para Solemne
-[dos.dat](/others/dos.dat)
+* [dos.dat](http://159.223.192.92/dos.dat)
