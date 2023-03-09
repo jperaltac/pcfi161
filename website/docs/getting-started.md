@@ -29,4 +29,4 @@ slug: /
 * Fabián Gómez-Villafañe: f.gmezprez@uandresbello.edu
 * Michelle Hamasaki : m.hamasakialegra@uandresbello.edu
 * Marcela Lopez : m.lpezulloa@uandresbello.edu
-
+* Roberto Méndez : r.mndezcelis@uandresbello.edu
