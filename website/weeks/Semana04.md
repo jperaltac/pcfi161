@@ -26,7 +26,7 @@ Este video muestra como acceder para copiar/pegar ficheros desde su interfaz WSL
 > Este set de archivos sirve para realizar algunos de los ejercicios anteriores.
 
 ### Más actividades
-* [trabajo\_personal\_semana04\_v04.pdf](/others/static/others/trabajo_personal_semana04_v04.pdf)
+* [trabajo\_personal\_semana04\_v04.pdf](/others/trabajo_personal_semana04_v04.pdf)
 * [datos2.txt](/others/s04/datos2.txt) 
 
 ----------------------
