@@ -13,10 +13,18 @@ Esta semana trabajaremos con listas y arreglos en Python3. Veremos la diferencia
 > Guía de ejercicios para trabajar en clases.
 * [TrabajoPersonal.pdf](/others/trabajo_personal_semana07_v03.pdf)
 > Guía con ejercicios para trabajar en casa y en clases.
-* [Tarea.pdf](/others/Tarea_Programacion.pdf)
-> Tarea con ejercicios para trabajar en casa y en clases.
-:::tip
 
 Puede trabajar la guía, o las actividades de los slides, en el orden que usted desee.
 
+### Tarea para segunda Solemne
+
+* [Tarea.pdf](/others/Tarea_Programacion.pdf)
+> Tarea con ejercicios para segunda Solemne.
+
+:::tip Tenga Presente
+
+Esta tarea sera valida por un punto para la segunda Solemne, cada actividad aporta una cantidad de decimas.
+
 :::
+* [sudokus.txt](/others/sudokus.txt)
+> Archivo necesario para realizar tarea.
