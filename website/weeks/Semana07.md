@@ -23,7 +23,7 @@ Puede trabajar la guía, o las actividades de los slides, en el orden que usted 
 
 :::tip Tenga Presente
 
-Esta tarea sera valida por un punto para la segunda Solemne, cada actividad aporta una cantidad de decimas.
+Esta tarea sera valida por un punto para la segunda Solemne, cada actividad aporta una cantidad de decimas. Esta tarea sigue en desarrollo, por lo que debe estar atento a sus actualizaciones. Se agregaran un par de ejercicios para que cada actividad sume el punto que podra sumar adicionalmente a su solemne 2.
 
 :::
 * [sudokus.txt](/others/sudokus.txt)
