@@ -27,4 +27,5 @@ Esta tarea sera valida por un punto para la segunda Solemne, cada actividad apor
 
 :::
 * [sudokus.txt](/others/sudokus.txt)
-> Archivo necesario para realizar tarea.
+* [edades.txt](/others/edades.txt)
+> Archivos necesarios para realizar tarea.
