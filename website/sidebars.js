@@ -4,8 +4,9 @@ module.exports = {
       type: 'category',
       label: 'Documentación General',
       items: [
-        'getting-started',
-        'syllabus',
+	      'getting-started',
+	      'syllabus',
+	      'apuntes',
       ],
     },
   ],
