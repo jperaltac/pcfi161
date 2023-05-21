@@ -5,22 +5,7 @@ title: Semana 10
 
 Esta semana repasaremos contenidos para la segunda solemne.
 
-### Tarea para segunda Solemne
+### Guías
 
 * [Tarea.pdf](/others/Tarea_1_Programacion.pdf)
-> Tarea con ejercicios para segunda Solemne.
-
-:::tip Tenga Presente
-
-Esta tarea sera valida por un punto para la segunda Solemne, cada actividad aporta una cantidad de decimas.
-
-:::
-
-:::danger Recuerde
-
-Este trabajo debe ser desarrollado de manera individual, esto sera revisado en detalle.
-
-:::
-
-* [Tarea.zip](/others/Tarea.zip)
-> Archivos necesarios para realizar tarea.
+> Guía con ejercicios y anotaciones para segunda Solemne.
