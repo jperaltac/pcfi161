@@ -9,5 +9,5 @@ Como se definen y construyen funciones en Python. Además revisaremos ejercicios
 
 * [Semana09.pdf](/lectures/PCFI161_S10.pdf)
 > Slides con contenido referente a funciones y clases.
-* [TrabajoPersonal.pdf](/others/trabajo_personal_semana09_v03.pdf)
-> Guía con ejercicios para trabajar en casa y en clases.
+* [Guía_Funciones_&_Clases.pdf](/others/Guía_de_ejercicios_Programacion__Clases_y_funciones_.pdf)
+> Guía con ejercicios acerca de Funciones y Clases de Python para trabajar en casa y durante la cátedra.
