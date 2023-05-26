@@ -14,7 +14,7 @@ Esta semana trabajaremos nuevas actividades enfocadas al uso de iteradores, espe
 
 El nuevo contenido consiste en la realización de gráficos y el uso de números al azar dentro de nuestros códigos.
 
-* [Semana09.pdf](/lectures/PCFI161_S09.pdf)
+* [Semana08.pdf](/lectures/PCFI161_S09.pdf)
 > Slides principales.
 * [Ficheros-datos.zip](/others/Ficheros-datos.zip)
 > Ficheros con datos para graficar
