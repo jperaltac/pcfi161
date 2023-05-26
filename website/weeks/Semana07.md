@@ -13,7 +13,8 @@ Esta semana trabajaremos con listas y arreglos en Python3. Veremos la diferencia
 > Guía de ejercicios para trabajar en clases.
 * [TrabajoPersonal.pdf](/others/trabajo_personal_semana07_v03.pdf)
 > Guía con ejercicios para trabajar en casa y en clases.
-
+* [Guia_de_estudios.pdf](/others/Programming_assignment_template.pdf)
+> Guía con ejercicios para trabajar en casa y en clases.
 Puede trabajar la guía, o las actividades de los slides, en el orden que usted desee.
 
 ### Tarea para segunda Solemne
