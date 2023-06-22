@@ -16,15 +16,3 @@ Este documento contiene los slides presentados en clases. Como indican los slide
 
 * [Tarea 2.pdf](/others/Tarea_2_Programacion.pdf)
 > Tarea con ejercicios para segunda solemne.
-
-:::tip Tenga Presente
-
-Esta tarea será válida por un punto para la tercera solemne y cada actividad aporta una cantidad determinada de decimas.
-
-:::
-
-:::danger Recuerde
-
-Este trabajo debe ser entregado dentro del plazo estipulado, de otra manera no será considerado.
-
-:::
