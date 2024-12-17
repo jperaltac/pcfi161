@@ -1,7 +1,7 @@
 ---
 title: Semana 01
 ---
-## Elementos Fundamentales
+## Elementos Fundamentales de GNU-Linux
 
 En esta sección encontrarán los recursos básicos para iniciar el curso de *Programación para la Física y Astronomía*. Durante esta primera semana se revisarán los elementos básicos de GNU/Linux, poniendo énfasis en el uso del terminal, junto con la administración de archivos y directorios dentro del sistema.
 
