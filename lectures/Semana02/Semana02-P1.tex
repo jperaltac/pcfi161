@@ -1,0 +1,152 @@
+\documentclass[10pt]{beamer}
+
+% Copia local de preamble.tex:
+\input{preamble.tex}
+
+\begin{document}
+
+\myfront{}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Resumen - Parte 1 (Semana 2)}
+  \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%   PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+\metroset{block=fill}
+
+%------------------------------------------------
+\section{BASH, comandos fundamentales}
+
+\subsection{Elementos B\'asicos de BASH}
+
+\begin{frame}{¿Qué es BASH?}
+	\begin{itemize}
+		\item Bash es una \texttt{shell} interactiva que se carga por defecto en la mayoría de las distribuciones GNU/Linux basadas en Debian.
+		\item Existen otras \texttt{shell}, como csh o tcsh, pero nos centramos en bash por ser muy común.
+		\item Al abrir un terminal, éste siempre abre un shell. Cuando es \texttt{bash}, suele verse:
+        \begin{block}{Prompt típico de BASH}
+        \texttt{username@machine:~\$}
+        \end{block}
+        \item El símbolo \texttt{\$} indica que está listo para recibir instrucciones.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Repasando lo básico}
+	\begin{itemize}
+		\item Algunas instrucciones básicas de bash:
+        \begin{itemize}
+        	\item \texttt{pwd}: Muestra en qué directorio estamos.
+            \item \texttt{ls}: Lista el contenido del directorio.
+            \item \texttt{cp}: Copia archivos y/o directorios.
+            \item \texttt{mkdir}: Crea un nuevo directorio.
+            \item \texttt{rm}: Elimina archivos y/o directorios.
+        \end{itemize}
+        \item Para ver una lista más completa:  
+              https://ss64.com/bash/
+        \item En la filosofía GNU/Linux, muchas herramientas pequeñas (comandos) pueden \emph{encadenarse} para resolver problemas complejos.  
+        \item Esto se logra con las tuberías (\texttt{|}), que permiten conectar la salida de un comando con la entrada de otro.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Tuberías (\textit{Pipes})}
+	\begin{itemize}
+		\item El uso de tuberías en GNU/Linux es una herramienta muy potente.
+        \item Ejemplo: tenemos \(\sim 150000\) archivos (\texttt{fichero1.dat}, \texttt{fichero2.dat}, …, \texttt{fichero150000.dat}). Cada archivo tiene 5 columnas y queremos sumar la columna 5 en todos los archivos.
+        \item ¿Cómo hacerlo eficientemente?
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Tuberías (\textit{Pipes})}
+	\begin{itemize}
+		\item Se puede usar \texttt{sed} o \texttt{awk} para “filtrar” datos.
+		\item Para cada archivo:
+        \begin{itemize}
+        	\item \textbf{Iterar} sobre cada archivo.
+            \item \textbf{Filtrar} (con \texttt{awk}) la quinta columna.
+            \item \textbf{Sumar} esos valores (también con \texttt{awk}).
+        \end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Tuberías (\textit{Pipes}) - Ejemplo}
+\begin{minted}[fontsize=\scriptsize]{bash}
+for i in `seq 1 150000`; do
+  cat fichero$i.dat | awk '{SUM += $5} END {print SUM}' >> sums-c5.dat
+done
+cat sums-c5.dat | awk '{SUM += $1} END { print SUM/150000 }'
+\end{minted}
+
+\begin{block}{Nota}
+Al final del curso, se espera que puedas componer este tipo de soluciones.  
+Ahora basta con comprender el razonamiento de \textbf{encadenar} comandos.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}[fragile]{Algunas cosas útiles de \texttt{awk}}
+\texttt{awk} es un programa para manejar columnas. Es muy poderoso y programable.  
+Ejemplos:
+\begin{table}\footnotesize
+\begin{tabular}{ll}
+\textbf{Comando} & \textbf{Descripción} \\
+\verb|awk 'NR % 6'| & Imprime todo excepto líneas divisibles por 6. \\
+\verb|awk 'NR > 5'| & Imprime a partir de la línea 6. \\
+\verb|awk '$2 == "foo"'| & Imprime líneas cuyo segundo campo sea “foo”. \\
+\verb|awk 'NF >= 6'| & Imprime líneas con 6 o más campos. \\
+\verb|awk '/foo/ && /bar/'| & Imprime líneas que contengan /foo/ y /bar/. \\
+\verb|awk '/foo/,/bar/'| & Imprime desde línea con /foo/ hasta línea con /bar/. \\
+\verb|awk 'NF'| & Imprime sólo líneas no vacías. \\
+\verb|awk 'NF--'| & Remueve el último campo e imprime la línea. \\
+\verb|awk '$0 = NR" "$0'| & Antepone número de línea a cada fila.
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Algunas cosas útiles de \texttt{sed}}
+\texttt{sed} es para manejo de filas y edición rápida.  
+Ejemplos:
+\begin{table}\footnotesize
+\begin{tabular}{ll}
+\textbf{Comando} & \textbf{Descripción} \\
+\verb|sed -n '5,10p' file.txt| & Imprime entre la línea 5 y 10. \\
+\verb|sed '20,35d' file.txt| & Imprime todo excepto líneas 20 a 35. \\
+\verb|sed 's/version/story/g' file.txt| & Reemplaza “version” por “story”. \\
+\verb|sed 's/  */ /g'| & Reemplaza múltiples espacios por uno solo. \\
+\verb|sed '30,40 s/version/story/g' file.txt| & Reemplaza sólo entre líneas 30 y 40. \\
+\verb|sed '$d' file.txt| & Borra la última línea del archivo. \\
+\verb|sed 'nd' file.txt| & Borra la n-ésima línea del archivo.
+\end{tabular}
+\end{table}
+\end{frame}
+
+%------------------------------------------------
+% EJEMPLO / ACTIVIDAD ADICIONAL
+%------------------------------------------------
+
+\begin{frame}{Actividad Sugerida: Exploración BASH}
+\begin{itemize}
+    \item \textbf{Objetivo:} Mejorar la fluidez con los comandos básicos de bash.
+    \item \textbf{Instrucciones:}
+    \begin{enumerate}
+        \item Crea un directorio llamado \texttt{mi-semana2} y dentro de él tres subdirectorios: \texttt{datos}, \texttt{scripts}, \texttt{resultados}.
+        \item Copia o genera algunos archivos de texto simples en \texttt{datos}.
+        \item Usa \texttt{awk} para filtrar líneas que contengan la palabra \texttt{hola} y redirige la salida a \texttt{resultados/filtrado.txt}.
+        \item Edita el archivo final con \texttt{sed} para reemplazar la palabra \texttt{hola} por \texttt{HELLO}.
+    \end{enumerate}
+    \item \textbf{Conclusión:} Practicar tuberías y conceptos de filtrado (\texttt{awk} y \texttt{sed}).
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\Huge{\centerline{Fin de la Parte 1}}
+\end{frame}
+
+\end{document}
+
