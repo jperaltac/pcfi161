@@ -1,0 +1,135 @@
+\documentclass[10pt]{beamer}
+
+% Copia local de preamble.tex:
+\input{preamble.tex}
+
+\begin{document}
+
+\myfront{}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Resumen - Parte 1 (Semana 03)}
+  \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+\metroset{block=fill}
+
+%------------------------------------------------
+\section{Funciones, Paquetes y Módulos}
+
+\subsection{Paquetes}
+
+\begin{frame}{Paquetes}
+Existen muchas operaciones más avanzadas que la aritmética simple:
+\begin{enumerate}
+	\item Multiplicar matrices.
+	\item Calcular logaritmos.
+	\item Hacer gráficos, etc.
+\end{enumerate}
+
+Python posee una gran variedad de \textbf{funciones} que se organizan en \textbf{paquetes}, cada uno con un nombre identificativo.
+
+\begin{block}{Paquetes}
+Colección de funciones útiles y relacionadas entre sí.
+\end{block}
+\end{frame}
+
+\begin{frame}{Paquetes}
+Antes de usar una función de un paquete, debemos “importarla”.
+\begin{example}[\texttt{log} del paquete \texttt{math}]
+\texttt{from math import log}\\
+\texttt{x = log(2.5)}
+\end{example}
+
+\footnotesize
+\begin{block}{algunas funciones del paquete \texttt{math}}
+\begin{tabular}{ll}
+\texttt{log}              & logaritmo natural (base \(e\)) \\
+\texttt{log10}            & logaritmo base 10              \\
+\texttt{exp}              & exponencial                    \\
+\texttt{sin, cos, tan}    & seno, coseno, tangente (rad)   \\
+\texttt{asin, acos, atan} & arcseno, arccos, arctan        \\
+\texttt{sinh, cosh, tanh} & seno, coseno, tang. hiperbólico\\
+\texttt{sqrt}             & raíz cuadrada
+\end{tabular}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Paquetes}
+Podemos examinar qué funciones incluye un paquete con \texttt{dir(paquete)}:
+\begin{example}\footnotesize
+\verb|>>> import math|\\
+\verb|>>> dir(math)|\\
+\texttt{['\_\_doc\_\_', '\_\_file\_\_', '\_\_loader\_\_', '\_\_name\_\_', '\_\_package\_\_', 
+'\_\_spec\_\_', 'acos', 'acosh', 'asin', ... , 'pi', 'pow', ... 'sin', 'sqrt', 'tan', ...]}
+\end{example}
+
+\end{frame}
+
+\begin{frame}[fragile]{Paquete \texttt{math}}
+\begin{itemize}
+	\item Contiene funciones menos comunes (\texttt{erf, gamma}), y también constantes como \texttt{pi} o \texttt{e}.
+	\item Puedes importar varias funciones a la vez:
+\begin{example}
+\texttt{from math import log, exp}
+\end{example}
+	\item También es posible importar \textit{todas} las funciones: \texttt{from math import *}, pero esto puede generar conflictos de nombres si no se tiene cuidado.
+\end{itemize}
+\end{frame}
+
+\subsection{Módulos}
+\begin{frame}[fragile]{Módulos}
+Algunos paquetes se dividen en submódulos. Por ejemplo, \texttt{numpy} se organiza en varios módulos:
+\begin{example}[importando del módulo \texttt{linalg} de \texttt{numpy}]
+\texttt{from numpy.linalg import inv}
+\end{example}
+Aquí \texttt{numpy} es el paquete, y \texttt{linalg} es un módulo específico.  
+\end{frame}
+
+\begin{frame}[fragile]{Poniendo en práctica: Coordenadas polares a cartesianas}
+\begin{itemize}
+    \item Queremos convertir \((r,\theta)\) a \((x,y)\).
+    \item Fórmulas: \(x = r \cos(\theta)\), \(y = r \sin(\theta)\).
+    \item Supongamos que \(\theta\) se ingresa en grados.
+\end{itemize}
+\begin{minted}{python}
+from math import sin, cos, pi
+
+r = float(input("Ingrese r: "))
+d = float(input("Ingrese theta en grados: "))
+theta = d*pi/180
+
+x = r*cos(theta)
+y = r*sin(theta)
+
+print(f"x = {x}, y = {y}")
+\end{minted}
+\end{frame}
+
+%------------------------------------------------
+\section{Funciones}
+\begin{frame}[fragile]{Funciones integradas y comentarios}
+\begin{enumerate}
+	\item \textbf{Funciones integradas}:  
+	Hay un grupo de funciones que vienen “de fábrica” en Python, p. ej. \texttt{float}, \texttt{int}, \texttt{complex}, \texttt{abs}, \texttt{print}, \texttt{input}, etc.
+	\item \textbf{Comentarios}:  
+	Uso del símbolo “\#” para anotar explicaciones que el intérprete ignora por completo.
+	\begin{example}
+\# Esto es un comentario que no se ejecuta
+	\end{example}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\Huge{\centerline{Fin de la Parte 1}}
+\end{frame}
+
+\end{document}
+

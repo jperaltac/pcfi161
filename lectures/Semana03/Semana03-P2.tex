@@ -1,0 +1,183 @@
+\documentclass[10pt]{beamer}
+
+% Copia local de preamble.tex:
+\input{preamble.tex}
+
+\begin{document}
+
+\myfront{}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Resumen - Parte 2 (Semana 03)}
+  \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+\metroset{block=fill}
+
+%------------------------------------------------
+\section{Estructuras de control}
+
+\begin{frame}{Estructuras de control}
+Hasta ahora, hemos visto programas \textbf{lineales}: se ejecutan de arriba abajo de forma secuencial.  
+Para hacerlos más flexibles y tomar decisiones (o repetir bloques de código), Python ofrece \textit{estructuras de control}:
+\begin{itemize}
+    \item \textbf{if, else, elif} (condicionales)
+    \item \textbf{while} (bucles)
+    \item Más adelante: \texttt{for}, \texttt{try-except}, etc.
+\end{itemize}
+\end{frame}
+
+\subsection{Declaración IF}
+\begin{frame}[fragile]{La declaración \texttt{IF}}
+\begin{minted}{python}
+x = int(input("Ingrese un entero no mayor a diez:"))
+if x > 10:
+  print("Usted ingreso un numero mayor que diez.")
+  print("Permítame corregirle.")
+  x = 10
+print("Su número es", x)
+\end{minted}
+
+\textbf{Nota}: Observa la indentación. Todo lo que esté “sangrado” debajo de \texttt{if} será el bloque que se ejecuta si la condición es verdadera.
+\end{frame}
+
+\begin{frame}[fragile]{Comparaciones}
+\footnotesize
+\begin{itemize}
+    \item \texttt{x == 1}  compara si \(x\) es igual a 1.
+    \item \texttt{x != 1}  compara si \(x\) es distinto de 1.
+    \item \texttt{x > 1}, \texttt{x >= 1}, \texttt{x < 1}, \texttt{x <= 1}.
+    \item Se pueden combinar condiciones con \texttt{and} / \texttt{or}.
+\end{itemize}
+
+\begin{minted}{python}
+if x > 10 or x < 1:
+  # hacer algo
+if x >= 1 and x <= 10:
+  # hacer otra cosa
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{else} y \texttt{elif}}
+\begin{minted}{python}
+if x>10:
+  print("Su numero es mayor que diez.")
+else:
+  print("Su numero esta correcto. Nada por hacer.")
+\end{minted}
+
+\begin{minted}{python}
+if x>10:
+  print("Su numero es mayor que diez.")
+elif x>9:
+  print("Su numero esta bien, pero cercano a 10.")
+else:
+  print("Su numero esta correcto. Nada por hacer.")
+\end{minted}
+\end{frame}
+
+\subsection{La declaración WHILE}
+\begin{frame}[fragile]{La declaración \texttt{WHILE}}
+Útil para repetir un bloque mientras se cumpla alguna condición:
+\begin{minted}{python}
+x = int(input("Ingrese numero <= 10: "))
+while x > 10:
+  print("Es mayor que diez. Reintente.")
+  x = int(input("Ingrese numero <= 10: "))
+print("Su numero es", x)
+\end{minted}
+
+\textbf{Combinando}:  
+\begin{minted}{python}
+while x>10 or x<1:
+  # ...
+\end{minted}
+\end{frame}
+
+\section{La secuencia de Fibonacci}
+\begin{frame}{La secuencia de Fibonacci}
+Los números de Fibonacci se definen como:
+\[
+F_n = F_{n-1} + F_{n-2}, \quad F_1 = 1, F_2 = 1
+\]
+
+Los primeros términos: 1, 1, 2, 3, 5, 8, 13, 21, ...
+
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo: Fibonacci hasta 1000}
+\begin{minted}{python}
+f1 = 1
+f2 = 1
+next_ = f1 + f2
+
+while f1 <= 1000:
+  print(f1)
+  f1 = f2
+  f2 = next_
+  next_ = f1 + f2
+\end{minted}
+\end{frame}
+
+\section{Funciones definidas por el usuario}
+\begin{frame}[fragile]{Funciones definidas por el usuario}
+A menudo necesitamos funciones específicas. Ej: calcular factorial \(n!\):
+\begin{minted}{python}
+def factorial(n):
+  f = 1
+  k = 1
+  while (k <= n):
+    f *= k
+    k += 1
+  return f
+
+# Programa principal
+val = int(input("Ingrese un entero positivo: "))
+print(val, "! =", factorial(val))
+\end{minted}
+\end{frame}
+
+\begin{frame}{Funciones definidas por el usuario}
+\begin{itemize}
+    \item \texttt{def nombre\_funcion(argumento):}  
+      abre la definición de la función.  
+    \item Bloque indentado = cuerpo de la función.
+    \item \texttt{return} finaliza la función y devuelve un valor.
+\end{itemize}
+\end{frame}
+
+\section{Recursividad}
+\begin{frame}[fragile]{Recursividad}
+La recursividad consiste en que la función se llama a sí misma (para subproblemas más pequeños):
+\begin{minted}{python}
+def factorial(n):
+  if n == 1:
+    return 1
+  else:
+    return n * factorial(n-1)
+\end{minted}
+\end{frame}
+
+\section{Actividades}
+\begin{frame}{Actividades para Hoy}
+\begin{itemize}
+	\item Implemente un programa que pida un número y verifique si es par o impar.  
+	      Use un condicional \texttt{if} o \texttt{while} hasta que sea válido.  
+	\item Extienda el ejemplo de Fibonacci para que el usuario indique hasta qué número máximo desea imprimir.  
+	\item Defina una función que calcule la potencia \(a^b\) mediante multiplicaciones sucesivas (sin usar el operador \texttt{**}). Compare con la función incorporada.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\Huge{\centerline{Fin de la Parte 2}}
+\end{frame}
+
+\end{document}
+

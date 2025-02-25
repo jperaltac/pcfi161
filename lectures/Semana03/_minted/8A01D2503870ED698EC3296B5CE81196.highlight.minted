@@ -1,0 +1,8 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{x} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Ingrese un entero no mayor a diez:}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}
+\PYG{k}{if} \PYG{n}{x} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{10}\PYG{p}{:}
+  \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Usted ingreso un numero mayor que diez.}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+  \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Permítame corregirle.}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+  \PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Su número es}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{x}\PYG{p}{)}
+\end{MintedVerbatim}

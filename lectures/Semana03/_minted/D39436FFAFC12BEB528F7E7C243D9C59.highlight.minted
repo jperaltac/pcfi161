@@ -1,0 +1,13 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{factorial}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}\PYG{p}{:}
+  \PYG{n}{f} \PYG{o}{=} \PYG{l+m+mi}{1}
+  \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mi}{1}
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{k} \PYG{o}{\PYGZlt{}}\PYG{o}{=} \PYG{n}{n}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{f} \PYG{o}{*}\PYG{o}{=} \PYG{n}{k}
+    \PYG{n}{k} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+  \PYG{k}{return} \PYG{n}{f}
+
+\PYG{c+c1}{\PYGZsh{} Programa principal}
+\PYG{n}{val} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Ingrese un entero positivo: }\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{val}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{! =}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{factorial}\PYG{p}{(}\PYG{n}{val}\PYG{p}{)}\PYG{p}{)}
+\end{MintedVerbatim}

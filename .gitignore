@@ -1,2 +1,31 @@
 build/
 #setvarinside.sh
+
+# Intermedios LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.gls
+*.glo
+*.glg
+*.glsdefs
+*.synctex.gz
+*.dvi
+*.nav
+*.snm
+*.vrb
+*.tmp
+
+# Si no quieres subir PDFs generados por LaTeX, ignora el PDF
+# (descomenta la línea si no deseas subirlos)
+# *.pdf
