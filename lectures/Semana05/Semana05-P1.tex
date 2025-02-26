@@ -1,0 +1,384 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga del preámbulo personalizado (preamble.tex)
+% Asegúrate de tenerlo en la misma carpeta para que \input funcione.
+% ------------------------------------------------------------------------
+\input{preamble.tex}
+
+\begin{document}
+
+% ------------------------------------------------------------------------
+% Portada personalizada (puedes usar \myfront si está definido en tu preamble.tex)
+% ------------------------------------------------------------------------
+\myfront{}
+
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+  % Por ejemplo:
+  % \title{Semana 5 - Sesión 1 (Sesión 9): Repaso Integral y Ejercicios Previos a Solemne I}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de Contenidos
+% ------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Resumen - Semana 5, Sesión 1 (Sesión 9)}
+  \tableofcontents
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
+\metroset{block=fill}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Introducción y Contexto
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Contexto}
+
+% ------------------------------------------------------------------------
+% Slide 3: Objetivos de esta Sesión Especial
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 9}
+  \begin{itemize}
+    \item \textbf{Repasar} de forma integral los contenidos vistos en las semanas anteriores.
+    \item \textbf{Resolver} ejercicios y dudas previas a la evaluación \textbf{Solemne I}.
+    \item \textbf{Fortalecer} la comprensión de sintaxis, estructuras de control, funciones y módulos.
+    \item \textbf{Identificar} áreas con más dificultades y reforzarlas antes del examen parcial.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 4: Conexión con las Sesiones Previas
+% ------------------------------------------------------------------------
+\begin{frame}{Recapitulación de Semanas 1-4}
+  \begin{itemize}
+    \item \textbf{Semana 1}: Configuración de Google Colab, operaciones básicas, \texttt{input/print}, variables.
+    \item \textbf{Semana 2}: Sintaxis, aritmética, estructuras de control iniciales (\texttt{if, while}).
+    \item \textbf{Semana 3}: Profundización de \texttt{while}, introducción al \texttt{for}, ejercicios colaborativos.
+    \item \textbf{Semana 4}: \textbf{Funciones}, \textbf{módulos} y uso de \textbf{librerías externas} (\texttt{pip}, \texttt{numpy}, etc.).
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Resumen de Contenidos Clave
+% ----------------------------------------------------------------------------------------
+\section{Resumen de Contenidos Clave}
+
+% ------------------------------------------------------------------------
+% Slide 5: Sintaxis y Tipos de Datos
+% ------------------------------------------------------------------------
+\begin{frame}{Sintaxis General y Tipos de Datos}
+  \begin{itemize}
+    \item \textbf{Indentación}: bloques de código (\texttt{if}, \texttt{while}, \texttt{for}, \texttt{def}).
+    \item \textbf{Tipos básicos}: \texttt{int}, \texttt{float}, \texttt{str}, \texttt{bool}, \texttt{complex}.
+    \item \textbf{Operaciones}: \texttt{+ - * / // \% **}, prioridad de operadores, paréntesis.
+    \item \textbf{Manejo de E/S}: \texttt{input()}, \texttt{print()}, conversión de tipos (\texttt{int()}, \texttt{float()}).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6: Estructuras de Control (if, elif, else)
+% ------------------------------------------------------------------------
+\begin{frame}{Condicionales \texttt{if/elif/else}}
+  \begin{itemize}
+    \item \textbf{if condicion:} bloque si \texttt{True}.
+    \item \textbf{elif condicion\_2:} bloque si \texttt{condicion\_2} es \texttt{True}.
+    \item \textbf{else:} bloque final si ninguna condición anterior se cumple.
+    \item \textbf{Ejemplos}:
+\begin{itemize}
+  \item Menús interactivos.
+  \item Validaciones de rango (p.e. notas entre 1.0 y 7.0).
+\end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Estructuras de Control (while, for)
+% ------------------------------------------------------------------------
+\begin{frame}{Bucles \texttt{while} y \texttt{for}}
+  \begin{itemize}
+    \item \textbf{while condicion:} repite bloque mientras la condición sea \texttt{True}.
+      \begin{itemize}
+        \item \texttt{break} para salir, \texttt{continue} para saltar a la siguiente iteración.
+      \end{itemize}
+    \item \textbf{for} sobre secuencias (\texttt{for i in range(...):}), ideal cuando conocemos la cantidad de iteraciones.
+    \item \textbf{Aplicaciones}:
+      \begin{itemize}
+        \item Lectura indefinida de datos.
+        \item Iteración sobre listas y rangos.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Funciones
+% ------------------------------------------------------------------------
+\begin{frame}{Funciones}
+  \begin{itemize}
+    \item \textbf{def nombre(parámetros):} define una nueva función.
+    \item \textbf{return} para devolver un valor (opcional).
+    \item \textbf{Parámetros por defecto} (\texttt{def f(x=10): ...}) y \textbf{keyword arguments}.
+    \item \textbf{Ventajas}: modularidad, reuso, claridad de código.
+    \item \textbf{Scope}: variables locales dentro de la función.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Módulos y Paquetes
+% ------------------------------------------------------------------------
+\begin{frame}{Módulos y Paquetes}
+  \begin{itemize}
+    \item \textbf{Módulo =} archivo \texttt{.py} con funciones, clases, variables reutilizables.
+    \item \textbf{Paquete =} carpeta con \texttt{\_\_init\_\_.py} y varios módulos.
+    \item Importación mediante \texttt{import modulo} o \texttt{from modulo import func}.
+    \item \textbf{Ejemplos}:
+      \begin{itemize}
+        \item \texttt{import math}, \texttt{import numpy as np}, \texttt{import mi\_modulo}.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Librerías Externas
+% ------------------------------------------------------------------------
+\begin{frame}{Librerías Externas}
+  \begin{itemize}
+    \item Instalación con \texttt{pip install <paquete>} o \texttt{!pip install <paquete>} en Colab.
+    \item Ejemplo: \texttt{numpy} para cálculo numérico, \texttt{matplotlib} para gráficas.
+    \item Importancia de la \textbf{colaboración open-source} y la documentación.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Ejercicios de Repaso
+% ----------------------------------------------------------------------------------------
+\section{Ejercicios de Repaso}
+
+% ------------------------------------------------------------------------
+% Slide 11: Ejercicio 1 - Fundamentos
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 1: Repaso de Fundamentos}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide un número entero \texttt{n}.
+      \item Calcula su factorial (\texttt{n!}) de dos formas:
+        \begin{enumerate}
+          \item Con un \textbf{for}.
+          \item Mediante una \textbf{función recursiva}.
+        \end{enumerate}
+      \item Muestra ambos resultados y valida que coincidan.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Reforzar sintaxis de bucles y definición de funciones.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Ejercicio 2 - Estructuras de Control
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: Análisis de Notas con \texttt{while}}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicitar notas en un \texttt{while} hasta que el usuario ingrese \texttt{-1}.
+      \item Validar que cada nota esté en el rango [1.0, 7.0].
+      \item Llevar conteo del número de notas válidas, suma total y promedio.
+      \item Al final, imprimir el promedio o un mensaje si no hay datos válidos.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Revisar \textbf{while}, validaciones, conteo y promedio.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Ejercicio 3 - Módulos y Funciones
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: Módulo de Conversión de Unidades}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crea un archivo \texttt{conversor.py} con varias funciones:
+        \begin{itemize}
+          \item \texttt{cm\_a\_m}, \texttt{m\_a\_km}, \texttt{km\_a\_cm}, etc.
+        \end{itemize}
+      \item Importa \texttt{conversor} en \texttt{main.py} y pide al usuario un valor y la conversión deseada (ej. cm \(\rightarrow\) km).
+      \item Muestra el resultado final.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Practicar la creación de \textbf{módulos}, importación y lógica simple de funciones.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Ejercicio 4 - Biblioteca Externa
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: Usando \texttt{numpy}}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Instala e importa \texttt{numpy}.
+      \item Genera un \textbf{arreglo} de 10 números aleatorios (\texttt{np.random.rand(10)}).
+      \item Calcula su \textbf{media} y \textbf{desviación estándar}.
+      \item \textbf{Opcional}: filtrar solo valores > 0.5 y mostrarlos.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Reforzar \textbf{numpy}, acceso a funciones \texttt{mean}, \texttt{std}, slicing y condicionales.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Actividad Colaborativa
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Colaborativa}
+  \begin{itemize}
+    \item Trabaja en \textbf{parejas} o \textbf{grupos de 3}.
+    \item Selecciona 2 ejercicios (o más) y discútelos en conjunto.
+    \item Anota cualquier duda o error que surja durante la implementación.
+    \item Comparte tus soluciones y reflexiona sobre los puntos más complicados.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Ayuda y Orientación
+% ------------------------------------------------------------------------
+\begin{frame}{Ayuda y Orientación}
+  \begin{itemize}
+    \item Recuerda el uso de \textbf{docstrings} en funciones para clarificar su propósito.
+    \item Maneja \textbf{ValueError} cuando conviertes \texttt{input} a \texttt{int} o \texttt{float}.
+    \item Asegúrate de importar módulos correctamente y de guardar los archivos en la misma carpeta (o configurar la ruta).
+    \item Si usas \texttt{numpy} en Colab, revisa si necesitas \textbf{!pip install numpy} o si ya está incluido (por defecto Colab lo incluye).
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Discusión y Consolidación
+% ----------------------------------------------------------------------------------------
+\section{Discusión y Consolidación}
+
+% ------------------------------------------------------------------------
+% Slide 17: Puesta en Común
+% ------------------------------------------------------------------------
+\begin{frame}{Puesta en Común}
+  \begin{itemize}
+    \item ¿Qué ejercicios causaron más dificultad?
+    \item ¿Qué estrategias de resolución fueron más efectivas?
+    \item ¿Dudas persistentes sobre \textbf{tipos}, \textbf{bucles} o \textbf{importaciones}?
+  \end{itemize}
+  \vspace{0.3cm}
+  \textbf{Comparte con la clase para beneficio de todos.}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Revisión de Dudas Frecuentes
+% ------------------------------------------------------------------------
+\begin{frame}{Dudas Frecuentes Identificadas}
+  \begin{itemize}
+    \item \textbf{Scope de variables} dentro de funciones.
+    \item Mezclar \texttt{if} y \texttt{while} en un mismo flujo (ej.: menús interactivos).
+    \item \textbf{Errores de importación} con rutas inadecuadas.
+    \item \textbf{Excepción} al convertir datos de entrada que no son numéricos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Buenas Prácticas para el Examen
+% ------------------------------------------------------------------------
+\begin{frame}{Buenas Prácticas para el Solemne}
+  \begin{itemize}
+    \item \textbf{Lee bien el enunciado} y comprende la tarea antes de programar.
+    \item \textbf{Pseudocódigo breve}: planifica el flujo de control (if, while, for).
+    \item \textbf{Funciones claras}: si el problema lo amerita, divide la lógica en funciones.
+    \item \textbf{Pruebas con casos simples}: revisa siempre el comportamiento con inputs distintos.
+    \item \textbf{Comentarios y docstrings}: facilitan la compresión de tu solución (y parcial o total puntaje).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Ejemplo de Pregunta Tipo Solemne
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Pregunta: \textit{Función y Validación}}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Define una función \texttt{leer\_entero\_positivo(msg)} que:
+        \begin{itemize}
+          \item Muestra el mensaje \texttt{msg}.
+          \item Lee un entero desde \texttt{input()}.
+          \item Valida que sea \textbf{positivo}.
+          \item Si no lo es, vuelve a pedir el número hasta que sea válido.
+          \item Retorna el valor correcto.
+        \end{itemize}
+      \item Usa esta función para leer \texttt{n} y luego imprimir la suma de 1 a \texttt{n}.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Consejos Finales y Cierre
+% ----------------------------------------------------------------------------------------
+\section{Consejos y Cierre}
+
+% ------------------------------------------------------------------------
+% Slide 21: Consejos de Estudio para la Solemne
+% ------------------------------------------------------------------------
+\begin{frame}{Consejos de Estudio}
+  \begin{itemize}
+    \item \textbf{Revisar apuntes} y ejercicios de las clases pasadas.
+    \item \textbf{Practicar} sintaxis de Python en Colab (ej.: if, while, for, funciones).
+    \item \textbf{Hacer miniprogramas} que integren varios conceptos (entradas, salidas, validaciones).
+    \item \textbf{Releer} la documentación o apuntes de funciones clave (\texttt{math}, \texttt{random}, \texttt{numpy}, etc.).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Ejemplo de Autoevaluación
+% ------------------------------------------------------------------------
+\begin{frame}{Autoevaluación: Preguntas Guía}
+  \begin{itemize}
+    \item ¿Puedo leer datos de usuario y convertirlos correctamente?
+    \item ¿Sé escribir un \textbf{bucle while} que termina en la condición correcta?
+    \item ¿Entiendo cómo \texttt{if/elif/else} deciden el flujo?
+    \item ¿Me siento cómodo definiendo funciones con \texttt{def} y \texttt{return}?
+    \item ¿Podría crear un módulo \texttt{mimodulo.py} y usarlo en un script principal?
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 23: Recursos Adicionales
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos Adicionales}
+  \begin{itemize}
+    \item \href{https://docs.python.org/3/tutorial/}{\textbf{Python Tutorial Oficial}} (repaso secciones 1-6).
+    \item \href{https://www.w3schools.com/python/}{\textbf{W3Schools Python}} (ejemplos básicos).
+    \item \textbf{Stack Overflow} (buscar soluciones a errores comunes).
+    \item Videos y guías en YouTube: \texttt{“Python for Beginners”}, \texttt{“Programación en Python”}.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 24: Próxima Sesión (Solemne I)
+% ------------------------------------------------------------------------
+\begin{frame}{Próxima Sesión: Solemne I}
+  \begin{itemize}
+    \item \textbf{No hay contenido nuevo}, sino la \textbf{evaluación} de los temas ya vistos:
+      \begin{itemize}
+        \item Unidades I y II (Syllabus).
+        \item Sintaxis básica, control de flujo, funciones y primeros usos de módulos.
+      \end{itemize}
+    \item \textbf{Formato de la Solemne}: problemas cortos y medianos que requieren programar en Python y quizá un par de preguntas conceptuales.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Cierre de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \Huge{\centerline{¡Mucho éxito en la Solemne!}}
+  \vspace{0.4cm}
+  \normalsize
+  \begin{itemize}
+    \item Aprovechen de \textbf{revisar ejercicios}.
+    \item No duden en \textbf{consultar} a través de foros o con sus compañeros.
+    \item ¡Nos vemos en la siguiente sesión (Solemne I)!
+  \end{itemize}
+\end{frame}
+
+\end{document}
+
