@@ -1,25 +1,16 @@
-# Makefile de ejemplo
-# ===================
-# Este Makefile asume que el archivo preamble.tex
-# está en la carpeta padre de donde estamos (../preamble.tex).
-# Luego copia preamble.tex a la carpeta actual y compila.
+# Variables
+LATEX = lualatex -interaction=nonstopmode -halt-on-error
+OUTPUT = > /dev/null 2>&1
 
-all: Semana04-P1.pdf Semana04-P2.pdf
+# Archivos fuente
+PDFS = Semana04-P1.pdf Semana04-P2.pdf
 
-# Regla para compilar la parte 1
-Semana04-P1.pdf: Semana04-P1.tex
-	lualatex Semana04-P1.tex
-	# Se suele compilar 2 veces para actualizar referencias
-	lualatex Semana04-P1.tex
+all: $(PDFS)
 
-# Regla para compilar la parte 2
-Semana04-P2.pdf: Semana04-P2.tex
-	lualatex Semana04-P2.tex
-	lualatex Semana04-P2.tex
-
-# Copiamos preamble.tex desde un nivel superior
-#preamble.tex:
-#	cp ../preamble.tex .
+# Regla genérica para compilar cualquier archivo .tex a .pdf
+%.pdf: %.tex
+	$(LATEX) $< $(OUTPUT)
+	$(LATEX) $< $(OUTPUT)
 
 clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.pdf
