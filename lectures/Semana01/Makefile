@@ -14,8 +14,8 @@ Semana01-P1.pdf: Semana01-P1.tex preamble.tex
 
 # Regla para compilar la parte 2
 Semana01-P2.pdf: Semana01-P2.tex preamble.tex
-	xelatex Semana01-P2.tex
-	xelatex Semana01-P2.tex
+	lualatex Semana01-P2.tex
+	lualatex Semana01-P2.tex
 
 # Copiamos preamble.tex desde un nivel superior
 preamble.tex:
@@ -24,4 +24,5 @@ preamble.tex:
 clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.pdf
 	rm -f preamble.tex
+	rm -fr _minted/
 
