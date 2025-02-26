@@ -7,14 +7,14 @@
 all: Semana05-P1.pdf
 
 # Regla para compilar la parte 1
-Semana05-P1.pdf: Semana05-P1.tex preamble.tex
+Semana05-P1.pdf: Semana05-P1.tex
 	lualatex Semana05-P1.tex
 	# Se suele compilar 2 veces para actualizar referencias
 	lualatex Semana05-P1.tex
 
 # Copiamos preamble.tex desde un nivel superior
-preamble.tex:
-	cp ../preamble.tex .
+#preamble.tex:
+#	cp ../preamble.tex .
 
 clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.pdf
