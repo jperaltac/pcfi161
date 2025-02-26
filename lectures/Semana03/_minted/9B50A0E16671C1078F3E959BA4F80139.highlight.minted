@@ -1,7 +1,0 @@
-\begin{MintedVerbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{factorial}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)}\PYG{p}{:}
-  \PYG{k}{if} \PYG{n}{n} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:}
-    \PYG{k}{return} \PYG{l+m+mi}{1}
-  \PYG{k}{else}\PYG{p}{:}
-    \PYG{k}{return} \PYG{n}{n} \PYG{o}{*} \PYG{n}{factorial}\PYG{p}{(}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
-\end{MintedVerbatim}
