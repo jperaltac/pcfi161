@@ -1,182 +1,495 @@
 \documentclass[10pt]{beamer}
 
-% Copia local de preamble.tex:
+% ------------------------------------------------------------------------
+% Carga del preámbulo personalizado (preamble.tex)
+% Asegúrate de tenerlo en la misma carpeta para que \input funcione.
+% ------------------------------------------------------------------------
 \input{preamble.tex}
 
 \begin{document}
 
+% ------------------------------------------------------------------------
+% Portada personalizada (puedes usar \myfront si está definido en tu preamble.tex)
+% ------------------------------------------------------------------------
 \myfront{}
 
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Sesión
+% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
+  % Ejemplo de configuración del título:
+  % \title{Semana 3 - Sesión 2 (Sesión 6): Laboratorio Práctico de Estructuras de Control}
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de contenidos
+% ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Parte 2 (Semana 03)}
+  \frametitle{Resumen - Semana 3, Sesión 2 (Sesión 6)}
   \tableofcontents
 \end{frame}
 
-%----------------------------------------------------------------------------------------
-%	PRESENTATION SLIDES
-%----------------------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
 \metroset{block=fill}
 
-%------------------------------------------------
-\section{Estructuras de control}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Conexión con la Sesión Anterior
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Repaso}
 
-\begin{frame}{Estructuras de control}
-Hasta ahora, hemos visto programas \textbf{lineales}: se ejecutan de arriba abajo de forma secuencial.  
-Para hacerlos más flexibles y tomar decisiones (o repetir bloques de código), Python ofrece \textit{estructuras de control}:
-\begin{itemize}
-    \item \textbf{if, else, elif} (condicionales)
-    \item \textbf{while} (bucles)
-    \item Más adelante: \texttt{for}, \texttt{try-except}, etc.
-\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 3: Recapitulación de la Sesión 5
+% ------------------------------------------------------------------------
+\begin{frame}{Recapitulación de la Sesión Previa (Sesión 5)}
+  \begin{itemize}
+    \item \textbf{Semana 3, Sesión 1 (Sesión 5)} se enfocó en:
+      \begin{itemize}
+        \item Introducir las estructuras de control fundamentales en Python:
+          \begin{itemize}
+            \item \texttt{if}, \texttt{elif}, \texttt{else} para condicionales.
+            \item \texttt{while} para bucles basados en condiciones lógicas.
+          \end{itemize}
+        \item Ejemplos sencillos de decisiones y repeticiones.
+        \item Manejo de la indentación y bloques de código.
+      \end{itemize}
+    \item \textbf{Objetivo de hoy}: Realizar un \textbf{laboratorio práctico} con ejercicios enfocados en la aplicación de condicionales y bucles.
+  \end{itemize}
 \end{frame}
 
-\subsection{Declaración IF}
-\begin{frame}[fragile]{La declaración \texttt{IF}}
-\begin{minted}{python}
-x = int(input("Ingrese un entero no mayor a diez:"))
-if x > 10:
-  print("Usted ingreso un numero mayor que diez.")
-  print("Permítame corregirle.")
-  x = 10
-print("Su número es", x)
-\end{minted}
-
-\textbf{Nota}: Observa la indentación. Todo lo que esté “sangrado” debajo de \texttt{if} será el bloque que se ejecuta si la condición es verdadera.
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión 6
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 6}
+  \begin{itemize}
+    \item \textbf{Aplicar} las estructuras de control en la resolución de problemas concretos.
+    \item \textbf{Fomentar} el trabajo en parejas o grupos para compartir estrategias.
+    \item \textbf{Profundizar} en el uso de \texttt{if-elif-else} y \texttt{while}.
+    \item \textbf{Fortalecer} la comprensión de la lógica condicional y bucles a través de experimentación en Colab.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Comparaciones}
-\footnotesize
-\begin{itemize}
-    \item \texttt{x == 1}  compara si \(x\) es igual a 1.
-    \item \texttt{x != 1}  compara si \(x\) es distinto de 1.
-    \item \texttt{x > 1}, \texttt{x >= 1}, \texttt{x < 1}, \texttt{x <= 1}.
-    \item Se pueden combinar condiciones con \texttt{and} / \texttt{or}.
-\end{itemize}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Recordatorio de Estructuras de Control
+% ----------------------------------------------------------------------------------------
+\section{Recordatorio: Estructuras de Control}
 
-\begin{minted}{python}
-if x > 10 or x < 1:
-  # hacer algo
-if x >= 1 and x <= 10:
-  # hacer otra cosa
-\end{minted}
-\end{frame}
-
-\begin{frame}[fragile]{\texttt{else} y \texttt{elif}}
-\begin{minted}{python}
-if x>10:
-  print("Su numero es mayor que diez.")
+% ------------------------------------------------------------------------
+% Slide 5: Condicionales (If, Elif, Else)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Condicionales en Python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  baselinestretch=1.1,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+if condicion1:
+    # Bloque de código si condicion1 es True
+elif condicion2:
+    # Bloque de código si condicion2 es True
 else:
-  print("Su numero esta correcto. Nada por hacer.")
+    # Bloque de código si ninguna de las anteriores
 \end{minted}
+\begin{itemize}
+  \item Cada condición se evalúa en orden.
+  \item Solo se ejecuta el primer bloque que resulte \texttt{True}.
+  \item \textbf{Uso común}: validaciones, menús, decisiones.
+\end{itemize}
+\end{frame}
 
-\begin{minted}{python}
-if x>10:
-  print("Su numero es mayor que diez.")
-elif x>9:
-  print("Su numero esta bien, pero cercano a 10.")
+% ------------------------------------------------------------------------
+% Slide 6: While (Bucles Basados en Condición)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Bucle While en Python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  baselinestretch=1.2,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+while condicion:
+    # bloque que se repite
+    # mientras la condicion sea True
+
+# Al salir, la condicion es False (o se rompió el bucle con break)
+\end{minted}
+\begin{itemize}
+  \item Útil cuando no se sabe cuántas iteraciones exactas serán necesarias.
+  \item \textbf{break}: fuerza la salida del bucle.
+  \item \textbf{continue}: salta a la siguiente iteración.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Ejemplo Breve - Menú Interactivo
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo Rápido: Menú Interactivo con While}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+op = ""
+while op != "q":
+    print("Menú:")
+    print("(1) Saludar")
+    print("(2) Despedir")
+    print("(q) Salir")
+    op = input("Opción: ")
+
+    if op == "1":
+        print("Hola!")
+    elif op == "2":
+        print("Adiós!")
+    elif op == "q":
+        print("Saliendo...")
+    else:
+        print("Opción inválida")
+\end{minted}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Laboratorio Práctico
+% ----------------------------------------------------------------------------------------
+\section{Laboratorio Práctico}
+
+% ------------------------------------------------------------------------
+% Slide 8: Actividad General
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad General - Estructuras de Control}
+  \begin{itemize}
+    \item Se plantearán \textbf{tres problemas} de complejidad progresiva.
+    \item Cada problema requiere el uso de condicionales y/o bucles \texttt{while}.
+    \item Trabajaremos en \textbf{parejas} o \textbf{pequeños grupos}.
+    \item Al final, compartiremos soluciones y discutiremos diferentes enfoques.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Problema 1 - Adivina el Número
+% ------------------------------------------------------------------------
+\begin{frame}{Problema 1: Adivina el Número}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item El programa genera un número entero aleatorio entre 1 y 50.
+      \item El usuario debe adivinar el número.
+      \item Se le indica si su intento es \textbf{muy alto} o \textbf{muy bajo}, hasta acertar.
+      \item Cuando acierta, se imprime cuántos intentos utilizó.
+    \end{itemize}
+  \end{block}
+  \textbf{Indicaciones}:
+  \begin{itemize}
+    \item Usar \texttt{while} para repetir hasta acertar.
+    \item \textbf{módulo random}: \texttt{import random; random.randint(1,50)}.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Problema 2 - Calculadora de Calificaciones
+% ------------------------------------------------------------------------
+\begin{frame}{Problema 2: Calculadora de Calificaciones}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pedir repetidamente \textbf{notas} de estudiantes en el rango [1.0 - 7.0].
+      \item Acumular la suma y el conteo de notas.
+      \item Si se ingresa \texttt{-1}, termina la captura de datos.
+      \item Imprimir el \textbf{promedio final} de las notas ingresadas (o mensaje si no se ingresó ninguna).
+    \end{itemize}
+  \end{block}
+  \textbf{Puntos Clave}:
+  \begin{itemize}
+    \item \textbf{while} para la repetición.
+    \item Validar que la nota esté en [1.0, 7.0] o sea \texttt{-1} para salir.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Problema 3 - Simulación de Movimiento Discreto
+% ------------------------------------------------------------------------
+\begin{frame}{Problema 3: Simulación de Movimiento Discreto}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Imaginemos un objeto en la posición \texttt{x=0} de una línea de números.
+      \item Cada paso de tiempo, el usuario ingresa un comando:
+        \begin{itemize}
+          \item \texttt{R} (mover +1)
+          \item \texttt{L} (mover -1)
+          \item \texttt{S} (mantenerse)
+          \item \texttt{Q} (terminar)
+        \end{itemize}
+      \item El programa muestra la posición actualizada tras cada comando.
+      \item Al final, imprime cuántos pasos se realizaron.
+    \end{itemize}
+  \end{block}
+  \textbf{Sugerencia}:
+  \begin{itemize}
+    \item Usar un \texttt{while} infinito y \texttt{break} al recibir \texttt{"Q"}.
+    \item Contar la cantidad de pasos totales (excluyendo el comando “Q”).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Formación de Grupos
+% ------------------------------------------------------------------------
+\begin{frame}{Formación de Grupos y Organización}
+  \begin{itemize}
+    \item Dividir la clase en \textbf{parejas} o \textbf{tríos}, según tamaño del grupo total.
+    \item Cada equipo elige uno o más problemas a resolver:
+      \begin{itemize}
+        \item Problema 1: Adivina el Número.
+        \item Problema 2: Calculadora de Calificaciones.
+        \item Problema 3: Simulación de Movimiento Discreto.
+      \end{itemize}
+    \item \textbf{Objetivo}: Implementar y probar en Google Colab, comentando el código.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Lineamientos Generales
+% ------------------------------------------------------------------------
+\begin{frame}{Lineamientos para Resolver los Problemas}
+  \begin{itemize}
+    \item Crear un \textbf{notebook} específico para esta sesión.
+    \item Explicar brevemente la lógica al inicio de cada solución.
+    \item Probar \textbf{múltiples casos} (valores límites, valores inválidos, etc.).
+    \item Anotar cualquier dificultad o bug encontrado, junto con la forma de resolverlo.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Desarrollo y Discusión
+% ----------------------------------------------------------------------------------------
+\section{Desarrollo y Discusión}
+
+% ------------------------------------------------------------------------
+% Slide 14: Trabajo en Clase
+% ------------------------------------------------------------------------
+\begin{frame}{Trabajo en Clase}
+  \begin{block}{Instrucciones}
+    \begin{itemize}
+      \item Cada grupo trabaja \textbf{20-25 minutos} en los problemas.
+      \item Se recomienda priorizar la corrección lógica antes que agregar extras.
+      \item Aquellos que terminen rápido pueden \textbf{extender} sus soluciones (más validaciones, mensajes más detallados, etc.).
+    \end{itemize}
+  \end{block}
+  \textbf{Consejo}: Revisen sintaxis de \texttt{while}, \texttt{if/elif/else}, y funciones de \texttt{random}.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Espacio para Dudas
+% ------------------------------------------------------------------------
+\begin{frame}{Espacio para Dudas}
+  \begin{itemize}
+    \item ¿Algún error frecuente al usar \texttt{while}?
+    \item ¿Cómo manejan valores fuera del rango permitido?
+    \item ¿Cómo se maneja la salida del bucle (\texttt{break} vs condición \texttt{False})?
+  \end{itemize}
+  \vspace{0.3cm}
+  \textbf{Levanta la mano o consulta en voz alta para que todos aprendan.}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Comparación de Enfoques
+% ------------------------------------------------------------------------
+\begin{frame}{Comparación de Enfoques en la Clase}
+  \begin{itemize}
+    \item Distintas formas de plantear la condición principal del \texttt{while}.
+    \item Manejo de variables “centinela” (por ejemplo, \texttt{-1} para terminar).
+    \item Uso de \texttt{else} en condicionales anidados para simplificar la lógica.
+    \item \textbf{Importancia}: Legibilidad vs. tamaño del código.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Ejemplo de Solución - Problema 1 (Adivina el Número)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Solución: Adivina el Número}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+import random
+
+secreto = random.randint(1,50)
+intentos = 0
+adiv = 0
+
+while adiv != secreto:
+    adiv_str = input("Adivina un número (1-50): ")
+    adiv = int(adiv_str)
+    intentos += 1
+
+    if adiv < secreto:
+        print("Muy bajo!")
+    elif adiv > secreto:
+        print("Muy alto!")
+    else:
+        print("¡Acertaste!")
+
+print(f'Número de intentos: {intentos}')
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Ejemplo de Solución - Problema 2 (Calificaciones)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Solución: Calculadora de Calificaciones}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\scriptsize
+]{python}
+count = 0
+suma = 0.0
+
+while True:
+    nota_str = input("Ingrese una nota [1.0-7.0], o -1 para terminar: ")
+    nota = float(nota_str)
+
+    if nota == -1:
+        break
+    if nota < 1.0 or nota > 7.0:
+        print("Nota inválida, intente nuevamente.")
+        continue
+
+    suma += nota
+    count += 1
+
+if count > 0:
+    promedio = suma / count
+    print(f'Promedio de las {count} notas: {promedio}')
 else:
-  print("Su numero esta correcto. Nada por hacer.")
+    print("No se ingresaron notas válidas.")
 \end{minted}
 \end{frame}
 
-\subsection{La declaración WHILE}
-\begin{frame}[fragile]{La declaración \texttt{WHILE}}
-Útil para repetir un bloque mientras se cumpla alguna condición:
-\begin{minted}{python}
-x = int(input("Ingrese numero <= 10: "))
-while x > 10:
-  print("Es mayor que diez. Reintente.")
-  x = int(input("Ingrese numero <= 10: "))
-print("Su numero es", x)
-\end{minted}
+% ------------------------------------------------------------------------
+% Slide 19: Ejemplo de Solución - Problema 3 (Movimiento Discreto)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Solución: Movimiento Discreto}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\tiny
+]{python}
+pos = 0
+pasos = 0
 
-\textbf{Combinando}:  
-\begin{minted}{python}
-while x>10 or x<1:
-  # ...
-\end{minted}
-\end{frame}
+while True:
+    comando = input("Ingrese (R, L, S, Q): ").upper()
 
-\section{La secuencia de Fibonacci}
-\begin{frame}{La secuencia de Fibonacci}
-Los números de Fibonacci se definen como:
-\[
-F_n = F_{n-1} + F_{n-2}, \quad F_1 = 1, F_2 = 1
-\]
+    if comando == "R":
+        pos += 1
+        pasos += 1
+    elif comando == "L":
+        pos -= 1
+        pasos += 1
+    elif comando == "S":
+        # no cambia pos
+        pasos += 1
+    elif comando == "Q":
+        print("Terminando simulación.")
+        break
+    else:
+        print("Comando inválido.")
 
-Los primeros términos: 1, 1, 2, 3, 5, 8, 13, 21, ...
+    print(f'Posición actual: {pos}')
 
-\end{frame}
-
-\begin{frame}[fragile]{Ejemplo: Fibonacci hasta 1000}
-\begin{minted}{python}
-f1 = 1
-f2 = 1
-next_ = f1 + f2
-
-while f1 <= 1000:
-  print(f1)
-  f1 = f2
-  f2 = next_
-  next_ = f1 + f2
+print(f'Total de pasos realizados: {pasos}')
 \end{minted}
 \end{frame}
 
-\section{Funciones definidas por el usuario}
-\begin{frame}[fragile]{Funciones definidas por el usuario}
-A menudo necesitamos funciones específicas. Ej: calcular factorial \(n!\):
-\begin{minted}{python}
-def factorial(n):
-  f = 1
-  k = 1
-  while (k <= n):
-    f *= k
-    k += 1
-  return f
-
-# Programa principal
-val = int(input("Ingrese un entero positivo: "))
-print(val, "! =", factorial(val))
-\end{minted}
+% ------------------------------------------------------------------------
+% Slide 20: Análisis de las Soluciones
+% ------------------------------------------------------------------------
+\begin{frame}{Análisis de las Soluciones}
+  \begin{itemize}
+    \item \textbf{Uso de banderas y centinelas}:
+      \begin{itemize}
+        \item \texttt{nota == -1} para terminar ciclo.
+        \item \texttt{comando == "Q"} para salir.
+      \end{itemize}
+    \item \textbf{Validaciones} y manejo de casos inválidos (\texttt{continue}).
+    \item \textbf{Contadores} de intentos y pasos, incrementándose en cada iteración.
+    \item \textbf{Mejoras potenciales}:
+      \begin{itemize}
+        \item Mensajes más descriptivos.
+        \item Manejo de excepciones para entradas no numéricas.
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Funciones definidas por el usuario}
-\begin{itemize}
-    \item \texttt{def nombre\_funcion(argumento):}  
-      abre la definición de la función.  
-    \item Bloque indentado = cuerpo de la función.
-    \item \texttt{return} finaliza la función y devuelve un valor.
-\end{itemize}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Retroalimentación y Conclusiones
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones}
+
+% ------------------------------------------------------------------------
+% Slide 21: Integración de Conocimientos
+% ------------------------------------------------------------------------
+\begin{frame}{Integración de Conocimientos}
+  \begin{itemize}
+    \item \textbf{Condicionales} son la base de la \textit{toma de decisiones} en un programa.
+    \item \textbf{Bucle While} posibilita la \textit{repetición basada en una condición}, útil para menús interactivos o lectura indefinida.
+    \item Aprendimos la importancia de \textbf{validar} datos y usar \texttt{break}/\texttt{continue} en casos convenientes.
+  \end{itemize}
 \end{frame}
 
-\section{Recursividad}
-\begin{frame}[fragile]{Recursividad}
-La recursividad consiste en que la función se llama a sí misma (para subproblemas más pequeños):
-\begin{minted}{python}
-def factorial(n):
-  if n == 1:
-    return 1
-  else:
-    return n * factorial(n-1)
-\end{minted}
+% ------------------------------------------------------------------------
+% Slide 22: Recomendaciones para el Estudio
+% ------------------------------------------------------------------------
+\begin{frame}{Recomendaciones para el Estudio}
+  \begin{itemize}
+    \item Practica \textbf{problemas pequeños} con \texttt{if} y \texttt{while}, como minijuegos o menús.
+    \item Lee la documentación de \textbf{Python} sobre control de flujo (if, while, for).
+    \item Experimenta con valores \textbf{fuera de rango} para entender mejor la lógica y los errores potenciales.
+  \end{itemize}
 \end{frame}
 
-\section{Actividades}
-\begin{frame}{Actividades para Hoy}
-\begin{itemize}
-	\item Implemente un programa que pida un número y verifique si es par o impar.  
-	      Use un condicional \texttt{if} o \texttt{while} hasta que sea válido.  
-	\item Extienda el ejemplo de Fibonacci para que el usuario indique hasta qué número máximo desea imprimir.  
-	\item Defina una función que calcule la potencia \(a^b\) mediante multiplicaciones sucesivas (sin usar el operador \texttt{**}). Compare con la función incorporada.
-\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 23: Próximos Pasos
+% ------------------------------------------------------------------------
+\begin{frame}{Próximos Pasos}
+  \begin{itemize}
+    \item Siguiente tema: \textbf{Bucle For} y manejo de listas (Unidad III).
+    \item Revisaremos \textbf{break} y \textbf{continue} con más detalle.
+    \item Pronto veremos estructuras de datos (listas, arreglos) e interacción con bucles para manipular secuencias.
+  \end{itemize}
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 24: Recursos Adicionales
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos Adicionales}
+  \begin{itemize}
+    \item \href{https://docs.python.org/3/tutorial/controlflow.html}{\textbf{Python Docs - Control Flow}}
+    \item \href{https://www.learnpython.org/en/Conditions}{\textbf{Learn Python - Conditions}}
+    \item \href{https://realpython.com/python-while-loop/}{\textbf{Real Python - While Loops}}
+    \item \textbf{Foros y Comunidades}: Stack Overflow, Reddit \texttt{/r/learnpython}.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Cierre de la Sesión
+% ------------------------------------------------------------------------
 \begin{frame}
-\Huge{\centerline{Fin de la Parte 2}}
+  \Huge{\centerline{¡Gracias por su atención!}}
+  \vspace{0.4cm}
+  \normalsize
+  \begin{itemize}
+    \item Aseguren de \textbf{guardar} sus notebooks de hoy.
+    \item ¡Nos vemos en la próxima sesión para seguir avanzando con \texttt{for}, listas y más ejemplos!
+  \end{itemize}
 \end{frame}
 
 \end{document}

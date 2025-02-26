@@ -1,134 +1,463 @@
 \documentclass[10pt]{beamer}
 
-% Copia local de preamble.tex:
+% ------------------------------------------------------------------------
+% Carga de tu preámbulo personalizado (preamble.tex)
+% Asegúrate de tenerlo en la misma carpeta para que \input{preamble.tex} funcione.
+% ------------------------------------------------------------------------
 \input{preamble.tex}
 
 \begin{document}
 
+% ------------------------------------------------------------------------
+% Portada personalizada (puedes usar \myfront si está definido en preamble.tex)
+% ------------------------------------------------------------------------
 \myfront{}
 
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Sesión
+% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
+  % Ejemplo:
+  % \title{Semana 3 - Sesión 1 (Sesión 5): Estructuras de Control Fundamentales}
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de contenidos
+% ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Parte 1 (Semana 03)}
+  \frametitle{Resumen - Semana 3, Sesión 1 (Sesión 5)}
   \tableofcontents
 \end{frame}
 
-%----------------------------------------------------------------------------------------
-%	PRESENTATION SLIDES
-%----------------------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
 \metroset{block=fill}
 
-%------------------------------------------------
-\section{Funciones, Paquetes y Módulos}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Conexión con la Sesión Anterior
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Repaso}
 
-\subsection{Paquetes}
-
-\begin{frame}{Paquetes}
-Existen muchas operaciones más avanzadas que la aritmética simple:
-\begin{enumerate}
-	\item Multiplicar matrices.
-	\item Calcular logaritmos.
-	\item Hacer gráficos, etc.
-\end{enumerate}
-
-Python posee una gran variedad de \textbf{funciones} que se organizan en \textbf{paquetes}, cada uno con un nombre identificativo.
-
-\begin{block}{Paquetes}
-Colección de funciones útiles y relacionadas entre sí.
-\end{block}
+% ------------------------------------------------------------------------
+% Slide 3: Recapitulación de la Sesión 4
+% ------------------------------------------------------------------------
+\begin{frame}{Recapitulación de la Sesión Anterior}
+  \begin{itemize}
+    \item \textbf{Semana 2, Sesión 2 (Sesión 4)} se enfocó en:
+      \begin{itemize}
+        \item Integrar y aplicar conceptos básicos de Python en problemas más elaborados.
+        \item Ejercicios prácticos sobre ecuaciones de movimiento, varianza y conversiones de unidades.
+        \item Manejo de pequeños bucles \texttt{for} y condicionales sencillos \texttt{if/elif}.
+      \end{itemize}
+    \item \textbf{Meta de hoy}: Introducir y profundizar en las estructuras de control fundamentales (condicionales y bucles).
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Paquetes}
-Antes de usar una función de un paquete, debemos “importarla”.
-\begin{example}[\texttt{log} del paquete \texttt{math}]
-\texttt{from math import log}\\
-\texttt{x = log(2.5)}
-\end{example}
-
-\footnotesize
-\begin{block}{algunas funciones del paquete \texttt{math}}
-\begin{tabular}{ll}
-\texttt{log}              & logaritmo natural (base \(e\)) \\
-\texttt{log10}            & logaritmo base 10              \\
-\texttt{exp}              & exponencial                    \\
-\texttt{sin, cos, tan}    & seno, coseno, tangente (rad)   \\
-\texttt{asin, acos, atan} & arcseno, arccos, arctan        \\
-\texttt{sinh, cosh, tanh} & seno, coseno, tang. hiperbólico\\
-\texttt{sqrt}             & raíz cuadrada
-\end{tabular}
-\end{block}
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión 5
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 5}
+  \begin{itemize}
+    \item \textbf{Comprender} la sintaxis y el uso de las estructuras de control en Python (\texttt{if}, \texttt{elif}, \texttt{else} y \texttt{while}).
+    \item \textbf{Analizar} ejemplos prácticos que requieran decisiones condicionales y repeticiones.
+    \item \textbf{Diseñar} programas sencillos que apliquen bucles \texttt{while} con criterio de parada.
+    \item \textbf{Relacionar} estas estructuras con problemas físicos o astronómicos básicos.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Paquetes}
-Podemos examinar qué funciones incluye un paquete con \texttt{dir(paquete)}:
-\begin{example}\footnotesize
-\verb|>>> import math|\\
-\verb|>>> dir(math)|\\
-\texttt{['\_\_doc\_\_', '\_\_file\_\_', '\_\_loader\_\_', '\_\_name\_\_', '\_\_package\_\_', 
-'\_\_spec\_\_', 'acos', 'acosh', 'asin', ... , 'pi', 'pow', ... 'sin', 'sqrt', 'tan', ...]}
-\end{example}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Estructuras de Control (Condicionales)
+% ----------------------------------------------------------------------------------------
+\section{Estructuras de Control: Condicionales}
 
+% ------------------------------------------------------------------------
+% Slide 5: Condicionales \texttt{if}, \texttt{elif}, \texttt{else}
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]
+	\frametitle{La Estructura \texttt{if}, \texttt{elif}, \texttt{else}}
+  \begin{itemize}
+    \item Permiten ejecutar un bloque de código si se cumple una condición.
+    \item \textbf{Sintaxis básica}:
+
+\texttt{if <condicion1>:} \\
+\quad \texttt{<bloque1>} \\
+\texttt{elif <condicion2>:} \\
+\quad \texttt{<bloque2>} \\
+\texttt{else:} \\
+\quad \texttt{<bloque3>}
+
+    \item Se pueden tener \emph{múltiples} \texttt{elif} y \emph{opcionalmente} un \texttt{else}.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Paquete \texttt{math}}
+% ------------------------------------------------------------------------
+% Slide 6: Ejemplo de Uso (Nota Aprobación)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Determinar si una Nota Aprueba o No}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+nota_str = input("Ingresa tu nota (0.0 - 7.0): ")
+nota = float(nota_str)
+
+if nota >= 4.0:
+    print("Aprobado")
+else:
+    print("Reprobado")
+\end{minted}
+\textbf{Discusión}:
 \begin{itemize}
-	\item Contiene funciones menos comunes (\texttt{erf, gamma}), y también constantes como \texttt{pi} o \texttt{e}.
-	\item Puedes importar varias funciones a la vez:
-\begin{example}
-\texttt{from math import log, exp}
-\end{example}
-	\item También es posible importar \textit{todas} las funciones: \texttt{from math import *}, pero esto puede generar conflictos de nombres si no se tiene cuidado.
+  \item ¿Qué pasa si la nota está fuera del rango esperado?
+  \item ¿Podríamos manejar \texttt{elif} para rangos (ej. “sobresaliente”, “suficiente”, etc.)?
 \end{itemize}
 \end{frame}
 
-\subsection{Módulos}
-\begin{frame}[fragile]{Módulos}
-Algunos paquetes se dividen en submódulos. Por ejemplo, \texttt{numpy} se organiza en varios módulos:
-\begin{example}[importando del módulo \texttt{linalg} de \texttt{numpy}]
-\texttt{from numpy.linalg import inv}
-\end{example}
-Aquí \texttt{numpy} es el paquete, y \texttt{linalg} es un módulo específico.  
+% ------------------------------------------------------------------------
+% Slide 7: Actividad 1 - Menú Sencillo
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad 1: Crear un Menú Sencillo}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pedir al usuario una opción entre:
+        \begin{itemize}
+          \item \texttt{1} - Calcular el área de un cuadrado.
+          \item \texttt{2} - Calcular el área de un triángulo.
+          \item \texttt{3} - Salir.
+        \end{itemize}
+      \item Usar \textbf{if/elif/else} para procesar la opción.
+      \item Si se elige \texttt{1} o \texttt{2}, pedir dimensiones, calcular y mostrar el resultado.
+      \item Si se elige \texttt{3}, finalizar el programa.
+    \end{itemize}
+  \end{block}
+  \textbf{Consejo}: Manejar opciones inválidas (mensaje de error).
 \end{frame}
 
-\begin{frame}[fragile]{Poniendo en práctica: Coordenadas polares a cartesianas}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Estructuras de Control: Bucles \texttt{while}
+% ----------------------------------------------------------------------------------------
+\section{Estructuras de Control: Bucles While}
+
+% ------------------------------------------------------------------------
+% Slide 8: El Bucle \texttt{while}
+% ------------------------------------------------------------------------
+\begin{frame}{El Bucle \texttt{while}}
+  \begin{itemize}
+    \item Repite un bloque de código \textbf{mientras} una condición sea verdadera.
+    \item \textbf{Sintaxis}:
+
+\texttt{while <condicion>:} \\
+\quad \texttt{<bloque>}
+
+    \item Importante asegurarse de que la condición \textbf{cambie} para evitar bucles infinitos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Ejemplo de Uso
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Contador Descendente}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+count = 5
+while count > 0:
+    print("Cuenta atrás:", count)
+    count -= 1
+
+print("¡Fin de la cuenta!")
+\end{minted}
+\textbf{Análisis}:
 \begin{itemize}
-    \item Queremos convertir \((r,\theta)\) a \((x,y)\).
-    \item Fórmulas: \(x = r \cos(\theta)\), \(y = r \sin(\theta)\).
-    \item Supongamos que \(\theta\) se ingresa en grados.
+  \item \texttt{count -= 1} evita que el bucle sea infinito.
+  \item Se ejecuta el bloque mientras \texttt{count > 0}.
 \end{itemize}
-\begin{minted}{python}
-from math import sin, cos, pi
+\end{frame}
 
-r = float(input("Ingrese r: "))
-d = float(input("Ingrese theta en grados: "))
-theta = d*pi/180
+% ------------------------------------------------------------------------
+% Slide 10: Actividad 2 - Suma Iterativa
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad 2: Suma Iterativa}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide repetidamente al usuario ingresar un número.
+      \item Suma todos los números ingresados.
+      \item Si el usuario ingresa \texttt{0}, terminar el bucle y mostrar la suma final.
+    \end{itemize}
+  \end{block}
+  \textbf{Tip}: Usa un \texttt{while True} y \texttt{break} al detectar 0, o controla la condición en \texttt{while}.
+\end{frame}
 
-x = r*cos(theta)
-y = r*sin(theta)
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Ejemplos Prácticos con \texttt{if} y \texttt{while}
+% ----------------------------------------------------------------------------------------
+\section{Ejemplos Prácticos}
 
-print(f"x = {x}, y = {y}")
+% ------------------------------------------------------------------------
+% Slide 11: Ejemplo 1 - Búsqueda de Raíz Sencilla (Iterativo)
+% ------------------------------------------------------------------------
+\begin{frame}{Ejemplo 1: Búsqueda de Raíz (Método Ingenuo)}
+  \begin{itemize}
+    \item \textbf{Problema}: Encontrar \(n\) tal que \(n^2 \approx m\) para un \(m\) dado.
+    \item \textbf{Idea}:
+      \begin{itemize}
+        \item Partir de \(n=0\).
+        \item Incrementar \(n\) en 1 hasta que \(n^2 \ge m\).
+        \item Al final, \(n\) está cerca de \(\sqrt{m}\).
+      \end{itemize}
+    \item \textbf{Uso}: \texttt{while} para la búsqueda.
+    \item Posteriormente: Mejorar con métodos numéricos (Newton-Raphson).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Código Ejemplo - Búsqueda de Raíz
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Código: Búsqueda Sencilla}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+m_str = input("Ingresa un número (m): ")
+m = float(m_str)
+
+n = 0
+while (n**2) < m:
+    n += 1
+
+print("Resultado aproximado:", n)
+print("n^2 =", n**2, ", m =", m)
+\end{minted}
+\textbf{Discusión}:
+\begin{itemize}
+  \item Exactitud vs. tiempo de ejecución.
+  \item Controlar \texttt{n} o implementar un \texttt{break} si \texttt{n} se vuelve muy grande.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Ejemplo 2 - Verificación de Input
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo 2: Verificación de Input}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+clave_correcta = "astronomia"
+intentos = 3
+
+while intentos > 0:
+    clave = input("Ingresa la clave: ")
+    if clave == clave_correcta:
+        print("¡Bienvenido/a!")
+        break
+    else:
+        intentos -= 1
+        print("Clave incorrecta. Intentos restantes:", intentos)
+
+if intentos == 0:
+    print("Has agotado todos los intentos. Acceso denegado.")
+\end{minted}
+\textbf{Comentario}:
+\begin{itemize}
+  \item Ejemplo de \texttt{if} + \texttt{while} para autenticar con un número limitado de intentos.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Actividad 3 - Menú Interactivo con \texttt{while}
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad 3: Menú Interactivo con \texttt{while}}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Repetir un menú hasta que el usuario seleccione la opción \texttt{"Salir"}.
+      \item Opciones posibles:
+        \begin{itemize}
+          \item (1) Calcular área de círculo.
+          \item (2) Calcular energía potencial: \(E_p = mgh\).
+          \item (3) Salir.
+        \end{itemize}
+      \item Usa \texttt{if/elif/else} dentro de un \texttt{while True} y un \texttt{break} cuando sea \texttt{Salir}.
+    \end{itemize}
+  \end{block}
+  \textbf{Tip}: Cada operación requiere datos distintos (masa, altura, radio, etc.).
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Organización del Trabajo en Clase
+% ------------------------------------------------------------------------
+\begin{frame}{Trabajar en Parejas o Grupos Pequeños}
+  \begin{itemize}
+    \item \textbf{Formen equipos} de 2-3 personas.
+    \item \textbf{Objetivo}: Implementar el menú iterativo con \texttt{while}.
+    \item \textbf{Desafío}: Agregar validaciones (por ej. valores negativos en masa/altura).
+    \item Comparar soluciones y resaltar las diferencias de implementación.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Discusión Grupal y Retroalimentación
+% ------------------------------------------------------------------------
+\begin{frame}{Discusión y Retroalimentación}
+  \begin{itemize}
+    \item ¿Surgieron bucles infinitos? ¿Cómo se detectaron y resolvieron?
+    \item ¿Alguna validación extra para datos imposibles o nulos?
+    \item \textbf{Buenas prácticas}: Comentar el código y usar nombres de variables descriptivos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Código Ejemplo (Menú Interactivo)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Solución para el Menú Interactivo}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\tiny
+]{python}
+import math
+
+while True:
+    print("=== MENÚ ===")
+    print("(1) Área de círculo")
+    print("(2) Energía potencial (mgh)")
+    print("(3) Salir")
+    opcion = input("Elige una opción: ")
+
+    if opcion == "1":
+        r_str = input("Radio del círculo (m): ")
+        r = float(r_str)
+        area = math.pi * r**2
+        print("Área =", area, "m^2")
+    elif opcion == "2":
+        m_str = input("Masa (kg): ")
+        h_str = input("Altura (m): ")
+        g = 9.8
+        m = float(m_str)
+        h = float(h_str)
+        Ep = m * g * h
+        print("Energía potencial =", Ep, "J")
+    elif opcion == "3":
+        print("Saliendo...")
+        break
+    else:
+        print("Opción inválida, intenta de nuevo.")
 \end{minted}
 \end{frame}
 
-%------------------------------------------------
-\section{Funciones}
-\begin{frame}[fragile]{Funciones integradas y comentarios}
-\begin{enumerate}
-	\item \textbf{Funciones integradas}:  
-	Hay un grupo de funciones que vienen “de fábrica” en Python, p. ej. \texttt{float}, \texttt{int}, \texttt{complex}, \texttt{abs}, \texttt{print}, \texttt{input}, etc.
-	\item \textbf{Comentarios}:  
-	Uso del símbolo “\#” para anotar explicaciones que el intérprete ignora por completo.
-	\begin{example}
-\# Esto es un comentario que no se ejecuta
-	\end{example}
-\end{enumerate}
+% ------------------------------------------------------------------------
+% Slide 18: Análisis de la Solución
+% ------------------------------------------------------------------------
+\begin{frame}{Análisis de la Solución}
+  \begin{itemize}
+    \item Uso de \textbf{while True} + \texttt{break} para controlar el flujo.
+    \item Estructura \textbf{if/elif/else} para manejar opciones.
+    \item Se separan las variables y cálculos de cada opción.
+    \item \textbf{Posible mejora}: Manejo de errores al convertir \texttt{str} a \texttt{float}.
+  \end{itemize}
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 19: Ejercicio Adicional - Adivinar un Número
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio Adicional (Adivinar un Número)}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item El programa genera un número al azar entre 1 y 10.
+      \item El usuario intenta adivinar el número ingresando valores.
+      \item Indicar si el número es \textbf{mayor}, \textbf{menor} o \textbf{igual}.
+      \item Terminar cuando el usuario acierte o supere los 5 intentos.
+    \end{itemize}
+  \end{block}
+  \textbf{Tip}: Usa \texttt{import random} y \texttt{random.randint(1,10)} para generar el número.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Trabajo en Solitario o con un Compañero
+% ------------------------------------------------------------------------
+\begin{frame}{Trabajo Individual o en Pareja}
+  \begin{itemize}
+    \item Implementa el juego de \textbf{Adivinar un Número} en un \texttt{notebook} de Colab.
+    \item Añade mensajes claros para el usuario (“\texttt{El número es menor}” / “\texttt{El número es mayor}”).
+    \item Verifica que se detenga en 5 intentos (o en el acierto).
+    \item Al terminar, muestra cuántos intentos usó el jugador.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 21: Retroalimentación y Observaciones
+% ------------------------------------------------------------------------
+\begin{frame}{Retroalimentación}
+  \begin{itemize}
+    \item ¿Lograste implementar la lógica de \texttt{if} dentro de un \texttt{while} sin errores?
+    \item ¿Qué ocurrió cuando el usuario ingresa valores fuera del rango?
+    \item \textbf{Extensión}: Permitir varios rangos de adivinanza o puntajes.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Conexión con Otros Problemas
+% ------------------------------------------------------------------------
+\begin{frame}{Conexión con Otros Problemas}
+  \begin{itemize}
+    \item \textbf{Simulaciones en Física}: Muchas implican decisiones (condiciones de borde, colisión, etc.).
+    \item \textbf{Procesamiento de Datos}: Filtrar registros según criterios (\texttt{if} para descartar outliers).
+    \item \textbf{Automatización}: Scripts que se repiten hasta cumplir una condición.
+  \end{itemize}
+  \textbf{Conclusión}: Las estructuras de control son la base de la lógica en programación.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 23: Recursos y Lecturas Recomendadas
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos y Lecturas}
+  \begin{itemize}
+    \item \href{https://docs.python.org/3/tutorial/controlflow.html}{\textbf{Python Docs: Control Flow}}.
+    \item \href{https://www.w3schools.com/python/python\_conditions.asp}{\textbf{W3Schools: Python Conditions}}.
+    \item \href{https://automatetheboringstuff.com/}{\textbf{Automate the Boring Stuff}} (capítulos sobre \texttt{if} y \texttt{while}).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 24: Sugerencias de Práctica
+% ------------------------------------------------------------------------
+\begin{frame}{Sugerencias de Práctica}
+  \begin{itemize}
+    \item \textbf{Combina} estructuras de control: Un \texttt{while} que usa \texttt{if/elif/else} internamente.
+    \item \textbf{Gestiona} valores inválidos con \texttt{try/except} (si deseas profundizar en manejo de errores).
+    \item \textbf{Experimenta} con ejemplos de la vida real (cálculo de impuestos, clasificación según edad, etc.).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Cierre de la Sesión
+% ------------------------------------------------------------------------
 \begin{frame}
-\Huge{\centerline{Fin de la Parte 1}}
+  \huge{\centerline{¡Gracias y hasta la próxima sesión!}}
+  \vspace{0.3cm}
+  \normalsize
+  \begin{itemize}
+    \item Continúen practicando \texttt{if}, \texttt{elif}, \texttt{else}, \texttt{while}.
+    \item En la siguiente sesión, profundizaremos en \texttt{for} y prácticas de control de flujo (break, continue).
+    \item ¡No olviden guardar sus notebooks en Drive!
+  \end{itemize}
 \end{frame}
 
 \end{document}
