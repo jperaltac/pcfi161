@@ -1,0 +1,531 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga de tu preámbulo personalizado (preamble.tex)
+% Asegúrate de tenerlo en la misma carpeta.
+% ------------------------------------------------------------------------
+\input{preamble.tex}
+
+\begin{document}
+
+% ------------------------------------------------------------------------
+% Portada de la Presentación
+% ------------------------------------------------------------------------
+\myfront{}
+
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+  % Por ejemplo:
+  % \title{Semana 4 - Sesión 1 (Sesión 7): Funciones en Python, Módulos y Paquetes}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de contenidos
+% ------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Resumen - Semana 4, Sesión 1 (Sesión 7)}
+  \tableofcontents
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
+\metroset{block=fill}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Introducción y Repaso de la Sesión Anterior
+% ----------------------------------------------------------------------------------------
+\section{Repaso y Contexto}
+
+% ------------------------------------------------------------------------
+% Slide 3: Recapitulación de la Sesión 6
+% ------------------------------------------------------------------------
+\begin{frame}{Recapitulación de la Sesión Anterior (Sesión 6)}
+  \begin{itemize}
+    \item \textbf{Semana 3, Sesión 2 (Sesión 6)} se centró en:
+      \begin{itemize}
+        \item Laboratorio práctico con estructuras de control (\texttt{if}, \texttt{while}).
+        \item Problemas tipo: “Adivina el número”, “Calculadora de Calificaciones”, “Movimiento Discreto”.
+        \item Manejo de validaciones, contadores y salidas controladas de bucles.
+      \end{itemize}
+    \item \textbf{Objetivo de hoy}: Introducir \textbf{Funciones} en Python y exploración de \textbf{módulos/paquetes} con ejemplos prácticos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión 7
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 7}
+  \begin{itemize}
+    \item \textbf{Comprender} la sintaxis y concepto de funciones en Python (\texttt{def}, parámetros, \texttt{return}).
+    \item \textbf{Explorar} cómo organizar código en módulos y paquetes simples.
+    \item \textbf{Aplicar} estos conceptos a pequeños proyectos para mejorar reutilización y claridad.
+    \item \textbf{Conectar} funciones con los temas previos (estructuras de control, manejo de datos, etc.).
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Funciones en Python
+% ----------------------------------------------------------------------------------------
+\section{Funciones en Python}
+
+% ------------------------------------------------------------------------
+% Slide 5: Definición y Motivación
+% ------------------------------------------------------------------------
+\begin{frame}{¿Por qué usar Funciones?}
+  \begin{itemize}
+    \item \textbf{Reutilización de Código}: evitar escribir la misma lógica en múltiples lugares.
+    \item \textbf{Organización}: encapsular tareas específicas en “cajas negras”.
+    \item \textbf{Legibilidad}: el nombre de la función describe la operación que realiza.
+    \item \textbf{Mantenibilidad}: cambiar la lógica en un solo lugar (la definición de la función).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6: Sintaxis de una Función
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Sintaxis Básica de Funciones en Python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+def nombre_de_funcion(param1, param2, ...):
+    """
+    Documentación opcional (docstring).
+    Explica qué hace la función, los parámetros y el retorno.
+    """
+    # bloque de código
+    # opcionalmente retornar un valor
+    return resultado
+\end{minted}
+\begin{itemize}
+  \item \textbf{Parámetros}: valores de entrada que la función utiliza.
+  \item \textbf{return}: finaliza la función y opcionalmente devuelve un valor.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Ejemplo de Función Sencilla
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Función para Calcular el Área de un Círculo}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+import math
+
+def area_circulo(radio):
+    """
+    Retorna el área de un círculo de radio 'radio'.
+    Formula: pi * r^2
+    """
+    area = math.pi * (radio**2)
+    return area
+
+# Uso de la función
+r = 5
+a = area_circulo(r)
+print("El área del círculo es:", a)
+\end{minted}
+\begin{itemize}
+  \item \textbf{Encapsulamos} la operación en \texttt{area\_circulo}.
+  \item \textbf{Parámetro} \texttt{radio}.
+  \item \textbf{Retorno} con \texttt{return area}.
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Parámetros, Retornos y Alcance
+% ----------------------------------------------------------------------------------------
+\section{Parámetros y Alcance}
+
+% ------------------------------------------------------------------------
+% Slide 8: Tipos de Parámetros (Posicionales, Opcionales)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Parámetros Posicionales y Opcionales}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  fontsize=\footnotesize,
+  bgcolor=LightGray
+]{python}
+def calcular_salario(base, horas_extra=0):
+    """Calcula salario sumando base + 2000 por hora extra"""
+    return base + 2000 * horas_extra
+
+s1 = calcular_salario(50000)        # horas_extra por defecto: 0
+s2 = calcular_salario(50000, 3)     # 3 horas extra
+print(s1, s2)
+\end{minted}
+\begin{itemize}
+  \item \textbf{Parámetros con valor por defecto} (ej. \texttt{horas\_extra=0}).
+  \item \textbf{Posicionales}: deben ir en orden; \texttt{calcular\_salario(50000, 3)}.
+  \item \textbf{Keyword arguments}: \texttt{calcular\_salario(base=50000, horas\_extra=3)}.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Alcance de Variables (Scope)
+% ------------------------------------------------------------------------
+\begin{frame}{Scope o Alcance de Variables}
+  \begin{itemize}
+    \item \textbf{Local}: Variables definidas dentro de la función solo existen dentro de ella.
+    \item \textbf{Global}: Variables definidas fuera de cualquier función son accesibles dentro, pero no se recomienda modificarlas sin razón.
+    \item \textbf{Mejor práctica}: Mantener funciones “puras”, evitando depender de variables globales.
+  \end{itemize}
+  \vspace{0.2cm}
+  \textbf{Ejemplo}: \texttt{def f(): x=10} — la variable \texttt{x} vive solo en \texttt{f()}.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Ejemplo de Conflicto Global vs Local
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Conflicto Global vs Local}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  fontsize=\footnotesize,
+  bgcolor=LightGray
+]{python}
+x = 5  # global
+
+def foo():
+    x = 10  # local
+    print("Dentro de foo, x =", x)
+
+foo()
+print("Fuera de foo, x =", x)
+\end{minted}
+\begin{itemize}
+  \item Impresiones:
+    \begin{itemize}
+      \item “Dentro de foo, x = 10”
+      \item “Fuera de foo, x = 5”
+    \end{itemize}
+  \item \textbf{Evitar confusiones} usando nombres significativos y parámetros claros.
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Módulos y Paquetes
+% ----------------------------------------------------------------------------------------
+\section{Módulos y Paquetes}
+
+% ------------------------------------------------------------------------
+% Slide 11: ¿Qué es un Módulo?
+% ------------------------------------------------------------------------
+\begin{frame}{¿Qué es un Módulo en Python?}
+  \begin{itemize}
+    \item Un \textbf{módulo} es un archivo \texttt{.py} que contiene definiciones de funciones, variables y clases.
+    \item \textbf{Ventaja}: podemos importar este archivo desde otros scripts y reutilizar el código.
+    \item \textbf{Ejemplo}: Crear un archivo \texttt{mifunciones.py} con varias funciones y luego:
+    \[
+      \texttt{import mifunciones}
+    \]
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Ejemplo de Módulo Sencillo
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Módulo: \texttt{mifunciones.py}}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  fontsize=\footnotesize,
+  bgcolor=LightGray
+]{python}
+# mifunciones.py
+
+def suma(a, b):
+    return a + b
+
+def resta(a, b):
+    return a - b
+\end{minted}
+\vspace{0.3cm}
+\textbf{Uso en otro archivo}:
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  fontsize=\footnotesize,
+  bgcolor=LightGray
+]{python}
+import mifunciones
+
+print(mifunciones.suma(3, 4))
+print(mifunciones.resta(10, 2))
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: \texttt{from ... import ...}
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Importaciones Específicas}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+from mifunciones import suma
+
+resultado = suma(5, 7)
+print(resultado)
+\end{minted}
+\begin{itemize}
+  \item Trae solo la función \texttt{suma} del módulo.
+  \item \textbf{Cuidado}: peligro de colisiones de nombre (si hay otra \texttt{suma}).
+  \item \texttt{from mifunciones import *} trae todo, también puede causar conflictos.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Paquetes (Carpetas con \_\_init\_\_.py)
+% ------------------------------------------------------------------------
+\begin{frame}{Paquetes en Python}
+  \begin{itemize}
+    \item Un \textbf{paquete} es una carpeta que contiene un archivo \texttt{\_\_init\_\_.py} y varios módulos \texttt{.py}.
+    \item Estructura típica:
+%    \begin{verbatim}
+%    mipaquete/
+%    __init__.py
+%    modulo1.py
+%    modulo2.py
+%    ...
+%    \end{verbatim}
+    \item Para usarlo: \texttt{import mipaquete.modulo1}.
+  \end{itemize}
+  \textbf{Uso}: Organizar proyectos grandes en submódulos lógicamente separados.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Ejemplos y Actividad
+% ----------------------------------------------------------------------------------------
+\section{Ejemplos y Actividad}
+
+% ------------------------------------------------------------------------
+% Slide 15: Ejemplo Completo - Cálculos Físicos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Módulo con Funciones Físicas}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\scriptsize
+]{python}
+# fisica.py (módulo)
+import math
+
+def energia_cinetica(m, v):
+    """Retorna la energía cinética: 0.5*m*v^2"""
+    return 0.5 * m * (v**2)
+
+def energia_potencial(m, g, h):
+    """Retorna la energía potencial: m*g*h"""
+    return m * g * h
+
+def lanzar_proyectil(v0, ang):
+    """
+    Retorna el alcance teórico de un proyectil
+    en un tiro parabólico sin rozamiento.
+    """
+    rad = math.radians(ang)
+    g = 9.8
+    R = (v0**2 * math.sin(2*rad)) / g
+    return R
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Uso del Módulo en un Script Principal
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Uso de \texttt{fisica.py} en un Script Principal}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+# main.py
+import fisica
+
+m = 10  # kg
+v = 5   # m/s
+ec = fisica.energia_cinetica(m, v)
+print("Energía Cinética =", ec, "J")
+
+distancia = fisica.lanzar_proyectil(20, 45)
+print("Alcance estimado =", distancia, "m")
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Actividad - Organizándote con Módulos
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad: Creando Tus Módulos}
+  \begin{itemize}
+    \item \textbf{Objetivo}: Organizar funciones útiles en un módulo y probar su importación.
+    \item \textbf{Instrucciones}:
+      \begin{enumerate}
+        \item Crea un archivo \texttt{utilidades.py} con al menos 3 funciones (ej. \texttt{factorial(n)}, \texttt{es\_primo(n)}, etc.).
+        \item En un \textbf{notebook de Colab} o un script \texttt{main.py}, importa \texttt{utilidades} y prueba dichas funciones.
+        \item (Opcional) Añade una cuarta función con un \textbf{parámetro por defecto} (\texttt{def hola\_mundo(nombre="Mundo")}, etc.).
+      \end{enumerate}
+  \end{itemize}
+  \textbf{Sugerencia}: Comenta tu código y explica la lógica de cada función.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Trabajo en Clase
+% ------------------------------------------------------------------------
+\begin{frame}{Trabajo Colaborativo}
+  \begin{itemize}
+    \item Formar \textbf{parejas o tríos}.
+    \item Diseñar \textbf{un pequeño módulo} de funciones:
+      \begin{itemize}
+        \item Matemáticas, Estadística básica, Conversión de unidades, etc.
+      \end{itemize}
+    \item Utilizar dichas funciones en \textbf{otro script} o \textbf{notebook}.
+    \item \textbf{Opcional}: Explorar la creación de una carpeta con \texttt{\_\_init\_\_.py} para armar un paquete simple.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Dudas y Apoyo
+% ------------------------------------------------------------------------
+\begin{frame}{Espacio para Dudas y Apoyo}
+  \begin{itemize}
+    \item ¿Problemas al importar el módulo en Colab?
+    \item ¿Cómo organizar los archivos en Google Drive?
+    \item ¿Errores de \texttt{ModuleNotFoundError}?
+  \end{itemize}
+  \vspace{0.2cm}
+  \textbf{Consulta en voz alta o pide ayuda a tus compañeros.}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Posible Ejemplo de Solución
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de \texttt{utilidades.py}}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\scriptsize
+]{python}
+# utilidades.py
+def factorial(n):
+    """Calcula n! de manera recursiva."""
+    if n <= 1:
+        return 1
+    else:
+        return n * factorial(n-1)
+
+def es_primo(num):
+    """Retorna True si 'num' es primo, False si no."""
+    if num < 2:
+        return False
+    for i in range(2, int(num**0.5)+1):
+        if num % i == 0:
+            return False
+    return True
+
+def saludar(nombre="Mundo"):
+    """Imprime un saludo a 'nombre'."""
+    print(f"Hola, {nombre}!")
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 21: Uso en un Notebook
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Uso en un Notebook o Script}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
+import utilidades
+
+print("5! =", utilidades.factorial(5))
+print("¿13 es primo?:", utilidades.es_primo(13))
+utilidades.saludar()
+utilidades.saludar("Física")
+\end{minted}
+
+\textbf{Resultado Esperado}:
+\begin{itemize}
+  \item \texttt{5! = 120}
+  \item \texttt{¿13 es primo?: True}
+  \item \texttt{Hola, Mundo!}
+  \item \texttt{Hola, Física!}
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Retroalimentación y Observaciones
+% ------------------------------------------------------------------------
+\begin{frame}{Retroalimentación}
+  \begin{itemize}
+    \item ¿Se entendió la \textbf{separación} entre la lógica (en un módulo .py) y el código principal?
+    \item ¿Ventajas de tener todo en un solo archivo vs. múltiples módulos?
+    \item ¿Dudas sobre parámetros y valores por defecto?
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Conclusiones y Próximos Pasos
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones}
+
+% ------------------------------------------------------------------------
+% Slide 23: Conclusiones de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}{Conclusiones de la Sesión 7}
+  \begin{itemize}
+    \item Apreciamos la \textbf{modularización} del código para mejor legibilidad y mantenimiento.
+    \item Vimos \textbf{funciones}: sintaxis \texttt{def}, parámetros, \texttt{return}, docstring.
+    \item Exploramos la creación de \textbf{módulos} y su importación en otros scripts o notebooks.
+    \item Ahora estamos preparados para proyectos más grandes y ordenados.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 24: Próximos Temas
+% ------------------------------------------------------------------------
+\begin{frame}{Próximos Temas}
+  \begin{itemize}
+    \item \textbf{Sesion 8 (Semana 4)}: Continuaremos con el uso de módulos y paquetes, y profundizaremos en el uso de \texttt{pip} y librerías externas.
+    \item \textbf{Tarea sugerida}:
+      \begin{itemize}
+        \item Crear un pequeño proyecto con un paquete \texttt{mipaquete/} y varios módulos (ej. \texttt{mipaquete/calculos.py}, \texttt{mipaquete/utiles.py}, etc.).
+        \item Probar importarlos y usarlos en un script principal.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Cierre de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \huge{\centerline{¡Gracias y hasta la próxima sesión!}}
+  \vspace{0.5cm}
+  \normalsize
+  \begin{itemize}
+    \item Guarda tus \textbf{notebooks} y archivos \texttt{.py} en Google Drive.
+    \item Explora la documentación oficial de Python (sobre \textbf{funciones} y \textbf{módulos}).
+    \item ¡Sigue practicando!
+  \end{itemize}
+\end{frame}
+
+\end{document}
+
