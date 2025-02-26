@@ -26,6 +26,7 @@ build/
 *.vrb
 *.tmp
 _minted/
+Semana??-P?.pdf
 
 # Si no quieres subir PDFs generados por LaTeX, ignora el PDF
 # (descomenta la línea si no deseas subirlos)
