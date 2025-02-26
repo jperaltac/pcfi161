@@ -1,135 +1,462 @@
 \documentclass[10pt]{beamer}
 
-% Copia local de preamble.tex:
+% ------------------------------------------------------------------------
+% Carga de preámbulo
+% ------------------------------------------------------------------------
 \input{preamble.tex}
 
 \begin{document}
 
-% Portada
+% ------------------------------------------------------------------------
+% Portada personalizada, en tu preamble.tex podrías definirla con \myfront
+% ------------------------------------------------------------------------
 \myfront{}
 
+% ------------------------------------------------------------------------
+% Slide 1: Portada
+% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de contenidos
+% ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen}
+  \frametitle{Resumen - Sesión 1 (Semana 1)}
   \tableofcontents
 \end{frame}
 
-%----------------------------------------------------------------------------------------
-%	PRESENTATION SLIDES
-%----------------------------------------------------------------------------------------
-
+% ----------------------------------------------------------------------------------------
+% Configuración de bloques en Metropolis (u otra) si corresponde
+% ----------------------------------------------------------------------------------------
 \metroset{block=fill}
 
-%------------------------------------------------
-\section{Computadores y Programaci\'on}
-\subsection{Introducci\'on}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Contexto e Introducción
+% ----------------------------------------------------------------------------------------
+\section{Contexto e Introducción}
 
-\begin{frame}{La m\'aquina Universal}
-	\begin{itemize}
-		\item Casi todos han usado un computador en alguna ocasi\'on, para jugar, escribir,  
-		administrar el dinero, etc.
-		\item Los computadores se usan para predecir clima, dise\~nar aviones, crear pel\'iculas, 
-		hacer negocios, entre muchas otras cosas.
-		\item ?`Pero qu\'e es un computador? ?`Por qu\'e puede realizar distintas tareas?.
-		\item Un computador moderno podr\'ia definirse como una m\'aquina que almacena y manipula 
-		informaci\'on bajo el control de un programa cambiable.
-	\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 3: Contexto del Curso
+% ------------------------------------------------------------------------
+\begin{frame}{Contexto del Curso}
+  \begin{itemize}
+    \item \textbf{Asignatura:} Programación para la Física y Astronomía.
+    \item \textbf{Período:} 1er semestre (de acuerdo al Syllabus).
+    \item \textbf{Objetivo principal de esta sesión:}
+      \begin{itemize}
+        \item Presentación de Syllabus Oficial
+        \item Introducir las herramientas fundamentales del curso.
+        \item Familiarizarnos con el entorno de programación (Python, Google Colab).
+      \end{itemize}
+    \item Corresponde a la \textbf{Sesión 1, Semana 1}.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{La M\'aquina Universal}
-	\begin{itemize}
-		\item Almacena y manipula:
-		\begin{itemize}
-			\item Transforma informaci\'on en otra informaci\'on \'util.
-			\item Como una calculadora, operando con cientos o miles de n\'umeros.
-			\item Como una m\'aquina para surtir gasolina (tarea espec\'ifica).
-		\end{itemize}
-		\item Operan bajo el control de un programa cambiable.
-		\begin{itemize}
-			\item Un programa es un set de instrucciones que le dice al computador exactamente lo 
-			que debe hacer.
-			\item Si el programa cambia, el computador realiza acciones distintas, y la tarea resultante
-			tambi\'en es distinta.
-		\end{itemize}
-	\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 4: ¿Por qué Programación en Física y Astronomía?
+% ------------------------------------------------------------------------
+\begin{frame}{¿Por qué Programar en Física y Astronomía?}
+  \begin{itemize}
+    \item Muchas áreas de la Física y Astronomía requieren simulaciones y análisis de grandes volúmenes de datos.
+    \item Python se ha vuelto esencial para:
+      \begin{itemize}
+        \item Resolver problemas numéricos complejos.
+        \item Procesar y visualizar datos (observacionales o experimentales).
+        \item Facilitar la reproducibilidad de la investigación.
+      \end{itemize}
+    \item Además, tiene una enorme comunidad científica activa.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Programaci\'on}
-	\begin{itemize}
-		\item El \textit{Software} controla el \textit{Hardware}.
-		\item Es el \textit{Software} el que determina lo que puede hacer el computador.
-		\item Programar es una actividad desafiante, pero todos pueden aprender lo b\'asico.
-	\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 5: Breve Vista al Syllabus
+% ------------------------------------------------------------------------
+\begin{frame}{Breve Vista al Syllabus}
+  \begin{itemize}
+    \item \textbf{Unidad I:} Elementos Básicos (GNU/Linux, Google Colab, Python).
+    \item \textbf{Unidad II:} Programación en Python (tipos, aritmética, funciones).
+    \item \textbf{Unidad III:} Controladores y arreglos (if, while, for, listas, slicing).
+    \item \textbf{Unidad IV:} Gráficas con Matplotlib.
+    \item \textbf{Unidad V:} Manejo de datos (clases, estadística, NumPy/Pandas).
+    \item \textbf{Unidad VI:} Algoritmos y Performance (sorting, recursividad, hilos, etc.).
+  \end{itemize}
+
+\begin{block}{Syllabus 2025}
+Vamos entonces a revisar el detalle del Syllabus de este período.
+\end{block}
 \end{frame}
 
-\begin{frame}{Computer Science}
-	\begin{itemize}\small
-		\item Aprender \textit{Computer Science} no es solo estudiar computadores.
-		\item Edsger Dijkstra: “los computadores son a Computer Science lo que los telescopios son a la astronomía”.
-		\item Dise\~no, an\'alisis y experimentaci\'on son fundamentales para entender cu\'ales problemas
-		      podemos (o no) resolver computacionalmente.
-	\end{itemize}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Herramientas Principales
+% ----------------------------------------------------------------------------------------
+\section{Herramientas Principales}
+
+% ------------------------------------------------------------------------
+% Slide 6: Google Colab
+% ------------------------------------------------------------------------
+\begin{frame}{Google Colab}
+  \begin{itemize}
+    \item Plataforma online gratuita de Google para programar en Python.
+    \item \textbf{Ventajas:}
+      \begin{itemize}
+        \item No requiere instalación local.
+        \item Integrada con Google Drive (colaboración sencilla).
+        \item Ejecución en la nube (libera recursos locales).
+      \end{itemize}
+    \item Sólo necesitas una cuenta de Google.
+  \end{itemize}
+  \vspace{0.3cm}
+  \textbf{Nota:} Otras alternativas incluyen Jupyter, VSCode, etc.
 \end{frame}
 
-\begin{frame}{Hardware}
-	\begin{itemize}\small
-		\item CPU (Central Processing Unit): realiza operaciones b\'asicas.
-		\item RAM (Random Access Memory): almacena programas y datos que la CPU est\'a usando.
-		\item Almac\'en permanente (discos duros, memorias flash, etc.).
-	\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 7: Creación de un Notebook en Colab
+% ------------------------------------------------------------------------
+\begin{frame}{Creación de un Notebook en Colab}
+  \begin{enumerate}
+    \item Visita: \texttt{https://colab.research.google.com}
+    \item Inicia sesión con tu cuenta de Google.
+    \item Crea un nuevo cuaderno (\emph{New Notebook}).
+    \item Almacena el archivo en tu Google Drive.
+  \end{enumerate}
+  \textbf{Sugerencia:} Organiza tus carpetas en Drive para mantener un buen orden.
 \end{frame}
 
-\begin{frame}{Wake up}
-    \begin{block}{¿Qu\'e ocurre cuando ejecutamos un programa?}
-		\begin{enumerate}\small
-		\item Las instrucciones se copian desde el disco a la RAM.
-		\item La CPU comienza a ejecutar esas instrucciones.
-		\item Se sigue el ciclo \textit{fetch-execute}.
-	    \end{enumerate}
-	\end{block}
-\end{frame}
-
-\begin{frame}{Clusters de Computadores}
-\begin{itemize}\small
-    \item Un \textbf{clúster} es un conjunto de computadores que trabajan en paralelo para una tarea.
-    \item Común en bancos, gobiernos, big data, desarrollo de IA, ciencia, etc.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Cluster grupo de materiales/Ejemplo de supercomputador}
- \begin{itemize}\scriptsize
-	\item 19 Nodos de cómputo de CPU (44 Core cada uno)
-    \item 4 Nodos GPU (Tesla K80)
-    \item Switch IB+(2xRJ45)
-    \item Nodos de acceso y disco
-\end{itemize}
-
-\begin{figure}
-\includegraphics[width=0.6\textwidth]{homecluster}
-\end{figure}
-\end{frame}
-
-%------------------------------------------------
-% EJEMPLO / ACTIVIDAD ADICIONAL
-%------------------------------------------------
-\begin{frame}{Actividad Sugerida: Explorando tu propio computador}
+% ------------------------------------------------------------------------
+% Slide 8: Ejecución de Código en Colab
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Nuestra Primera Ejecución en Colab}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+print("¡Hola, mundo de la Física y Astronomía!")
+\end{minted}
 \begin{itemize}
-    \item \textbf{Objetivo:} Identificar los componentes de tu equipo y sus características básicas.
-    \item \textbf{Instrucciones:}
-    \begin{enumerate}
-        \item Si usas Windows, revisa el “Administrador de tareas” (o “Task Manager”) para ver uso de CPU y RAM.
-        \item Si usas GNU/Linux, ejecuta \texttt{lscpu}, \texttt{free -h} y \texttt{lsblk} para ver detalles de CPU, memoria y discos.
-        \item Reflexiona: ¿qué pasa si abres muchos programas? ¿Cómo cambia el uso de la RAM y CPU?
-    \end{enumerate}
-    \item \textbf{Conclusión:} Comprender la interacción de CPU, RAM y almacenamiento.
+  \item Presiona \textbf{Shift+Enter} o haz clic en el “play” para ejecutar.
+  \item Observa el resultado inmediatamente.
 \end{itemize}
 \end{frame}
 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Fundamentos de Python
+% ----------------------------------------------------------------------------------------
+\section{Fundamentos de Python}
+
+% ------------------------------------------------------------------------
+% Slide 9: Tipos de Datos y Variables
+% ------------------------------------------------------------------------
+\begin{frame}{Tipos de Datos y Variables}
+  \begin{itemize}
+    \item \textbf{int} (enteros), \textbf{float} (reales), \textbf{str} (cadenas), \textbf{bool} (True/False).
+    \item En Python, basta con asignar para crear una variable:
+          \[
+            x = 10 \quad \text{(int)}
+          \]
+          \[
+            saludo = "Hola" \quad \text{(str)}
+          \]
+    \item \textbf{No se requiere declaración previa} de tipo. Otros lenguajes sí, por ejemplo \texttt{C}, o \texttt{C++}.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Nombrado de Variables
+% ------------------------------------------------------------------------
+\begin{frame}{Reglas de Nombrado de Variables}
+  \begin{itemize}
+    \item Usar nombres descriptivos (\texttt{masa\_objeto}, \texttt{velocidad\_inicial}, etc.).
+    \item No comenzar con dígitos (\texttt{2variable} es inválido, \texttt{variable2} es válido).
+    \item \textbf{Distinción de mayúsculas/minúsculas}: \texttt{Radio} vs \texttt{radio}.
+    \item Evitar palabras reservadas (\texttt{if}, \texttt{else}, \texttt{class}, etc.).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Operaciones Básicas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Operaciones Básicas con Python}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+a = 5
+b = 2
+suma       = a + b     # 7
+resta      = a - b     # 3
+producto   = a * b     # 10
+division   = a / b     # 2.5 (float)
+exponente  = a ** b    # 25 (5^2)
+modulo     = a % b     # 1 (resto de la división)
+\end{minted}
+\begin{itemize}
+  \item \texttt{/} produce un resultado float.
+  \item \texttt{//} realiza \emph{división entera}.
+\end{itemize}
+
+Acá si ejecutamos no veremos los resultados, ya que para mostrar estos resultados en la pantalla, debemos utilizar la función \texttt{print} de python.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Entrada y Salida de Datos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Entrada y Salida de Datos}
+\begin{itemize}
+  \item \texttt{input()} para capturar información del usuario (devuelve \texttt{str}).
+  \item \texttt{print()} para mostrar resultados en pantalla.
+\end{itemize}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+nombre = input("¿Cuál es tu nombre?: ")
+print("Hola", nombre, "bienvenido/a al curso!")
+\end{minted}
+
+Esta forma de la función \texttt{print} es hoy día mayoritariamente utilizada con \textit{f-string}, lo que sería:
+
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  baselinestretch=1.2,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+  ]{python}
+  nombre = input("¿Cuál es tu nombre?: ")
+  print(f'Hola {nombre} bienvenido/a al curso!')
+  \end{minted}
+
+  Para el curso, trataremos de utilizar \textit{f-string}, aunque otras alternativas no estan obsoletas, ni prohibídas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Ejemplo Completo 1
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo 1: Cálculo de Área de un Círculo}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+import math
+
+r_str = input("Ingresa el radio del círculo: ")
+r = float(r_str)
+area = math.pi * (r**2)
+print(f'El área del círculo es: {area}')
+\end{minted}
+\begin{itemize}
+  \item \texttt{import math} habilita funciones y constantes matemáticas (ej. \texttt{math.pi}).
+  \item \textbf{Observación:} Si se introduce un valor no numérico, el programa fallará (manejo de errores).
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Mini-Ejercicio Guiado
+% ------------------------------------------------------------------------
+\begin{frame}{Mini-Ejercicio Guiado}
+\begin{block}{Ejercicio}
+  \begin{itemize}
+    \item Escribe un programa que pida la masa (kg) y la aceleración (m/s\(^2\)).
+    \item Calcula la fuerza resultante (\(F = m \times a\)).
+    \item Muestra el resultado en pantalla.
+  \end{itemize}
+\end{block}
+\textbf{Tip:} Recuerda convertir la cadena de \texttt{input()} a \texttt{float}.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Solución Propuesta
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución Propuesta}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+m_str = input("Ingresa la masa (kg): ")
+a_str = input("Ingresa la aceleración (m/s^2): ")
+
+m = float(m_str)
+a = float(a_str)
+F = m * a
+
+print(f'La fuerza resultante es: {F} N')
+\end{minted}
+\begin{itemize}
+  \item Añadir unidades en la salida (ej.: “N” para Newtons).
+  \item Discutir manejo de errores, validación de datos, etc.
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Actividad Práctica y Ejercicios
+% ----------------------------------------------------------------------------------------
+\section{Actividad Práctica}
+
+% ------------------------------------------------------------------------
+% Slide 16: Problema 1 (Grupal)
+% ------------------------------------------------------------------------
+\begin{frame}{Problema 1: Suma de Enteros Consecutivos}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Pedir un número entero \(n\).
+    \item Calcular \(\sum_{k=1}^{n} k\).
+    \item Mostrar el resultado final.
+  \end{itemize}
+\end{block}
+\textbf{Pistas}:
+\begin{itemize}
+  \item Usar un bucle o la fórmula \(\frac{n(n+1)}{2}\).
+  \item ¿Cambios si \(n\) es muy grande?
+\end{itemize}
+
+Claramente, no hemos revisado bucles, ni cosas similares ya que es nuestra primera clase, pero anímese e investigue online sobre distintas formas de atacar este problema. Más adelante vamos a ir conociendo más sobre python.
+
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Problema 2 (Grupal)
+% ------------------------------------------------------------------------
+\begin{frame}{Problema 2: Cálculo de Energía Cinética}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Dada masa \(m\) y velocidad \(v\), calcular \(E_c = \frac{1}{2}mv^2\).
+    \item Pedir \(m\) y \(v\) repetidamente.
+    \item Detener cuando \(m=0\).
+  \end{itemize}
+\end{block}
+\textbf{Discusión}:
+\begin{itemize}
+  \item ¿Por qué usar \texttt{while}?
+  \item ¿Cómo terminar el bucle de forma limpia?
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Trabajo en Equipo
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Práctica}
+\begin{block}{Indicaciones}
+  \begin{itemize}
+    \item Organizarse en grupos de 2-3 personas.
+    \item Revisen las soluciones de todos.
+    \item Anoten dificultades o errores surgidos.
+    \item Elaboren pequeñas conclusiones o dudas para la clase siguiente.
+  \end{itemize}
+\end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Retroalimentación y Pausa
+% ------------------------------------------------------------------------
+\begin{frame}{Retroalimentación}
+  \begin{itemize}
+    \item ¿Problemas encontrados?
+    \item ¿Qué fue lo más intuitivo / confuso?
+    \item ¿Dudas para la próxima clase?
+  \end{itemize}
+  \vspace{0.3cm}
+  \textbf{Tomemos un breve descanso de 5 minutos.}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Curiosidades y Recursos
+% ----------------------------------------------------------------------------------------
+\section{Curiosidades y Recursos}
+
+% ------------------------------------------------------------------------
+% Slide 20: Breve Historia de Python
+% ------------------------------------------------------------------------
+\begin{frame}{Pequeña Historia de Python}
+  \begin{itemize}
+    \item Creado por Guido van Rossum a finales de los 80.
+    \item Nombre inspirado en el grupo de comedia \emph{Monty Python}.
+    \item Filosofía: legibilidad, sencillez y productividad.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 21: Recursos Online
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos Online}
+  \begin{itemize}
+    \item \href{https://www.python.org}{\textbf{python.org}} - Documentación oficial.
+    \item \href{https://colab.research.google.com}{\textbf{Google Colab}} - Entorno en la nube.
+    \item \textbf{Real Python} (sitio con tutoriales y guías).
+    \item \textbf{Stack Overflow} (para consultas y dudas).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Comunidades
+% ------------------------------------------------------------------------
+\begin{frame}{Comunidad y Foros}
+  \begin{itemize}
+    \item \textbf{Stack Overflow}: millones de preguntas y respuestas.
+    \item \textbf{Reddit /r/learnpython}: foros de principiantes.
+    \item \textbf{GitHub}: proyectos y ejemplos de ciencia y Python.
+  \end{itemize}
+  \textbf{Tip:} Buscar soluciones o inspiración es parte del desarrollo como programador.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Conclusiones
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones}
+
+% ------------------------------------------------------------------------
+% Slide 23: Resumen de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}{Resumen de la Sesión}
+  \begin{itemize}
+    \item Configuramos Google Colab y ejecutamos nuestro primer código en Python.
+    \item Conocimos los tipos de datos y operaciones aritméticas básicas.
+    \item Hicimos ejercicios de entrada/salida y ejemplos físicos sencillos.
+    \item Exploramos recursos para continuar aprendiendo.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 24: Avances y Próximos Pasos
+% ------------------------------------------------------------------------
+\begin{frame}{Próximos Pasos}
+  \begin{itemize}
+    \item \textbf{Unidad II:} Estructuras de control (\texttt{if}, \texttt{for}, \texttt{while}) y funciones en Python.
+    \item \textbf{Tarea Sugerida}: 
+      \begin{itemize}
+        \item Practicar más ejercicios con \texttt{input()} y conversión de tipos.
+        \item Explorar \texttt{math}, \texttt{random}, etc.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Cierre y Agradecimientos
+% ------------------------------------------------------------------------
 \begin{frame}
-\Huge{\centerline{Fin de la Parte 1}}
+  \huge{\centerline{¡Gracias y hasta la próxima sesión!}}
+  \vspace{0.5cm}
+  \normalsize
+  \begin{itemize}
+    \item Revisen la plataforma (Colab) para ejercicios adicionales.
+    \item Traigan sus dudas la próxima clase.
+  \end{itemize}
 \end{frame}
 
 \end{document}

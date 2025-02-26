@@ -1,237 +1,431 @@
 \documentclass[10pt]{beamer}
 
-% Copia local de preamble.tex:
+% ------------------------------------------------------------------------
+% Carga del preámbulo personalizado
+% (Asegúrate de contar con preamble.tex en la misma carpeta,
+%  donde defines temas, colores, macros como \myfront, etc.)
+% ------------------------------------------------------------------------
 \input{preamble.tex}
 
 \begin{document}
 
+% ------------------------------------------------------------------------
+% Portada personalizada. Por ejemplo, usando \myfront si lo tienes en el preámbulo.
+% ------------------------------------------------------------------------
 \myfront{}
 
+% ------------------------------------------------------------------------
+% SLIDE 1: Título de la segunda sesión
+% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
+  % Puedes ajustar el título/subtítulo para esta sesión específica
+  % por ejemplo: \title{Sesión 2 - Semana 1: Ejercicios Iniciales en Colab}
 \end{frame}
 
+% ------------------------------------------------------------------------
+% SLIDE 2: Índice / Tabla de contenidos
+% ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Parte 2}
+  \frametitle{Resumen - Sesión 2 (Semana 1)}
   \tableofcontents
 \end{frame}
 
-%----------------------------------------------------------------------------------------
-%	PRESENTATION SLIDES
-%----------------------------------------------------------------------------------------
-
+% ------------------------------------------------------------------------
+% Configuración de bloques (en caso de usar metrópolis u otro tema)
+% ------------------------------------------------------------------------
 \metroset{block=fill}
 
-%------------------------------------------------
-\section{El ambiente GNU/Linux, editores y manejo de archivos.} 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Recapitulación de la Sesión 1
+% ----------------------------------------------------------------------------------------
+\section{Recapitulación Sesión 1}
 
-\subsection{GNU/Linux} 
-
-\begin{frame}{El ambiente GNU/Linux}
-\begin{itemize}
-	\item GNU es un sistema completo de software libre compatible con Unix (Stallman, 1983).
-	\item Linus Torvalds programó Linux (1991), un kernel Unix-like. Con GNU completó el sistema.
-	\item Hoy existen múltiples distribuciones: Debian, Ubuntu, Fedora, etc.
-\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 3: Repaso Rápido
+% ------------------------------------------------------------------------
+\begin{frame}{Repaso de la Clase Anterior}
+  \begin{itemize}
+    \item Contexto general del curso y relevancia de la programación en Física/Astronomía.
+    \item Familiarización inicial con Google Colab:
+      \begin{itemize}
+        \item Creación de notebooks.
+        \item Ejecución de código básico.
+      \end{itemize}
+    \item Introducción a los tipos de datos y operaciones simples (asignaciones, suma, resta, etc.).
+    \item Primeros ejemplos de entrada y salida (\texttt{input()}, \texttt{print()}).
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{El ambiente GNU/Linux}
-\begin{itemize}
-	\item Ofrece interfaz de línea de comandos (CLI) y gráfica (GUI).
-	\item La CLI más usada es \textbf{bash} (Bourne Again Shell).
-	\item Para usar la shell en entorno gráfico se necesita un emulador de terminal, p.e. \texttt{gnome-terminal}.
-\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de Esta Sesión
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 2}
+  \begin{itemize}
+    \item \textbf{Practicar} asignaciones simples y operaciones aritméticas en Colab.
+    \item \textbf{Explorar} más ejemplos de entrada/salida y la ejecución inmediata de código.
+    \item \textbf{Fomentar} la colaboración e intercambio de estrategias entre estudiantes.
+    \item \textbf{Resolver} ejercicios que integren los conceptos vistos en la sesión anterior.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{A tener en cuenta en GNU/Linux}
-\begin{itemize}
-	\item En Linux todo es un fichero: directorios, dispositivos, etc.
-	\item Estructura jerárquica en forma de árbol: \texttt{/} (raíz).
-	\begin{example}[Linux]
-	\texttt{/home/usuario/archivo.dat}
-	\end{example}
-	\begin{example}[Windows]
-	\texttt{C:\textbackslash Users\textbackslash usuario\textbackslash archivo.dat}
-	\end{example}
-\end{itemize}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Ajustes y Entorno en Colab
+% ----------------------------------------------------------------------------------------
+\section{Ajustes y Entorno en Colab}
+
+% ------------------------------------------------------------------------
+% Slide 5: Organización de Archivos
+% ------------------------------------------------------------------------
+\begin{frame}{Organización de Archivos y Notebooks}
+  \begin{itemize}
+    \item Es recomendable mantener una carpeta específica para la asignatura en Google Drive.
+    \item Crearemos un notebook llamado \texttt{Sesion2\_Semana1.ipynb} para guardar nuestro trabajo.
+    \item \textbf{Tip:} Usa nombres descriptivos para notebooks y subcarpetas (e.g., \emph{ejercicios}, \emph{notas}, \emph{pruebas}).
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{A tener en cuenta en GNU/Linux}
-\begin{itemize}
-	\item Existe un súperusuario llamado \texttt{root}.
-	\item El usuario \texttt{root} puede instalar/eliminar programas, crear usuarios, etc.
-	\item Muchas distribuciones usan \texttt{sudo} para que un usuario pueda ejecutar órdenes como \texttt{root}.
-\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 6: Ejecución Inmediata de Código
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejecución Inmediata de Código en Colab}
+  \begin{itemize}
+    \item Cada celda de un notebook se ejecuta de forma independiente.
+    \item Es posible realizar pruebas rápidas sin afectar las demás celdas.
+    \item \textbf{Ejemplo de celda interactiva}:
+    \begin{minted}[
+      frame=lines,
+      framesep=2mm,
+      baselinestretch=1.2,
+      bgcolor=LightGray,
+      fontsize=\footnotesize
+    ]{python}
+# Celda 1
+x = 10
+print(x)
+    \end{minted}
+
+    \begin{minted}[
+      frame=lines,
+      framesep=2mm,
+      baselinestretch=1.2,
+      bgcolor=LightGray,
+      fontsize=\footnotesize
+    ]{python}
+# Celda 2
+x = x + 5
+print(x)  # Mostrará 15
+    \end{minted}
+  \end{itemize}
 \end{frame}
 
-\subsection{Utilidades GNU/Linux}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Ejercicios de Asignaciones y Operaciones
+% ----------------------------------------------------------------------------------------
+\section{Ejercicios de Asignaciones y Operaciones}
 
-\begin{frame}[fragile]{Utilidades GNU/Linux}
-\begin{itemize}
-	\item \texttt{sudo} ejecuta un comando con privilegios de \texttt{root}.
-	\item \texttt{apt-get} instala paquetes desde repositorios, sin descargar manualmente.
-\end{itemize}
-\begin{alertblock}{Modo de uso \texttt{apt-get}}
-\texttt{apt-get [options] command}
-\end{alertblock}
-\begin{example}
-\texttt{sudo apt-get install vim}
-\end{example}
+% ------------------------------------------------------------------------
+% Slide 7: Ejercicio 1 - Conversión de Unidades
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 1: Conversión de Unidades}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide al usuario que introduzca una longitud en \textbf{metros}.
+      \item Convierte ese valor a centímetros, milímetros y kilómetros.
+      \item Imprime los resultados.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo:} Practicar asignaciones simples, multiplicaciones y/o divisiones.
 \end{frame}
 
-\subsection{La shell de linux}
-\begin{frame}{La \textit{shell} de linux}
-\metroset{block=fill}
-\begin{block}{Comandos básicos}
-  \begin{table}
-	\resizebox{\linewidth}{!}{
-	  \begin{tabular}{ll}
-		\toprule
-		\textbf{Comando} & \textbf{Descripción} \\ \midrule
-		\texttt{ls}      & Listar directorios (opciones: -a, -R, -t, -r) \\
-		\texttt{pwd}     & Imprime el directorio de trabajo actual       \\
-		\texttt{cd}      & Cambia/Ingresa a un directorio                \\
-		\texttt{mv}      & Mueve o renombra un archivo/directorio        \\
-		\texttt{cp}      & Copia un archivo o carpeta                    \\
-		\texttt{rm}      & Elimina archivos o directorios                \\
-		\texttt{mkdir}   & Crea un directorio                            \\
-		\texttt{rmdir}   & Elimina un directorio vacío                   \\
-		\bottomrule
-	  \end{tabular}
-	}
-  \end{table}
-\end{block}
+% ------------------------------------------------------------------------
+% Slide 8: Ejercicio 2 - Suma de Dos Variables
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: Suma de Dos Variables}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide al usuario dos números (pueden ser enteros o decimales).
+      \item Asigna cada número a una variable distinta (\texttt{a, b}).
+      \item Realiza la suma y muestra el resultado.
+    \end{itemize}
+  \end{block}
+  \textbf{Extensión:} Imprime también la resta, el producto y el cociente.
 \end{frame}
 
-\begin{frame}[fragile]{La \textit{shell} de linux}
-\begin{example}[comando man]
-\begin{verbatim}
->$ man ls
->$ man cd
->$ man pwd
-\end{verbatim}
-\end{example}
+% ------------------------------------------------------------------------
+% Slide 9: Ejercicio 3 - Promedio de Tres Notas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: Promedio de Tres Notas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita tres notas (numeros en \([1.0 - 7.0]\) típicamente).
+      \item Calcula el promedio aritmético.
+      \item Muestra el resultado con un mensaje apropiado.
+    \end{itemize}
+  \end{block}
+  \textbf{Discusión:}
+  \begin{itemize}
+    \item ¿Qué pasa si ingresan valores fuera del rango?
+    \item El tipo de dato a usar: \texttt{float}.
+  \end{itemize}
 \end{frame}
 
-\subsection{Editores de texto}
-\begin{frame}{Editores de texto}
-\begin{itemize}
-	\item Hay muchos: nano, pico, vim, emacs, etc.
-	\item Vim (Vi IMproved) es un editor muy popular en terminal.
-	\item Separa modos de edición y comandos. Ideal para programación en entornos remotos.
-\end{itemize}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Resolución Colaborativa
+% ----------------------------------------------------------------------------------------
+\section{Resolución Colaborativa}
+
+% ------------------------------------------------------------------------
+% Slide 10: Grupos de Trabajo
+% ------------------------------------------------------------------------
+\begin{frame}{Trabajo en Grupos}
+  \begin{itemize}
+    \item Dividir la clase en \textbf{equipos de 2-3 integrantes}.
+    \item Cada equipo crea o comparte un notebook en Colab con sus compañeros.
+    \item Se recomienda comentar el código para anotar:
+      \begin{itemize}
+        \item Qué hace cada línea.
+        \item Si surge algún error, cómo se corrigió.
+      \end{itemize}
+    \item Comparar sus resultados y conclusiones.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{VIM}
-\begin{itemize}
-	\item VIM = Vi IMproved
-	\item Permite editar, compilar y corregir rápidamente.
-	\item Existen tutoriales como \texttt{vimtutor}, sitios como \texttt{openvim.com}, etc.
-\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 11: Puesta en Común
+% ------------------------------------------------------------------------
+\begin{frame}{Puesta en Común de Dudas y Experiencias}
+  \begin{itemize}
+    \item Cada equipo expondrá brevemente:
+      \begin{itemize}
+        \item ¿Qué ejercicio les costó más y por qué?
+        \item ¿Cómo resolvieron los problemas encontrados?
+        \item ¿Algún atajo o truco que consideren útil?
+      \end{itemize}
+    \item Se fomenta la retroalimentación colectiva.
+    \item \textbf{Tip:} Documentar buenas prácticas que surjan de la discusión.
+  \end{itemize}
 \end{frame}
 
-\section{Instalando GNU/Linux}
-\subsection{Usando VMWARE Workstation Player}
+% ------------------------------------------------------------------------
+% Slide 12: Ejemplo de Solución (Conversión de Unidades)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Solución: Conversión de Unidades}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+long_m = float(input("Introduce una longitud en metros: "))
+cm = long_m * 100
+mm = long_m * 1000
+km = long_m / 1000
 
-\begin{frame}[fragile]{VMWARE}
-	\begin{block}{M\'aquinas virtuales}
-		Permiten correr un SO dentro de otro (p.ej. GNU/Linux dentro de Windows).
-	\end{block}
+print("En centímetros:", cm, "cm")
+print("En milímetros:", mm, "mm")
+print("En kilómetros:", km, "km")
+\end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Instalando VMWARE}
-	\begin{itemize}
-		\item Descargue VMWARE Workstation Player.
-		\item Descargue la ISO de Ubuntu (u otra distro).
-		\item Instale la m\'aquina virtual.
-	\end{itemize}
-\begin{block}{Video sugerido}
-\url{https://www.youtube.com/watch?v=2ykto1mD4pc}
-\end{block}
+% ------------------------------------------------------------------------
+% Slide 13: Ejemplo de Solución (Suma de Dos Variables)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Solución: Suma de Dos Variables}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+a_str = input("Ingresa el primer número: ")
+b_str = input("Ingresa el segundo número: ")
+
+a = float(a_str)
+b = float(b_str)
+
+suma = a + b
+resta = a - b
+producto = a * b
+cociente = a / b  # Cuidar la división por cero
+
+print("Suma =", suma)
+print("Resta =", resta)
+print("Producto =", producto)
+print("Cociente =", cociente)
+\end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Ubuntu Inside Windows10}
-\begin{itemize}
-	\item Usar WSL con Windows 10 y un entorno gráfico como GWSL.
-	\item Muy útil para desarrollo en Linux dentro de Windows.
-\end{itemize}
+% ------------------------------------------------------------------------
+% Slide 14: Ejemplo de Solución (Promedio de Tres Notas)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Solución: Promedio de Tres Notas}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightGray,
+fontsize=\footnotesize
+]{python}
+n1 = float(input("Nota 1: "))
+n2 = float(input("Nota 2: "))
+n3 = float(input("Nota 3: "))
+
+promedio = (n1 + n2 + n3) / 3
+print("El promedio de las tres notas es:", promedio)
+\end{minted}
+\textbf{Discusión:} Manejo de rangos y validaciones (opcional).
 \end{frame}
 
-\begin{frame}{Ubuntu Inside Windows10}
-\begin{figure}
-\includegraphics[width=0.9\textwidth]{ubuwin01.png}
-\end{figure}
+% ------------------------------------------------------------------------
+% Slide 15: Pequeña Discusión sobre Errores
+% ------------------------------------------------------------------------
+\begin{frame}{Errores Frecuentes en Python}
+  \begin{itemize}
+    \item \textbf{ValueError}: ocurre al convertir strings inválidos en \texttt{float} o \texttt{int}.
+    \item \textbf{ZeroDivisionError}: cuando \texttt{b = 0} y se hace \texttt{a/b}.
+    \item \textbf{NameError}: uso de variables no definidas o mal escritas.
+  \end{itemize}
+  \textbf{Tip:} Leer atentamente el mensaje de error para identificar la causa y línea afectada.
 \end{frame}
 
-\begin{frame}[fragile]{Ubuntu Inside Windows11}
-\begin{block}{Instalando WSL}
-\texttt{wsl --install}
-\end{block}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Actividad Adicional y Retroalimentación
+% ----------------------------------------------------------------------------------------
+\section{Actividad Adicional}
+
+% ------------------------------------------------------------------------
+% Slide 16: Actividad Extra - Escalas Físicas
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra: Escalas Físicas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide la temperatura en \(^\circ C\) y conviértela a \(^\circ F\) y K.
+      \item Pide la masa en kg y conviértela a libras.
+      \item Muestra un pequeño resumen en pantalla con los resultados.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo:} Reforzar uso de variables, operaciones aritméticas y \texttt{print}.
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 17: Mini-Reto - Operaciones con Complejos
+% ------------------------------------------------------------------------
+\begin{frame}{Mini-Reto: Números Complejos (Opcional)}
+  \begin{itemize}
+    \item Python maneja complejos con la letra \texttt{j} (\emph{ej}: \texttt{3+2j}).
+    \item Investiga cómo sumar, restar y multiplicar números complejos.
+    \item \textbf{Ejemplo}:
+      \[
+        z1 = 3 + 4j, \quad z2 = 2 - 1j
+      \]
+      \[
+        z3 = z1 * z2
+      \]
+      \(\dots\) Imprime \(\operatorname{Re}(z3)\) y \(\operatorname{Im}(z3)\).
+    \item \textbf{Tip}: Usa \texttt{z.real} y \texttt{z.imag} para acceder a sus partes real e imaginaria.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Momento de Discusión
+% ------------------------------------------------------------------------
+\begin{frame}{Discusión Grupales y Dudas}
+  \begin{itemize}
+    \item ¿Qué soluciones o trucos surgieron durante la actividad extra?
+    \item ¿Se presentaron nuevas dudas o errores inesperados?
+    \item ¿Qué parte de Python se está volviendo más clara y qué sigue siendo confuso?
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Retroalimentación y Comentarios
+% ------------------------------------------------------------------------
+\begin{frame}{Retroalimentación}
+  \begin{itemize}
+    \item Comparte tu experiencia de aprendizaje con tus compañeros.
+    \item \textbf{Ventajas} de Colab: ejecución inmediata, trabajo colaborativo, fácil despliegue de resultados.
+    \item \textbf{Desafíos} detectados: conexión a internet, diferencia de versiones, etc.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Conclusiones y Próximos Pasos
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones}
+
+% ------------------------------------------------------------------------
+% Slide 20: Resumen de la Sesión 2
+% ------------------------------------------------------------------------
+\begin{frame}{Resumen de la Sesión 2}
+  \begin{itemize}
+    \item Reforzamos las operaciones básicas y la asignación de variables.
+    \item Practicamos \textbf{entrada/salida} con varios ejemplos.
+    \item Exploramos la \textit{ejecución inmediata} de celdas en Colab y la importancia del orden.
+    \item Fomentamos la resolución colaborativa para intercambiar estrategias.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 21: Enfoque para la Próxima Sesión
+% ------------------------------------------------------------------------
+\begin{frame}{Próximos Pasos}
+  \begin{itemize}
+    \item \textbf{Sesión 3 (Semana 2)}: Introducción a estructuras de control (\texttt{if}, \texttt{while}).
+    \item \textbf{Explotaremos} ejemplos físicos básicos (análisis de condiciones, pequeños bucles, etc.).
+    \item \textbf{Revisión previa}: Asegúrate de dominar los \textbf{tipos de datos} y la conversión de \texttt{input()} a \texttt{float}.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Referencias y Recursos
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos Recomendados}
+  \begin{itemize}
+    \item \textbf{Documentación Python:} \href{https://docs.python.org/3/}{docs.python.org/3}
+    \item \textbf{Tutoriales en línea:} W3Schools, Real Python.
+    \item \textbf{Comunidades:} Stack Overflow, Reddit \texttt{/r/learnpython}.
+    \item \textbf{GitHub:} Busca \emph{“intro to python for physics”} para ejemplos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 23: Comentarios Finales
+% ------------------------------------------------------------------------
+\begin{frame}{Comentarios Finales}
+  \begin{itemize}
+    \item \textbf{Practicar} es fundamental: domina bien asignaciones y operaciones antes de pasar a estructuras más complejas.
+    \item \textbf{Comparte} dudas en foros o con tus compañeros.
+    \item \textbf{Recuerda}: Python es sensible a mayúsculas y espacios en la indentación (veremos más en bucles).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 24: Invitación a Explorar
+% ------------------------------------------------------------------------
+\begin{frame}{Invitación a Explorar por tu Cuenta}
+  \begin{itemize}
+    \item Juega con \textbf{sentencias de asignación} para ver cómo cambiar valores.
+    \item Crea \textbf{pequeños scripts} con 2-3 entradas distintas.
+    \item Prueba \textbf{operaciones} con números \emph{muy grandes} y \emph{muy pequeños}.
+    \item Observa cómo Python maneja la \textit{precisión} numérica.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Cierre de la Sesión
+% ------------------------------------------------------------------------
 \begin{frame}
-\begin{figure}
-\includegraphics[width=0.9\textwidth]{ubuwin02.png}
-\end{figure}
-\end{frame}
-
-\section{Google Colab}
-
-\begin{frame}[fragile]
-\frametitle{Google Colab}
-\begin{itemize}
-    \item Servicio de Google para programar en Python en la nube (via Jupyter).
-    \item Permite usar GPU gratis para proyectos de IA, etc.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Google Colab}
-\begin{figure}
-\includegraphics[width=1\textwidth]{GColab01.png}
-\end{figure}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Google Colab}
-\begin{figure}
-\includegraphics[width=1\textwidth]{GColab02.png}
-\end{figure}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Google Colab}
-\begin{figure}
-\includegraphics[width=1\textwidth]{GColab03.png}
-\end{figure}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Google Colab}
-\begin{figure}
-\includegraphics[width=0.7\textwidth]{GColab04.png}
-\end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{Manos a la obra}
-\begin{itemize}\small
-    \item Instalar alguna forma de GNU/Linux (WSL, VM, dual boot).
-    \item Crear directorios y archivos, moverte en la línea de comandos, renombrar, etc.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Actividades de refuerzo}
-\begin{itemize}\small
-    \item \textbf{Actividad 1:} Crear un directorio \texttt{MiProyecto}, allí un subdirectorio \texttt{src}, y un archivo de texto \texttt{README.md}.
-    \item \textbf{Actividad 2:} Abre \texttt{README.md} con \texttt{vim} o \texttt{nano}, escribe tu nombre y guarda.
-    \item \textbf{Actividad 3:} Usa \texttt{man} para investigar más sobre \texttt{ls}, \texttt{cp}, \texttt{mv}.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\Huge{\centerline{Fin de la Parte 2}}
+  \huge{\centerline{¡Gracias y hasta la próxima sesión!}}
+  \vspace{0.4cm}
+  \normalsize
+  \begin{itemize}
+    \item Recuerda guardar tus notebooks en Drive.
+    \item Si te sobró tiempo, continúa con los mini-retos.
+    \item ¡Nos vemos en la Semana 2 con más Python!
+  \end{itemize}
 \end{frame}
 
 \end{document}

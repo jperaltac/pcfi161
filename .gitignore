@@ -25,6 +25,7 @@ build/
 *.snm
 *.vrb
 *.tmp
+_minted/
 
 # Si no quieres subir PDFs generados por LaTeX, ignora el PDF
 # (descomenta la línea si no deseas subirlos)
