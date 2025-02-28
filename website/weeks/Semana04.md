@@ -3,7 +3,7 @@ title: Semana 04
 ---
 ## Python
 
-A continuación encontrarán los archivos con el contenido de las clases, algunos videos y documentos con ayuda que les servirán para complementar sus estudios.
+A continuación encontrarán los archivos con el contenido de las clases, algunos videos y documentos con ayuda que les servirán para complementar sus estudios, recuerde que los contenidos complementarios **no son evaluados** en el curso, y tienen como objetivo complementar el conocimiento que van adquiriendo.
 
 ### Archivo de clases y lecturas obligatorias
 
