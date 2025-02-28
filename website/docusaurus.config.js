@@ -1,8 +1,8 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Programación para Física y Astromomía',
-  tagline: 'Elmentos básicos de GNU/Linux, Bash y Python3',
-  url: 'https://jperaltac.gitarra.site',
+  tagline: 'Elementos fundamentales de Python3',
+  url: 'https://lectures.gitarra.site',
   baseUrl: '/pcfi161/',
   onBrokenLinks: 'log',
   onBrokenMarkdownLinks: 'log',
