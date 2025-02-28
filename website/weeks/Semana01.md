@@ -12,7 +12,7 @@ A continuación encontrarán los archivos con el contenido de clases, videos de 
 * [Semana01-C1.pdf](/lectures/Semana01-C1.pdf)
 	> Este archivo contiene los *slides* presentados en la primera clase. Estos suelen incluir ejercicios al final de cada presentación.
 
-* [Semana01-C2.pdf](/lectures/Semana01-C1.pdf)
+* [Semana01-C2.pdf](/lectures/Semana01-C2.pdf)
 	> Este archivo contiene los *slides* presentados en la segunda clase. Estos suelen incluir ejercicios al final de cada presentación.
 
 ## Material Complementario
