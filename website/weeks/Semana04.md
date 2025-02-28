@@ -1,37 +1,31 @@
 ---
 title: Semana 04
 ---
-## Estudiando
+## Python
 
-Esta semana recuperaremos cualquier contenido que no se cubriera en las semanas previas, y adicionalmente ejercitaremos en los distintos ejercicios de las guías.
+A continuación encontrarán los archivos con el contenido de las clases, algunos videos y documentos con ayuda que les servirán para complementar sus estudios.
 
-### Video explicativo de como realizar su evaluación Solemne
-
-Este video muestra como trabajar con la plataforma Hacker Rank luego de recibir la invitación para realizar su evaluación.
-
-* https://youtu.be/0ypt8_u6eyo
-
-### Video explicativo
-
-Este video muestra como acceder para copiar/pegar ficheros desde su interfaz WSL a su sistema Windows.
-
-* https://youtu.be/ayibXP69VVE 
+### Archivo de clases y lecturas obligatorias
 
 
-### Actividades adicionales para la semana 4
+* [Semana04-C1.pdf](/lectures/Semana04-C1.pdf)
+> Este archivo contiene los *slides* presentados en la primera clase de la cuarta semana. Estos pueden incluir algunos ejercicios que les ayudarán a prepararse para la siguiente tarea.
+
+* [Semana04-C2.pdf](/lectures/Semana04-C2.pdf)
+> Este archivo contiene los *slides* presentados en la segunda clase de la cuarta semana. También incorporan la tarea semanal.
+
+## MAterial Complementario
+
+### Trabajando en terminales linux (solo interesados/as)
 
 * [trabajando\_en\_el\_terminal\_v02.pdf](/others/s04/trabajando_en_el_terminal_v02.pdf)
 > Altamente recomendado, sobre todo realizar en clases.
 * [practica_linux.zip](/others/s04/practica_linux.zip)
 > Este set de archivos sirve para realizar algunos de los ejercicios anteriores.
 
-### Más actividades
-* [trabajo\_personal\_semana04\_v04.pdf](/others/trabajo_personal_semana04_v04.pdf)
-* [datos2.txt](/others/s04/datos2.txt) 
-
 ----------------------
 
-## Trabajando con archivos ZIP
+### Trabajando con archivos ZIP
 
 **¿Qué es un archivo ZIP?**
 
@@ -41,7 +35,7 @@ Se requiere el programa `unzip` para descomprimir archivos .zip y el programa zi
 
 Los comandos para instalar los programas `unzip` y `zip`, si no se encuentra instalado son:
 
-### MSYS2/windows
+#### MSYS2/windows
 
 Abrir el terminal "msys2" y ejecute el siguiente comandos    
 
@@ -49,7 +43,7 @@ Abrir el terminal "msys2" y ejecute el siguiente comandos
 pacman -S unzip zip
 ```
 
-### **WSL/ubuntu**
+#### **WSL/ubuntu**
 
 Abra un terminal en WSL/ubuntu y ejecute el siguiente comando
 
@@ -57,7 +51,7 @@ Abra un terminal en WSL/ubuntu y ejecute el siguiente comando
 sudo apt install unzip zip  
 ```
 
-### **Ayuda de unzip**
+#### **Ayuda de unzip**
 
 Para descomprimir el archivo en el directorio actual, usa el siguiente comando.
 
