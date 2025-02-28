@@ -14,7 +14,7 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 * [Semana04-C2.pdf](/lectures/Semana04-C2.pdf)
 > Este archivo contiene los *slides* presentados en la segunda clase de la cuarta semana. También incorporan la tarea semanal.
 
-## MAterial Complementario
+## Material Complementario
 
 ### Trabajando en terminales linux (solo interesados/as)
 
