@@ -17,9 +17,9 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 ## Documentación de Apoyo y complementario
 
 * Fases en resolución de problemas [frp.pdf](/others/frp.pdf)
-> Este documento corresponde a un capítulo introductorio a los elementos básicos para el uso de GNU/Linux. Es una lectura obligatoria del curso.
+> Este documento corresponde a un capítulo introductorio a como resolver problemas, desde una perspectiva más relacionado a lo que se conoce como psudocódigos. Acá no hay un enfoque a pseudocódigos en el curso, ya que *per se* Python es un lenguaje que facilita ese tipo de razonamiento.
 * Escritura de Algoritmos [ea.pdf](/others/ea.pdf)
-> Este documento da una descripción en la escritura de algoritmos.
+> Este documento da una descripción en la escritura de algoritmos, mediante el uso de pseudocódigos principalmente.
 
 ### Páginas de ayuda para el lenguaje Python
 
