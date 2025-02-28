@@ -3,20 +3,18 @@ title: Semana 02
 ---
 ## Python
 
-Esta semana comenzaremos a trabajar con los elementos básicos en Python. 
+Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python. 
 
 A continuación encontrarán los archivos con el contenido de las clases, algunos videos de ayuda, y también documentación adicional para complementar los contenidos.
 
 ### Archivos de clases y lecturas obligatorias
 
-* [PCFI161\_S02.pdf](/lectures/PCFI161\_S02.pdf)
-> Este archivo contiene los *slides* presentados en la clase. Estos suelen incluir ejercicios al final de cada presentación.
-* [PCFI161\_G02.pdf](/lectures/PCFI161\_G02.pdf)
-> Este archivo contiene una guía con algunos ejercicios para desarrollar durante la clase.
-* [convertion-sel.csv](/lectures/convertion-sel.csv)
-> Este archivo será usado en los ejercicios de la guía de esta semana.
+* [Semana02-C1.pdf](/lectures/Semana02-C1.pdf)
+> Este archivo contiene los *slides* presentados en la primera clase de la segunda semana. Estos suelen incluir ejercicios al final de cada presentación.
+* [Semana02-C2.pdf](/lectures/Semana02-C2.pdf)
+> Este archivo contiene los *slides* de la segunda clase de esta semana. Además incorpora la actividad de tarea semanal a ser entregada.
 
-### Documentación de Apoyo
+## Documentación de Apoyo y complementario
 
 * Fases en resolución de problemas [frp.pdf](/others/frp.pdf)
 > Este documento corresponde a un capítulo introductorio a los elementos básicos para el uso de GNU/Linux. Es una lectura obligatoria del curso.
