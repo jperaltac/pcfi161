@@ -4,28 +4,23 @@ title: Semana 03
 
 ## Python
 
-Esta semana comenzaremos a trabajar con los elementos básicos en Python. 
-
 A continuación encontrarán los archivos con el contenido de las clases, algunos videos de ayuda, y también documentación adicional para complementar los contenidos.
 
 ### Archivos de clases y lecturas obligatorias
 
-* [PCFI161\_S03.pdf](/lectures/PCFI161\_S03.pdf)
+* [Semana03-C1.pdf](/lectures/Semana03-C1.pdf)
 
-> Este archivo contiene los *slides* presentados en la clase. Estos suelen incluir ejercicios al final de cada presentación.
+> Este archivo contiene los *slides* presentados en la primera clase de la tercera semana. Estos suelen incluir ejercicios al final de cada presentación.
 
-* [PCFI161\_G03.pdf](/lectures/PCFI161\_G03.pdf)
+* [Semana03-C2.pdf](/lectures/Semana03-C2.pdf)
 
-> Este archivo contiene una guía con algunos ejercicios para desarrollar durante la clase.
+> Este archivo contiene una guía con algunos ejercicios para desarrollar inicalmente, y luego la tarea grupal Semanal.
 
-### **Actividad adicionales para la semana 3**
+## Material Complementario
 
-*   [trabajo\_personal\_semana03\_v04.pdf](/others/trabajo_personal_semana03_v04.pdf)
-*   [datos.txt](/others/datos.txt)
+### Configurando un menú contextual "Bash"
 
-## Configurando un menú contextual "Bash"
-
-### **MSYS2/windows**
+#### **MSYS2/windows**
 
 Podrá hacer clic con el botón derecho del mouse en windows y ejecute el shell MSYS2 MINGW32/64 en la carpeta seleccionada
 
@@ -45,7 +40,7 @@ en windows busque el archivo `.reg` y hacer doble clic sobre él para finalizar 
 
 ![](/img/menu_msys2.png) 
 
-### **WSL/ubuntu**
+#### **WSL/ubuntu**
 
 Podrá hacer clic con el botón derecho del mouse en windows y ejecute el shell WSL ubuntu en la carpeta seleccionada
 
@@ -68,13 +63,13 @@ Ver video de instalación [https://www.youtube.com/watch?v=7dEnc5p0pqs](https://
 ![](/img/menu_wsl.png)
 
 
-### MAC OS
+#### MAC OS
 
 Podrá el ejecute el Shell de MAC OS usando el mouse en la carpeta seleccionada, se debe activar en mac, ver el siguiente video
 
 [https://www.youtube.com/watch?v=iVTGhoCjGTI](https://www.youtube.com/watch?v=iVTGhoCjGTI)
 
-### LINUX
+#### LINUX
 
 Los usuarios que tiene instalado alguna distribución de GNU/linux, el abrir un terminal en una carpeta esta activo de por defecto.
 
