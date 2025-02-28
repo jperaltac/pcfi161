@@ -1,68 +1,87 @@
 ---
-title: Semana 04
+title: Semana 01
 ---
-## Python
+## Introducción al Curso
 
-A continuación encontrarán los archivos con el contenido de las clases, algunos videos y documentos con ayuda que les servirán para complementar sus estudios, recuerde que los contenidos complementarios **no son evaluados** en el curso, y tienen como objetivo complementar el conocimiento que van adquiriendo.
+En esta sección encontrarán los recursos básicos para iniciar el curso de *Programación para la Física y Astronomía*. Durante esta primera semana se revisarán los elementos básicos de GNU/Linux, las herramientas que vamos a utilizar, como Google Colaboratory.
 
-### Archivo de clases y lecturas obligatorias
+A continuación encontrarán los archivos con el contenido de clases, videos de ayuda, y documentación adicional para complementar los contenidos.
 
+### Archivos
 
-* [Semana04-C1.pdf](/lectures/Semana04-C1.pdf)
-> Este archivo contiene los *slides* presentados en la primera clase de la cuarta semana. Estos pueden incluir algunos ejercicios que les ayudarán a prepararse para la siguiente tarea.
+* [Semana01-C1.pdf](/lectures/Semana01-C1.pdf)
+	> Este archivo contiene los *slides* presentados en la primera clase. Estos suelen incluir ejercicios al final de cada presentación.
 
-* [Semana04-C2.pdf](/lectures/Semana04-C2.pdf)
-> Este archivo contiene los *slides* presentados en la segunda clase de la cuarta semana. También incorporan la tarea semanal.
+* [Semana01-C2.pdf](/lectures/Semana01-C1.pdf)
+	> Este archivo contiene los *slides* presentados en la segunda clase. Estos suelen incluir ejercicios al final de cada presentación.
 
 ## Material Complementario
 
-### Trabajando en terminales linux (solo interesados/as)
+Para aquellas/os que esten interesados en indagar más sobre GNU/Linux, terminales y otras herramientas --muy recomendado-- pueden ver material a continuación.
 
-* [trabajando\_en\_el\_terminal\_v02.pdf](/others/s04/trabajando_en_el_terminal_v02.pdf)
-> Altamente recomendado, sobre todo realizar en clases.
-* [practica_linux.zip](/others/s04/practica_linux.zip)
-> Este set de archivos sirve para realizar algunos de los ejercicios anteriores.
+### Videos
 
-----------------------
+En esta sección podrán encontrar videos de ayuda que las/los guiarán en el proceso de instalación de variadas utilidades. Usted podrá utilizar un sistema GNU/Linux de la forma que más se acomode a sus necesidades entre las que destacan:
 
-### Trabajando con archivos ZIP
+- **WSL** : *Windows Subsystem for Linux*. Es una incorporación de un sistema **GNU/Linux dentro de Windows**. Con el se puede trabajar sin inconvenientes. La versión de Windows 11 incorpora un ambiente gráfico, en Windows 10 suele requerir la instalación de GWSL (Windows Store), para aplicaciones gráficas.
+- **MSYS2** : Similar a WSL, pero es independiente como software.
+- **VirtualBox / VMware** : Sistemas de virtualización, que permiten instalar un sistema operativo, dentro de otro. Por ejemplo tener una máquina virtual de GNU/Linux dentro de Microsoft Windows.
 
-**¿Qué es un archivo ZIP?**
+A continuación verán los videos principales, para distintos casos.
 
-ZIP es un formato de archivos que se usa ampliamente para comprimir uno o más archivos juntos en una sola ubicación, con lo cual se reduce el tamaño en general y se facilita la transportación de los archivos.
-
-Se requiere el programa `unzip` para descomprimir archivos .zip y el programa zip para comprimir archivos.
-
-Los comandos para instalar los programas `unzip` y `zip`, si no se encuentra instalado son:
-
-#### MSYS2/windows
-
-Abrir el terminal "msys2" y ejecute el siguiente comandos    
-
-```
-pacman -S unzip zip
-```
-
-#### **WSL/ubuntu**
-
-Abra un terminal en WSL/ubuntu y ejecute el siguiente comando
-
-```bash
-sudo apt install unzip zip  
-```
-
-#### **Ayuda de unzip**
-
-Para descomprimir el archivo en el directorio actual, usa el siguiente comando.
-
-```bash
-unzip your-file.zip  
-```
+1. https://www.youtube.com/watch?v=y-Hjkgka0lI  : Video que muestra como instalar **WSL** en Windows. También incluye la actualización de Ubuntu, y la instalación de software adicional que será utilizado en WSL.
+2. https://www.youtube.com/watch?v=laN-oho3Z2A : Video que muestra como instalar **VMWARE** en Windows. El procedimiento para el uso de Virtualbox es muy similar.
+3. https://www.youtube.com/watch?v=Eq52Kp\_SjeU : Video que muestra elementos básicos para comprender el uso de terminales y ssh.
 
 
-Para descomprimir el archivo en un directorio diferente, usa este comando en su lugar.
 
-```bash
-unzip your-file.zip -d directory
-```
+------
+
+## Otro Software para Microsoft Windows 10/11.
+
+### Editores de Texto
+
+Dentro del terminal de GNU/Linux muchos profesores utilizan el editor `vim` de forma regular, se desea aprender lo fundamental, podrá sentirse libre de utilizar otros editores.
+
+Acá existe una larga variedad de Editores para Windows, entre los que destacamos
+
+1. **gvim** : https://www.vim.org/download.php
+2. **visual studio code** :  https://code.visualstudio.com/Download
+3. **notepad++** : https://notepad-plus-plus.org/
+
+### GNU/Linux dentro de Windows
+
+Para instalar un sistema GNU/Linux dentro de un computador con Windows, recomendamos **WSL** (preferido), o **MSYS2**.
+
+* **WSL** : En la sección previa de Videos encontrará información más detallada.
+
+* **MSYS2** : Es un software que simula el entorno de Linux en Windows. La mayoría de los comandos de shell se pueden usar en msys2.
+
+  ​				https://www.msys2.org/
+  ​	Al ingresar a la página de MSYS2 encontrar las instrucciones de como instalar, se recomienda por ser de fácil instalación y se instalan varios programas que se usaran en el curso, como `ls`, `pwd`, etc. En MSYS2 se utiliza el comando `pacman` para instalar programas y actualizar, para ver la ayuda escriba el comando `pacman --help`.
+
+  ​	**Ejecutar MSYS2 en windows**
+  ​	Para actualizar la base de datos de paquetes de MSYS2 ejecute
+
+  * `pacman -Syu` 
+        Actualice el resto de los paquetes ejecutando
+
+  * `pacman -Su` 
+    Instale los siguientes programas
+
+  * `pacman -S mc` 
+
+  * `pacman -S vim`
+
+  * `pacman -S man`
+
+    También puede instalar todos los programas de una vez usando 
+
+  * `pacman -S mc vim man`
+
+    
+
+  ​    Otros programas/librerias que pueden instalar
+
+  * `pacman -S mingw-w64-x86_64-python mingw-w64-x86_64-python-matplotlib mingw-w64-x86_64-python-numpy mingw-w64-x86_64-gnuplot`
 
