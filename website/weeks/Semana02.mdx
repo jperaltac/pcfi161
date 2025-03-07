@@ -4,7 +4,7 @@ title: Semana 02
 
 import { useState, useEffect } from 'react';
 
-const FechaLinks = () => {
+export const FechaLinks = () => {
   const [available, setAvailable] = useState(false);
 
   useEffect(() => {
@@ -15,31 +15,35 @@ const FechaLinks = () => {
     }
   }, []);
 
-  return available ? (
-    <ul>
-      <li>
-        <a href="/lectures/Semana02-C1.pdf">Semana02-C1.pdf</a>
-        <blockquote>
-          Este archivo contiene los <em>slides</em> presentados en la primera clase de la segunda semana. Estos suelen incluir ejercicios al final de cada presentación.
-        </blockquote>
-      </li>
-      <li>
-        <a href="/lectures/Semana02-C2.pdf">Semana02-C2.pdf</a>
-        <blockquote>
-          Este archivo contiene los <em>slides</em> de la segunda clase de esta semana. Además incorpora la actividad de tarea semanal a ser entregada.
-        </blockquote>
-      </li>
-    </ul>
-  ) : (
-    <strong>El material estará disponible a partir del 10 de marzo de 2025.</strong>
-  );
-};
+  if (available) {
+    return (
+      <ul>
+        <li>
+          <a href="/lectures/Semana02-C1.pdf">Semana02-C1.pdf</a>
+          <blockquote>
+            Este archivo contiene los <em>slides</em> presentados en la primera clase de la segunda semana. Estos suelen incluir ejercicios al final de cada presentación.
+          </blockquote>
+        </li>
+        <li>
+          <a href="/lectures/Semana02-C2.pdf">Semana02-C2.pdf</a>
+          <blockquote>
+            Este archivo contiene los <em>slides</em> de la segunda clase de esta semana. Además incorpora la actividad de tarea semanal a ser entregada.
+          </blockquote>
+        </li>
+      </ul>
+    );
+  } else {
+    return (
+      <strong>El material estará disponible a partir del 10 de marzo de 2025.</strong>
+    );
+  }
+}
+
+---
 
 # Python
 
 Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python.
-
-A continuación encontrarán los archivos con el contenido de las clases, algunos videos de ayuda, y también documentación adicional para complementar los contenidos.
 
 ## Archivos de clases y lecturas obligatorias
 
@@ -48,10 +52,10 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 ## Documentación de Apoyo y complementario
 
 - [Fases en resolución de problemas (frp.pdf)](/others/frp.pdf)  
-> Este documento corresponde a un capítulo introductorio a cómo resolver problemas, desde una perspectiva más relacionada a lo que se conoce como pseudocódigos.
+> Este documento corresponde a un capítulo introductorio sobre cómo resolver problemas.
 
 - [Escritura de Algoritmos (ea.pdf)](/others/ea.pdf)  
-> Este documento da una descripción en la escritura de algoritmos, mediante el uso de pseudocódigos principalmente.
+> Este documento explica cómo escribir algoritmos mediante pseudocódigos.
 
 ## Páginas de ayuda para el lenguaje Python
 
@@ -60,7 +64,5 @@ A continuación encontrarán los archivos con el contenido de las clases, alguno
 
 ---
 
-## Instalar Python en un ambiente de Ubuntu
-
-Tiempo estimado de Instalación, 60 minutos.
+## Instalar Python en Ubuntu / WSL
 
