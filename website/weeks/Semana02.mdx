@@ -64,6 +64,41 @@ Esta semana comenzaremos a trabajar con nuevas funcionalidades y característica
 
 ---
 
-## Instalar Python en Ubuntu / WSL
+## Instalar Python en un ambiente de Ubuntu
 
-Algunos videos útiles serán añadidos pronto acá.
+Tiempo estimado de Instalación, 60 minutos.
+
+### Instalar Python en WSL
+
+Ejecutar los siguientes comandos, abril un terminal y escribir (también puede copiar y pegar usando el mouse)
+
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install python3 python3-matplotlib python3-numpy vim gnuplot-x11
+```
+
+### Instalar en MSYS2
+
+Ejecutar los siguientes comandos, abril un terminal y escribir (también puede copiar y pegar usando el mouse)
+
+    pacman -Syu
+    pacman -Su
+    pacman -S mingw-w64-x86_64-python mingw-w64-x86_64-python-matplotlib mingw-w64-x86_64-python-numpy mingw-w64-x86_64-gnuplot
+
+### Usar Python dentro de un IDE (Integrated Development Environment)
+
+Un ambiente IDE puede ser de gran ayuda para aquellas/os que aún no se acostumbran al uso de un terminal. Esto nos permitirá avanzar en Python, mientras vamos reforzando los conocimientos previos.
+
+#### Anaconda
+
+* Acceder a la pagina oficial de [Anaconda](https://www.anaconda.com/).
+* Entrar a Products->Individual Edition (Open source Distribution).
+* Seleccionar el sistema operativo y bajar el archivo seleccionado **Download**.
+* Después ejecutar el programa y seguir las indicaciones del instalador.
+
+#### Visual Studio Code
+
+* Acceder a la pagina oficial de [Code](https://code.visualstudio.com/).
+* Bajar el instalador para el sistema operativo que utiliza.
+* Después ejecutar el programa y seguir las indicaciones del instalador.
