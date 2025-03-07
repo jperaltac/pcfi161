@@ -1,11 +1,10 @@
-
 ---
 title: Semana 02
 ---
 
 import React, { useState, useEffect } from 'react';
 
-export default function Semana02() {
+const FechaLinks = () => {
   const [available, setAvailable] = useState(false);
 
   useEffect(() => {
@@ -16,89 +15,52 @@ export default function Semana02() {
     }
   }, []);
 
-  return (
-    <>
-      <h2>Python</h2>
-
-      <p>
-        Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python.
-      </p>
-
-      <h3>Archivos de clases y lecturas obligatorias</h3>
-
-      {available ? (
-        <ul>
-          <li>
-            <a href="/lectures/Semana02-C1.pdf">Semana02-C1.pdf</a>
-            <blockquote>
-              Este archivo contiene los <em>slides</em> presentados en la primera clase de la segunda semana. Estos suelen incluir ejercicios al final de cada presentación.
-            </blockquote>
-          </li>
-          <li>
-            <a href="/lectures/Semana02-C2.pdf">Semana02-C2.pdf</a>
-            <blockquote>
-              Este archivo contiene los <em>slides</em> de la segunda clase de esta semana. Además incorpora la actividad de tarea semanal a ser entregada.
-            </blockquote>
-          </li>
-      </ul>
-      ) : (
-        <strong>El material estará disponible a partir del 10 de marzo de 2025.</strong>
-      )}
-
-      <h3>Documentación de Apoyo y complementario</h3>
-
-      <ul>
-        <li>
-          <a href="/others/frp.pdf">Fases en resolución de problemas [frp.pdf]</a>
-        </li>
-        <li>
-          <a href="/others/ea.pdf">Escritura de Algoritmos [ea.pdf]</a>
-        </li>
-      </ul>
-
-      <h3>Páginas de ayuda para el lenguaje Python</h3>
-
-      <ul>
-        <li><a href="https://www.mclibre.org/consultar/python/index.html">Introducción a la Programación con Python</a></li>
-        <li><a href="https://www.freecodecamp.org/espanol/news/tag/python/">Free Code Camp</a></li>
-      </ul>
-      
-      <hr />
-
-      <h2>Instalar Python en un ambiente de Ubuntu</h2>
-
-      Tiempo estimado de Instalación, 60 minutos.
-
-      <pre>
-      sudo apt update
-      sudo apt upgrade
-      sudo apt install python3 python3-matplotlib python3-numpy vim gnuplot-x11
-      </pre>
-
-      <h3>Instalar en MSYS2</h3>
-
-      <pre>
-      pacman -Syu
-      pacman -Su
-      pacman -S mingw-w64-x86_64-python mingw-w64-x86_64-python-matplotlib mingw-w64-x86_64-python-numpy mingw-w64-x86_64-gnuplot
-      </pre>
-
-      <h3>Anaconda</h3>
-
-      <ul>
-        <li>Acceder a la pagina oficial de <a href="https://www.anaconda.com/">Anaconda</a>.</li>
-        <li>Entrar a Products &gt; Individual Edition (Open source Distribution).</li>
-        <li>Seleccionar el sistema operativo y bajar el archivo seleccionado <strong>Download</strong>.</li>
-        <li>Después ejecutar el programa y seguir las indicaciones del instalador.</li>
-      </ul>
-
-      <h3>Visual Studio Code</h3>
-
-      <ul>
-        <li>Acceder a la pagina oficial de <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</li>
-        <li>Bajar el instalador para el sistema operativo que utiliza.</li>
-        <li>Después ejecutar el programa y seguir las indicaciones del instalador.</li>
-      </ul>
-    </>
+  return available ? (
+    <ul>
+      <li>
+        <a href="/lectures/Semana02-C1.pdf">Semana02-C1.pdf</a>
+        <blockquote>
+          Este archivo contiene los <em>slides</em> presentados en la primera clase de la segunda semana. Estos suelen incluir ejercicios al final de cada presentación.
+        </blockquote>
+      </li>
+      <li>
+        <a href="/lectures/Semana02-C2.pdf">Semana02-C2.pdf</a>
+        <blockquote>
+          Este archivo contiene los <em>slides</em> de la segunda clase de esta semana. Además incorpora la actividad de tarea semanal a ser entregada.
+        </blockquote>
+      </li>
+    </ul>
+  ) : (
+    <strong>El material estará disponible a partir del 10 de marzo de 2025.</strong>
   );
-}
+};
+
+# Python
+
+Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python.
+
+A continuación encontrarán los archivos con el contenido de las clases, algunos videos de ayuda, y también documentación adicional para complementar los contenidos.
+
+## Archivos de clases y lecturas obligatorias
+
+<FechaLinks />
+
+## Documentación de Apoyo y complementario
+
+- [Fases en resolución de problemas (frp.pdf)](/others/frp.pdf)  
+> Este documento corresponde a un capítulo introductorio a cómo resolver problemas, desde una perspectiva más relacionada a lo que se conoce como pseudocódigos.
+
+- [Escritura de Algoritmos (ea.pdf)](/others/ea.pdf)  
+> Este documento da una descripción en la escritura de algoritmos, mediante el uso de pseudocódigos principalmente.
+
+## Páginas de ayuda para el lenguaje Python
+
+- [Introducción a la Programación con Python](https://www.mclibre.org/consultar/python/index.html)
+- [Free Code Camp](https://www.freecodecamp.org/espanol/news/tag/python/)
+
+---
+
+## Instalar Python en un ambiente de Ubuntu
+
+Tiempo estimado de Instalación, 60 minutos.
+
