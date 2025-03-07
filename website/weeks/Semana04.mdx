@@ -1,0 +1,47 @@
+
+---
+title: Semana 04
+---
+
+import { useState, useEffect } from 'react';
+
+export const FechaLinks = () => {
+  const [available, setAvailable] = useState(false);
+
+  useEffect(() => {
+    const today = new Date();
+    const openDate = new Date('2025-03-24T00:00:00');
+    if (today >= openDate) {
+      setAvailable(true);
+    }
+  }, []);
+
+  if (available) {
+    return (
+      <div>
+        <h2>Python</h2>
+        <p>A continuación encontrarán los archivos con el contenido de las clases, algunos videos y documentos con ayuda que les servirán para complementar sus estudios, recuerde que los contenidos complementarios <strong>no son evaluados</strong> en el curso, y tienen como objetivo complementar el conocimiento que van adquiriendo.</p>
+
+        <h3>Archivo de clases y lecturas obligatorias</h3>
+        <ul>
+          <li>
+            <a href="/lectures/Semana04-C1.pdf">Semana04-C1.pdf</a>
+            <blockquote>
+              Este archivo contiene los <em>slides</em> presentados en la primera clase de la cuarta semana. Estos pueden incluir algunos ejercicios que les ayudarán a prepararse para la siguiente tarea.
+            </blockquote>
+          </li>
+          <li>
+            <a href="/lectures/Semana04-C2.pdf">Semana04-C2.pdf</a>
+            <blockquote>
+              Este archivo contiene los <em>slides</em> presentados en la segunda clase de la cuarta semana. También incorporan la tarea semanal.
+            </blockquote>
+          </li>
+        </ul>
+      </div>
+    );
+  } else {
+    return <p>El contenido estará disponible a partir del 24 de marzo de 2025.</p>;
+  }
+};
+
+export default FechaLinks;
