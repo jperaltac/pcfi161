@@ -1,5 +1,7 @@
+
 ---
 title: Semana 03
+availableFrom: "2025-03-17T00:00:00Z"
 ---
 
 ## Python
@@ -35,7 +37,7 @@ cd msys2-mingw-shortcut-menus
 ./install
 ```
 
-se crea el archivo `install\_right\_click\_menu.reg` en la carpeta `msys2-mingw-shortcut-menus`  
+se crea el archivo `install_right_click_menu.reg` en la carpeta `msys2-mingw-shortcut-menus`  
 en windows busque el archivo `.reg` y hacer doble clic sobre él para finalizar la instalación
 
 ![](/img/menu_msys2.png) 
@@ -78,14 +80,14 @@ Los usuarios que tiene instalado alguna distribución de GNU/linux, el abrir un 
 ## PyInstaller
 
 **¿Qué hace pyinstaller?**  
-Lo que hace es generar un . EXE en Windows, un . DMG en MAC o el ejecutable que utilice el sistema operativo. Dentro del ejecutable se incluye el propio intérprete de Python, y por esa razón podremos utilizarlo en cualquier ordenador sin necesidad de instalar Python previamente.
+Lo que hace es generar un .EXE en Windows, un .DMG en MAC o el ejecutable que utilice el sistema operativo. Dentro del ejecutable se incluye el propio intérprete de Python, y por esa razón podremos utilizarlo en cualquier ordenador sin necesidad de instalar Python previamente.
 
 #### MSYS2/windows
 
-Abrir el terminal "msys2\_MinGW\_x64" y ejecute los siguientes comandos  
+Abrir el terminal "msys2_Mingw_x64" y ejecute los siguientes comandos  
 
 ```
-pacman -S mingw-w64-x86\_64-python-pip  
+pacman -S mingw-w64-x86_64-python-pip  
 pip -V  
 pip install pyinstaller
 ```
@@ -108,7 +110,7 @@ _Abra un termina y ejecute los siguientes comandos_
 nano prueba_pyinstaller.py
 ```
 
-copy el siguientes codigo de python en el archivo prueba\_pyinstaller.py (puede bajar el archivo [prueba\_pyinstaller.py](https://unab.blackboard.com/bbcswebdav/pid-7920269-dt-content-rid-41113780_1/xid-41113780_1) )
+copy el siguientes codigo de python en el archivo prueba_pyinstaller.py (puede bajar el archivo [prueba_pyinstaller.py](https://unab.blackboard.com/bbcswebdav/pid-7920269-dt-content-rid-41113780_1/xid-41113780_1) )
 
 ```python
 x=1  
@@ -120,8 +122,8 @@ print(x)
 Guarde el archivo y salga del editor. Luego ejecute los siguientes comandos
 
 ```bash
-pyinstaller prueba\_pyinstaller.py --onefile  
-./dist/prueba\_pyinstaller
+pyinstaller prueba_pyinstaller.py --onefile  
+./dist/prueba_pyinstaller
 ```
 
 Se crea el ejecutable en la carpeta `dist`, revise los descrito ejecute los siguientes comandos
@@ -129,7 +131,7 @@ Se crea el ejecutable en la carpeta `dist`, revise los descrito ejecute los sigu
 ```bash
 cd dist  
 ls -al  
-./prueba\_pyinstaller
+./prueba_pyinstaller
 ```
 
 ----------------------------------
@@ -138,9 +140,7 @@ ls -al
 
 Ejecute el `cmd` de anaconda como administrador, ver figura (Anaconda Prompt) o (Anacona Powershell)
 
-
 ![](/img/anaconda_cmd.png)  
-
 
 En terminal escriba los siguientes comandos
 
@@ -152,9 +152,8 @@ pip install pyinstaller
 
 Podrá hacer clic con el botón derecho del Mouse en windows y ejecute el `cmd` de windows en la carpeta seleccionada
 
-bajar el archivo [anaconda\_menu.reg](https://unab.blackboard.com/bbcswebdav/pid-7920273-dt-content-rid-41113782_1/xid-41113782_1) y en windows busque el archivo .reg y hacer doble clic sobre él para finalizar la instalación.
+bajar el archivo [anaconda_menu.reg](https://unab.blackboard.com/bbcswebdav/pid-7920273-dt-content-rid-41113782_1/xid-41113782_1) y en windows busque el archivo .reg y hacer doble clic sobre él para finalizar la instalación.
 
-Pruebe el funcionamiento de  pyinstaller con las instrucciones dadas anteriormente, pero habrá un terminal de windows conocido como `cmd` usando el botón derecho del mouse en la carpeta donde está el archivo python.
-
+Pruebe el funcionamiento de pyinstaller con las instrucciones dadas anteriormente, pero habrá un terminal de windows conocido como `cmd` usando el botón derecho del mouse en la carpeta donde está el archivo python.
 
 ![](/img/anaconda_cmd2.png)
