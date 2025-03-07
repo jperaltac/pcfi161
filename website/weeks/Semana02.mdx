@@ -1,0 +1,116 @@
+---
+title: Semana 02
+---
+
+import { useState, useEffect } from 'react';
+
+export default function Semana02() {
+  const [available, setAvailable] = useState(false);
+
+  useEffect(() => {
+    const today = new Date();
+    const openDate = new Date('2025-03-10');
+    if (today >= openDate) {
+      setAvailable(true);
+    }
+  }, []);
+
+  return (
+    <>
+      <h2>Python</h2>
+
+      Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python.
+
+      A continuación encontrarán los archivos con el contenido de las clases, algunos videos de ayuda, y también documentación adicional para complementar los contenidos.
+
+      <h3>Archivos de clases y lecturas obligatorias</h3>
+
+      {available ? (
+        <ul>
+          <li>
+            <a href="/lectures/Semana02-C1.pdf">Semana02-C1.pdf</a>
+            <blockquote>
+              Este archivo contiene los <em>slides</em> presentados en la primera clase de la segunda semana. Estos suelen incluir ejercicios al final de cada presentación.
+            </blockquote>
+          </li>
+          <li>
+            <a href="/lectures/Semana02-C2.pdf">Semana02-C2.pdf</a>
+            <blockquote>
+              Este archivo contiene los <em>slides</em> de la segunda clase de esta semana. Además incorpora la actividad de tarea semanal a ser entregada.
+            </blockquote>
+          </li>
+        </ul>
+      ) : (
+        <strong>El material estará disponible a partir del 10 de marzo de 2025.</strong>
+      )}
+
+      <h3>Documentación de Apoyo y complementario</h3>
+
+      <ul>
+        <li>
+          <a href="/others/frp.pdf">Fases en resolución de problemas [frp.pdf]</a>
+          <blockquote>
+            Este documento corresponde a un capítulo introductorio a cómo resolver problemas, desde una perspectiva más relacionada con pseudocódigos. Acá no hay un enfoque a pseudocódigos en el curso, ya que Python facilita directamente este tipo de razonamiento.
+          </blockquote>
+        </li>
+        <li>
+          <a href="/others/ea.pdf">Escritura de Algoritmos [ea.pdf]</a>
+          <blockquote>
+            Este documento da una descripción en la escritura de algoritmos, mediante el uso de pseudocódigos principalmente.
+          </blockquote>
+        </li>
+      </ul>
+
+      <h3>Páginas de ayuda para el lenguaje Python</h3>
+
+      <ul>
+        <li><a href="https://www.mclibre.org/consultar/python/index.html">Introducción a la Programación con Python</a></li>
+        <li><a href="https://www.freecodecamp.org/espanol/news/tag/python/">Free Code Camp</a></li>
+      </ul>
+
+      <hr />
+
+      <h2>Instalar Python en un ambiente de Ubuntu</h2>
+
+      Tiempo estimado de Instalación, 60 minutos.
+
+      <h3>Instalar Python en WSL</h3>
+
+      ```bash
+      sudo apt update
+      sudo apt upgrade
+      sudo apt install python3 python3-matplotlib python3-numpy vim gnuplot-x11
+      ```
+
+      <h3>Instalar en MSYS2</h3>
+
+      ```bash
+      pacman -Syu
+      pacman -Su
+      pacman -S mingw-w64-x86_64-python mingw-w64-x86_64-python-matplotlib mingw-w64-x86_64-python-numpy mingw-w64-x86_64-gnuplot
+      ```
+
+      <h3>Usar Python dentro de un IDE (Integrated Development Environment)</h3>
+
+      Un ambiente IDE puede ser de gran ayuda para aquellas/os que aún no se acostumbran al uso de un terminal. Esto nos permitirá avanzar en Python mientras vamos reforzando los conocimientos previos.
+
+      <h4>Anaconda</h4>
+
+      <ul>
+        <li>Acceder a la pagina oficial de <a href="https://www.anaconda.com/">Anaconda</a>.</li>
+        <li>Entrar a Products &gt; Individual Edition (Open source Distribution).</li>
+        <li>Seleccionar el sistema operativo y bajar el archivo seleccionado <strong>Download</strong>.</li>
+        <li>Después ejecutar el programa y seguir las indicaciones del instalador.</li>
+      </ul>
+
+      <h4>Visual Studio Code</h4>
+
+      <ul>
+        <li>Acceder a la pagina oficial de <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</li>
+        <li>Bajar el instalador para el sistema operativo que utiliza.</li>
+        <li>Después ejecutar el programa y seguir las indicaciones del instalador.</li>
+      </ul>
+    </>
+  );
+}
+
