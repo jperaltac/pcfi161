@@ -9,7 +9,7 @@ export default function Semana02() {
 
   useEffect(() => {
     const today = new Date();
-    const openDate = new Date('2025-03-10');
+    const openDate = new Date('2025-03-10T00:00:00');
     if (today >= openDate) {
       setAvailable(true);
     }
@@ -19,7 +19,9 @@ export default function Semana02() {
     <>
       <h2>Python</h2>
 
-      Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python.
+      <p>
+        Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python.
+      </p>
 
       <h3>Archivos de clases y lecturas obligatorias</h3>
 
@@ -37,7 +39,7 @@ export default function Semana02() {
               Este archivo contiene los <em>slides</em> de la segunda clase de esta semana. Además incorpora la actividad de tarea semanal a ser entregada.
             </blockquote>
           </li>
-        </ul>
+      </ul>
       ) : (
         <strong>El material estará disponible a partir del 10 de marzo de 2025.</strong>
       )}
@@ -66,19 +68,19 @@ export default function Semana02() {
 
       Tiempo estimado de Instalación, 60 minutos.
 
-      ```bash
+      <pre>
       sudo apt update
       sudo apt upgrade
       sudo apt install python3 python3-matplotlib python3-numpy vim gnuplot-x11
-      ```
+      </pre>
 
       <h3>Instalar en MSYS2</h3>
 
-      ```bash
+      <pre>
       pacman -Syu
       pacman -Su
       pacman -S mingw-w64-x86_64-python mingw-w64-x86_64-python-matplotlib mingw-w64-x86_64-python-numpy mingw-w64-x86_64-gnuplot
-      ```
+      </pre>
 
       <h3>Anaconda</h3>
 
@@ -99,4 +101,3 @@ export default function Semana02() {
     </>
   );
 }
-
