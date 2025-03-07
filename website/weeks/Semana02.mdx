@@ -2,7 +2,7 @@
 title: Semana 02
 ---
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function Semana02() {
   const [available, setAvailable] = useState(false);
@@ -20,8 +20,6 @@ export default function Semana02() {
       <h2>Python</h2>
 
       Esta semana comenzaremos a trabajar con nuevas funcionalidades y características en Python.
-
-      A continuación encontrarán los archivos con el contenido de las clases, algunos videos de ayuda, y también documentación adicional para complementar los contenidos.
 
       <h3>Archivos de clases y lecturas obligatorias</h3>
 
@@ -49,15 +47,9 @@ export default function Semana02() {
       <ul>
         <li>
           <a href="/others/frp.pdf">Fases en resolución de problemas [frp.pdf]</a>
-          <blockquote>
-            Este documento corresponde a un capítulo introductorio a cómo resolver problemas, desde una perspectiva más relacionada con pseudocódigos. Acá no hay un enfoque a pseudocódigos en el curso, ya que Python facilita directamente este tipo de razonamiento.
-          </blockquote>
         </li>
         <li>
           <a href="/others/ea.pdf">Escritura de Algoritmos [ea.pdf]</a>
-          <blockquote>
-            Este documento da una descripción en la escritura de algoritmos, mediante el uso de pseudocódigos principalmente.
-          </blockquote>
         </li>
       </ul>
 
@@ -67,14 +59,12 @@ export default function Semana02() {
         <li><a href="https://www.mclibre.org/consultar/python/index.html">Introducción a la Programación con Python</a></li>
         <li><a href="https://www.freecodecamp.org/espanol/news/tag/python/">Free Code Camp</a></li>
       </ul>
-
+      
       <hr />
 
       <h2>Instalar Python en un ambiente de Ubuntu</h2>
 
       Tiempo estimado de Instalación, 60 minutos.
-
-      <h3>Instalar Python en WSL</h3>
 
       ```bash
       sudo apt update
@@ -90,11 +80,7 @@ export default function Semana02() {
       pacman -S mingw-w64-x86_64-python mingw-w64-x86_64-python-matplotlib mingw-w64-x86_64-python-numpy mingw-w64-x86_64-gnuplot
       ```
 
-      <h3>Usar Python dentro de un IDE (Integrated Development Environment)</h3>
-
-      Un ambiente IDE puede ser de gran ayuda para aquellas/os que aún no se acostumbran al uso de un terminal. Esto nos permitirá avanzar en Python mientras vamos reforzando los conocimientos previos.
-
-      <h4>Anaconda</h4>
+      <h3>Anaconda</h3>
 
       <ul>
         <li>Acceder a la pagina oficial de <a href="https://www.anaconda.com/">Anaconda</a>.</li>
@@ -103,7 +89,7 @@ export default function Semana02() {
         <li>Después ejecutar el programa y seguir las indicaciones del instalador.</li>
       </ul>
 
-      <h4>Visual Studio Code</h4>
+      <h3>Visual Studio Code</h3>
 
       <ul>
         <li>Acceder a la pagina oficial de <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</li>
