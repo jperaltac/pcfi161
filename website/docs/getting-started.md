@@ -6,27 +6,32 @@ slug: /
 ## Información del curso
 
 * Código : PCFI161
-* Período : Primer Semestre año 2023
+* Período : Primer Semestre año 2025
 * Modalidad : Presencial
-* Coordinador del curso : Fabián Gómez-Villafañe Pérez
+* Coordinadora del curso : Dra. Claudia Loyola Canales
 * Profesores:
     * Claudia Loyola
-    * Joaquín Peralta
-	* Felipe Moreno Muñoz
-	* Fabián Gómez-Villafañe Pérez
+    * Catalina Ruiz
+	* Carlos Femenías
+	* Yasmín Navarrete
+    * Fabrizio Bugini
 * Ayudantes:
-    * Michelle Hamasaki
-    * Marcela Lopez
-    * Roberto Méndez
-    * Carlos Femenías
+    * Cristobal Carrió
+    * Andrea Anaya
+    * Javier Fuentes
+    * Osvaldo Montero
+    * -a definir-
 
 
 ## Contacto
 
-* Claudia Loyola : claudia.loyola@unab.cl
-* Joaquín Peralta : joaquin.peralta@unab.cl
-* Felipe Moreno : f.morenomuoz@uandresbello.edu
-* Fabián Gómez-Villafañe: f.gmezprez@uandresbello.edu
-* Michelle Hamasaki : m.hamasakialegra@uandresbello.edu
-* Marcela Lopez : m.lpezulloa@uandresbello.edu
-* Roberto Méndez : r.mndezcelis@uandresbello.edu
+* Claudia Loyola   : c.loyolacanales@uandresbello.edu
+* Catalina Ruiz    : c.ruizvergara@uandresbello.edu
+* Carlos Femenías  : c.femenasmarcos@uandresbello.edu
+* Yasmín Navarrete : f.gmezprez@uandresbello.edu
+* Fabrizzio Bugini :
+* Cristobal Carrió : m.hamasakialegra@uandresbello.edu
+* Andrea Anaya     : m.lpezulloa@uandresbello.edu
+* Javier Fuentes   : r.mndezcelis@uandresbello.edu
+* Osvaldo Montero  :
+* -a definir-      :
