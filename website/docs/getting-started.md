@@ -28,10 +28,10 @@ slug: /
 * Claudia Loyola   : c.loyolacanales@uandresbello.edu
 * Catalina Ruiz    : c.ruizvergara@uandresbello.edu
 * Carlos Femenías  : c.femenasmarcos@uandresbello.edu
-* Yasmín Navarrete : f.gmezprez@uandresbello.edu
-* Fabrizzio Bugini :
-* Cristobal Carrió : m.hamasakialegra@uandresbello.edu
-* Andrea Anaya     : m.lpezulloa@uandresbello.edu
-* Javier Fuentes   : r.mndezcelis@uandresbello.edu
+* Yasmín Navarrete : y.navarretediaz@uandresbello.edu
+* Fabrizzio Bugini : f.buginijara@uandresbello.edu
+* Cristobal Carrió : c.carrioleroy@uandresbello.edu
+* Andrea Anaya     : b.anayacastao@uandresbello.edu
+* Javier Fuentes   : 
 * Osvaldo Montero  :
 * -a definir-      :
