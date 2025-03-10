@@ -1,4 +1,3 @@
-
 ---
 title: Semana 04
 ---
@@ -10,7 +9,7 @@ export const FechaLinks = () => {
 
   useEffect(() => {
     const today = new Date();
-    const openDate = new Date('2025-03-24T00:00:00');
+    const openDate = new Date('2025-03-17T00:00:00');
     if (today >= openDate) {
       setAvailable(true);
     }
@@ -18,30 +17,92 @@ export const FechaLinks = () => {
 
   if (available) {
     return (
-      <div>
-        <h2>Python</h2>
-        <p>A continuación encontrarán los archivos con el contenido de las clases, algunos videos y documentos con ayuda que les servirán para complementar sus estudios, recuerde que los contenidos complementarios <strong>no son evaluados</strong> en el curso, y tienen como objetivo complementar el conocimiento que van adquiriendo.</p>
-
-        <h3>Archivo de clases y lecturas obligatorias</h3>
-        <ul>
-          <li>
-            <a href="/lectures/Semana04-C1.pdf">Semana04-C1.pdf</a>
-            <blockquote>
-              Este archivo contiene los <em>slides</em> presentados en la primera clase de la cuarta semana. Estos pueden incluir algunos ejercicios que les ayudarán a prepararse para la siguiente tarea.
-            </blockquote>
-          </li>
-          <li>
-            <a href="/lectures/Semana04-C2.pdf">Semana04-C2.pdf</a>
-            <blockquote>
-              Este archivo contiene los <em>slides</em> presentados en la segunda clase de la cuarta semana. También incorporan la tarea semanal.
-            </blockquote>
-          </li>
-        </ul>
-      </div>
+      <ul>
+        <li>
+          <a href="/lectures/Semana04-C1.pdf">Semana04-C1.pdf</a>
+          <blockquote>
+            Este archivo contiene los <em>slides</em> presentados en la primera clase de la cuarta semana. Estos suelen incluir ejercicios al final de cada presentación.
+          </blockquote>
+        </li>
+        <li>
+          <a href="/lectures/Semana04-C2.pdf">Semana04-C2.pdf</a>
+          <blockquote>
+            Este archivo contiene los <em>slides</em> de la segunda clase de la cuarta semana. Además incorpora la actividad de tarea semanal a ser entregada.
+          </blockquote>
+        </li>
+      </ul>
     );
   } else {
-    return <p>El contenido estará disponible a partir del 24 de marzo de 2025.</p>;
+    return (
+      <strong>El material estará disponible a partir del 17 de marzo de 2025.</strong>
+    );
   }
-};
+}
 
-export default FechaLinks;
+
+## Python
+
+A continuación encontrarán los archivos con el contenido de las clases, algunos videos y documentos con ayuda que les servirán para complementar sus estudios.
+
+### Archivo de clases y lecturas obligatorias
+
+
+* [Semana04-C1.pdf](/lectures/Semana04-C1.pdf)
+> Este archivo contiene los *slides* presentados en la primera clase de la cuarta semana. Estos pueden incluir algunos ejercicios que les ayudarán a prepararse para la siguiente tarea.
+
+* [Semana04-C2.pdf](/lectures/Semana04-C2.pdf)
+> Este archivo contiene los *slides* presentados en la segunda clase de la cuarta semana. También incorporan la tarea semanal.
+
+---
+---
+## Material Complementario
+
+### Trabajando en terminales linux (solo interesados/as)
+
+* [trabajando\_en\_el\_terminal\_v02.pdf](/others/s04/trabajando_en_el_terminal_v02.pdf)
+> Altamente recomendado, sobre todo realizar en clases.
+* [practica_linux.zip](/others/s04/practica_linux.zip)
+> Este set de archivos sirve para realizar algunos de los ejercicios anteriores.
+
+----------------------
+
+### Trabajando con archivos ZIP
+
+**¿Qué es un archivo ZIP?**
+
+ZIP es un formato de archivos que se usa ampliamente para comprimir uno o más archivos juntos en una sola ubicación, con lo cual se reduce el tamaño en general y se facilita la transportación de los archivos.
+
+Se requiere el programa `unzip` para descomprimir archivos .zip y el programa zip para comprimir archivos.
+
+Los comandos para instalar los programas `unzip` y `zip`, si no se encuentra instalado son:
+
+#### MSYS2/windows
+
+Abrir el terminal "msys2" y ejecute el siguiente comandos    
+
+```
+pacman -S unzip zip
+```
+
+#### **WSL/ubuntu**
+
+Abra un terminal en WSL/ubuntu y ejecute el siguiente comando
+
+```bash
+sudo apt install unzip zip  
+```
+
+#### **Ayuda de unzip**
+
+Para descomprimir el archivo en el directorio actual, usa el siguiente comando.
+
+```bash
+unzip your-file.zip  
+```
+
+
+Para descomprimir el archivo en un directorio diferente, usa este comando en su lugar.
+
+```bash
+unzip your-file.zip -d directory
+```
