@@ -1,0 +1,264 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga de tu preámbulo personalizado (preamble.tex).
+% Recuerda colocarlo en la misma carpeta para que \input funcione.
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+
+\begin{document}
+
+% ------------------------------------------------------------------------
+% Portada de la Presentación
+% ------------------------------------------------------------------------
+\myfront{}
+
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+  % Ejemplo:
+  % \title{Semana 13 - Sesión 1 (Sesión 25): Avances de Proyectos y Revisión de Temas Avanzados}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de Contenidos
+% ------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Resumen - Semana 13, Sesión 1 (Sesión 25)}
+  \tableofcontents
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
+\metroset{block=fill}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Introducción y Conexión con la Semana 12
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Repaso}
+
+% ------------------------------------------------------------------------
+% Slide 3: Contexto Posterior a Semana 12
+% ------------------------------------------------------------------------
+\begin{frame}{Repaso de la Semana 12}
+  \begin{itemize}
+    \item \textbf{Semana 12, Sesión 1 (Sesión 23)}:
+      \begin{itemize}
+        \item Iniciamos formalmente los \textbf{proyectos integradores} (requisitos, equipos, cronogramas).
+        \item Exposición a nuevas herramientas (\textbf{SciPy}, \textbf{Sympy}) como apoyo.
+      \end{itemize}
+    \item \textbf{Semana 12, Sesión 2 (Sesión 24)}:
+      \begin{itemize}
+        \item \textbf{Problema a Evaluar} (25-30 min) basado en POO (composición) revisado en Semana 11.
+        \item Integración opcional con Matplotlib para representar datos (\texttt{bar plot}).
+      \end{itemize}
+    \item \textbf{Objetivo de hoy (Semana 13, Sesión 1)}:
+      \begin{itemize}
+        \item Revisar \textbf{avances} de los proyectos integradores (primer checkpoint).
+        \item Discutir \textbf{temas avanzados} que puedan surgir de los proyectos (optimización, data merges, animaciones, etc.).
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión 25
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 25}
+  \begin{itemize}
+    \item \textbf{Obtener} un breve reporte de progreso de cada equipo sobre su proyecto (clases definidas, datos a usar, gráficas previstas).
+    \item \textbf{Proponer} soluciones a problemas técnicos iniciales (estructura POO, lectura de datos, etc.).
+    \item \textbf{Presentar} un tema avanzado o tips de \textbf{optimización} (performance) si el tiempo lo permite.
+    \item \textbf{Motivar} a que todos sigan un plan de desarrollo organizado, con check-ins semanales.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Revisión de Avances de Proyectos
+% ----------------------------------------------------------------------------------------
+\section{Revisión de Proyectos}
+
+% ------------------------------------------------------------------------
+% Slide 5: Checklist de Avance
+% ------------------------------------------------------------------------
+\begin{frame}{Checklist Inicial de los Proyectos}
+  \begin{itemize}
+    \item \textbf{Clases y Estructura POO}: 
+      \begin{itemize}
+        \item ¿Ya definieron las clases base y derivadas (si procede)?
+        \item ¿Composición/polimorfismo aplicable?
+      \end{itemize}
+    \item \textbf{Datos a usar}:
+      \begin{itemize}
+        \item Archivos CSV, generados aleatoriamente, APIs externas (opcional).
+        \item Formato y limpieza de datos (pandas).
+      \end{itemize}
+    \item \textbf{Operaciones principales}:
+      \begin{itemize}
+        \item Cálculos numéricos (\textbf{NumPy}, \textbf{SciPy}, \textbf{Sympy}).
+        \item Visualizaciones (\textbf{Matplotlib}, 2D/3D, animaciones).
+      \end{itemize}
+    \item \textbf{Cronograma}:
+      \begin{itemize}
+        \item ¿Fechas de entregas intermedias? ¿Presentaciones?
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6: Presentación de Cada Equipo
+% ------------------------------------------------------------------------
+\begin{frame}{Reporte de Progreso por Equipo}
+  \begin{itemize}
+    \item Cada equipo da un \textbf{resumen} breve:
+      \begin{itemize}
+        \item Título/tema del proyecto.
+        \item Estructura POO planeada.
+        \item Fuente de datos (si aplica).
+        \item Principales \textbf{dificultades} encontradas.
+      \end{itemize}
+    \item \textbf{Objetivo}: obtener retroalimentación temprana y resolver bloqueos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Espacio para Dudas y Bloqueos
+% ------------------------------------------------------------------------
+\begin{frame}{Dudas y Bloqueos}
+  \begin{itemize}
+    \item Problemas con \textbf{lectura} de datos o formato CSV/Excel.
+    \item Estructura de \textbf{clases} y relación (herencia vs. composición).
+    \item Integración con \textbf{SciPy} (resolver ODEs, optimización) si es necesario.
+    \item Cómo \textbf{visualizar} (2D vs 3D, \textbf{animaciones}, \textbf{dashboards}).
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Temas Avanzados o Consejos de Optimización
+% ----------------------------------------------------------------------------------------
+\section{Consejos de Optimización (Opcional)}
+
+% ------------------------------------------------------------------------
+% Slide 8: Tips de Optimización y Performance
+% ------------------------------------------------------------------------
+\begin{frame}{Tips de Optimización y Performance}
+  \begin{itemize}
+    \item \textbf{Uso correcto} de estructuras NumPy (evitar bucles en Python si se puede vectorizar).
+    \item \textbf{Profiling} con \texttt{\%timeit} en Jupyter/Colab o \texttt{cProfile} en scripts.
+    \item \textbf{Evitar cuellos de botella} en lectura/escritura de datos (use \textbf{pandas} read_csv con chunks si grande).
+    \item \textbf{Multiprocessing} (tema avanzado), solo si el proyecto lo demanda.
+    \item \textbf{Memory usage}: cuidar objetos grandes, \texttt{del} cuando no se necesite, etc.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Mini-Ejemplo de Profiling (Opcional)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Mini-Ejemplo: Timeit en Jupyter/Colab}
+\begin{minted}{python}
+import numpy as np
+
+%%timeit
+arr = np.random.rand(1000000)
+res = np.sum(arr)
+\end{minted}
+
+\begin{itemize}
+  \item Muestra el tiempo de ejecución en milisegundos.
+  \item Compare con un bucle manual en Python, para ver la \textbf{ventaja} de vectorización.
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Actividad en Clase (Refuerzo)
+% ----------------------------------------------------------------------------------------
+\section{Actividad en Clase}
+
+% ------------------------------------------------------------------------
+% Slide 10: Ejercicio de Integración (Opcional)
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio de Integración (Opcional)}
+  \begin{block}{Propuesta de 15-20 min}
+    \begin{itemize}
+      \item En grupos, tomen su proyecto y:
+        \begin{itemize}
+          \item Añadan un \textbf{método} de profiling a la parte más intensiva.
+          \item Implementen un \textbf{pequeño test} de vectorización (si aplica).
+          \item Generen un \textbf{gráfico} comparando tiempos (opcional).
+        \end{itemize}
+      \item Comenten si ven mejoras reales o no.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: reforzar la idea de \textbf{optimización} y la práctica de tiempo de ejecución.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Espacio de Aclaraciones
+% ------------------------------------------------------------------------
+\begin{frame}{Espacio de Aclaraciones}
+  \begin{itemize}
+    \item Si el proyecto de algún equipo requiere \textbf{funcionalidades} no discutidas (e.g. \textbf{concurrent.futures}, \textbf{tkinter GUIs}), exponerlo aquí.
+    \item Compartir \textbf{links o repositorios} en foros de CANVAS para feedback.
+    \item Resolver problemas de \textbf{environment} (versiones de Python, librerías).
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Conclusiones y Próximos Pasos
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones y Próximos Pasos}
+
+% ------------------------------------------------------------------------
+% Slide 12: Conclusiones de la Sesión 25
+% ------------------------------------------------------------------------
+\begin{frame}{Conclusiones de la Sesión 25}
+  \begin{itemize}
+    \item Conocimos el \textbf{estado actual} de los proyectos, primer checkpoint.
+    \item Abordamos \textbf{temas avanzados} o dudas surgidas (optimización, etc.).
+    \item Definimos \textbf{próximos hitos} (entregas parciales, revisiones) para cada equipo.
+    \item Se sugiere seguir la \textbf{hoja de ruta} y pedir ayuda temprana ante bloqueos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Próxima Sesión (Semana 13, Sesión 2)
+% ------------------------------------------------------------------------
+\begin{frame}{Próximos Temas}
+  \begin{itemize}
+    \item Continuar con \textbf{avances de proyectos}, posible mini-lab de soluciones parciales.
+    \item Revisar \textbf{retroalimentación} de las actividades en clase.
+    \item Temas adicionales según el Syllabus (estadísticas avanzadas, HPC, etc.).
+  \end{itemize}
+  \vspace{0.3cm}
+  \textbf{Mantengan el cronograma y envíen actualizaciones si cambian planes.}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Recursos Adicionales
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos Adicionales}
+  \begin{itemize}
+    \item \href{https://docs.python.org/3/library/profile.html}{\textbf{Python Profiling Docs}} - \texttt{cProfile}, \texttt{pstats}.
+    \item \href{https://scipy.org/}{\textbf{SciPy}} - más ejemplos (ODE, optimize, fft).
+    \item \href{https://pandas.pydata.org/docs/}{\textbf{pandas Docs}} - merges, groupby, performance tips.
+    \item \textbf{Canvas y Foros} - para compartir repos, dudas de implementación.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Cierre de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \Huge{\centerline{¡Sigan con buen trabajo y hasta la próxima sesión!}}
+  \vspace{0.5cm}
+  \normalsize
+  \begin{itemize}
+    \item Apóyense en foros y grupos de estudio.
+    \item Revisen su cronograma de proyectos y planifiquen tareas semanales.
+  \end{itemize}
+\end{frame}
+
+\end{document}
+
