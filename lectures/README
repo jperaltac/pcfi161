@@ -1,0 +1,14 @@
+Archivos con las clases de PCFI161 en formato LATEX
+---------------------------------------------------
+
+Compilación:
+
+1.- Edite el Fichero preamble.tex para ajustes del semestre
+2.- Compile el contenido
+
+	2.1 Compilando solo la Semana01:
+		 python3 cmp.py --only Semana01
+	2.2 Compilando todo:
+		python3 cmp.py --all
+3.- Limpiando la compilación:
+	python3 cmp.py --clean

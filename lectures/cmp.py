@@ -4,7 +4,7 @@ import argparse
 from tqdm import tqdm
 
 # Lista de subdirectorios
-subfolders = [f"Semana{str(i).zfill(2)}" for i in range(1, 6)]
+subfolders = [f"Semana{str(i).zfill(2)}" for i in range(1, 11)]
 
 def compile_folder(folder):
     """Ejecuta `make` en un subdirectorio para compilar"""
