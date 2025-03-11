@@ -1,0 +1,264 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga de tu preámbulo personalizado (preamble.tex).
+% Asegúrate de tenerlo en la misma carpeta para que \input funcione.
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+
+\begin{document}
+
+% ------------------------------------------------------------------------
+% Portada de la Presentación
+% ------------------------------------------------------------------------
+\myfront{}
+
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+  % Por ejemplo:
+  % \title{Semana 12 - Sesión 2 (Sesión 24): Evaluación en Clase (25-30 min) sobre Temas de la Semana 11}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de Contenidos
+% ------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Resumen - Semana 12, Sesión 2 (Sesión 24)}
+  \tableofcontents
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
+\metroset{block=fill}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Introducción y Repaso
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Conexión}
+
+% ------------------------------------------------------------------------
+% Slide 3: Conexión con la Semana 11
+% ------------------------------------------------------------------------
+\begin{frame}{Repaso y Contexto}
+  \begin{itemize}
+    \item \textbf{Semana 11} profundizamos:
+      \begin{itemize}
+        \item \textbf{POO avanzada}: polimorfismo, composición (relación has-a), ejemplos en sistemas físicos/astronómicos.
+        \item \textbf{Integración} con NumPy y Matplotlib para análisis y visualización.
+        \item Retroalimentación post-Solemne II e ideas de proyectos.
+      \end{itemize}
+    \item \textbf{Semana 12, Sesión 1 (Sesión 23)}:
+      \begin{itemize}
+        \item Lanzamiento formal de proyectos integradores (requisitos, equipos, cronogramas).
+        \item Introducción a \textbf{SciPy} o \textbf{Sympy} como herramientas complementarias.
+      \end{itemize}
+    \item \textbf{Objetivo de hoy (Sesión 24)}:
+      \begin{itemize}
+        \item Resolver un \textbf{Problema a Evaluar} (25-30 min) relacionado a lo visto en Semana 11 (POO avanzada).
+        \item Subir la solución a \textbf{CANVAS}.
+        \item Discutir brevemente las soluciones.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión 24
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 24}
+  \begin{itemize}
+    \item \textbf{Aplicar} los conceptos de polimorfismo y/o composición en un ejercicio evaluado.
+    \item \textbf{Combinar} estas ideas con NumPy/Matplotlib (si corresponde) en un problema corto.
+    \item \textbf{Reforzar} la práctica de trabajo en grupo y la entrega en CANVAS bajo un tiempo limitado (25-30 min).
+    \item \textbf{Retroalimentar} los resultados y aclarar dudas finales.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Problema a Evaluar (25-30 min)
+% ----------------------------------------------------------------------------------------
+\section{Problema a Evaluar}
+
+% ------------------------------------------------------------------------
+% Slide 5: Descripción del Problema
+% ------------------------------------------------------------------------
+\begin{frame}{Problema a Evaluar: Clases y Composición (Semana 11 Refuerzo)}
+  \textbf{Contexto (Semana 11):}  
+  \begin{itemize}
+    \item Vimos relaciones \textbf{has-a} (composición), polimorfismo, y ejemplos como \texttt{SolarSystem} conteniendo \texttt{Body}, etc.
+  \end{itemize}
+
+  \textbf{Tareas}:
+  \begin{enumerate}
+    \item Definir una clase base \textbf{Item} con atributos \texttt{name, quantity} y un método \texttt{show\_info()}.
+    \item Crear una clase \textbf{Inventory} que tiene una lista de \texttt{Item} (composición).
+    \item En \texttt{Inventory}, incluir métodos:
+      \begin{itemize}
+        \item \texttt{add\_item(item)} para agregar un objeto \texttt{Item}.
+        \item \texttt{total\_quantity()} que retorna la suma de \texttt{quantity} en la lista.
+      \end{itemize}
+    \item (Opcional) Graficar un \textbf{bar plot} con \(\texttt{name}\) vs. \(\texttt{quantity}\).
+  \end{enumerate}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6: Instrucciones y Formato de Entrega
+% ------------------------------------------------------------------------
+\begin{frame}{Instrucciones para la Evaluación}
+  \begin{itemize}
+    \item \textbf{Grupos} de 2-3 estudiantes.
+    \item Crear un \textbf{notebook} (Colab) o script local llamado \texttt{Eval\_Semana12\_Apellidos.ipynb}.
+    \item \textbf{Desarrollar}:
+      \begin{enumerate}
+        \item Clase base \texttt{Item} (\_\_init\_\_, \texttt{show\_info()}).
+        \item Clase \texttt{Inventory} con su lista interna \(\texttt{self.items}\).
+        \item Añadir 3-5 \texttt{Item}, mostrar info y calcular \texttt{total\_quantity()}.
+        \item \textbf{Bonus}: \texttt{plt.bar()} con \(\texttt{tick\_label = [item.name for item in ...]}\).
+      \end{enumerate}
+    \item Subir el archivo a \textbf{CANVAS} en un plazo de \textbf{25-30 min}.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Pautas de Evaluación
+% ------------------------------------------------------------------------
+\begin{frame}{Pautas de Evaluación}
+  \begin{itemize}
+    \item \textbf{Funcionalidad} (40\%): Ejecución sin errores, correcto uso de clases, métodos, e instancias.
+    \item \textbf{POO Avanzada} (20\%): Se evidencia \textbf{composición} (Inventory \emph{has-a} list of Items).  
+    \item \textbf{Output/Visualización} (20\%): \texttt{show\_info()} útil, \textbf{bar plot} si lo hacen (opcional).
+    \item \textbf{Estilo y Organización} (20\%): Comentarios, claridad de código, nombres de variables y métodos.
+  \end{itemize}
+  \vspace{0.3cm}
+  \textbf{Nota}: El bonus de la gráfica no es obligatorio, pero suma puntos o mejora la presentación.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Tiempo de Desarrollo (25-30 min)
+% ------------------------------------------------------------------------
+\begin{frame}{Tiempo de Desarrollo}
+  \begin{block}{}
+    \huge{\textbf{Tienen 25-30 minutos para resolver y subir a CANVAS.}}
+  \end{block}
+  \vspace{0.3cm}
+  \textbf{Sugerencias}:
+  \begin{itemize}
+    \item Iniciar rápido con la clase base, luego la clase \texttt{Inventory}.
+    \item Probar la \texttt{total\_quantity()} y \texttt{show\_info()} antes de añadir la gráfica.
+    \item Revisar \textbf{import matplotlib.pyplot as plt} si hacen \textbf{bar plot}.
+    \item Asegurarse de \textbf{ejecutar y ver} el output final antes de subir.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Trabajo y Discusión
+% ----------------------------------------------------------------------------------------
+\section{Trabajo y Discusión}
+
+% ------------------------------------------------------------------------
+% Slide 9: Espacio de Resolución y Entrega
+% ------------------------------------------------------------------------
+\begin{frame}{Espacio de Resolución}
+  \begin{itemize}
+    \item \textbf{Trabajen en voz baja}, cada grupo crea su notebook o script.
+    \item Preguntas puntuales a mí si bloquea totalmente la resolución.
+    \item Subir a CANVAS antes de que finalice el tiempo (25-30 min).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Cierre de la Evaluación
+% ------------------------------------------------------------------------
+\begin{frame}{Entrega Final}
+  \begin{block}{Subir a CANVAS}
+    \begin{itemize}
+      \item Un integrante sube el \textbf{notebook .ipynb} o \textbf{.py} dentro del tiempo.
+      \item Revisen que todo el código y \textbf{resultados} (prints, gráficas) estén correctos.
+      \item Añadan \textbf{comentarios} o Markdown para explicar brevemente su solución.
+    \end{itemize}
+  \end{block}
+  \vspace{0.3cm}
+  \textbf{Al final}, haremos una breve \textbf{discusión de soluciones} y errores comunes.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Discusión de Resultados
+% ------------------------------------------------------------------------
+\begin{frame}{Discusión Posterior}
+  \begin{itemize}
+    \item ¿Algún problema al manejar la \textbf{lista de Items} en \texttt{Inventory}?
+    \item ¿Cómo implementaron \texttt{show\_info()}? (Uso de \_\_str\_\_, etc.)
+    \item ¿Quién logró la \textbf{bar plot}? ¿Qué parámetros usaron?
+    \item ¿El tiempo (25-30 min) fue suficiente?
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Resumen de la Evaluación
+% ------------------------------------------------------------------------
+\begin{frame}{Resumen de la Evaluación}
+  \begin{itemize}
+    \item Actividad integró \textbf{composición} en POO (Semana 11) y manejo básico de objetos.
+    \item Opción de visualizar con \textbf{Matplotlib} en un bar chart.
+    \item Se realizó en tiempo acotado, comprobando agilidad en la sintaxis de POO.
+    \item Retroalimentación más detallada se dará tras la corrección.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Cierre de la Sesión y Próximos Pasos
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones y Próximos Pasos}
+
+% ------------------------------------------------------------------------
+% Slide 13: Conclusiones de la Sesión 24
+% ------------------------------------------------------------------------
+\begin{frame}{Conclusiones de la Sesión 24}
+  \begin{itemize}
+    \item Realizamos un \textbf{Problema a Evaluar} enfocado en \textbf{composición} en POO, vinculado a Semana 11.
+    \item Pudimos (opcionalmente) reforzar la \textbf{visualización} con un diagrama de barras.
+    \item Mantenemos la práctica de entregar resultados vía \textbf{CANVAS} en un tiempo limitado.
+    \item Esto refuerza la \textbf{consolidación} de POO avanzada antes del proyecto final (si aplica).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Próxima Sesión (Semana 13)
+% ------------------------------------------------------------------------
+\begin{frame}{Próximos Temas}
+  \begin{itemize}
+    \item \textbf{Semana 13}: Seguimiento de proyectos (avances, revisiones parciales).
+    \item Consultas de \textbf{POO}, \textbf{datos}, \textbf{visualización}, o integración con \texttt{scipy/sympy}.
+    \item Si el tiempo lo permite, exploraremos \textbf{statistical modules} o \textbf{Machine Learning} superficial (depende de Syllabus).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Recursos Adicionales
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos Adicionales}
+  \begin{itemize}
+    \item \href{https://docs.python.org/3/tutorial/classes.html}{\textbf{Python Tutorial - Classes}} (repasar POO).
+    \item \href{https://matplotlib.org/stable/}{\textbf{Matplotlib Docs}} - para personalizar bar charts.
+    \item \textbf{Canvas y foros} - para consultas e intercambio de soluciones.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Cierre de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \Huge{\centerline{¡Excelente trabajo y hasta la próxima sesión!}}
+  \vspace{0.4cm}
+  \normalsize
+  \begin{itemize}
+    \item Revisen \textbf{Canvas} para feedback y notificaciones.
+    \item ¡Nos vemos en la Semana 13 con más avances y consultas!
+  \end{itemize}
+\end{frame}
+
+\end{document}
+
