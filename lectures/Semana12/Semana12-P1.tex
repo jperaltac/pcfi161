@@ -1,292 +1,156 @@
 \documentclass[10pt]{beamer}
 
 % ------------------------------------------------------------------------
-% Carga de tu preámbulo personalizado (preamble.tex).
-% Recuerda ponerlo en la misma carpeta para que \input funcione.
+% Preambulo personalizado
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
+
+\title{Semana 12 – Sesión 1 (Sesión 23): Estadística descriptiva con NumPy, Pandas y Matplotlib}
+\author{PCFI161 – Programación para Física y Astronomía}
+\date{19 mayo 2025}
 
 \begin{document}
 
 % ------------------------------------------------------------------------
-% Portada de la Presentación
+% Portada
 % ------------------------------------------------------------------------
 \myfront{}
-
-% ------------------------------------------------------------------------
-% Slide 1: Título de la Sesión
-% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % Ejemplo:
-  % \title{Semana 12 - Sesión 1 (Sesión 23): Lanzamiento de Proyectos y Nuevas Herramientas}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de Contenidos
+% Tabla de contenidos
 % ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Semana 12, Sesión 1 (Sesión 23)}
+  \frametitle{Resumen – Semana 12, Sesión 1 (Sesión 23)}
   \tableofcontents
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Configuración de bloques
-% ------------------------------------------------------------------------
 \metroset{block=fill}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión con la Semana 11
-% ----------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------
 \section{Introducción y Repaso}
-
-% ------------------------------------------------------------------------
-% Slide 3: Conexión con la Semana 11
-% ------------------------------------------------------------------------
-\begin{frame}{Repaso de la Semana 11}
+% --------------------------------------------------------------------------------
+\begin{frame}{Contexto y Repaso}
   \begin{itemize}
-    \item \textbf{Semana 11, Sesión 1 (Sesión 21)}:
+    \item Hasta la Semana 10 trabajamos con:
       \begin{itemize}
-        \item Post-Solemne II retroalimentación.
-        \item Revisamos polimorfismo, composición en POO.
-        \item Ejemplos físicos y astronómicos, integración con NumPy/Matplotlib.
+        \item \textbf{NumPy}: arrays, álgebra lineal, aleatoriedad.
+        \item \textbf{Matplotlib}: subplots, histogramas, 3D.
       \end{itemize}
-    \item \textbf{Semana 11, Sesión 2 (Sesión 22)}:
+    \item Hoy iniciamos la \textbf{unidad de Estadística}:
       \begin{itemize}
-        \item Retroalimentación \textbf{individual} de la Solemne II.
-        \item Idea de comenzar un \textbf{proyecto colaborativo} final (si el Syllabus lo indica).
-        \item Dudas sobre animaciones, data handling, etc.
+        \item Medidas descriptivas (media, mediana, varianza).
+        \item Uso de \texttt{pandas} para tablas de datos.
+        \item Visualización: histogramas, boxplots, violin plots.
       \end{itemize}
-    \item \textbf{Objetivo de hoy (Semana 12, Sesión 1)}:
-      \begin{itemize}
-        \item Concretar la \textbf{propuesta de proyectos} o iniciar temas finales de la asignatura.
-        \item Explorar alguna nueva herramienta o librería útil (ej., \texttt{scipy}, \texttt{sympy}, o algo similar).
-      \end{itemize}
+    \item \alert{Tarea V} se publicará al final de la segunda sesión.
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 4: Objetivos de la Sesión 23
-% ------------------------------------------------------------------------
-\begin{frame}{Objetivos de la Sesión 23}
+% --------------------------------------------------------------------------------
+\section{Objetivos de la Sesión}
+% --------------------------------------------------------------------------------
+\begin{frame}{Objetivos}
   \begin{itemize}
-    \item \textbf{Formalizar} la estructura y requisitos del \textbf{proyecto integrador} (si corresponde al plan).
-    \item \textbf{Explorar} una librería o técnica adicional, complementando las herramientas vistas.
-    \item \textbf{Proponer} calendario de entregas intermedias (ej. avances, revisiones).
-    \item \textbf{Responder} dudas finales de POO avanzada o integración con \textbf{NumPy/Matplotlib/pandas}.
+    \item Comprender \textbf{estadística descriptiva} con \texttt{NumPy}.
+    \item Manejar \textbf{DataFrames} de \texttt{pandas} para resumen rápido.
+    \item Generar \textbf{gráficos estadísticos} en Matplotlib.
+    \item Preparar bases para la \textbf{Tarea V} (análisis de datos reales).
   \end{itemize}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Formalización del Proyecto Integrador
-% ----------------------------------------------------------------------------------------
-\section{Proyecto Integrador (si aplica)}
-
-% ------------------------------------------------------------------------
-% Slide 5: Requisitos Generales del Proyecto
-% ------------------------------------------------------------------------
-\begin{frame}{Requisitos Generales}
-  \begin{itemize}
-    \item \textbf{POO} implementada de forma clara (clases, herencia/composición si procede).
-    \item Uso de \textbf{NumPy} para cálculos numéricos (simulaciones, estadística, etc.).
-    \item Gráficas con \textbf{Matplotlib} (2D o 3D) para presentar resultados relevantes.
-    \item (Opcional) \textbf{pandas} para manejo de archivos CSV o data frames.
-    \item \textbf{Documentación} básica en un README o en celdas de Markdown (si usan Colab).
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 6: Organización y Equipos
-% ------------------------------------------------------------------------
-\begin{frame}{Organización y Equipos}
-  \begin{itemize}
-    \item Grupos de \textbf{2-3 estudiantes}, según listado oficial o autoasignación (confirmar con profesor).
-    \item Enviar un \textbf{formulario} o \textbf{correo} con:
-      \begin{itemize}
-        \item Integrantes del equipo.
-        \item Tema tentativo.
-        \item Idea básica de las clases (POO) y datos a usar (simulados o reales).
-      \end{itemize}
-    \item \textbf{Fecha límite} para propuesta inicial: (poner día de la semana, p. ej. \textit{próximo lunes}).
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 7: Cronograma y Entregables
-% ------------------------------------------------------------------------
-\begin{frame}{Cronograma y Entregables}
-  \begin{itemize}
-    \item \textbf{Avance 1} (semana 13): mostrar estructura de clases y pseudocódigo de funciones principales.
-    \item \textbf{Avance 2} (semana 14): implementación básica y una primera gráfica/resultado.
-    \item \textbf{Entrega final} (semana 16 o 17, dependiendo del Syllabus): proyecto completo con documentación.
-    \item \textbf{Presentación} (puede ser la \textbf{Solemne III} si aplica, o en una sesión especial).
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Nueva Herramienta o Librería (Ejemplo)
-% ----------------------------------------------------------------------------------------
-\section{Nueva Herramienta: SciPy o Sympy (Ejemplo)}
-
-% ------------------------------------------------------------------------
-% Slide 8: Introducción a SciPy
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]
-\frametitle{SciPy: Complemento a NumPy}
-  \begin{itemize}
-    \item \textbf{SciPy} = biblioteca que extiende NumPy con algoritmos y funciones científicas:
-      \begin{itemize}
-        \item \texttt{scipy.integrate} (integración numérica, ODEs).
-        \item \texttt{scipy.optimize} (métodos de optimización).
-        \item \texttt{scipy.fft} (transformada rápida de Fourier).
-        \item \texttt{scipy.sparse} (matrices dispersas), etc.
-      \end{itemize}
-    \item \textbf{Uso}:
-	    \begin{minted}{python}
-import scipy.integrate as integrate
-# ...
-	    \end{minted}
-    \item Ideal para proyectos que requieran resolver ecuaciones diferenciales, problemas de optimización, etc.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 9: Ejemplo Rápido: Resolver una ODE con SciPy
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: ODE con \texttt{scipy.integrate}}
+% --------------------------------------------------------------------------------
+\section{Medidas Descriptivas con NumPy}
+% --------------------------------------------------------------------------------
+\begin{frame}[fragile]{NumPy: estadísticas básicas}
 \begin{minted}{python}
 import numpy as np
-from scipy.integrate import odeint
-import matplotlib.pyplot as plt
+data = np.random.normal(loc=0, scale=1, size=1_000)
 
-def model(y, t):
-    # y is the dependent variable, t is time
-    # simple dy/dt = -2y
-    return -2.0 * y
-
-y0 = 5.0  # initial condition
-t = np.linspace(0, 5, 100)
-sol = odeint(model, y0, t)
-
-plt.plot(t, sol, label="dy/dt = -2y")
-plt.xlabel("time")
-plt.ylabel("y")
-plt.legend()
-plt.show()
+print("Media :", data.mean())
+print("Mediana :", np.median(data))
+print("Desvío estándar :", data.std(ddof=1))
+print("Percentiles 25/75 :", np.percentile(data, [25, 75]))
 \end{minted}
 \begin{itemize}
-  \item \textbf{Resultado}: decaimiento exponencial con \(\tau=0.5\).
+  \item \texttt{ddof=1} usa varianza muestral (\(n-1\)).
+  \item \texttt{np.percentile} devuelve los cuantiles solicitados.
 \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 10: Introducción a Sympy (Opcional)
-% ------------------------------------------------------------------------
-\begin{frame}{Sympy: Cálculo Simbólico}
-  \begin{itemize}
-    \item \textbf{Sympy} = librería de Python para \textbf{cálculo simbólico}:
-      \begin{itemize}
-        \item Derivadas, integrales, simplificación de expresiones, ecuaciones simbólicas.
-        \item \(\texttt{from sympy import symbols, diff, integrate, solve, ...}\)
-      \end{itemize}
-    \item Útil para proyectos con aspectos \textbf{analíticos} en Física/Matemáticas (p.e. derivar ecuaciones, resolver simbólicamente).
-  \end{itemize}
+% --------------------------------------------------------------------------------
+\section{Resumen con pandas}
+% --------------------------------------------------------------------------------
+\begin{frame}[fragile]{pandas: \texttt{describe()} y más}
+\begin{minted}{python}
+import pandas as pd
+
+df = pd.DataFrame({"x": data})
+print(df.describe())
+\end{minted}
+\begin{itemize}
+  \item \texttt{describe()} produce conteo, media, std, min, max y cuartiles.
+  \item \(\rightarrow\) Ideal para inspección rápida de datasets.
+\end{itemize}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Discusión y Actividad
-% ----------------------------------------------------------------------------------------
-\section{Discusión y Actividad}
+% --------------------------------------------------------------------------------
+\section{Visualización de Datos}
+% --------------------------------------------------------------------------------
+\begin{frame}[fragile]{Histogramas y Boxplots}
+\begin{minted}{python}
+import matplotlib.pyplot as plt
 
-% ------------------------------------------------------------------------
-% Slide 11: Discusión de Ideas de Proyecto
-% ------------------------------------------------------------------------
-\begin{frame}{Discusión de Ideas de Proyecto}
-  \begin{itemize}
-    \item ¿Quién ya tiene un tema definido o en mente?
-    \item ¿Necesitan \textbf{SciPy} para resolver ODEs o \textbf{Sympy} para álgebra simbólica?
-    \item ¿Prefieren 100\% \textbf{simulación} (partículas, órbitas) o \textbf{análisis de datos} (archivos CSV, pandas)?
-    \item Convenir \textbf{fecha límite} y formato de entrega (repositorio Git, notebook, PDF, etc.).
-  \end{itemize}
+fig, axs = plt.subplots(1, 2, figsize=(8,4))
+
+axs[0].hist(df["x"], bins=30, alpha=0.8)
+axs[0].set_title("Histograma")
+
+axs[1].boxplot(df["x"], vert=False, patch_artist=True)
+axs[1].set_title("Boxplot")
+
+plt.tight_layout(); plt.show()
+\end{minted}
+\begin{itemize}
+  \item El boxplot muestra mediana, cuartiles y outliers.
+  \item \texttt{patch\_artist=True} permite colorear la caja.
+\end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 12: Actividad Breve (Opcional)
-% ------------------------------------------------------------------------
-\begin{frame}{Actividad Breve (Opcional)}
-  \begin{block}{Ejemplo con SciPy}
+% --------------------------------------------------------------------------------
+\section{Ejercicios Prácticos}
+% --------------------------------------------------------------------------------
+\begin{frame}{Ejercicio 1: Estadística de Alturas}
+  \begin{block}{Enunciado}
     \begin{itemize}
-      \item Probar \textbf{odeint} en un modelo de \(\textbf{2D}\) (p.e. movimiento con fricción).
-      \item Graficar la solución en Matplotlib.
-      \item Discutir si esto podría integrarse en sus proyectos (simulación de órbita simplificada, etc.).
+      \item Cargar el archivo \texttt{alturas.csv} (columna \emph{height\_cm}).
+      \item Usar \textbf{NumPy} y \textbf{pandas} para calcular: media, mediana, desvío y cuartiles.
+      \item Graficar histograma y boxplot en la misma figura.
+      \item Comentar si los datos muestran \emph{sesgo} o \emph{asimetría}.
     \end{itemize}
   \end{block}
-  \textbf{Objetivo}: que exploren \textbf{SciPy} en un ejemplo simple, 10-15 minutos de práctica.
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Conclusiones y Próximos Pasos
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones y Próximos Pasos}
-
-% ------------------------------------------------------------------------
-% Slide 13: Discusión Final
-% ------------------------------------------------------------------------
-\begin{frame}{Discusión Final}
-  \begin{itemize}
-    \item Reiterar \textbf{lineamientos} del proyecto (temas, entregas, equipos).
-    \item Oportunidad de \textbf{aclarar dudas} sobre SciPy / Sympy / cualquier librería adicional.
-    \item Asegurarse de que todos tengan un \textbf{plan} para la próxima semana (Semana 12, Sesión 2 o 13, etc.).
-  \end{itemize}
+\begin{frame}{Ejercicio 2: Correlación Masa-Altura (opcional)}
+  \begin{block}{Pasos}
+    \begin{enumerate}
+      \item Cargar \texttt{masas\_alturas.csv} con columnas \texttt{mass\_kg}, \texttt{height\_cm}.
+      \item Calcular coeficiente de correlación \(\rho\) con \texttt{np.corrcoef}.
+      \item Graficar scatter y ajustar recta (\texttt{np.polyfit}).
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 14: Conclusiones de la Sesión 23
-% ------------------------------------------------------------------------
-\begin{frame}{Conclusiones de la Sesión 23}
+% --------------------------------------------------------------------------------
+\section{Cierre}
+% --------------------------------------------------------------------------------
+\begin{frame}{Próxima Sesión}
   \begin{itemize}
-    \item \textbf{Oficializamos} la estructura del proyecto integrador (si corresponde).
-    \item Exploramos \textbf{SciPy} (o Sympy) como librerías complementarias.
-    \item Dejamos definidas las \textbf{fechas} y \textbf{equipos} para el proyecto (cada grupo, tema).
-    \item Seguimos reforzando \textbf{POO}, \textbf{análisis numérico} y \textbf{visualización}.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 15: Próxima Sesión (Semana 12, Sesión 2)
-% ------------------------------------------------------------------------
-\begin{frame}{Próximos Temas}
-  \begin{itemize}
-    \item \textbf{Semana 12, Sesión 2}: avance de proyectos, consultas específicas, mini-lab en clase.
-    \item Revisar \textbf{avances} de cada equipo y ofrecer retroalimentación temprana.
-    \item Explorar otras herramientas si el tiempo lo permite (análisis estadístico, animaciones, etc.).
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 16: Recursos Adicionales
-% ------------------------------------------------------------------------
-\begin{frame}{Recursos Adicionales}
-  \begin{itemize}
-    \item \href{https://scipy.org/}{\textbf{SciPy Docs}} - tutorial de integrales, optimizaciones, etc.
-    \item \href{https://www.sympy.org/en/index.html}{\textbf{Sympy}} - para álgebra simbólica.
-    \item \href{https://realpython.com/}{\textbf{Real Python}} - guías de proyectos y ejemplos.
-    \item \textbf{Canvas / Foros} - para compartir ideas y pedir apoyo en el proyecto.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 17: Cierre de la Sesión
-% ------------------------------------------------------------------------
-\begin{frame}
-  \Huge{\centerline{¡Buen trabajo y hasta la próxima sesión!}}
-  \vspace{0.3cm}
-  \normalsize
-  \begin{itemize}
-    \item Recuerden enviar su \textbf{propuesta de proyecto} antes de la fecha acordada.
-    \item Cualquier duda, \textbf{foros} y \textbf{Canvas} están disponibles.
+    \item \textbf{Sesión 24 (en dos días)}: Taller evaluado + publicación de \textbf{Tarea V}.
+    \item Traer notebook listo y datasets descargados.
   \end{itemize}
 \end{frame}
 
 \end{document}
-
