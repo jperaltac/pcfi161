@@ -5,8 +5,8 @@
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
 
-\title{Semana 12 – Sesión 1 (Sesión 23): Estadística descriptiva con NumPy, Pandas y Matplotlib}
-\author{PCFI161 – Programación para Física y Astronomía}
+\title{S12 - P1 (Sesión 23): Estadística descriptiva con NumPy, Pandas y Matplotlib}
+\author{PCFI161 - Programación para Física y Astronomía}
 \date{19 mayo 2025}
 
 \begin{document}
@@ -39,13 +39,13 @@
         \item \textbf{NumPy}: arrays, álgebra lineal, aleatoriedad.
         \item \textbf{Matplotlib}: subplots, histogramas, 3D.
       \end{itemize}
-    \item Hoy iniciamos la \textbf{unidad de Estadística}:
+    \item Hoy re-iniciamos la \textbf{unidad de Estadística}:
       \begin{itemize}
         \item Medidas descriptivas (media, mediana, varianza).
         \item Uso de \texttt{pandas} para tablas de datos.
-        \item Visualización: histogramas, boxplots, violin plots.
+        \item Visualización: Ej: histogramas, boxplots, violin plots.
       \end{itemize}
-    \item \alert{Tarea V} se publicará al final de la segunda sesión.
+    \item \alert{Tarea V} se publicará al final de la próxima clase.
   \end{itemize}
 \end{frame}
 
@@ -71,13 +71,16 @@ data = np.random.normal(loc=0, scale=1, size=1_000)
 
 print("Media :", data.mean())
 print("Mediana :", np.median(data))
-print("Desvío estándar :", data.std(ddof=1))
+print("Desvación estándar :", data.std(ddof=1))
 print("Percentiles 25/75 :", np.percentile(data, [25, 75]))
 \end{minted}
 \begin{itemize}
-  \item \texttt{ddof=1} usa varianza muestral (\(n-1\)).
-  \item \texttt{np.percentile} devuelve los cuantiles solicitados.
+  \item \texttt{ddof=1} usa varianza muestral (i.e. divide por \(n-1\)).
+  \item \texttt{np.percentile} devuelve los cuantiles 25\% y 75\% de la muestra.
 \end{itemize}
+\tiny{Un percentil es simplemente el valor que deja por debajo de sí a un cierto porcentaje de los datos ordenados.
+Por ejemplo, el percentil 90 (P90) marca el punto por debajo del cual cae el 90\% de las observaciones.
+}
 \end{frame}
 
 % --------------------------------------------------------------------------------
@@ -125,6 +128,7 @@ plt.tight_layout(); plt.show()
 \begin{frame}{Ejercicio 1: Estadística de Alturas}
   \begin{block}{Enunciado}
     \begin{itemize}
+      \item Archivo csv: \url{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S12/alturas.csv}
       \item Cargar el archivo \texttt{alturas.csv} (columna \emph{height\_cm}).
       \item Usar \textbf{NumPy} y \textbf{pandas} para calcular: media, mediana, desvío y cuartiles.
       \item Graficar histograma y boxplot en la misma figura.
@@ -136,6 +140,7 @@ plt.tight_layout(); plt.show()
 \begin{frame}{Ejercicio 2: Correlación Masa-Altura (opcional)}
   \begin{block}{Pasos}
     \begin{enumerate}
+      \item Archivo csv: \url{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S12/masas_alturas.csv}
       \item Cargar \texttt{masas\_alturas.csv} con columnas \texttt{mass\_kg}, \texttt{height\_cm}.
       \item Calcular coeficiente de correlación \(\rho\) con \texttt{np.corrcoef}.
       \item Graficar scatter y ajustar recta (\texttt{np.polyfit}).
@@ -148,8 +153,8 @@ plt.tight_layout(); plt.show()
 % --------------------------------------------------------------------------------
 \begin{frame}{Próxima Sesión}
   \begin{itemize}
-    \item \textbf{Sesión 24 (en dos días)}: Taller evaluado + publicación de \textbf{Tarea V}.
-    \item Traer notebook listo y datasets descargados.
+    \item \textbf{Sesión 24 (en dos días)}: Reforzamiento + \textbf{Tarea V}.
+    \item Recuerden estudiar para que les vaya muy bien!.
   \end{itemize}
 \end{frame}
 
