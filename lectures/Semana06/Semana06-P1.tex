@@ -35,6 +35,61 @@
 % ------------------------------------------------------------------------
 \metroset{block=fill}
 
+% ------------------------------------------------------------------------
+% NUEVA SECCIÓN (opcional)
+% ------------------------------------------------------------------------
+\section{Breve Repaso a Listas y For en Python}
+
+% ------------------------------------------------------------------------
+% Slide A (Listas en Python)
+% ------------------------------------------------------------------------
+\begin{frame}{Listas en Python}
+  \begin{itemize}
+    \item Una \textbf{lista} es una colección ordenada y mutable de elementos.
+    \item Se definen con corchetes, por ejemplo: \texttt{mi\_lista = [1, 2, 3]}.
+    \item Podemos mezclarlas con distintos tipos de datos (enteros, cadenas, etc.).
+    \item Las listas se pueden indexar y “slicear” como en \texttt{mi\_lista[0]}, \texttt{mi\_lista[1:3]}, etc.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide B (Bucle for en Python)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Bucle for en Python}
+  \begin{itemize}
+    \item El bucle \textbf{for} se utiliza para iterar sobre una secuencia (lista, cadena, etc.).
+    \item Ejemplo básico:
+    \begin{minted}{python}
+numeros = [10, 20, 30]
+for num in numeros:
+    print(num)
+    \end{minted}
+    \item En cada iteración, \texttt{num} toma un valor de la lista.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide C (Ejemplo Práctico con for)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Suma de Elementos de una Lista}
+  \begin{minted}{python}
+numeros = [1, 2, 3, 4, 5]
+suma = 0
+
+for n in numeros:
+    suma += n
+
+print("La suma es:", suma)
+  \end{minted}
+  \begin{itemize}
+    \item Con \texttt{for} iteramos directamente sobre cada elemento.
+    \item Acumulamos la suma en \texttt{suma}.
+    \item Resultado: \texttt{La suma es: 15}.
+  \end{itemize}
+\end{frame}
+
+
+
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
 % ----------------------------------------------------------------------------------------
