@@ -1,0 +1,182 @@
+\documentclass[10pt]{beamer}
+\input{../preamble.tex}
+
+\title{Semana 14 – Sesión 2 (Sesión 28):\\
+De la teoría a la práctica – Merge Sort, Benchmarks y Aplicaciones}
+\author{PCFI161 – Programación para Física y Astronomía}
+\date{02 jun 2025}
+
+\begin{document}
+\myfront{}
+\begin{frame}\titlepage\end{frame}
+
+\begin{frame}
+  \frametitle{Resumen -- Semana 14, Sesión 2}
+  \tableofcontents
+\end{frame}
+
+\metroset{block=fill}
+
+% -----------------------------------------------------------------
+\section{Recap rápido}
+% -----------------------------------------------------------------
+\begin{frame}{Lo aprendido en la Sesión 1}
+\begin{itemize}
+  \item \textbf{Bubble Sort}: claro pero ineficiente \(\mathcal{O}(n^{2})\).
+  \item \textbf{Binary Search}: súper-rápida, pero sólo en listas ordenadas.
+  \item \texttt{\%\%timeit}: herramienta para medir micro-rendimiento en Colab.
+\end{itemize}
+\alert{Pregunta relámpago}: ¿cuál es la complejidad de buscar linealmente en una lista?
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Recursividad \& Merge Sort}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{¿Qué es recursividad?}
+\begin{itemize}
+  \item Una función que se llama a sí misma para resolver un problema más pequeño.
+  \item Necesita: \textit{caso base} + \textit{llamada recursiva}.
+  \item Ejemplo clásico: factorial, Fibonacci… ¡y algoritmos de ordenamiento!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Merge Sort en Python (\(\mathcal{O}(n\log n)\))}
+\begin{minted}[fontsize=\scriptsize]{python}
+def merge_sort(lst):
+    if len(lst) <= 1:
+        return lst                    # caso base
+    mid = len(lst) // 2
+    left  = merge_sort(lst[:mid])     # divide
+    right = merge_sort(lst[mid:])
+    return merge(left, right)         # conquista
+
+def merge(left, right):
+    out, i, j = [], 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            out.append(left[i]); i += 1
+        else:
+            out.append(right[j]); j += 1
+    return out + left[i:] + right[j:]
+\end{minted}
+\begin{itemize}
+  \item Dos fases: división recursiva y mezcla ordenada.
+  \item Estable (\alert{preserva orden relativas de iguales}) y predecible.
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Benchmark y visualización}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{Midiendo rendimientos}
+\begin{columns}
+\column{0.65\textwidth}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np, timeit, pandas as pd
+
+# --- función de benchmark ------------------------------------------
+def timing(alg, n, rep=3):
+    base = np.random.randint(0, 10_000, n).tolist()
+    return timeit.timeit(lambda: alg(base.copy()), number=rep) / rep
+
+# --- medir ---------------------------------------------------------
+Ns   = [2**k for k in range(8, 15)]           # 256 … 16384
+algs = {"bubble": bubble_sort,
+        "merge":  merge_sort,
+        "numpy":  lambda x: np.sort(x).tolist()}
+
+df = pd.DataFrame({name: [timing(f, n) for n in Ns]
+                   for name, f in algs.items()},
+                  index=Ns)
+
+print(df)
+\end{minted}
+\column{0.35\textwidth}
+\small
+\begin{itemize}
+  \item Función \texttt{timing} promedia \texttt{rep} ejecuciones.
+  \item Guardamos resultados en un \texttt{DataFrame} $\longrightarrow$ ideal para graficar.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Gráfica \texttt{bubble} vs \texttt{merge} vs \texttt{np.sort}}
+\begin{minted}{python}
+import matplotlib.pyplot as plt
+
+df.plot(marker="o")
+plt.loglog()                       # ejes log-log
+plt.xlabel("Tamaño de la lista (n)")
+plt.ylabel("Tiempo [s]")
+plt.title("Escalamiento temporal de algoritmos de ordenamiento")
+plt.legend(title="Algoritmo")
+plt.show()
+\end{minted}
+\vspace{-0.8em}
+\begin{itemize}
+  \item La pendiente ~2 de bubble confirma su \(\mathcal{O}(n^{2})\).
+  \item Merge y \texttt{np.sort} (Timsort) se alinean con \(n\log n\).
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Caso de aplicación con \texttt{pandas}}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{Mini-dataset astronómico}
+\begin{minted}{python}
+import pandas as pd, numpy as np
+np.random.seed(0)
+df = pd.DataFrame({
+    "nombre":  [f"Star-{i}" for i in range(5000)],
+    "mag":     np.random.normal(8, 1.2, 5000).round(2),
+    "dist_pc": np.random.exponential(20, 5000).round(1)
+})
+\end{minted}
+\begin{itemize}
+  \item Cada grupo puede descargar un catálogo real (\texttt{exoplanet.eu}) o usar este simulado.
+  \item Tareas guiadas:
+    \begin{enumerate}
+      \item Ordenar por magnitud aparente y hallar los 10 más brillantes.
+      \item Usar \texttt{binary\_search} para ubicar rápidamente una estrella con magnitud ≈ 9.3 en la lista ordenada.
+    \end{enumerate}
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Trabajo en sala}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{Actividad práctica grupal}
+\begin{block}{Objetivo}
+Comparar empíricamente \(\mathcal{O}(n^{2})\) y \(\mathcal{O}(n\log n)\) 
+y reflexionar sobre cuándo vale la pena optimizar.
+\end{block}
+
+\textbf{Pasos sugeridos}
+\begin{enumerate}
+  \item Implementar \texttt{merge\_sort} (o \texttt{quick\_sort}) desde cero.
+  \item Medir tiempos con \texttt{\%\%timeit} para $n=2^{10},2^{12},2^{14}$.
+  \item Graficar tiempo vs.~$n$ y anotar pendiente aproximada.
+  \item Responder en el notebook:  
+  ¿Para qué tamaños de $n$ bubble sort sigue siendo aceptable?
+\end{enumerate}
+
+\textbf{Aprevechemos de ejercitar y aclarar dudas. Hay Tarea la próxima semana.}
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Cierre}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{Conclusiones}
+\begin{itemize}
+  \item Recursividad introduce \emph{divide \& conquer}: potencia
+        evidente en merge sort.  
+  \item Visualizar tiempos ayuda a internalizar las escalas de
+        complejidad.  
+  \item La próxima semana veremos cómo \emph{perfilar} código y
+        optimizar “cuellos de botella” (\textbf{Semana 15}).  
+\end{itemize}
+\centering
+\Large ¡Nos vemos en el próximo laboratorio!
+\end{frame}
+
+\end{document}

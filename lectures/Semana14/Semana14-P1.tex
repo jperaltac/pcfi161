@@ -1,0 +1,266 @@
+\documentclass[10pt]{beamer}
+\input{../preamble.tex}
+
+\title{Semana 14 – Sesión 1 (Sesión 27):\
+Introducción a Ordenamiento y Búsqueda}
+\author{PCFI161 – Programación para Física y Astronomía}
+\date{02 jun 2025}
+
+\begin{document}
+\myfront{}
+\begin{frame}\titlepage\end{frame}
+
+\begin{frame}
+  \frametitle{Resumen -- Semana 14, Sesión 1}
+  \tableofcontents
+\end{frame}
+
+\metroset{block=fill}
+
+% -----------------------------------------------------------------
+\section{Motivación}
+% -----------------------------------------------------------------
+\begin{frame}{¿Por qué ordenar y buscar?}
+\begin{itemize}
+  \item \textbf{Astronomía}: ordenar estrellas por brillo para ver cuál es la más tenue o la más brillante.
+  \item \textbf{Física}: organizar mediciones de laboratorio (tiempos de caída, voltajes) antes de graficar.
+  \item \textbf{Computación}: muchos algoritmos necesitan datos \emph{ordenados} (p.ej.\ \texttt{binary search}). 
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Ordenamiento básico}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{Bubble Sort paso a paso}
+\begin{minted}{python}
+def bubble_sort(lista):
+    n = len(lista)
+    for i in range(n-1):            # pasadas
+        for j in range(n-1-i):      # pares a comparar
+            if lista[j] > lista[j+1]:
+                lista[j], lista[j+1] = lista[j+1], lista[j]
+    return lista
+\end{minted}
+\begin{itemize}
+  \item Compara \textbf{pares adyacentes} y “burbujea” el mayor al final.  
+  \item Complejidad: \(\mathcal{O}(n^{2})\).  
+  \item Fácil de codificar, ideal para entender intercambios.  \footnote{Ver animaciones interactivas: HackerEarth :contentReference[oaicite:0]{index=0}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo -- Ordenar distancias planetarias}
+\begin{minted}{python}
+dist_au = [1.52, 0.39, 5.20, 1.00, 30.07]   # Marte, Mercurio, Júpiter, Tierra, Neptuno
+print("Original :", dist_au)
+print("Ordenado  :", bubble_sort(dist_au))
+\end{minted}
+\pause
+Resultado esperado: \([0.39, 1.00, 1.52, 5.20, 30.07]\)
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Búsqueda}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{Búsqueda lineal}
+\begin{minted}{python}
+def linear_search(lista, objetivo):
+    for i, x in enumerate(lista):
+        if x == objetivo:
+            return i
+    return -1   # no está
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Búsqueda binaria (en lista ordenada)}
+\begin{minted}{python}
+def binary_search(lista_ordenada, objetivo):
+    low, high = 0, len(lista_ordenada)-1
+    while low <= high:
+        mid = (low + high) // 2
+        if lista_ordenada[mid] == objetivo:
+            return mid
+        elif objetivo < lista_ordenada[mid]:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return -1
+\end{minted}
+\begin{itemize}
+  \item Reduce el rango a la mitad cada vez $\longrightarrow$ \(\mathcal{O}(\log n)\).  
+  \item Sólo funciona si la lista está \textbf{ordenada}.  
+  \item Explicación amigable: Khan Academy.
+\end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------
+\section{Ejercicios en clase}
+% -----------------------------------------------------------------
+
+% ---------- Slide A: Generar / cargar temperaturas ----------------
+\begin{frame}[fragile]{Ejercicio 1 – Preparar los datos de temperatura}
+  \begin{block}{Paso 1 – Obtener la lista \texttt{T\_C}}
+  \begin{minted}{python}
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+temps = np.random.normal(loc=22, scale=2, size=5_000).round(2).tolist()
+  \end{minted}
+  \vspace{-0.4em}
+  \small
+   Se crean 5000 \textit{mediciones} con media 22$^\circ$C.
+  \end{block}
+\end{frame}
+
+% ---------- Slide B: Implementar Bubble Sort ----------------------
+\begin{frame}[fragile]{Ejercicio 1 -- Ordenar y medir rendimiento}
+\vspace{0.3cm}
+\begin{columns}
+\column{0.48\textwidth}
+\vspace{-0.2cm}
+{\scriptsize\textbf{Tu burbuja}}
+\begin{minted}{python}
+def bubble_sort(lst):
+    n = len(lst)
+    ....
+\end{minted}
+
+\column{0.48\textwidth}
+\vspace{-0.2cm}
+{\scriptsize\textbf{Versión NumPy}}
+\begin{minted}{python}
+import numpy as np
+arr = np.array(temps)
+arr_sorted = np.sort(arr) 
+\end{minted}
+\end{columns}
+
+\vspace{0.3em}
+{\footnotesize
+\begin{block}{Paso 2 – Comparar tiempos con \%timeit (Jupyter/Colab)}
+\begin{minted}{python}
+%%timeit -n 3 -r 3
+bubble_sort(temps.copy())    # tu implementación
+
+%%timeit -n 3 -r 3
+np.sort(arr)                 # NumPy optimizado
+\end{minted}
+\end{block}
+}
+
+{\scriptsize
+Las opciones \texttt{-n} y \texttt{-r} hacen que se ejecute el código 3 veces (n), luego repite eso 3 veces (r) para tener un total de 9 ejecuciones. Luego calcula la media y desviación estándar de esas 3 repeticiones.
+Después de ordenar:  
+\texttt{minT = sorted\_list[0]}, \texttt{maxT = sorted\_list[-1]},  
+\texttt{mediana = (sorted\_list[n//2] + sorted\_list[(n-1)//2]) / 2}
+}
+\end{frame}
+
+% ---------- Slide C1: Preparar datos simulados ----------------------
+\begin{frame}[fragile]{Ejercicio 2 - Búsqueda Binaria}
+  \begin{block}{Simulamos 300 magnitudes con distribución normal}
+  \begin{minted}{python}
+import numpy as np
+mags = np.random.normal(8, 1.5, size=300).round(2)  # Simulación
+  \end{minted}
+  \end{block}
+
+  \begin{block}{Ordenamos la lista (requisito para búsqueda binaria)}
+  \begin{minted}{python}
+mags_ordenadas = sorted(mags)
+  \end{minted}
+  \end{block}
+
+  \begin{itemize}
+    \item `np.random.normal` genera datos aleatorios tipo Gaussianos.
+    \item `round(2)` acorta los decimales.
+    \item `sorted()` es obligatorio: la búsqueda binaria sólo funciona en listas ordenadas.
+  \end{itemize}
+\end{frame}
+
+
+% ---------- Slide C2: Definición de la función binary_search ----------------------
+\begin{frame}[fragile]{Paso 2 – Definición de la función de búsqueda binaria}
+  \begin{block}{Función con contador de comparaciones}
+  \begin{minted}{python}
+def binary_search(lst, target):
+    low, high, checks = 0, len(lst)-1, 0
+    while low <= high:
+        mid = (low + high) // 2
+        checks += 1
+        if lst[mid] == target:
+            return mid, checks
+        elif target < lst[mid]:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return -1, checks
+  \end{minted}
+  \end{block}
+
+  \begin{itemize}
+    \item Divide la lista a la mitad en cada paso.
+    \item `checks` cuenta cuántas comparaciones hicimos.
+    \item Retorna la posición si se encuentra, y `-1` si no.
+  \end{itemize}
+\end{frame}
+
+
+% ---------- Slide C3: Ejecución y análisis ----------------------
+\begin{frame}[fragile]{Paso 3 – Ejecución y comparación}
+  \begin{block}{Buscar valor ingresado por el usuario}
+  \begin{minted}{python}
+val = float(input("Ingresa magnitud a buscar: "))
+pos, nchecks = binary_search(mags_ordenadas, val)
+if pos != -1:
+    print(f"Encontrado en índice {pos} tras {nchecks} comparaciones.")
+else:
+    print(f"No aparece (se hicieron {nchecks} comparaciones).")
+  \end{minted}
+  \end{block}
+
+  \begin{itemize}
+    \item La búsqueda binaria es mucho más rápida que la búsqueda lineal.
+    \item Búsqueda lineal: hasta 300 comparaciones.
+    \item Búsqueda binaria: a lo más \( \log_2(300) \approx 9 \) comparaciones.
+  \end{itemize}
+\end{frame}
+
+
+
+
+
+% ---------- Slide D: Guía para comparar ---------------------------
+\begin{frame}[fragile]{Cómo evaluar tu búsqueda}
+\begin{itemize}
+  \item Añade un \textbf{contador global} en la función para registrar comparaciones.  
+  \item Realiza la misma búsqueda con un \emph{recorrido lineal} y compara ambos contadores.  
+  \item Usa \texttt{\%timeit} para medir el tiempo de la búsqueda lineal vs.\ binaria.  
+\end{itemize}
+
+\vspace{0.3cm}
+\begin{minted}{python}
+# búsqueda lineal (baseline)
+def linear_search(lst, target):
+    for checks, x in enumerate(lst, 1):
+        if x == target:
+            return checks
+    return checks  # no encontrado
+
+%timeit binary_search(mags_ordenadas, val)
+%timeit linear_search(mags_ordenadas, val)
+\end{minted}
+\end{frame}
+
+% ---------- Slide E: Cierre --------------------------------------
+\begin{frame}{Cierre}
+\begin{itemize}
+  \item Resumen: \textbf{bubble sort} (sencillo, lento) vs.\ \texttt{np.sort} (rápido).  
+  \item \textbf{Binary search} ahorra comparaciones en listas ordenadas.  
+  \item \textbf{Practica} \texttt{\%timeit} con distintas longitudes de lista para ver la
+        diferencia de escala.  
+\end{itemize}
+\end{frame}
+
+
+\end{document}
