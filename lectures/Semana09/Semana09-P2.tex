@@ -1,0 +1,216 @@
+\documentclass[10pt]{beamer}
+\input{../preamble.tex}
+
+\title{Semana 9 – Sesión 2 (18)\\Análisis y visualización con pandas, nivel intermedio}
+\author{PCFI161 – Programación para Física y Astronomía}
+\date{\today}
+
+\begin{document}
+\myfront{}
+
+% 1 ──────────────────────────────────────────────────────────
+\begin{frame}\titlepage\end{frame}
+
+% 2 ──────────────────────────────────────────────────────────
+\begin{frame}\frametitle{Índice}\tableofcontents\end{frame}
+
+% 3 ──────────────────────────────────────────────────────────
+\section{Fuentes de datos}
+\begin{frame}{Fuentes para la práctica}
+\begin{itemize}
+  \item Meteoritos NASA (limitado a 5 000 filas)\newline
+        \url{https://data.nasa.gov/resource/y77d-th95.csv?\$\$limit=5000}
+  \item Exoplanetas Seaborn\newline
+        \url{https://raw.githubusercontent.com/mwaskom/seaborn-data/master/planets.csv}
+  \item Masas PDG (extracto)\newline
+        \url{https://raw.githubusercontent.com/particle-physics-book/data/master/pdg_mass.csv}
+\end{itemize}
+Copia estas direcciones directamente en tu notebook.
+\end{frame}
+
+% 4 ──────────────────────────────────────────────────────────
+\section{Carga y limpieza}
+\begin{frame}[fragile]{Lectura de los tres conjuntos}
+\begin{minted}{python}
+met   = pd.read_csv("https://data.nasa.gov/resource/y77d-th95.csv?$$limit=5000")
+pln   = pd.read_csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/planets.csv")
+pdg   = pd.read_csv("https://raw.githubusercontent.com/particle-physics-book/data/master/pdg_mass.csv")
+\end{minted}
+`read\_csv` descarga y parsea automáticamente; no requiere bibliotecas externas.
+\end{frame}
+
+% 5 ──────────────────────────────────────────────────────────
+\begin{frame}[fragile]{Eliminar faltantes y outliers en meteoritos}
+\begin{minted}{python}
+met = met[met.mass.notna()].copy()
+met["massKg"] = met.mass.astype(float) / 1000    # gramos a kg
+met = met[met.massKg < 1e4]                      # quitar >10 t
+\end{minted}
+Tres líneas bastan para dejar el conjunto listo para análisis.
+\end{frame}
+
+% 6 ──────────────────────────────────────────────────────────
+\section{Diagnóstico de faltantes}
+\begin{frame}[fragile]{Porcentaje de valores nulos}
+\begin{minted}{python}
+faltantes = met.isna().mean() * 100
+faltantes.sort_values(ascending=False).head()
+\end{minted}
+Así priorizas las columnas que necesitan limpieza.
+\end{frame}
+
+% 7 ──────────────────────────────────────────────────────────
+\section{Agrupaciones avanzadas}
+\begin{frame}[fragile]{Resumen por década}
+\begin{minted}{python}
+met["year"] = pd.to_datetime(met.year, errors="coerce").dt.year
+decade = (met.groupby(met.year // 10 * 10)["massKg"]
+              .agg(conteo='size', promedio='mean', total='sum'))
+decade.head()
+\end{minted}
+Agrupar por transformación matemática del año genera la tabla por décadas.
+\end{frame}
+
+% 8 ──────────────────────────────────────────────────────────
+\begin{frame}[fragile]{Pivot table visual}
+\begin{minted}{python}
+pln["decada"] = pln.year // 10 * 10
+tabla = pln.pivot_table(index="method", columns="decada",
+                        values="distance", aggfunc="count")
+plt.imshow(tabla.fillna(0), aspect='auto')
+plt.colorbar(label="número de exoplanetas"); plt.yticks(range(len(tabla)), tabla.index)
+plt.xlabel("decada"); plt.show()
+\end{minted}
+La matriz calor ayuda a descubrir métodos dominantes en cada período.
+\end{frame}
+
+% 9 ──────────────────────────────────────────────────────────
+\section{Reshape melt y pivot}
+\begin{frame}[fragile]{Convertir tabla ancha a larga}
+\begin{minted}{python}
+wide = decade.reset_index().rename(columns={"year":"decada"})
+long = wide.melt(id_vars="decada",
+                 var_name="metrica", value_name="valor")
+long.head()
+\end{minted}
+La forma “larga” es conveniente para bibliotecas de visualización como Seaborn.
+\end{frame}
+
+% 10 ──────────────────────────────────────────────────────────
+\section{Series temporales}
+\begin{frame}[fragile]{Resample anual de masa caída}
+\begin{minted}{python}
+metTs = (met.set_index(pd.to_datetime(met.year, format='%Y'))
+              .massKg.resample("1Y").sum())
+metTs.plot(title="Masa total de meteoritos por año"); plt.ylabel("kg"); plt.show()
+\end{minted}
+`resample` es la versión temporal de `groupby`.
+\end{frame}
+
+% 11 ──────────────────────────────────────────────────────────
+\section{Merge ilustrativo}
+\begin{frame}[fragile]{Normalizar masas de planetas}
+\begin{minted}{python}
+proton = pdg.loc[pdg.symbol == "p", "mass_GeV"].iat[0]
+pln["massOverMp"] = pln.mass / proton
+pln[["name", "mass", "massOverMp"]].head()
+\end{minted}
+Combinamos física de partículas con astronomía en un solo DataFrame.
+\end{frame}
+
+% 12 ──────────────────────────────────────────────────────────
+\section{Visualización integrada}
+\begin{frame}[fragile]{Scatters y densidad KDE}
+\begin{minted}{python}
+pln.plot.scatter(x="mass", y="orbital_period",
+                 alpha=0.4, logx=True, logy=True,
+                 title="Masa vs periodo orbital")
+pln["distance"].plot.kde(title="Densidad de distancias"); plt.show()
+\end{minted}
+La API integrada evita llamadas adicionales a Matplotlib.
+\end{frame}
+
+% 13 ──────────────────────────────────────────────────────────
+\section{Estilos}
+\begin{frame}[fragile]{Aplicar estilo SciencePlots}
+\begin{minted}{python}
+plt.style.use("science")
+decade.total.plot(marker='o')
+plt.title("Toneladas de meteoritos por década"); plt.ylabel("kg"); plt.show()
+\end{minted}
+El resultado queda listo para copiar en un informe o paper.
+\end{frame}
+
+% 14 ──────────────────────────────────────────────────────────
+\section{Exportar resultados}
+\begin{frame}[fragile]{Guardar en disco}
+\begin{minted}{python}
+decade.to_csv("meteoritos_por_decada.csv", index=True)
+pln.to_parquet("planetsCompact.parquet", index=False)
+\end{minted}
+Parquet brinda alta compresión y lectura más veloz que CSV.
+\end{frame}
+
+% 15 ──────────────────────────────────────────────────────────
+\section{Rendimiento}
+\begin{frame}{Consejos de eficiencia}
+\begin{itemize}
+  \item Columnas con pocos valores → `astype("category")` para reducir memoria.  
+  \item `read\_csv` con `chunksize` permite procesar archivos gigantes en porciones.  
+  \item `eval` y `query` compilan expresiones y evitan copias intermedias.
+\end{itemize}
+\end{frame}
+
+% 16 ──────────────────────────────────────────────────────────
+\section{Mini proyecto en parejas}
+\begin{frame}{Instrucciones de treinta minutos}
+\begin{enumerate}
+  \item Clasifica cada meteorito en continente según latitud y longitud.  
+  \item Histograma logarítmico de masa por continente.  
+  \item Pivot table de cantidad de impactos por década y continente.  
+  \item Exporta la pivot table a un archivo Excel para compartir.
+\end{enumerate}
+\end{frame}
+
+% 17 ──────────────────────────────────────────────────────────
+\section{Guía rápida de solución}
+\begin{frame}[fragile,shrink=5]{Fragmento de código orientativo}
+\begin{minted}{python}
+bins = np.logspace(-2, 4, 30)
+for cont in met.continent.unique():
+    met.loc[met.continent == cont, "massKg"].plot.hist(
+        bins=bins, alpha=0.5, label=cont)
+plt.xscale("log"); plt.legend(); plt.show()
+\end{minted}
+\end{frame}
+
+% 18 ──────────────────────────────────────────────────────────
+\section{Recursos recomendados}
+\begin{frame}{Para profundizar}
+\begin{itemize}
+  \item Cheat-sheet oficial: \url{https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf}
+  \item Libro “Python Data Science Handbook”, capítulos ocho a once.
+  \item Lista Awesome Public Datasets en GitHub.
+\end{itemize}
+\end{frame}
+
+% 19 ──────────────────────────────────────────────────────────
+\section{Preguntas frecuentes}
+\begin{frame}{FAQ en vivo}
+\begin{itemize}
+ \item \textbf{Warning SettingWithCopy} → usa `loc` y `copy`.  
+ \item CSV muy grande → convierte a Parquet y gana 5-10 x en velocidad.  
+ \item Problemas en merge → usa `validate="one\_to\_one"` para asegurar unicidad.
+\end{itemize}
+\end{frame}
+
+% 20 ──────────────────────────────────────────────────────────
+\section{Próximos temas}
+\begin{frame}{En la próxima semana}
+Estadística básica, bootstrap y visualización con Seaborn aplicadas a datos físicos.
+\end{frame}
+
+% 21 ──────────────────────────────────────────────────────────
+\begin{frame}\Huge{\centerline{¡Fin de la sesión!}}\end{frame}
+
+\end{document}

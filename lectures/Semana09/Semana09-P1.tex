@@ -1,0 +1,244 @@
+\documentclass[10pt]{beamer}
+\input{../preamble.tex}
+
+\title{Semana 9 – Sesión 1 (17)\\Matplotlib avanzado, ciclos for y primeras destrezas con pandas}
+\author{PCFI161 – Programación para Física y Astronomía}
+\date{\today}
+
+\begin{document}
+\myfront{}
+
+% 1 ──────────────── PORTADA ──────────────────────────────────
+\begin{frame}\titlepage\end{frame}
+
+% 2 ──────────────── ÍNDICE ───────────────────────────────────
+\begin{frame}\frametitle{Índice}\tableofcontents\end{frame}
+
+% 3 ──────────────── FUENTES DE DATOS ─────────────────────────
+\section{Fuentes de datos}
+\begin{frame}{Fuentes de datos que usaremos hoy}
+\begin{itemize}
+  \item Exoplanetas – Seaborn  
+        \url{https://raw.githubusercontent.com/mwaskom/seaborn-data/master/planets.csv}
+  \item Masas de partículas – PDG  
+        \url{https://raw.githubusercontent.com/particle-physics-book/data/master/pdg\_mass.csv}
+\end{itemize}
+Copia las direcciones en tu notebook para seguir los ejemplos.
+\end{frame}
+
+% 4 ──────────────── REPASO FOR (INTRO) ──────────────────────
+\section{Repaso rápido de ciclos for}
+\begin{frame}{Por qué reforzar los ciclos for}
+Los bucles siguen apareciendo en limpieza de datos, cálculos y gráficos.  
+Observa tres patrones de uso frecuentes.
+\end{frame}
+
+% 5 ──────────────── FOR EN LISTAS ───────────────────────────
+\begin{frame}[fragile]{Ejemplo 1 – recorrer una lista}
+\textbf{Objetivo.} Calcular la energía cinética de varias masas sin NumPy.
+\begin{minted}{python}
+masas   = [1.0, 3.5, 2.2]
+veloc   = [10.0, 7.5, 12.3]
+energ   = []                        # salida vacía
+
+for m, v in zip(masas, veloc):
+    ec = 0.5 * m * v**2
+    energ.append(ec)
+print(energ)
+\end{minted}
+\textit{Punto docente.} Presenta la función zip y la técnica de lista vacía + append.
+\end{frame}
+
+% 6 ──────────────── ENUMERATE ───────────────────────────────
+\begin{frame}[fragile]{Ejemplo 2 – enumerate para acceso dual}
+\textbf{Objetivo.} Mostrar índice más valor cuando la lista es corta.
+\begin{minted}{python}
+planetas = ["Mercurio", "Venus", "Tierra", "Marte"]
+for i, nombre in enumerate(planetas, start=1):
+    print(f"{i}. {nombre}")
+\end{minted}
+\emph{Enumerate evita errores al llevar contadores manualmente.}
+\end{frame}
+
+% 7 ──────────────── FOR EN NUMPY ────────────────────────────
+\begin{frame}[fragile]{Ejemplo 3 – bucle sobre array NumPy}
+\textbf{Advertencia.} Siempre que sea posible usa vectorización,  
+pero a veces un for es más claro para prototipos.
+\begin{minted}{python}
+import numpy as np
+x = np.linspace(0, 2*np.pi, 5)
+for valor in x:
+    print(f"sen({valor:.2f}) = {np.sin(valor):.3f}")
+\end{minted}
+\end{frame}
+
+% 8 ──────────────── MATPLOTLIB INTRO ────────────────────────
+\section{Matplotlib avanzado}
+\begin{frame}{Objetivo de la sección}
+Crear figuras profesionales: subplots elegantes, superficies 3D y barras de color.  
+Añadimos comentarios didácticos para que el profesor narre lo que sucede.
+\end{frame}
+
+% 9 ──────────────── SUBPLOTS ───────────────────────────────
+\begin{frame}[fragile]{Subplots lado a lado con ejes compartidos}
+\textbf{Qué haremos.} Graficar seno y coseno en la misma figura para comparar amplitud.
+\begin{minted}{python}
+fig, ejes = plt.subplots(1, 2, figsize=(8,3), sharex=True)
+x = np.linspace(0, 2*np.pi, 200)
+ejes[0].plot(x, np.sin(x),  label='sen')      # rojo por defecto C1
+ejes[1].plot(x, np.cos(x), '--', label='cos') # línea discontinua
+for ax in ejes:
+    ax.grid(); ax.legend()
+fig.suptitle("Comparación seno y coseno"); plt.tight_layout()
+\end{minted}
+\end{frame}
+
+% 10 ─────────────── STYLES ────────────────────────────────
+\begin{frame}[fragile]{Aplicar un estilo científico}
+\textbf{Propósito.} Mejorar tipografía y espaciado con un comando.
+\begin{minted}{python}
+plt.style.use("science")  # pip install SciencePlots
+\end{minted}
+Ideal para informes formales o posters científicos.
+\end{frame}
+
+% 11 ────────────── HISTOGRAMAS ─────────────────────────────
+\begin{frame}[fragile]{Histogramas superpuestos para dos muestras}
+\textbf{Qué veremos.} Distribuciones A y B y cómo se solapan.
+\begin{minted}{python}
+A = np.random.normal(0, 1, 1000)
+B = np.random.normal(1, 1.2, 1000)
+plt.hist(A, bins=25, alpha=0.6, label='A')
+plt.hist(B, bins=25, alpha=0.6, label='B')
+plt.xlabel("valor"); plt.ylabel("frecuencia"); plt.legend(); plt.show()
+\end{minted}
+Discusión: ¿cuál tiene mayor varianza? ¿Hay intersección apreciable?
+\end{frame}
+
+% 12 ────────────── SUPERFICIE 3D ───────────────────────────
+\begin{frame}[fragile]{Superficie 3D con barra de color}
+\textbf{Idea.} Visualizar una campana bidimensional Gaussiana.
+\begin{minted}{python}
+x = y = np.linspace(-4, 4, 100)
+X, Y = np.meshgrid(x, y)
+Z = np.exp(-(X**2 + Y**2))
+fig = plt.figure(figsize=(6,4))
+ax  = fig.add_subplot(projection='3d')
+surf = ax.plot_surface(X, Y, Z, cmap='viridis')
+fig.colorbar(surf, label='amplitud', shrink=0.6)
+plt.show()
+\end{minted}
+La barra de color codifica la altura de la superficie.
+\end{frame}
+
+% 13 ────────────── POR QUÉ PANDAS ─────────────────────────
+\section{Introducción rápida a pandas}
+\begin{frame}{Motivación}
+\begin{itemize}
+  \item Tabla etiquetada con operaciones vectorizadas.  
+  \item Lectura y escritura de formatos comunes sin configuración.  
+  \item Funciona de la mano con Matplotlib para gráficos instantáneos.
+\end{itemize}
+\end{frame}
+
+% 14 ────────────── DATAFRAME CREAR ─────────────────────────
+\begin{frame}[fragile]{Crear un DataFrame y describir estadísticas}
+\textbf{Pasos.} Construir datos simples y solicitar resumen numérico.
+\begin{minted}{python}
+import pandas as pd
+df = pd.DataFrame({"masa":[1.0, 3.5, 2.2],
+                   "vel":[10.0, 7.5, 12.3]})
+df["energia"] = 0.5 * df.masa * df.vel**2
+df.describe()
+\end{minted}
+`describe` entrega media, desviación, mínimos y cuartiles.
+\end{frame}
+
+% 15 ────────────── LEER CSV REMOTO ─────────────────────────
+\begin{frame}[fragile]{Leer un CSV remoto en una línea}
+\textbf{URL usada.} Planetas extra solares en el repositorio Seaborn.
+\begin{minted}{python}
+planets = pd.read_csv(
+  "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/planets.csv")
+planets.head()
+\end{minted}
+\end{frame}
+
+% 16 ────────────── FILTRO LOC ─────────────────────────────
+\begin{frame}[fragile]{Filtrar filas con loc y máscaras}
+\textbf{Caso.} Planetas descubiertos mediante tránsito con masa definida.
+\begin{minted}{python}
+mask = (planets.method == "Transit") & planets.mass.notna()
+transit = planets.loc[mask, ["name", "mass", "distance"]]
+\end{minted}
+\end{frame}
+
+% 17 ────────────── GROUPBY ────────────────────────────────
+\begin{frame}[fragile]{Resumen rápido con groupby y agg}
+\textbf{Meta.} Contar y encontrar la mediana de distancias por método.
+\begin{minted}{python}
+resumen = (planets.groupby("method")["distance"]
+                     .agg(conteo='size', mediana='median'))
+resumen.head()
+\end{minted}
+\end{frame}
+
+% 18 ────────────── PLOT INTEGRADO ─────────────────────────
+\begin{frame}[fragile]{Histograma desde el propio DataFrame}
+\textbf{Qué se graficará.} Distribución de distancias a la estrella.
+\begin{minted}{python}
+planets["distance"].plot.hist(bins=25, alpha=0.8)
+plt.title("Distancias"); plt.xlabel("parsec"); plt.show()
+\end{minted}
+\end{frame}
+
+% 19 ────────────── QUERY LECTURA ──────────────────────────
+\begin{frame}[fragile]{Filtro legible con query}
+\begin{minted}{python}
+ligeros = planets.query("mass < 1 and distance < 100")
+\end{minted}
+`query` acepta una cadena al estilo SQL para mayor claridad.
+\end{frame}
+
+% 20 ────────────── MERGE ───────────────────────────────────
+\begin{frame}[fragile]{Unir con merge para añadir información}
+\textbf{Ejemplo.} Agregar la masa del protón a cada planeta para normalizar.
+\begin{minted}{python}
+pdg = pd.read_csv(
+  "https://raw.githubusercontent.com/particle-physics-book/data/master/pdg_mass.csv")
+proton = pdg.loc[pdg.symbol == "p", "mass_GeV"].iat[0]
+planets["masaSobreMp"] = planets.mass / proton
+\end{minted}
+\end{frame}
+
+% 21 ────────────── CONSEJOS ───────────────────────────────
+\begin{frame}{Consejos prácticos}
+\begin{itemize}
+  \item Usa `memory\_usage(deep=True)` para revisar consumo.  
+  \item Convierte columnas repetidas a categoría y ahorra memoria.  
+  \item Prueba `eval` y `query` para filtros rápidos y legibles.
+\end{itemize}
+\end{frame}
+
+% 22 ────────────── ACTIVIDAD ──────────────────────────────
+\section{Actividad breve}
+\begin{frame}{Desafío de quince minutos}
+Filtra exoplanetas por “Radial Velocity”, dibuja masa versus periodo logarítmico y comenta la tendencia.
+\end{frame}
+
+% 23 ────────────── RESUMEN ────────────────────────────────
+\section{Resumen}
+\begin{frame}{Lo aprendido hoy}
+Subplots, estilos, 3D en Matplotlib, repaso de ciclos for y manejo básico de pandas.
+\end{frame}
+
+% 24 ────────────── PRÓXIMA ────────────────────────────────
+\section*{Próxima sesión}
+\begin{frame}{Próximo paso}
+La siguiente clase profundiza en pivotado, fechas y rendimiento en pandas.
+\end{frame}
+
+% 25 ────────────── CRÉDITOS / FIN ─────────────────────────
+\begin{frame}\Huge{\centerline{¡Fin de la sesión!}}\end{frame}
+
+\end{document}
