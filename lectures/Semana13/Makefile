@@ -1,9 +1,9 @@
 # Variables
-LATEX = lualatex -interaction=nonstopmode -halt-on-error
+LATEX = lualatex -interaction=nonstopmode -halt-on-error -shell-escape
 OUTPUT = > /dev/null 2>&1
 
 # Archivos fuente
-PDFS = Semana13-P1.pdf Semana13-P2.pdf
+PDFS = Semana13-P1.pdf #Semana13-P2.pdf
 
 all: $(PDFS)
 
@@ -15,4 +15,4 @@ all: $(PDFS)
 clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.pdf
 	rm -f preamble.tex
-	rm -fr _minted/
+	rm -fr _minted-*/
