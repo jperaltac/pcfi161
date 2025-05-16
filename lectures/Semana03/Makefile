@@ -1,5 +1,5 @@
 # Variables
-LATEX = lualatex -interaction=nonstopmode -halt-on-error
+LATEX = lualatex -shell-escape -interaction=nonstopmode -halt-on-error
 OUTPUT = > /dev/null 2>&1
 
 # Archivos fuente
@@ -15,4 +15,4 @@ all: $(PDFS)
 clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.pdf
 	rm -f preamble.tex
-	rm -fr _minted/
+	rm -fr _minted-*/
