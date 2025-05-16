@@ -1,4 +1,5 @@
 \documentclass[10pt]{beamer}
+\usepackage{xcolor}
 
 % ------------------------------------------------------------------------
 % Carga de tu preámbulo personalizado (preamble.tex)
@@ -51,7 +52,7 @@
         \item Problemas tipo: “Adivina el número”, “Calculadora de Calificaciones”, “Movimiento Discreto”.
         \item Manejo de validaciones, contadores y salidas controladas de bucles.
       \end{itemize}
-    \item \textbf{Objetivo de hoy}: Introducir \textbf{Funciones} en Python y exploración de \textbf{módulos/paquetes} con ejemplos prácticos.
+      \textbf{Ejemplo}: {\texttt{\textcolor{blue}{def f(): x=10}}} — la variable {\texttt{\textcolor{blue}{x}}} vive solo en {\texttt{\textcolor{blue}{f()}}}.
   \end{itemize}
 \end{frame}
 
@@ -103,6 +104,7 @@ def nombre_de_funcion(param1, param2, ...):
     # opcionalmente retornar un valor
     return resultado
 \end{minted}
+\vspace{-1cm}
 \begin{itemize}
   \item \textbf{Parámetros}: valores de entrada que la función utiliza.
   \item \textbf{return}: finaliza la función y opcionalmente devuelve un valor.
@@ -134,7 +136,8 @@ r = 5
 a = area_circulo(r)
 print("El área del círculo es:", a)
 \end{minted}
-\begin{itemize}
+\vspace{-1.0cm}
+\begin{itemize}\small
   \item \textbf{Encapsulamos} la operación en \texttt{area\_circulo}.
   \item \textbf{Parámetro} \texttt{radio}.
   \item \textbf{Retorno} con \texttt{return area}.
@@ -181,7 +184,7 @@ print(s1, s2)
     \item \textbf{Mejor práctica}: Mantener funciones “puras”, evitando depender de variables globales.
   \end{itemize}
   \vspace{0.2cm}
-  \textbf{Ejemplo}: \texttt{def f(): x=10} — la variable \texttt{x} vive solo en \texttt{f()}.
+  \textbf{Ejemplo}: {\texttt{\textcolor{blue}{def f(): x=10}}} — la variable {\texttt{\textcolor{blue}{x}}} vive solo en {\texttt{\textcolor{blue}{f()}}}.
 \end{frame}
 
 % ------------------------------------------------------------------------
