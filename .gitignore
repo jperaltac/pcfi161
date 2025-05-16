@@ -25,6 +25,7 @@ build/
 *.snm
 *.vrb
 *.tmp
+_minted*/
 _minted/
 Semana??-P?.pdf
 
