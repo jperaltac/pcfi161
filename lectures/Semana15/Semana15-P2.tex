@@ -1,0 +1,110 @@
+\documentclass[10pt]{beamer}
+\input{../preamble.tex}
+
+\title{Semana 15 -- Sesión 2 (Sesión 30):\
+Taller Evaluado y Lanzamiento de la TAREA VI}
+\author{PCFI161}
+\date{11 jun 2025}
+
+\begin{document}
+\myfront{}
+\begin{frame}\titlepage\end{frame}
+
+% Índice
+\begin{frame}\frametitle{Resumen -- Semana 15, Sesión 2}\tableofcontents\end{frame}
+\metroset{block=fill}
+
+%------------------------------------------------------------------
+\section{Objetivos del Taller}
+%------------------------------------------------------------------
+\begin{frame}{Qué haremos hoy}
+\begin{itemize}
+  \item Aplicar vectorización y multiprocesamiento en un problema sencillo.  
+  \item Medir correctamente tiempos con \texttt{\%timeit}.  
+  \item Entregar un notebook (\textbf{Taller 15}) en 45 min.  
+  \item Presentar la \textbf{TAREA VI} (para casa, 1 semana).  
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Datos y tarea del taller}
+%------------------------------------------------------------------
+\begin{frame}{Datasets}
+\begin{itemize}
+  \item \texttt{velocidades.csv} -- 50 000 velocidades (m/s).  
+  \item \texttt{random\_points.npy} -- matriz \(1\times10^6\) puntos \((x,y)\).  
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Taller 15 -- Instrucciones}
+\textbf{Parte A -- Energía cinética (20 min)}
+\begin{enumerate}
+  \item Cargar velocidades y masa \(m=0.150\;\text{kg}\).  
+  \item Calcular energía cinética con bucle y con vectorización.  
+  \item Medir tiempos y listar mínimo, máximo, promedio de \(E_k\).
+\end{enumerate}
+
+\textbf{Parte B -- Monte Carlo \(\pi\) (25 min)}
+\begin{enumerate}
+  \setcounter{enumi}{3}
+  \item Leer \texttt{random\_points.npy}.  
+  \item Implementar estimación de \(\pi\) serie y luego paralela con \texttt{multiprocessing.Pool}.  
+  \item Registrar speedup (\texttt{tiempo\_serie/tiempo\_paralelo}).  
+\end{enumerate}
+
+\textbf{Entrega}: \texttt{Taller15\_GrupoX.ipynb} en CANVAS.
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Pauta de evaluación}
+%------------------------------------------------------------------
+\begin{frame}{Criterios de corrección}
+\begin{itemize}
+  \item Funciona y produce resultados correctos (40 %).  
+  \item Uso apropiado de vectorización / multiprocesos (25 %).  
+  \item Medición de tiempos y análisis breve (20 %).  
+  \item Claridad de código y comentarios (15 %).  
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Lanzamiento de la TAREA VI}
+%------------------------------------------------------------------
+\begin{frame}{TAREA V -- Mini-proyecto de optimización}
+\begin{block}{Resumen}
+  \begin{itemize}
+    \item Elegir \textbf{uno} de 3 retos (detallados en CANVAS):  
+      \begin{enumerate}
+        \item Simulación de caída libre con resistencia (vectorizar vs.\ bucle).  
+        \item Búsqueda del número primo más grande < 10\(^7\) (serie vs.\ parallel).  
+        \item Procesar un espectro (FFT) de 5 MB (optimizar con NumPy).  
+      \end{enumerate}
+    \item Comparar dos versiones y reportar speedup.  
+    \item Entregar notebook + PDF breve (máx. 3 pág.) antes del \textbf{18 jun 2025, 23:55}.  
+  \end{itemize}
+\end{block}
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Cuenta regresiva del taller}
+%------------------------------------------------------------------
+\begin{frame}{¡A trabajar!}
+\Large{\centering 45 min de tiempo efectivo}\\[0.4cm]
+\begin{itemize}
+  \item Reparte roles: Parte A / Parte B.  
+  \item Usa \texttt{\%\%timeit} para bloques largos.  
+  \item Guarda periódicamente.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Cierre}
+%------------------------------------------------------------------
+\begin{frame}{Próximos pasos}
+\begin{itemize}
+  \item Feedback del Taller 15 en 48 h.  
+  \item TAREA VI: 1 semana. Dudas → foro CANVAS.  
+\end{itemize}
+\end{frame}
+
+\end{document}

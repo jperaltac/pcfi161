@@ -1,0 +1,263 @@
+\documentclass[10pt]{beamer}
+\input{../preamble.tex}
+\usetikzlibrary{arrows.meta,positioning}
+\setminted{
+  fontsize=\footnotesize,   % \tiny  \scriptsize  \footnotesize  \small …
+  baselinestretch=1.05      % (opcional) separación de líneas
+}
+
+\title{S15P1 (Sesión 29):\
+Primeros pasos en Optimización y Paralelización con Python}
+\author{PCFI161 -- Programación para Física y Astronomía}
+\date{09 jun 2025}
+
+\begin{document}
+\myfront{}
+\begin{frame}\titlepage\end{frame}
+
+% Índice
+\begin{frame}\frametitle{Resumen -- Semana 15, Sesión 1}\tableofcontents\end{frame}
+\metroset{block=fill}
+
+%------------------------------------------------------------------
+\section{¿Por qué optimizar?}
+%------------------------------------------------------------------
+\begin{frame}{Motivación}
+\begin{itemize}
+  \item Cálculos lentos $\Rightarrow$  menos iteraciones de prueba $\Leftrightarrow$  menos aprendizaje.
+  \item Simular 1 000 000 lanzamientos de dados / trayectorias $Rightarrow$ minutos vs.\ segundos.
+  \item Procesar grandes catálogos astronómicos: rapidez $=$ poder hacer más ciencia.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Medir antes de optimizar}
+%------------------------------------------------------------------
+\begin{frame}[fragile]{\%timeit (recordatorio rápido)}
+\begin{minted}{python}
+import numpy as np
+x = np.random.random(10_000)
+
+%timeit [v**2 for v in x]      # lista y bucle
+%timeit x**2                   # vectorización NumPy
+\end{minted}
+\alert{Regla de oro}: perfila primero – optimiza después.
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Vectorización básica}
+%------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo 1 -- Energía cinética de 50\_000 partículas}
+\begin{minted}{python}
+import numpy as np
+
+N = 50_000
+m = np.random.uniform(1, 5,  N)          # masas 1–5 kg
+v = np.random.uniform(0, 20, N)          # vel. 0–20 m/s
+# Versión lenta (bucle Python)
+def ke_loop(m, v):
+    e = []
+    for mi, vi in zip(m, v):
+        e.append(0.5 * mi * vi**2)
+    return e
+# Versión rápida (NumPy vectorizado)
+e_vec = 0.5 * m * v**2
+\end{minted}
+
+\begin{block}{\small Mide la diferencia}
+\begin{minted}{python}
+%timeit ke_loop(m, v)
+%timeit 0.5 * m * v**2
+\end{minted}
+\end{block}
+\end{frame}
+
+% ===================== NUEVA SECCIÓN: Paralelización =======================
+% 
+% --------------------------------------------------------------------------
+
+\section{¿Qué significa “cálculo en paralelo”?}
+
+% ---------- Slide: Procesador multinúcleo ----------------------------------
+\begin{frame}{Procesador multinúcleo: la idea}
+\begin{itemize}
+  \item Un \textbf{núcleo} ejecuta \emph{una} instrucción a la vez.
+  \item Portátiles actuales traen 2–8 núcleos; PCs de laboratorio, 12–32.
+  \item \textbf{Cálculo en paralelo}: repartir el trabajo en varios núcleos para
+        terminar antes. \\
+        \(\displaystyle \text{Speedup}\;S = \frac{T_{\text{serie}}}{T_{\text{paralelo}}}\)
+  \item Necesitamos:  
+        \begin{enumerate}
+          \item Dividir datos o tareas en \(\le N_{\text{núcleos}}\) trozos.  
+          \item Ejecutarlos de forma simultánea.  
+          \item Reunir los resultados.  
+        \end{enumerate}
+  \item Python puro usa un sólo núcleo \(\Rightarrow\) librería
+        \texttt{multiprocessing} crea \emph{procesos hijos} para saltar esa
+        limitación.
+\end{itemize}
+\end{frame}
+
+% ---------- Slide: Serie vs. Paralelo (visual) ------------------------
+\begin{frame}{Serie vs.\ Paralelo – Visualmente}
+\centering\small
+
+%----------- TikZ ------------------------------------------------------
+\begin{tikzpicture}[
+    % Escala: 1 unidad x = 5 mm  (ajusta a gusto) -----------------------
+    x=5mm, y=6mm, >=Stealth,
+    task/.style  ={draw,fill=blue!20,minimum width=1,minimum height=0.6},
+    label/.style ={anchor=east,font=\bfseries}
+  ]
+  %--------------- Fila 1 : 1 núcleo -----------------------------------
+  \node[label]  at (0,0) {1 núcleo};
+  \foreach \i in {0,...,7}
+      \node[task] at ( 1+\i,0) {};
+
+  %--------------- Fila 2 : 4 núcleos ----------------------------------
+  \node[label]  at (0,-1.3) {4 núcleos};
+  % 4 tareas se procesan a la vez → un solo «bloque de tiempo»
+  \node[task,minimum width=1] at (1,-1.3) {};
+  % segunda oleada
+  \node[task,minimum width=1] at (2,-1.3) {};
+
+  %--------------- Flecha de tiempo ------------------------------------
+  % flecha llega justo hasta el final de la fila superior (t_serie)
+  \draw[thick,->] (1,-2.4) -- (9,-2.4) node[anchor=west] {tiempo};
+\end{tikzpicture}
+
+\vspace{4mm}
+
+\begin{itemize}
+  \item \textbf{Arriba}: 8 tareas en serie \(\bigl(T_{\text{serie}}\bigr)\).
+  \item \textbf{Abajo}: 4 núcleos $\Rightarrow$ 2 “oleadas” de 4 tareas  
+        \(\bigl(T_{\text{paralelo}}\approx T_{\text{serie}}/4\bigr)\).
+  \item El paralelismo añade \textbf{sobrecarga}: creación de procesos,
+        envío / recogida de datos… Si las tareas son muy pequeñas, no se gana
+        tiempo.
+\end{itemize}
+\end{frame}
+
+
+
+
+% ---------- Slide: Pequeña tabla de speedup real ---------------------------
+\begin{frame}{¿Cuánto se gana en la práctica?}
+\begin{center}
+\begin{tabular}{c|ccc}
+\hline
+\textbf{Núcleos} & 1 & 2 & 4 \\
+\hline
+\textbf{Serie} (\(10^6\) raíces) & \multicolumn{3}{c}{\(\;T_{\text{serie}} = 1.20\ \text{s}\)} \\
+\textbf{Paralelo} & --- & \(0.66\ \text{s}\) & \(0.35\ \text{s}\) \\
+\(\displaystyle S = T_{\text{serie}}/T_{\text{paralelo}}\) & 1.0 & 1.8 & 3.4 \\
+\hline
+\end{tabular}
+\end{center}
+
+\small
+Speedup real \(< N_{\text{núcleos}}\) por la sobrecarga, pero sigue siendo una
+gran mejora.
+\end{frame}
+
+% ---------- Slide: Ejemplo 2 (revisado) ------------------------------------
+\section{Introducción a multiprocesamiento}
+
+\begin{frame}[fragile]{Ejemplo 2 – Cálculo paralelo de raíces cuadradas}
+\textbf{Objetivo}: medir la ganancia de dividir \(N=200\,000\) cálculos entre
+todos los núcleos disponibles.
+
+\begin{minted}{python}
+import multiprocessing as mp
+import math, random
+
+N = 200_000
+datos = [random.random() for _ in range(N)]
+
+def raiz(x):
+    return math.sqrt(x)
+
+# --- Versión serie ---
+%timeit [raiz(d) for d in datos]
+
+# --- Versión paralela ---
+%%timeit
+with mp.Pool(processes=mp.cpu_count()) as pool:
+    pool.map(raiz, datos)
+\end{minted}
+
+\begin{itemize}
+  \item \texttt{Pool} crea tantos procesos como núcleos (\texttt{cpu\_count()}).
+  \item Cada proceso recibe un bloque de la lista \texttt{datos}.  
+  \item \texttt{pool.map} combina los resultados en el orden original.
+\end{itemize}
+\end{frame}
+
+
+
+%------------------------------------------------------------------
+\section{Introducción a multiprocesamiento}
+%------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo 2 – Cálculo paralelo de raíces cuadradas}
+\begin{minted}{python}
+import multiprocessing as mp
+import math, time, random
+
+def raiz(x):                       # tarea simple
+    return math.sqrt(x)
+
+datos = [random.random() for _ in range(200_000)]
+
+# --- Serie ---
+%timeit [raiz(d) for d in datos]
+
+# --- Paralelo (Pool.map) ---
+%%timeit
+with mp.Pool(processes=mp.cpu_count()) as pool:
+    pool.map(raiz, datos)
+\end{minted}
+
+\small
+Observa cuántos \texttt{processes} hay en tu equipo (\texttt{cpu\_count}).
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Ejercicios guiados en clase}
+%------------------------------------------------------------------
+\begin{frame}{Ejercicio A – Ciclo vs. Vectorización}
+\begin{block}{Objetivo}
+  \begin{itemize}
+    \item Genera \(n=100\,000\) posiciones \((x,y)\) en \([-1,1]\).
+    \item Calcula la distancia al origen \(r=\sqrt{x^2+y^2}\) usando:
+      \begin{enumerate}
+        \item bucle \texttt{for},
+        \item vectorización NumPy.
+      \end{enumerate}
+    \item Compara tiempos con \texttt{\%timeit}.
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Ejercicio B – Paralelizar Monte Carlo \(\pi\)}
+\begin{block}{Instrucciones mínimas}
+  \begin{enumerate}
+    \item Divide \(N=2\cdot10^6\) puntos en 4 sub-bloques.
+    \item Cada proceso genera sus puntos y cuenta cuántos caen en el círculo.
+    \item Combina resultados para estimar \(\pi\).
+    \item Mide tiempo serie vs.\ paralelo.
+  \end{enumerate}
+\end{block}
+\end{frame}
+
+%------------------------------------------------------------------
+\section{Cierre}
+%------------------------------------------------------------------
+\begin{frame}{Para la próxima sesión}
+\begin{itemize}
+  \item Revisa tus notebooks: apunta los mayores speedups logrados.  
+  \item Trae dudas sobre \texttt{Pool.map} o problemas de vectorización.  
+  \item \alert{TAREA V} para la próxima clase.  
+\end{itemize}
+\end{frame}
+
+\end{document}
