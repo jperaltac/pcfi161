@@ -2,7 +2,7 @@ name: Deploy Docs
 
 on:
   push:
-    branches: [ "main" ]     # o la rama por defecto que uses
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -13,16 +13,22 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20          # la LTS actual
+          node-version: 20
+          cache: 'npm'           # acelera instalaciones futuras
 
+      # ============ BUILD DOCUSAURUS ============
       - name: Install deps & build
         run: |
-          cd website
-          npm ci --no-bin-links         # o yarn install --frozen-lockfile
-          npm run build
+          # Listar para verificar que el lockfile está donde esperamos
+          ls -l website | head
 
+          # Instala usando el lockfile que YA está en website/
+          npm ci         --prefix website --no-bin-links
+          npm run build  --prefix website
+      # ============ DEPLOY ======================
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./website/build
+
