@@ -14,18 +14,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'           # acelera instalaciones futuras
+          cache: 'npm'
+          cache-dependency-path: 'website/package-lock.json'   # ← aquí
 
-      # ============ BUILD DOCUSAURUS ============
       - name: Install deps & build
         run: |
-          # Listar para verificar que el lockfile está donde esperamos
-          ls -l website | head
-
-          # Instala usando el lockfile que YA está en website/
+          ls -l website | head                 # debug opcional
           npm ci         --prefix website --no-bin-links
           npm run build  --prefix website
-      # ============ DEPLOY ======================
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
