@@ -1,0 +1,28 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches: [ "main" ]     # o la rama por defecto que uses
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20          # la LTS actual
+
+      - name: Install deps & build
+        run: |
+          cd website
+          npm ci                    # o yarn install --frozen-lockfile
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website/build
