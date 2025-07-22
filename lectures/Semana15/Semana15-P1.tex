@@ -41,7 +41,7 @@ x = np.random.random(10_000)
 %timeit [v**2 for v in x]      # lista y bucle
 %timeit x**2                   # vectorización NumPy
 \end{minted}
-\alert{Regla de oro}: perfila primero – optimiza después.
+\alert{Regla de oro}: perfila~\footnote{Medir cuánto tiempo y cuántos recursos consume cada parte de tu programa durante la ejecución.} primero – optimiza después.
 \end{frame}
 
 %------------------------------------------------------------------

@@ -1,109 +1,188 @@
 \documentclass[10pt]{beamer}
 \input{../preamble.tex}
 
-\title{Semana 15 -- Sesión 2 (Sesión 30):\
-Taller Evaluado y Lanzamiento de la TAREA VI}
+% ----------  NUEVO: minted ----------
+\usepackage{minted}        % Requiere compilar con -shell-escape
+\setminted{
+  fontsize=\tiny,
+  linenos,
+  baselinestretch=1,
+  breaklines
+}
+
+\title{S15P2 (Sesión 30)\\Repaso guiado y Tarea V}
 \author{PCFI161}
 \date{11 jun 2025}
 
 \begin{document}
 \myfront{}
-\begin{frame}\titlepage\end{frame}
 
-% Índice
-\begin{frame}\frametitle{Resumen -- Semana 15, Sesión 2}\tableofcontents\end{frame}
+% ───────────────────────────────────────────────
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Índice de la sesión
+\begin{frame}
+  \frametitle{Ruta de la sesión (60 min)}
+  \tableofcontents
+\end{frame}
+
 \metroset{block=fill}
 
-%------------------------------------------------------------------
-\section{Objetivos del Taller}
-%------------------------------------------------------------------
-\begin{frame}{Qué haremos hoy}
-\begin{itemize}
-  \item Aplicar vectorización y multiprocesamiento en un problema sencillo.  
-  \item Medir correctamente tiempos con \texttt{\%timeit}.  
-  \item Entregar un notebook (\textbf{Taller 15}) en 45 min.  
-  \item Presentar la \textbf{TAREA VI} (para casa, 1 semana).  
-\end{itemize}
-\end{frame}
+% ============================================================
+\section{Repaso \& Calentamiento (40 min)}
+% ============================================================
 
-%------------------------------------------------------------------
-\section{Datos y tarea del taller}
-%------------------------------------------------------------------
-\begin{frame}{Datasets}
-\begin{itemize}
-  \item \texttt{velocidades.csv} -- 50 000 velocidades (m/s).  
-  \item \texttt{random\_points.npy} -- matriz \(1\times10^6\) puntos \((x,y)\).  
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Taller 15 -- Instrucciones}
-\textbf{Parte A -- Energía cinética (20 min)}
+% ------------------------------------------------------------
+\begin{frame}{Mini-quiz relámpago (3 min)}
+\begin{block}{¿Recuerdas…?}
 \begin{enumerate}
-  \item Cargar velocidades y masa \(m=0.150\;\text{kg}\).  
-  \item Calcular energía cinética con bucle y con vectorización.  
-  \item Medir tiempos y listar mínimo, máximo, promedio de \(E_k\).
+  \item ¿Qué hace \texttt{\%timeit -n 10}?
+  \item ¿Cómo sabes cuántos núcleos tiene tu CPU en Python?
+  \item ¿Qué función NumPy usarías para reemplazar un bucle que calcula $x^2$ sobre un vector?
 \end{enumerate}
-
-\textbf{Parte B -- Monte Carlo \(\pi\) (25 min)}
-\begin{enumerate}
-  \setcounter{enumi}{3}
-  \item Leer \texttt{random\_points.npy}.  
-  \item Implementar estimación de \(\pi\) serie y luego paralela con \texttt{multiprocessing.Pool}.  
-  \item Registrar speedup (\texttt{tiempo\_serie/tiempo\_paralelo}).  
-\end{enumerate}
-
-\textbf{Entrega}: \texttt{Taller15\_GrupoX.ipynb} en CANVAS.
+\end{block}
+{\scriptsize Respuestas en voz alta, sin nota.}
 \end{frame}
 
-%------------------------------------------------------------------
-\section{Pauta de evaluación}
-%------------------------------------------------------------------
-\begin{frame}{Criterios de corrección}
-\begin{itemize}
-  \item Funciona y produce resultados correctos (40 %).  
-  \item Uso apropiado de vectorización / multiprocesos (25 %).  
-  \item Medición de tiempos y análisis breve (20 %).  
-  \item Claridad de código y comentarios (15 %).  
+% ------------------------------------------------------------
+\begin{frame}[fragile]{Vectorización vs. bucle – Ejemplo sintético (10 min)}
+\vspace{-0.3cm}
+\begin{minted}{python}
+# --- Setup (solo una vez) ---
+import numpy as np
+np.random.seed(42)
+N = 50_000
+v = np.random.uniform(0, 30, N)
+m = 0.150
+\end{minted}
+\vspace{-0.3cm}
+\begin{minted}{python}
+# --- 1) bucle puro Python ---
+%%timeit
+E_loop = [0.5*m*vi**2 for vi in v]
+\end{minted}
+\vspace{-0.3cm}
+\begin{minted}{python}
+# --- 2) vectorizado NumPy ---
+%%timeit
+E_vec = 0.5*m*v**2
+\end{minted}
+
+\begin{itemize}\small
+  \item ¿Son identidos los tiempos? ¿Y los valores obtenidos (busque información sobre \texttt{np.allclose})? 
+  \item Pregunta: ¿por qué la orden \texttt{v**2} es tan veloz?
 \end{itemize}
 \end{frame}
 
-%------------------------------------------------------------------
-\section{Lanzamiento de la TAREA VI}
-%------------------------------------------------------------------
-\begin{frame}{TAREA V -- Mini-proyecto de optimización}
-\begin{block}{Resumen}
-  \begin{itemize}
-    \item Elegir \textbf{uno} de 3 retos (detallados en CANVAS):  
-      \begin{enumerate}
-        \item Simulación de caída libre con resistencia (vectorizar vs.\ bucle).  
-        \item Búsqueda del número primo más grande < 10\(^7\) (serie vs.\ parallel).  
-        \item Procesar un espectro (FFT) de 5 MB (optimizar con NumPy).  
-      \end{enumerate}
-    \item Comparar dos versiones y reportar speedup.  
-    \item Entregar notebook + PDF breve (máx. 3 pág.) antes del \textbf{18 jun 2025, 23:55}.  
-  \end{itemize}
+% ------------------------------------------------------------
+\begin{frame}[fragile]{Midiendo correctamente con \%timeit (5 min)}
+\begin{minted}{python}
+%timeit [0.5 * m * vi**2 for vi in v]          # bucle Python
+%timeit 0.5 * m * v**2                        # vectorizado
+\end{minted}
+\begin{block}{Buenas prácticas}
+\begin{itemize}
+  \item Usa \texttt{-n} y \texttt{-r} para fijar repeticiones si los tiempos son muy bajos.
+  \item Mide funciones aisladas con la magia \texttt{\%timeit} sobre el nombre.
+  \item Reporta siempre el mejor tiempo o el promedio junto al desvío.
+\end{itemize}
 \end{block}
 \end{frame}
 
-%------------------------------------------------------------------
-\section{Cuenta regresiva del taller}
-%------------------------------------------------------------------
-\begin{frame}{¡A trabajar!}
-\Large{\centering 45 min de tiempo efectivo}\\[0.4cm]
+% ------------------------------------------------------------
+%\begin{frame}[fragile]{Paralelismo rápido: Monte Carlo $\pi$ (10 min)}
+%\begin{minted}{python}
+%import numpy as np, multiprocessing as mp
+%points = np.load("random_points.npy")  # (1e6, 2)
+%
+%# Versión serie
+%def estimate_pi_serial(pts):
+%    inside = np.sum(np.square(pts).sum(axis=1) <= 1)
+%    return 4 * inside / len(pts)
+%# Versión paralela
+%cores = mp.cpu_count()
+%
+%def _count_inside(chunk):
+%    return np.sum(np.square(chunk).sum(axis=1) <= 1)
+%
+%with mp.Pool(cores) as pool:
+%    chunks = np.array_split(points, cores)
+%    inside_total = sum(pool.map(_count_inside, chunks))
+%pi_parallel = 4 * inside_total / len(points)
+%\end{minted}
+%\begin{itemize}
+%  \item Discusión: Speedup teórico vs. medido con \texttt{\%timeit}.
+%  \item Overhead de \texttt{multiprocessing} para problemas pequeños.
+%\end{itemize}
+%\end{frame}
+
+% ------------------------------------------------------------
+\begin{frame}{Transición a la Tarea}
+\Large
+Repaso completado. ¡A trabajar en la Tarea V!
+
+\vspace{0.4cm}
+\small
+Recuerden crear su notebook grupal antes de comenzar.
+\end{frame}
+
+% ============================================================
+\section{Tarea V (20 min)}
+% ============================================================
+
+\begin{frame}{Datasets proporcionados}
 \begin{itemize}
-  \item Reparte roles: Parte A / Parte B.  
-  \item Usa \texttt{\%\%timeit} para bloques largos.  
-  \item Guarda periódicamente.
+  \item \texttt{velocidades.csv} — 50 000 velocidades (m/s).
+  \item url:
+  {\footnotesize \texttt{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S15/velocidades.csv}}
+  %\item \texttt{random\_points.npy} — matriz $1\times10^6$ puntos $(x,y)$ uniformes en $[-1,1]^2$.
 \end{itemize}
 \end{frame}
 
-%------------------------------------------------------------------
+\begin{frame}{Instrucciones}
+\textbf{Energía cinética}
+\begin{enumerate}
+  \item Cargar las velocidades y usar masa $m = 0.150\,\text{kg}$.
+  \item Calcular la energía cinética con (a) bucle clásico y (b) vectorización NumPy.
+  \item Medir tiempos con \texttt{\%timeit}. Reportar $\min$, $\max$ y $\bar{E_k}$.
+\end{enumerate}
+
+\textbf{Desafío adicional}: Modifique el nombre del archivo a velocidades\_big.csv (el mismo PATH), y observe nuevamente los tiempos.
+
+%\textbf{Parte B — Monte Carlo $\pi$ (10 min)}
+%\begin{enumerate}
+%  \setcounter{enumi}{3}
+%  \item Leer \texttt{random\_points.npy}.
+%  \item Implementar estimación de $\pi$ (i) serie y (ii) paralela con \texttt{multiprocessing.Pool}.
+%  \item Calcular el \textit{speedup}: $S = t_{\text{serie}}/t_{\text{paralelo}}$.
+%\end{enumerate}
+
+\textbf{Entrega}: \texttt{Tarea15\_GrupoX.ipynb} antes del cierre en \textsc{Canvas}.
+\end{frame}
+
+% ============================================================
+\section{Pauta de evaluación}
+% ============================================================
+
+\begin{frame}{Criterios de corrección}
+\begin{itemize}
+  \item Resultados correctos y reproducibles — 40 \%.
+  \item Uso apropiado de vectorización / multiprocesamiento — 25 \%.
+  \item Medición de tiempos y breve análisis — 20 \%.
+  \item Claridad de código y comentarios — 15 \%.
+\end{itemize}
+\end{frame}
+
+% ============================================================
 \section{Cierre}
-%------------------------------------------------------------------
+% ============================================================
 \begin{frame}{Próximos pasos}
 \begin{itemize}
-  \item Feedback del Taller 15 en 48 h.  
-  \item TAREA VI: 1 semana. Dudas → foro CANVAS.  
+  \item Suban su notebook antes de salir de la sala.
+  \item Si tienen dudas, ¡pregunten al profesor o ayudante!
+  \item La próxima semana comenzamos a preparar nuestra solemne.
 \end{itemize}
 \end{frame}
 

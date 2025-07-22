@@ -88,7 +88,7 @@ def binary_search(lista_ordenada, objetivo):
 \begin{itemize}
   \item Reduce el rango a la mitad cada vez $\longrightarrow$ \(\mathcal{O}(\log n)\).  
   \item Sólo funciona si la lista está \textbf{ordenada}.  
-  \item Explicación amigable: Khan Academy.
+  \item Explicación amigable: \href{https://es.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search}{Khan Academy}.
 \end{itemize}
 \end{frame}
 
@@ -154,6 +154,18 @@ Después de ordenar:
 \texttt{minT = sorted\_list[0]}, \texttt{maxT = sorted\_list[-1]},  
 \texttt{mediana = (sorted\_list[n//2] + sorted\_list[(n-1)//2]) / 2}
 }
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Magic Commands}
+El comando anterior \texttt{\%timeit o \%\%timeit} se conocen como \textit{magic commands}, que permiten extender las funcionalidades del entorno interactivo (como los \textit{Jupyter Notebook}, o \textit{Google Colab}). Ejemplos comunes de \textit{magic commands}:
+
+\begin{itemize}
+  \item \texttt{\%timeit}: mide tiempos de ejecución de una línea de código.
+  \item \texttt{\%\%timeit}: mide el tiempo de todo un bloque o celda de código.
+  \item \texttt{\%matplotlib inline}: habilita gráficos dentro del notebook.
+  \item \texttt{\%ls}, \texttt{\%cd}, \texttt{\%who}: comandos mágicos relacionados con el sistema de archivos o variables de entorno. 
+\end{itemize}
 \end{frame}
 
 % ---------- Slide C1: Preparar datos simulados ----------------------
