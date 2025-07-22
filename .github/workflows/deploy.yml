@@ -18,7 +18,7 @@ jobs:
       - name: Install deps & build
         run: |
           cd website
-          npm ci                    # o yarn install --frozen-lockfile
+          npm ci --no-bin-links         # o yarn install --frozen-lockfile
           npm run build
 
       - name: Deploy to GitHub Pages
