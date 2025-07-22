@@ -2,13 +2,13 @@
 module.exports = {
   title: 'Programación para Física y Astromomía',
   tagline: 'Elementos fundamentales de Python3',
-  url: 'https://lectures.gitarra.site',
-  baseUrl: '/pcfi161/',
+  url: 'https://jperaltac.github.io',   // tu dominio GitHub Pages
+  baseUrl: '/pcfi161/',                 // repo Pages → deja la barra final
+  organizationName: 'jperaltac',        // tu usuario u organización
+  projectName: 'pcfi161',               // el nombre del repo
   onBrokenLinks: 'log',
   onBrokenMarkdownLinks: 'log',
   favicon: 'img/favicon.ico',
-  organizationName: 'GitLab', // Usually your GitHub org/user name.
-  projectName: 'pcfi161', // Usually your repo name.
   themeConfig: {
     navbar: {
       title: 'PCFI161',
