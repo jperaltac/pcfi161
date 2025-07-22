@@ -20,7 +20,7 @@ jobs:
       - name: Install deps & build
         run: |
           ls -l website | head                 # debug opcional
-          npm ci         --prefix website --no-bin-links
+          npm ci         --prefix website
           npm run build  --prefix website
 
       - name: Deploy to GitHub Pages
