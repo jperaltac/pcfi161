@@ -13,7 +13,7 @@ all: $(PDFS)
 	$(LATEX) $< $(OUTPUT)
 
 clean:
-	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.pdf
+	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb
 	rm -f preamble.tex
 	rm -fr _minted-*/
 	rm -fr _minted/
