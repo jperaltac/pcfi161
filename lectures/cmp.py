@@ -55,7 +55,7 @@ def main():
         with tqdm(total=len(subfolders), desc="Limpiando", unit="folder") as pbar:
             for folder in subfolders:
                 clean_folder(folder)
-                pbar.update(1)
+                #pbar.update(1)
     else:
         parser.print_help()
 
