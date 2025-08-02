@@ -3,7 +3,7 @@
 % ------------------------------------------------------------------------
 % Carga de preámbulo
 % ------------------------------------------------------------------------
-\input{../preamble.tex}
+\input{../preamble_test.tex}
 
 \begin{document}
 
@@ -36,6 +36,8 @@
 % SECCIÓN 1: Contexto e Introducción
 % ----------------------------------------------------------------------------------------
 \section{Contexto e Introducción}
+
+%\textcolor{DarkPythonBlue}{Contexto e Introducción}
 
 % ------------------------------------------------------------------------
 % Slide 3: Contexto del Curso
@@ -121,7 +123,7 @@ Vamos entonces a revisar el detalle del Syllabus de este período.
 \begin{frame}
   \frametitle{Google Colab}
   \begin{figure}
-    \includegraphics[width=0.95\textwidth]{2) Colab/GColab01.png}
+    \includegraphics[width=1.00\textwidth]{2) Colab/GColab01.png}
   \end{figure}
 \end{frame}
 % ------------------------------------------------------------------------
@@ -194,7 +196,8 @@ print("¡Hola, mundo de la Física y Astronomía!")
 % Slide 11: Operaciones Básicas
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Operaciones Básicas con Python}
-\begin{minted}[
+
+  \begin{minted}[
 frame=lines,
 framesep=2mm,
 baselinestretch=1.2,
@@ -210,6 +213,7 @@ division   = a / b     # 2.5 (float)
 exponente  = a ** b    # 25 (5^2)
 modulo     = a % b     # 1 (resto de la división)
 \end{minted}
+
 \begin{itemize}
   \item \texttt{/} produce un resultado float.
   \item \texttt{//} realiza \emph{división entera}.

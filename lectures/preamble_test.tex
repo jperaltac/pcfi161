@@ -1,0 +1,90 @@
+\usetheme[progressbar=frametitle]{metropolis}
+\usepackage{appendixnumberbeamer}
+\usepackage{fancyvrb}
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\usepackage{type1cm}
+\usepackage{lettrine}
+\usepackage{ragged2e}
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage[utf8]{inputenc} %solucion del problema de los acentos.
+\usepackage{xcolor}
+\usepackage{verbatim}
+\definecolor{LightGray}{gray}{0.9}
+% Paleta de azules estilo Python/matplotlib
+\definecolor{PythonBlue}{RGB}{31, 119, 180}      % Azul principal matplotlib
+\definecolor{LightPythonBlue}{RGB}{174, 199, 232} % Azul claro para fondos
+\definecolor{DarkPythonBlue}{RGB}{23, 90, 135}    % Azul oscuro para líneas
+
+\usepackage{minted}
+\usemintedstyle{tango}
+\newcommand{\mypyfile}[1]{\inputminted[linenos=true, fontsize=\footnotesize, frame=lines, framesep=5\fboxrule,framerule=1pt]{python}{#1}}
+
+\setminted[python]{breaklines,frame=lines,framesep=2mm,baselinestretch=1.2,bgcolor=LightPythonBlue,linenos, fontsize=\footnotesize} % obeytabs=true, tabsize=2, showtabs=true}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Configuración de colores del tema con paleta azul Python
+\setbeamercolor{progress bar}{fg=DarkPythonBlue,bg=LightPythonBlue}
+\setbeamercolor{title separator}{fg=DarkPythonBlue,bg=white!50!black}
+\setbeamercolor{frametitle}{fg=white,bg=PythonBlue}
+\title[PCFI161]{Programaci\'on para F\'isica y Astronom\'ia}
+\subtitle{Departamento de Física.}
+
+\newcommand{\myfront}{
+\author[PCFI161]{Corodinadora: C Loyola \\ Profesores C Femenías / F Bugini / D Basantes}
+\institute[UNAB]{Universidad Andrés Bello \\ Departamento de Física y Astronomía}
+\date{Primer Semestre 2025}
+}
+
+\titlegraphic{
+  \includegraphics[width=.08\textwidth]{1) Logo/logo-tux.png}\hfill
+  \includegraphics[width=.3\textwidth]{1) Logo/logo-unab.png}\hfill
+  \includegraphics[width=.08\textwidth]{1) Logo/logo-python.png}
+}
+
+\makeatletter
+\setbeamertemplate{title page}{
+  \begin{minipage}[b][\paperheight]{\textwidth}
+    \vfill%
+    \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
+    \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+    \usebeamertemplate*{title separator}
+    \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+    \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+    \vfill
+    \ifx\inserttitlegraphic\@empty\else\inserttitlegraphic\fi
+    \vspace*{1cm}
+  \end{minipage}
+}
+\makeatother
+
+% Configuración personalizada del frametitle para incluir la sección
+\makeatletter
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[%
+      wd=\paperwidth,%
+      sep=0pt,%
+      leftskip=\@ifundefined{metropolis@frametitle@padding}{12pt}{\metropolis@frametitle@padding},%
+      rightskip=\@ifundefined{metropolis@frametitle@padding}{12pt}{\metropolis@frametitle@padding},%
+    ]{frametitle}%
+  \@ifundefined{metropolis@frametitlestrut@start}{}{\metropolis@frametitlestrut@start}%
+  {\textcolor{LightPythonBlue}{\insertsectionhead}\ifx\insertsectionhead\@empty\else\ $\in$ \fi}\insertframetitle%
+  \nolinebreak%
+  \@ifundefined{metropolis@frametitlestrut@end}{}{\metropolis@frametitlestrut@end}%
+  \end{beamercolorbox}%
+}
+\makeatother
+
+\makeatletter
+% Configuración segura de longitudes del tema Metropolis
+\@ifundefined{metropolis@titleseparator@linewidth}{}{\setlength{\metropolis@titleseparator@linewidth}{2pt}}
+\@ifundefined{metropolis@progressonsectionpage@linewidth}{}{\setlength{\metropolis@progressonsectionpage@linewidth}{2pt}}
+\@ifundefined{metropolis@progressinheadfoot@linewidth}{}{\setlength{\metropolis@progressinheadfoot@linewidth}{2pt}}
+\makeatother
