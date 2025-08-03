@@ -91,13 +91,7 @@
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Comentarios y Buenas Prácticas}
   \textbf{Ejemplo de comentarios en Python}:
-  \begin{minted}[
-    frame=lines,
-    framesep=2mm,
-    baselinestretch=1.2,
-    bgcolor=LightGray,
-    fontsize=\footnotesize
-  ]{python}
+  \begin{minted}{python}
 # Esto es un comentario de una sola línea
 
 """
@@ -152,13 +146,7 @@ print(x)
 % Slide 9: Revisando Conversiones (Casting)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Conversiones Explícitas (Casting)}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.2,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 # De string a entero
 edad_str = input("Ingresa tu edad: ")
 edad = int(edad_str)
@@ -180,13 +168,7 @@ numero_flotante = float(numero_entero)  # 5.0
 % Slide 10: Operaciones Aritméticas y Prioridades
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Operaciones y Precedencia}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.1,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 # Orden de precedencia:
 # 1. Paréntesis
 # 2. Exponente **
@@ -195,7 +177,7 @@ numero_flotante = float(numero_entero)  # 5.0
 
 a = 2 + 3 * 4      # 2 + 12 = 14
 b = (2 + 3) * 4    # 5 * 4 = 20
-c = 2**3 * 3       # 8 * 3 = 24
+c = 2**3 * 3       # 2^3 * 3 = 24
 \end{minted}
 \begin{itemize}
   \item \textbf{Evitar ambigüedades}: usar paréntesis cuando sea necesario.
@@ -228,13 +210,7 @@ c = 2**3 * 3       # 8 * 3 = 24
 % Slide 12: Ejemplo 1 - Manejo de Variables
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo 1: Manejo de Variables}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.1,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 nombre = input("¿Cuál es tu nombre? ")
 edad_str = input("¿Cuál es tu edad? ")
 edad = int(edad_str)
@@ -252,13 +228,7 @@ print("Dentro de 5 años tendrás", edad_futura, "años.")
 % Slide 13: Ejemplo 2 - Aritmética Directa
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo 2: Aritmética Directa en Colab}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.1,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 # Aritmética directa en una celda Colab
 result1 = (2 + 3) * (5 - 1)
 result2 = 10 / 2 + 6 // 3 - 4
@@ -313,13 +283,7 @@ print("Result2 =", result2)
 % Slide 16: Ejemplo de Solución (Mini-Calculadora)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo de Solución (Mini-Calculadora)}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.1,
-  bgcolor=LightGray,
-  fontsize=\scriptsize
-]{python}
+\begin{minted}[fontsize=\tiny]{python}
 num1_str = input("Ingresa el primer número: ")
 num2_str = input("Ingresa el segundo número: ")
 op = input("Ingresa la operación (+, -, *, /): ")

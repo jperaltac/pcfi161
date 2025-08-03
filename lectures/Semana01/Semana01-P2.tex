@@ -39,12 +39,12 @@
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 1: Recapitulación de la Sesión 1
 % ----------------------------------------------------------------------------------------
-\section{Recapitulación Sesión 1}
+\section{Introducción y Repaso}
 
 % ------------------------------------------------------------------------
 % Slide 3: Repaso Rápido
 % ------------------------------------------------------------------------
-\begin{frame}{Repaso de la Clase Anterior}
+\begin{frame}{Repaso de la Sesión Anterior}
   \begin{itemize}
     \item Contexto general del curso y relevancia de la programación en Física/Astronomía.
     \item Familiarización inicial con Google Colab:
@@ -70,129 +70,119 @@
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ajustes y Entorno en Colab
+% SECCIÓN 2: Warm-up - Preparación para la Práctica
 % ----------------------------------------------------------------------------------------
-\section{Ajustes y Entorno en Colab}
+\section{Preparación para la Práctica}
 
 % ------------------------------------------------------------------------
-% Slide 5: Organización de Archivos
+% Slide 5: Recordatorio de Conceptos Clave
 % ------------------------------------------------------------------------
-\begin{frame}{Organización de Archivos y Notebooks}
+\begin{frame}{Recordatorio: Conceptos Clave de la Sesión 1}
   \begin{itemize}
-    \item Es recomendable mantener una carpeta específica para la asignatura en Google Drive.
-    \item Crearemos un notebook llamado \texttt{Sesion2\_Semana1.ipynb} para guardar nuestro trabajo.
-    \item \textbf{Tip:} Usa nombres descriptivos para notebooks y subcarpetas (e.g., \emph{ejercicios}, \emph{notas}, \emph{pruebas}).
+    \item \textbf{Variables y Asignación}: \texttt{nombre = valor}
+    \item \textbf{Tipos de datos}: \texttt{int}, \texttt{float}, \texttt{str}
+    \item \textbf{Entrada}: \texttt{input()} siempre devuelve string
+    \item \textbf{Conversión}: \texttt{float()}, \texttt{int()}
+    \item \textbf{Salida}: \texttt{print()} y f-strings
   \end{itemize}
+  
+  \begin{block}{Patrón básico de un programa}
+    \texttt{entrada → procesamiento → salida}
+  \end{block}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 6: Ejecución Inmediata de Código
+% Slide 6: Demostración Rápida en Vivo
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejecución Inmediata de Código en Colab}
-  \begin{itemize}
-    \item Cada celda de un notebook se ejecuta de forma independiente.
-    \item Es posible realizar pruebas rápidas sin afectar las demás celdas.
-    \item \textbf{Ejemplo de celda interactiva}:
-    \begin{minted}[
-      frame=lines,
-      framesep=2mm,
-      baselinestretch=1.2,
-      bgcolor=LightGray,
-      fontsize=\footnotesize
-    ]{python}
-# Celda 1
-x = 10
-print(x)
-    \end{minted}
+\begin{frame}[fragile]{Demostración en Vivo: Recordando lo Básico}
+\begin{minted}{python}
+# Ejemplo simple para refrescar
+nombre = input("¿Cómo te llamas? ")
+edad = int(input("¿Cuántos años tienes? "))
 
-    \begin{minted}[
-      frame=lines,
-      framesep=2mm,
-      baselinestretch=1.2,
-      bgcolor=LightGray,
-      fontsize=\footnotesize
-    ]{python}
-# Celda 2
-x = x + 5
-print(x)  # Mostrará 15
-    \end{minted}
-  \end{itemize}
+print(f"Hola {nombre}, tienes {edad} años")
+
+# Operación matemática simple
+area = 3.14 * 5**2
+print(f"Área de círculo radio 5: {area}")
+\end{minted}
+
+\textbf{Ejecutemos esto juntos} para recordar la mecánica básica.
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Ejercicios de Asignaciones y Operaciones
+% SECCIÓN 3: Ejercicios Guiados (Progresión Gradual)
 % ----------------------------------------------------------------------------------------
-\section{Ejercicios de Asignaciones y Operaciones}
+\section{Ejercicios Guiados}
 
 % ------------------------------------------------------------------------
-% Slide 7: Ejercicio 1 - Conversión de Unidades
+% Slide 7: Ejercicio 1 - Área y Perímetro de Rectángulo
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: Conversión de Unidades}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Área y Perímetro de un Rectángulo}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Pide al usuario que introduzca una longitud en \textbf{metros}.
-      \item Convierte ese valor a centímetros, milímetros y kilómetros.
-      \item Imprime los resultados.
+      \item Solicita al usuario el largo y ancho de un rectángulo (en metros).
+      \item Calcula el área (\(A = largo \times ancho\)) y el perímetro (\(P = 2(largo + ancho)\)).
+      \item Muestra ambos resultados con unidades apropiadas.
     \end{itemize}
   \end{block}
-  \textbf{Objetivo:} Practicar asignaciones simples, multiplicaciones y/o divisiones.
+  
+  \textbf{Trabajemos este ejercicio JUNTOS paso a paso:}
+  \begin{enumerate}
+    \item Identificar las entradas necesarias
+    \item Escribir las fórmulas matemáticas
+    \item Implementar en Python
+    \item Probar con valores específicos
+  \end{enumerate}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 8: Ejercicio 2 - Suma de Dos Variables
+% Slide 8: Solución Ejercicio 1 (Paso a Paso)
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: Suma de Dos Variables}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Pide al usuario dos números (pueden ser enteros o decimales).
-      \item Asigna cada número a una variable distinta (\texttt{a, b}).
-      \item Realiza la suma y muestra el resultado.
-    \end{itemize}
-  \end{block}
-  \textbf{Extensión:} Imprime también la resta, el producto y el cociente.
+\begin{frame}[fragile]{Solución Ejercicio 1: \hfill \textcolor{green}{$\checkmark$} \\ Paso a Paso}
+\begin{minted}{python}
+# Paso 1: Obtener datos del usuario
+largo = float(input("Largo del rectángulo (m): "))
+ancho = float(input("Ancho del rectángulo (m): "))
+
+# Paso 2: Calcular usando las fórmulas
+area = largo * ancho
+perimetro = 2 * (largo + ancho)
+
+# Paso 3: Mostrar resultados con formato claro
+print(f"Área: {area} m²")
+print(f"Perímetro: {perimetro} m")
+\end{minted}
+
+\textbf{Probemos con}: largo = 5, ancho = 3
+\textbf{Resultado esperado}: Área = 15 m², Perímetro = 16 m
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 9: Ejercicio 3 - Promedio de Tres Notas
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: Promedio de Tres Notas}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Solicita tres notas (numeros en \([1.0 - 7.0]\) típicamente).
-      \item Calcula el promedio aritmético.
-      \item Muestra el resultado con un mensaje apropiado.
-    \end{itemize}
-  \end{block}
-  \textbf{Discusión:}
-  \begin{itemize}
-    \item ¿Qué pasa si ingresan valores fuera del rango?
-    \item El tipo de dato a usar: \texttt{float}.
-  \end{itemize}
-\end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Resolución Colaborativa
+% SECCIÓN 4: Práctica Individual/Grupal
 % ----------------------------------------------------------------------------------------
-\section{Resolución Colaborativa}
+\section{Práctica Colaborativa}
 
 % ------------------------------------------------------------------------
-% Slide 10: Grupos de Trabajo
+% Slide : Grupos de Trabajo
 % ------------------------------------------------------------------------
 \begin{frame}{Trabajo en Grupos}
   \begin{itemize}
     \item Dividir la clase en \textbf{equipos de 2-3 integrantes}.
-    \item Cada equipo crea o comparte un notebook en Colab con sus compañeros.
+    \item Cada integrante del equipo crea su propio notebook en Colab.
     \item Se recomienda comentar el código para anotar:
       \begin{itemize}
         \item Qué hace cada línea.
         \item Si surge algún error, cómo se corrigió.
       \end{itemize}
     \item Comparar sus resultados y conclusiones.
+    \item Importante a cada integrante le funcione el código en su notebook.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 11: Puesta en Común
+% Slide : Puesta en Común
 % ------------------------------------------------------------------------
 \begin{frame}{Puesta en Común de Dudas y Experiencias}
   \begin{itemize}
@@ -207,39 +197,97 @@ print(x)  # Mostrará 15
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 12: Ejemplo de Solución (Conversión de Unidades)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de Solución: Conversión de Unidades}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.1,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
-long_m = float(input("Introduce una longitud en metros: "))
-cm = long_m * 100
-mm = long_m * 1000
-km = long_m / 1000
 
-print(f'En centímetros: {cm} cm')
-print(f'En milímetros : {mm} mm')
-print(f'En kilómetros : {km} km')
+% ------------------------------------------------------------------------
+% Slide 7: Ejercicio 2 - Calculadora de Velocidad
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$}\\ Calculadora de Velocidad}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide al usuario la distancia recorrida (en metros) y el tiempo empleado (en segundos).
+      \item Calcula la velocidad usando la fórmula \(v = \frac{d}{t}\).
+      \item Muestra el resultado en m/s y también convertido a km/h.
+    \end{itemize}
+  \end{block}
+  \textbf{Conversión:} Para pasar de m/s a km/h, multiplicar por 3.6.
+  \\
+  \textbf{Física:} Esta es una de las ecuaciones cinemáticas fundamentales.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Ejercicio 3 - Suma de Dos Variables
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Suma de Dos Variables}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide al usuario dos números (pueden ser enteros o decimales).
+      \item Asigna cada número a una variable distinta (\texttt{a, b}).
+      \item Realiza la suma y muestra el resultado.
+    \end{itemize}
+  \end{block}
+  \textbf{Extensión:} Imprime también la resta, el producto y el cociente.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Ejercicio 4 - Promedio de Tres Notas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Promedio de Tres Notas }
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita tres notas (numeros en \([1.0 - 7.0]\) típicamente).
+      \item Calcula el promedio aritmético.
+      \item Muestra el resultado con un mensaje apropiado.
+    \end{itemize}
+  \end{block}
+  \textbf{Discusión:}
+  \begin{itemize}
+    \item ¿Qué pasa si ingresan valores fuera del rango?
+    \item El tipo de dato a usar: \texttt{float}.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Ejercicio 5 - Conversión de Temperatura
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Conversión de Temperatura}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Pide una temperatura en grados Celsius.
+      \item Convierte a Fahrenheit: \(F = \frac{9}{5}C + 32\)
+      \item Convierte a Kelvin: \(K = C + 273.15\)
+      \item Muestra los tres valores con sus unidades.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Prueben con}: 0°C, 100°C, -40°C
+  \\
+  \textbf{Física relevante}: Estas conversiones son fundamentales en física y astronomía.
+\end{frame}
+
+
+
+% ------------------------------------------------------------------------
+% Slide 12: Ejemplo de Solución (Calculadora de Velocidad)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Calculadora de Velocidad}
+\begin{minted}{python}
+distancia = float(input("Distancia recorrida (m): "))
+tiempo = float(input("Tiempo empleado (s): "))
+
+velocidad_ms = distancia / tiempo
+velocidad_kmh = velocidad_ms * 3.6
+
+print(f'Velocidad: {velocidad_ms} m/s')
+print(f'Velocidad: {velocidad_kmh} km/h')
 \end{minted}
+\textbf{Discusión:} ¿Qué ocurre si tiempo = 0? (División por cero)
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 13: Ejemplo de Solución (Suma de Dos Variables)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de Solución: Suma de Dos Variables}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.1,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\Suma de Dos Variables}
+\begin{minted}{python}
 a_str = input("Ingresa el primer número: ")
 b_str = input("Ingresa el segundo número: ")
 
@@ -261,14 +309,8 @@ print(f'Cociente = {cociente}')
 % ------------------------------------------------------------------------
 % Slide 14: Ejemplo de Solución (Promedio de Tres Notas)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de Solución: Promedio de Tres Notas}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.1,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\Promedio de Tres Notas}
+\begin{minted}{python}
 n1 = float(input("Nota 1: "))
 n2 = float(input("Nota 2: "))
 n3 = float(input("Nota 3: "))
@@ -280,26 +322,75 @@ print(f'El promedio de las tres notas es: {promedio}')
 \end{frame}
 
 % ------------------------------------------------------------------------
+% Slide 13: Soluciones de Referencia - Ejercicio 5
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Conversión de Temperatura}
+\begin{minted}{python}
+celsius = float(input("Temperatura en °C: "))
+
+fahrenheit = (9/5) * celsius + 32
+kelvin = celsius + 273.15
+
+print(f"Temperatura en °C: {celsius}")
+print(f"Temperatura en °F: {fahrenheit}")
+print(f"Temperatura en K: {kelvin}")
+\end{minted}
+
+\textbf{Verificación}:
+\begin{itemize}
+  \item 0°C = 32°F = 273.15K
+  \item 100°C = 212°F = 373.15K
+  \item -40°C = -40°F = 233.15K
+\end{itemize}
+\end{frame}
+
+\section{Errores Comunes y Mejores Prácticas}
+
+% ------------------------------------------------------------------------
 % Slide 15: Pequeña Discusión sobre Errores
 % ------------------------------------------------------------------------
-\begin{frame}{Errores Frecuentes en Python}
-  \begin{itemize}
-    \item \textbf{ValueError}: ocurre al convertir strings inválidos en \texttt{float} o \texttt{int}.
-    \item \textbf{ZeroDivisionError}: cuando \texttt{b = 0} y se hace \texttt{a/b}.
-    \item \textbf{NameError}: uso de variables no definidas o mal escritas.
-  \end{itemize}
-  \textbf{Tip:} Leer atentamente el mensaje de error para identificar la causa y línea afectada.
+\begin{frame}{Errores Comunes en Esta Sesión}
+  \begin{block}{Errores frecuentes}
+    \begin{itemize}
+      \item \textbf{ValueError}: Intentar convertir texto no numérico a \texttt{float()}
+      \item \textbf{NameError}: Escribir mal el nombre de una variable
+      \item \textbf{ZeroDivisionError}: División por cero
+      \item \textbf{SyntaxError}: Olvidar comillas, paréntesis, etc.
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{Consejo}
+    Los errores son \textbf{oportunidades de aprendizaje}. Python te dice exactamente dónde está el problema y qué tipo de error es.
+  \end{alertblock}
 \end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Buenas Prácticas Observadas
+% ------------------------------------------------------------------------
+\begin{frame}{Buenas Prácticas que Esperamos Ver}
+  \begin{itemize}
+    \item \textbf{Nombres descriptivos}: \texttt{celsius} en lugar de \texttt{c}
+    \item \textbf{Comentarios útiles}: Explicar fórmulas complejas
+    \item \textbf{Incluir unidades}: en mensajes de entrada y salida
+    \item \textbf{Probar con casos extremos}: valores grandes, pequeños, cero
+    \item \textbf{Formato claro}: usar f-strings para salidas legibles
+  \end{itemize}
+  
+  \begin{block}{Ejemplo de buen estilo}
+    \texttt{temperatura\_celsius = float(input("Ingrese temperatura en °C: "))}
+  \end{block}
+\end{frame}
+
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 5: Actividad Adicional y Retroalimentación
 % ----------------------------------------------------------------------------------------
-\section{Actividades Prácticas}
+\section{Actividades Extra}
 
 % ------------------------------------------------------------------------
 % Slide 16: Actividad Extra - Escalas Físicas
 % ------------------------------------------------------------------------
-\begin{frame}{Actividad: Escalas Físicas}
+\begin{frame}{Actividad Extra 1: Escalas Físicas}
   El objetivo de esta actividad es de práctica en casa, la idea es que pueda prepararse para la Tarea en clase de la próxima semana que se realizará en la sesión 2.
   \begin{block}{Enunciado}
     \begin{itemize}
@@ -314,7 +405,7 @@ print(f'El promedio de las tres notas es: {promedio}')
 % ------------------------------------------------------------------------
 % Slide 17: Mini-Reto - Operaciones con Complejos
 % ------------------------------------------------------------------------
-\begin{frame}{Mini-Reto: Números Complejos (Opcional)}
+\begin{frame}{Actividad Extra 2: \\ Números Complejos (Opcional)}
   \begin{itemize}
     \item Python maneja complejos con la letra \texttt{j} (\emph{ej}: \texttt{3+2j}).
     \item Investiga cómo sumar, restar y multiplicar números complejos.

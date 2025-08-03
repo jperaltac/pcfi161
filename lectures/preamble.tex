@@ -15,18 +15,105 @@
 \usepackage[utf8]{inputenc} %solucion del problema de los acentos.
 \usepackage{xcolor}
 \usepackage{verbatim}
+
 \definecolor{LightGray}{gray}{0.9}
+% Paleta de azules estilo Python/matplotlib
+\definecolor{PythonBlue}{RGB}{31, 119, 180}      % Azul principal matplotlib
+\definecolor{LightPythonBlue}{RGB}{174, 199, 232} % Azul claro para fondos
+\definecolor{DarkPythonBlue}{RGB}{23, 90, 135}    % Azul oscuro para líneas
+
+% Colores para tema oscuro tipo VS Code/Colab
+\definecolor{DarkBackground}{RGB}{40, 44, 52}     % Fondo oscuro similar a VS Code
+\definecolor{CodeText}{RGB}{171, 178, 191}        % Texto gris claro para código
+\definecolor{DarkFrame}{RGB}{60, 63, 65}          % Color del marco/borde
+
+% Colores para tema claro
+\definecolor{LightBackground}{RGB}{248, 248, 242} % Fondo claro tipo GitHub
+\definecolor{LightCodeText}{RGB}{51, 51, 51}      % Texto oscuro para tema claro
+\definecolor{LightFrame}{RGB}{220, 220, 220}      % Marco gris claro
 
 \usepackage{minted}
-\usemintedstyle{tango}
-\newcommand{\mypyfile}[1]{\inputminted[linenos=true, fontsize=\footnotesize, frame=lines, framesep=5\fboxrule,framerule=1pt]{python}{#1}}
-
-\setminted[python]{breaklines,frame=lines,framesep=2mm,baselinestretch=1.2,bgcolor=LightGray,linenos, fontsize=\footnotesize} % obeytabs=true, tabsize=2, showtabs=true}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setbeamercolor{progress bar}{fg=blue!50!black,bg=white!50!black}
-\setbeamercolor{title separator}{fg=red!50!black,bg=white!50!black}
-\setbeamercolor{frametitle}{fg=white!80!black,bg=red!50!black}
+% CONFIGURACIÓN DE TEMAS - CAMBIA AQUÍ PARA ALTERNAR
+% ========================================================================
+% Descomenta UNA de las siguientes líneas para elegir el tema:
+
+% TEMA OSCURO (VS Code style)
+%\newcommand{\mytheme}{oscuro}
+%\usemintedstyle{monokai}
+%\newcommand{\mybgcolor}{DarkBackground}
+
+% TEMA CLARO (GitHub style) - comenta las 3 líneas de arriba y descomenta estas:
+ \newcommand{\mytheme}{claro}
+ \usemintedstyle{default}
+ \newcommand{\mybgcolor}{LightBackground}
+
+% ========================================================================
+\newcommand{\mypyfile}[1]{\inputminted[linenos=true, fontsize=\footnotesize, frame=lines, framesep=5\fboxrule,framerule=1pt]{python}{#1}}
+
+% Comando personalizado para código Python inline
+\newcommand{\pycode}[1]{\begin{minted}{python}#1\end{minted}}
+
+% ========================================================================
+% COMANDOS ESPECÍFICOS PARA CADA TEMA
+% ========================================================================
+% Comando para tema oscuro específico
+\newcommand{\pyoscuro}[1]{%
+\begin{minted}[
+  bgcolor=DarkBackground,
+  style=monokai,
+  breaklines,
+  frame=lines,
+  framesep=2mm,
+  baselinestretch=1.2,
+  linenos,
+  fontsize=\footnotesize
+]{python}
+#1
+\end{minted}
+}
+
+% Comando para tema claro específico
+\newcommand{\pyclaro}[1]{%
+\begin{minted}[
+  bgcolor=LightBackground,
+  style=default,
+  breaklines,
+  frame=lines,
+  framesep=2mm,
+  baselinestretch=1.2,
+  linenos,
+  fontsize=\footnotesize
+]{python}
+#1
+\end{minted}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Configuración global para todos los bloques minted de Python
+% Usa automáticamente el tema seleccionado arriba
+\setminted[python]{
+  breaklines,
+  frame=lines,
+  framesep=2mm,
+  baselinestretch=1.2,
+  bgcolor=\mybgcolor,
+  linenos, 
+  fontsize=\footnotesize
+} % Configuración dinámica según tema elegido
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Configuración de colores del tema con paleta azul Python
+\setbeamercolor{progress bar}{fg=DarkPythonBlue,bg=LightPythonBlue}
+\setbeamercolor{title separator}{fg=DarkPythonBlue,bg=white!50!black}
+\setbeamercolor{frametitle}{fg=white,bg=PythonBlue}
 \title[PCFI161]{Programaci\'on para F\'isica y Astronom\'ia}
 \subtitle{Departamento de Física.}
 
@@ -36,7 +123,7 @@
 \date{Primer Semestre 2025}
 }
 
-\titlegraphic{%
+\titlegraphic{
   \includegraphics[width=.08\textwidth]{1) Logo/logo-tux.png}\hfill
   \includegraphics[width=.3\textwidth]{1) Logo/logo-unab.png}\hfill
   \includegraphics[width=.08\textwidth]{1) Logo/logo-python.png}
@@ -59,9 +146,28 @@
 }
 \makeatother
 
+% Configuración personalizada del frametitle para incluir la sección
+\makeatletter
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[%
+      wd=\paperwidth,%
+      sep=0pt,%
+      leftskip=\@ifundefined{metropolis@frametitle@padding}{12pt}{\metropolis@frametitle@padding},%
+      rightskip=\@ifundefined{metropolis@frametitle@padding}{12pt}{\metropolis@frametitle@padding},%
+    ]{frametitle}%
+  \@ifundefined{metropolis@frametitlestrut@start}{}{\metropolis@frametitlestrut@start}%
+  {\textcolor{LightPythonBlue}{\insertsectionhead}\ifx\insertsectionhead\@empty\else\ $\ni$  \fi}\insertframetitle%
+  \nolinebreak%
+  \@ifundefined{metropolis@frametitlestrut@end}{}{\metropolis@frametitlestrut@end}%
+  \end{beamercolorbox}%
+}
+\makeatother
 
 \makeatletter
-\setlength{\metropolis@titleseparator@linewidth}{2pt}
-\setlength{\metropolis@progressonsectionpage@linewidth}{2pt}
-\setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
+% Configuración segura de longitudes del tema Metropolis
+\@ifundefined{metropolis@titleseparator@linewidth}{}{\setlength{\metropolis@titleseparator@linewidth}{2pt}}
+\@ifundefined{metropolis@progressonsectionpage@linewidth}{}{\setlength{\metropolis@progressonsectionpage@linewidth}{2pt}}
+\@ifundefined{metropolis@progressinheadfoot@linewidth}{}{\setlength{\metropolis@progressinheadfoot@linewidth}{2pt}}
 \makeatother
+

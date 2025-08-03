@@ -93,13 +93,7 @@
 % Slide 6: Manejo de Entrada/Salida
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Entrada y Salida}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.2,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 user_input = input("Dame un número: ")  # str
 num = float(user_input)                 # convierto a float
 print(f'Tu número + 10 es: {num + 10}')
@@ -236,13 +230,7 @@ print(f'Tu número + 10 es: {num + 10}')
 % Slide 14: Posible Solución - Ejercicio 1 (Movimiento)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución Propuesta: Ecuación de Movimiento 1D}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.1,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 x0_str = input("x0 (m): ")
 v0_str = input("v0 (m/s): ")
 a_str  = input("a  (m/s^2): ")
@@ -263,13 +251,7 @@ print(f'La posición en el tiempo t es: {x_t} m')
 % Slide 15: Posible Solución - Ejercicio 2 (Promedio/Varianza)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución Propuesta: Promedio y Varianza}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.1,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 vals = []
 for i in range(1, 4):
     val_str = input(f"Ingrese valor {i}: ")
@@ -294,13 +276,7 @@ print(f'Varianza = {var}')
 % Slide 16: Posible Solución - Ejercicio 3 (Conversión)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución Propuesta: Conversión de Unidades}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.1,
-  bgcolor=LightGray,
-  fontsize=\scriptsize
-]{python}
+\begin{minted}{python}
 valor_str = input("Valor: ")
 unidad_origen = input("Unidad origen (cm, m, km): ")
 unidad_destino = input("Unidad destino (cm, m, km): ")

@@ -27,8 +27,8 @@ build/
 *.tmp
 _minted*/
 _minted/
-Semana??-P?.pdf
 
+#Semana??-P?.pdf
 # Si no quieres subir PDFs generados por LaTeX, ignora el PDF
 # (descomenta la línea si no deseas subirlos)
 # *.pdf
