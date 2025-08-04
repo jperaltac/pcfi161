@@ -1,7 +1,9 @@
 \documentclass[10pt]{beamer}
 
 % ------------------------------------------------------------------------
-% Carga de preámbulo
+% Carga del preámbulo personalizado
+% (Asegúrate de contar con preamble.tex en la misma carpeta,
+%  donde defines temas, colores, macros como \myfront, etc.)
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
 
@@ -11,6 +13,7 @@
 % Portada personalizada, en tu preamble.tex podrías definirla con \myfront
 % ------------------------------------------------------------------------
 \myfront{}
+
 
 % ------------------------------------------------------------------------
 % Slide 1: Portada
@@ -35,7 +38,9 @@
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 1: Contexto e Introducción
 % ----------------------------------------------------------------------------------------
-\section{Contexto e Introducción}
+\section{Contexto del curso e Introducción}
+
+%\textcolor{DarkPythonBlue}{Contexto e Introducción}
 
 % ------------------------------------------------------------------------
 % Slide 3: Contexto del Curso
@@ -115,19 +120,6 @@ Vamos entonces a revisar el detalle del Syllabus de este período.
   \end{block}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 6.1: Google Colab
-% ------------------------------------------------------------------------
-\begin{frame}
-  \frametitle{Google Colab}
-  \begin{figure}
-    \includegraphics[width=0.95\textwidth]{GColab01.png}
-  \end{figure}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 7: Creación de un Notebook en Colab
-% ------------------------------------------------------------------------
 \begin{frame}{Creación de un Notebook en Colab}
   \begin{enumerate}
     \item Visita: \texttt{https://colab.research.google.com}
@@ -138,17 +130,86 @@ Vamos entonces a revisar el detalle del Syllabus de este período.
   \textbf{Sugerencia:} Organiza tus carpetas en Drive para mantener un buen orden.
 \end{frame}
 
+
+% ------------------------------------------------------------------------
+% Slide 6.1: Tutorial Google Colab - Paso a Paso
+% ------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Google Colab - Tutorial Paso a Paso}
+  \begin{center}
+    \textbf{Paso 1: Acceso inicial a Google Colab}
+  \end{center}
+  \begin{figure}
+    \includegraphics[width=0.95\textwidth]{2) Colab/GColab01.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Google Colab - Tutorial Paso a Paso}
+  \begin{center}
+    \textbf{Paso 2: Creación de nuevo notebook}
+  \end{center}
+  \begin{figure}
+    \includegraphics[width=0.95\textwidth]{2) Colab/GColab02.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Google Colab - Tutorial Paso a Paso}
+  \begin{center}
+    \textbf{Paso 3: Donde guardar el notebook}
+  \end{center}
+  \begin{figure}
+    \includegraphics[width=0.95\textwidth]{2) Colab/GColab03.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Google Colab - Tutorial Paso a Paso}
+  \begin{center}
+    \textbf{Paso 4: Empezar a crear carpetas}
+  \end{center}
+  \begin{figure}
+    \includegraphics[width=0.95\textwidth]{2) Colab/GColab04.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Google Colab - Tutorial Paso a Paso}
+  \begin{center}
+    \textbf{Paso 5: Crear carpeta con nombre del curso}
+  \end{center}
+  \begin{figure}
+    \includegraphics[width=0.95\textwidth]{2) Colab/GColab05.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Google Colab - Tutorial Paso a Paso}
+  \begin{center}
+    \textbf{Paso 6: Selecionar la carpeta creada}
+  \end{center}
+  \begin{figure}
+    \includegraphics[width=0.95\textwidth]{2) Colab/GColab06.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Google Colab - Tutorial Paso a Paso}
+  \begin{center}
+    \textbf{Paso 7: Darle nombre al notebook}
+  \end{center}
+  \begin{figure}
+    \includegraphics[width=0.95\textwidth]{2) Colab/GColab07.png}
+  \end{figure}
+\end{frame}
+
+
 % ------------------------------------------------------------------------
 % Slide 8: Ejecución de Código en Colab
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Nuestra Primera Ejecución en Colab}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 print("¡Hola, mundo de la Física y Astronomía!")
 \end{minted}
 \begin{itemize}
@@ -195,22 +256,19 @@ print("¡Hola, mundo de la Física y Astronomía!")
 % Slide 11: Operaciones Básicas
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Operaciones Básicas con Python}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
+
+\begin{minted}{python}
 a = 5
 b = 2
 suma       = a + b     # 7
 resta      = a - b     # 3
 producto   = a * b     # 10
 division   = a / b     # 2.5 (float)
+division_entera = a // b # 2 (int)
 exponente  = a ** b    # 25 (5^2)
 modulo     = a % b     # 1 (resto de la división)
 \end{minted}
+
 \begin{itemize}
   \item \texttt{/} produce un resultado float.
   \item \texttt{//} realiza \emph{división entera}.
@@ -227,26 +285,14 @@ Acá si ejecutamos no veremos los resultados, ya que para mostrar estos resultad
   \item \texttt{input()} para capturar información del usuario (devuelve \texttt{str}).
   \item \texttt{print()} para mostrar resultados en pantalla.
 \end{itemize}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 nombre = input("¿Cuál es tu nombre?: ")
 print("Hola", nombre, "bienvenido/a al curso!")
 \end{minted}
 
 Esta forma de la función \texttt{print} es hoy día mayoritariamente utilizada con \textit{f-string}, lo que sería:
 
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  baselinestretch=1.2,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-  ]{python}
+\begin{minted}{python}
   nombre = input("¿Cuál es tu nombre?: ")
   print(f'Hola {nombre} bienvenido/a al curso!')
   \end{minted}
@@ -257,14 +303,8 @@ Esta forma de la función \texttt{print} es hoy día mayoritariamente utilizada 
 % ------------------------------------------------------------------------
 % Slide 13: Ejemplo Completo 1
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo 1: Cálculo de Área de un Círculo}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
+\begin{frame}[fragile]{Ejemplo 1: Cálculo de Área \\ de un Círculo}
+\begin{minted}{python}
 import math
 
 r_str = input("Ingresa el radio del círculo: ")
@@ -281,7 +321,7 @@ print(f'El área del círculo es: {area}')
 % ------------------------------------------------------------------------
 % Slide 14: Mini-Ejercicio Guiado
 % ------------------------------------------------------------------------
-\begin{frame}{Mini-Ejercicio Guiado}
+\begin{frame}{Mini-Ejercicio Guiado \hfill \textcolor{red}{$\clubsuit$}}
 \begin{block}{Ejercicio}
   \begin{itemize}
     \item Escribe un programa que pida la masa (kg) y la aceleración (m/s\(^2\)).
@@ -292,17 +332,13 @@ print(f'El área del círculo es: {area}')
 \textbf{Tip:} Recuerda convertir la cadena de \texttt{input()} a \texttt{float}.
 \end{frame}
 
+
 % ------------------------------------------------------------------------
 % Slide 15: Solución Propuesta
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución Propuesta}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-bgcolor=LightGray,
-fontsize=\footnotesize
-]{python}
+\begin{frame}[fragile]
+\frametitle{Solución Propuesta \hfill \textcolor{green}{$\checkmark$}}
+\begin{minted}{python}
 m_str = input("Ingresa la masa (kg): ")
 a_str = input("Ingresa la aceleración (m/s^2): ")
 
@@ -318,63 +354,150 @@ print(f'La fuerza resultante es: {F} N')
 \end{itemize}
 \end{frame}
 
+
+
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 4: Actividad Práctica y Ejercicios
 % ----------------------------------------------------------------------------------------
 \section{Actividad Práctica}
 
 % ------------------------------------------------------------------------
-% Slide 16: Problema 1 (Grupal)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Problema 1: \hfill \textcolor{red}{$\clubsuit$} \\ Suma de Enteros Consecutivos}
+%\begin{block}{Enunciado}
+%  \begin{itemize}
+%    \item Pedir un número entero \(n\).
+%    \item Calcular \(\sum_{k=1}^{n} k\).
+%    \item Mostrar el resultado final.
+%  \end{itemize}
+%\end{block}
+%\textbf{Pistas}:
+%\begin{itemize}
+%  \item Usar un bucle o la fórmula \(\frac{n(n+1)}{2}\).
+%  \item ¿Cambios si \(n\) es muy grande?
+%\end{itemize}
+
+%Claramente, no hemos revisado bucles, ni cosas similares ya que es nuestra primera clase, pero anímese e investigue online sobre distintas formas de atacar este problema. Más adelante vamos a ir conociendo más sobre python.
+
+%\end{frame}
+
 % ------------------------------------------------------------------------
-\begin{frame}{Problema 1: Suma de Enteros Consecutivos}
+% Slide 17: Problema 2 (Grupal)
+% ------------------------------------------------------------------------
+%\begin{frame}{Problema 2: \hfill \textcolor{red}{$\clubsuit$} \\ Cálculo de Energía Cinética}
+%\begin{block}{Enunciado}
+%  \begin{itemize}
+%    \item Dada masa \(m\) y velocidad \(v\), calcular \(E_c = \frac{1}{2}mv^2\).
+%    \item Pedir \(m\) y \(v\) repetidamente.
+%    \item Detener cuando \(m=0\).
+%  \end{itemize}
+%\end{block}
+%\textbf{Discusión}:
+%\begin{itemize}
+%  \item ¿Por qué usar \texttt{while}?
+%  \item ¿Cómo terminar el bucle de forma limpia?
+%\end{itemize}
+%\end{frame}
+% ------------------------------------------------------------------------
+% Slide 18: Trabajo en Equipo
+% ------------------------------------------------------------------------
+%\begin{frame}{Actividad Práctica}
+%\begin{block}{Indicaciones}
+%  \begin{itemize}
+%    \item Revisen las soluciones de todos.
+%    \item Anoten dificultades o errores surgidos.
+%    \item Elaboren pequeñas conclusiones o dudas para la clase siguiente.
+%  \end{itemize}
+%\end{block}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Problema 1: \hfill \textcolor{red}{$\clubsuit$} \\ Conversión de Unidades de Distancia}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Pedir un número entero \(n\).
-    \item Calcular \(\sum_{k=1}^{n} k\).
-    \item Mostrar el resultado final.
+    \item Pedir una distancia en metros al usuario.
+    \item Convertir a kilómetros, centímetros y milímetros.
+    \item Mostrar todos los resultados con sus unidades correspondientes.
   \end{itemize}
 \end{block}
 \textbf{Pistas}:
 \begin{itemize}
-  \item Usar un bucle o la fórmula \(\frac{n(n+1)}{2}\).
-  \item ¿Cambios si \(n\) es muy grande?
+  \item Recordar las conversiones: 1 m = 0.001 km, 1 m = 100 cm, 1 m = 1000 mm.
+  \item Usar \texttt{f-strings} para mostrar resultados con formato claro.
+  \item ¿Qué pasa si el usuario ingresa un número muy grande o muy pequeño?
 \end{itemize}
 
-Claramente, no hemos revisado bucles, ni cosas similares ya que es nuestra primera clase, pero anímese e investigue online sobre distintas formas de atacar este problema. Más adelante vamos a ir conociendo más sobre python.
+\textbf{Ejemplo esperado:} Si ingresa 5 metros, debería mostrar: 5 m = 0.005 km = 500 cm = 5000 mm.
 
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 17: Problema 2 (Grupal)
 % ------------------------------------------------------------------------
-\begin{frame}{Problema 2: Cálculo de Energía Cinética}
+\begin{frame}{Problema 2: \hfill \textcolor{red}{$\clubsuit$} \\ Calculadora de Velocidad}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Dada masa \(m\) y velocidad \(v\), calcular \(E_c = \frac{1}{2}mv^2\).
-    \item Pedir \(m\) y \(v\) repetidamente.
-    \item Detener cuando \(m=0\).
+    \item Pedir distancia recorrida (en metros) y tiempo empleado (en segundos).
+    \item Calcular la velocidad usando \(v = \frac{d}{t}\).
+    \item Mostrar el resultado en m/s y como \textbf{bonus} convertir a km/h.
   \end{itemize}
 \end{block}
-\textbf{Discusión}:
+\textbf{Pistas}:
 \begin{itemize}
-  \item ¿Por qué usar \texttt{while}?
-  \item ¿Cómo terminar el bucle de forma limpia?
+  \item Para convertir de m/s a km/h, multiplicar por 3.6.
+  \item Considerar qué pasa si el tiempo es cero (¡división por cero!).
+  \item Incluir unidades en la salida para claridad.
 \end{itemize}
+
+\textbf{Física relevante:} Esta es una de las ecuaciones cinemáticas más fundamentales.
+
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 18: Trabajo en Equipo
+% Slide 18: Problema 3 (Grupal) - BONUS
+% ------------------------------------------------------------------------
+\begin{frame}{Problema 3: \hfill \textcolor{red}{$\clubsuit$} \\ Calculadora de Índice de Masa Corporal}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Pedir peso (en kg) y altura (en metros) al usuario.
+    \item Calcular el IMC usando la fórmula: \(IMC = \frac{peso}{altura^2}\).
+    \item Mostrar el resultado con interpretación básica.
+  \end{itemize}
+\end{block}
+\textbf{Pistas}:
+\begin{itemize}
+  \item Usar el operador \texttt{**} para elevar al cuadrado.
+  \item IMC < 18.5: bajo peso, 18.5-24.9: normal, 25-29.9: sobrepeso, ≥30: obesidad.
+  \item ¿Cómo mostrar el resultado con 2 decimales?
+\end{itemize}
+
+\textbf{Aplicación:} Aunque no es estrictamente física, involucra cálculos matemáticos relevantes para ciencias de la salud.
+
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Trabajo en Equipo
 % ------------------------------------------------------------------------
 \begin{frame}{Actividad Práctica}
 \begin{block}{Indicaciones}
   \begin{itemize}
-    \item Organizarse en grupos de 2-3 personas.
-    \item Revisen las soluciones de todos.
-    \item Anoten dificultades o errores surgidos.
-    \item Elaboren pequeñas conclusiones o dudas para la clase siguiente.
+    \item Trabajen en equipos de 2-3 personas.
+    \item Cada equipo debe intentar resolver al menos los Problemas 1 y 2.
+    \item El Problema 3 es opcional (para equipos que terminen rápido).
+    \item Prueben sus programas con diferentes valores de entrada.
+    \item Anoten cualquier error o comportamiento inesperado que encuentren.
   \end{itemize}
 \end{block}
+
+\textbf{Tiempo sugerido:} 20-25 minutos para programar + 10 minutos para discusión grupal.
+
+\begin{alertblock}{Importante}
+¡No se preocupen por hacer el código "perfecto"! El objetivo es practicar lo aprendido y familiarizarse con la programación.
+\end{alertblock}
 \end{frame}
+
 
 % ------------------------------------------------------------------------
 % Slide 19: Retroalimentación y Pausa

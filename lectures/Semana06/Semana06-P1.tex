@@ -178,12 +178,7 @@ import numpy as np
 % Slide 8: Creación de Arrays
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Creación de Arrays NumPy}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 import numpy as np
 
 # Convertir lista de Python a array NumPy
@@ -209,12 +204,7 @@ rango = np.arange(0, 10, 2)  # [0, 2, 4, 6, 8]
 % Slide 9: Atributos de un Array
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Atributos de un Array}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 arr = np.array([[1, 2, 3],
                 [4, 5, 6]])
 print("Shape:", arr.shape)   # (2, 3)
@@ -238,12 +228,7 @@ print("Total de elementos:", arr.size) # 6
 % Slide 10: Slicing y Indexación
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Slicing e Indexación}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 arr = np.array([10, 20, 30, 40, 50])
 print(arr[0])      # 10
 print(arr[1:3])    # [20 30]
@@ -267,12 +252,7 @@ print(submat)
 % Slide 11: Operaciones Elemento a Elemento
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Operaciones Elemento a Elemento (Vectorización)}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
+\begin{minted}{python}
 x = np.array([1, 2, 3])
 y = np.array([4, 5, 6])
 
@@ -293,12 +273,7 @@ print("Potencia:", x**2)   # [1 4 9]
   \begin{itemize}
     \item Mecanismo que NumPy utiliza para manejar operaciones entre arrays de diferentes formas.
     \item \textbf{Ejemplo}:
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
+\begin{minted}{python}
 a = np.array([1, 2, 3])
 b = 2
 # b se "expande" para coincidir con la forma de a
@@ -312,12 +287,7 @@ res = a * b  # [2 4 6]
 % Slide 13: Ejemplo de Broadcasting Matricial
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo: Sumar Fila a una Matriz}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
+\begin{minted}{python}
 mat = np.array([[1,2,3],
                 [4,5,6],
                 [7,8,9]])
@@ -344,12 +314,7 @@ print(res)
 % Slide 14: Funciones NumPy Comunes
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Funciones NumPy Comunes}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
+\begin{minted}{python}
 arr = np.array([2, 4, 6, 8])
 
 print("Suma total:", np.sum(arr))           # 20
@@ -443,12 +408,7 @@ print("Desv. Estándar:", np.std(arr))       # ~2.236
 % Slide 20: Ejemplo de Solución (Ejercicio 1)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo: Solución Ejercicio 1}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
+\begin{minted}{python}
 import numpy as np
 
 arr = np.arange(1, 11)  # [1..10]
@@ -470,12 +430,7 @@ print("Array modificado:", arr_mod)
 % Slide 21: Ejemplo de Solución (Ejercicio 2)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo: Solución Ejercicio 2}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
+\begin{minted}{python}
 import numpy as np
 
 mat = np.array([[1,2,3],
@@ -495,12 +450,7 @@ print("Matriz resultante:\n", resultado)
 % Slide 22: Ejemplo de Solución (Ejercicio 3)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo: Solución Ejercicio 3 (Leibniz \(\pi\))}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
+\begin{minted}{python}
 import numpy as np
 
 n = 100000  # término superior
