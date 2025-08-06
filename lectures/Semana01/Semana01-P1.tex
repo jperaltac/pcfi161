@@ -300,10 +300,14 @@ Esta forma de la función \texttt{print} es hoy día mayoritariamente utilizada 
   Para el curso, trataremos de utilizar \textit{f-string}, aunque otras alternativas no estan obsoletas, ni prohibídas.
 \end{frame}
 
+
+\section{Ejercicios Guiados}
+
+
 % ------------------------------------------------------------------------
 % Slide 13: Ejemplo Completo 1
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo 1: Cálculo de Área \\ de un Círculo}
+\begin{frame}[fragile]{Ejercicio Guiado 1: Cálculo de Área \\ de un Círculo}
 \begin{minted}{python}
 import math
 
@@ -321,7 +325,7 @@ print(f'El área del círculo es: {area}')
 % ------------------------------------------------------------------------
 % Slide 14: Mini-Ejercicio Guiado
 % ------------------------------------------------------------------------
-\begin{frame}{Mini-Ejercicio Guiado \hfill \textcolor{red}{$\clubsuit$}}
+\begin{frame}{Ejercicio Guiado 2\hfill \textcolor{red}{$\clubsuit$}}
 \begin{block}{Ejercicio}
   \begin{itemize}
     \item Escribe un programa que pida la masa (kg) y la aceleración (m/s\(^2\)).
@@ -352,6 +356,61 @@ print(f'La fuerza resultante es: {F} N')
   \item Añadir unidades en la salida (ej.: “N” para Newtons).
   \item Discutir manejo de errores, validación de datos, etc.
 \end{itemize}
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 14.5: Mini-Ejercicio de Depuración
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Mini-Ejercicio de Depuración \hfill \textcolor{red}{$\clubsuit$}}
+\begin{block}{¡Encuentra y Corrige los Errores!}
+  Copia este código en Colab y ejecútalo. \textbf{¡Tiene errores a propósito!}
+\end{block}
+
+\begin{minted}{python}
+# Programa para calcular el cuadrado de un número
+x = input("Ingrese un número: ")
+print("El número ingresado es:", x)
+y = x + x
+print("El doble del número es:", y)
+z = x * x
+print("El cuadrado del número es:" z)
+\end{minted}
+
+
+\textbf{Preguntas:} 
+\begin{itemize}
+  \item ¿Qué errores encuentras?
+  \item ¿Cómo los solucionarías?
+  \item ¿El resultado es el esperado?
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14.6: Solución y Explicación de Errores
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución y Tipos de Errores \hfill \textcolor{green}{$\checkmark$}}
+
+\textbf{Errores encontrados:}
+\begin{enumerate}
+  \item \textbf{Error de sintaxis:} Falta comilla de cierre en \texttt{input()}
+  \item \textbf{Error de sintaxis:} Falta coma en el último \texttt{print()}
+  \item \textbf{Error lógico:} \texttt{input()} devuelve \texttt{str}, no \texttt{int}
+\end{enumerate}
+
+\textbf{Código corregido:}
+\begin{minted}{python}
+# Programa para calcular el cuadrado de un número
+x_str = input("Ingrese un número: ")
+x = float(x_str)
+print("El número ingresado es:", x)
+y = x + x  # o también: y = 2 * x
+print("El doble del número es:", y)
+z = x * x  # o también: z = x ** 2
+print("El cuadrado del número es:", z)
+\end{minted}
+
+\textbf{Lección:} ¡Los errores son normales! Aprende a leer los mensajes de error.
 \end{frame}
 
 
@@ -533,6 +592,7 @@ print(f'La fuerza resultante es: {F} N')
 % ------------------------------------------------------------------------
 \begin{frame}{Recursos Online}
   \begin{itemize}
+    \item \textbf{Para practicar Python:} \href{https://www.hackerrank.com/domains/python?filters\%5Bdifficulty\%5D\%5B\%5D=easy}{HackerRank - Python Practice}
     \item \href{https://www.python.org}{\textbf{python.org}} - Documentación oficial.
     \item \href{https://colab.research.google.com}{\textbf{Google Colab}} - Entorno en la nube.
     \item \textbf{Real Python} (sitio con tutoriales y guías).
