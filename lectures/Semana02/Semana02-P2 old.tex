@@ -3,7 +3,239 @@
 % ------------------------------------------------------------------------
 % Carga del preámbulo personalizado (preamble.tex)
 % (Asegúrate de tenerlo en la misma carpeta para que \input funcione)
+% ---  \textbf{Tips}:% ---------------------------------------------------  \textbf{Idea}: Reutilizar factores como: \(\text% -------------------------------------------\begin{minted}{python}
+# Solicitar\begin{minted}{python}
+# Recopilar datos usando bucle for
+mediciones = [\textbf{Discusión:} Validación de entradas, conversión a unidad ba% -----------------------------------% ------------------------------------------------------------------------
+% Slide 24: Actividad Extra - Calculadora Físico-Química
 % ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra 1: \hfill \textcolor{blue}{$\clubsuit$} \\ Calculadora Físico-Química Interactiva}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un programa que presente un menú al usuario con las opciones:
+        \begin{itemize}
+          \item (1) Calcular densidad: \(\rho = \frac{m}{V}\) (kg/m³)
+          \item (2) Calcular fuerza: \(F = m \cdot a\) (N)
+          \item (3) Calcular energía cinética: \(E_c = \frac{1}{2}mv^2\) (J)
+          \item (4) Salir del programa
+        \end{itemize}
+      \item Usar \texttt{if-elif-else} para procesar la selección del usuario.
+      \item Solicitar los datos necesarios y mostrar el resultado con unidades.
+      \item Permitir al usuario realizar múltiples cálculos hasta que elija salir.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Objetivo:} Integrar menús, condicionales, bucles y cálculos físicos en una aplicación completa.
+\end{frame>--------------------
+% Slide 23: Análisis de las Soluciones
+% ------------------------------------------------------------------------
+\begin{frame}{Análisis de las Soluciones}
+  \begin{itemize}
+    \item \textbf{Estructuras de control integradas}:
+      \begin{itemize}
+        \item \texttt{for} loops con \texttt{range()}: Ejercicios 2, 4 y 5
+        \item \texttt{if-elif-else}: Ejercicios 3 y 5
+        \item Validaciones: Ejercicios 4 y 5
+      \end{itemize}
+    \item \textbf{Conceptos de programación aplicados}:
+      \begin{itemize}
+        \item Acumuladores: varianza (Ej. 2), contadores (Ej. 5)
+        \item Listas dinámicas: \texttt{append()} en múltiples ejercicios
+        \item Formato de salida: \texttt{f-strings} con decimales
+      \end{itemize>
+    \item \textbf{Buenas prácticas observadas}:
+      \begin{itemize}
+        \item Comentarios explicativos en cada sección
+        \item Validación de entrada de usuario
+        \item Nombres de variables descriptivos
+      \end{itemize>
+  \end{itemize>
+\end{frame>de errores.
+\end{frame>
+
+% ------------------------------------------------------------------------
+% Slide 21: Solución 4 de Referencia - Tabla de Multiplicar
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Tabla de Multiplicar con Bucles}
+\begin{minted}{python}
+# Solicitar número al usuario
+numero = int(input("Ingrese un número para su tabla de multiplicar: "))
+
+# Validar que sea positivo
+if numero > 0:
+    print(f"Tabla de multiplicar del {numero}:")
+    print("-" * 25)
+    
+    # Generar tabla usando bucle for
+    for i in range(1, 11):
+        resultado = numero * i
+        print(f"{numero} x {i} = {resultado}")
+else:
+    print("Por favor, ingrese un número positivo.")
+\end{minted>
+\textbf{Discusión:} Validación con if, bucle for con range, formato de salida organizado.
+\end{frame>
+
+% ------------------------------------------------------------------------
+% Slide 22: Solución 5 de Referencia - Clasificador de Temperaturas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Temperaturas}
+\begin{minted}{python}
+# Solicitar temperaturas
+temperaturas = []
+num_temp = int(input("¿Cuántas temperaturas desea clasificar? "))
+
+for i in range(num_temp):
+    temp = float(input(f"Temperatura {i+1} (°C): "))
+    temperaturas.append(temp)
+
+# Contadores para cada categoría
+congelacion = frio = templado = calor = 0
+
+# Clasificar cada temperatura
+for temp in temperaturas:
+    if temp < 0:
+        print(f"{temp}°C: Congelación")
+        congelacion += 1
+    elif temp <= 25:
+        print(f"{temp}°C: Frío")
+        frio += 1
+    elif temp <= 35:
+        print(f"{temp}°C: Templado")
+        templado += 1
+    else:
+        print(f"{temp}°C: Calor")
+        calor += 1
+
+# Resumen final
+print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
+      f"Templado={templado}, Calor={calor}")
+\end{minted>
+\textbf{Discusión:} Bucles anidados, contadores múltiples, clasificación con condicionales.
+\end{frame>or i in range(1, 4):
+    valor = float(input(f"Ingrese medición {i}: "))
+    mediciones.append(valor)
+
+# Calcular promedio
+promedio = sum(mediciones) / len(mediciones)
+
+# Calcular varianza muestral
+suma_diferencias = 0
+for valor in mediciones:
+    suma_diferencias += (valor - promedio)**2
+
+varianza = suma_diferencias / (len(mediciones) - 1)
+
+# Mostrar resultados
+print(f"Promedio: {promedio:.3f}")
+print(f"Varianza muestral: {varianza:.3f}")
+\end{minted}
+\textbf{Discusión:} Uso de len() para generalización, acumulador para varianza, formato de decimales.
+\end{frame>n unidades claras
+x0 = float(input("Posición inicial x0 (m): "))
+v0 = float(input("Velocidad inicial v0 (m/s): "))
+a = float(input("Aceleración a (m/s²): "))
+t = float(input("Tiempo t (s): "))
+
+# Aplicar la ecuación cinemática
+x_final = x0 + v0 * t + 0.5 * a * (t**2)
+
+# Mostrar resultado con formato claro
+print(f"La posición final es: {x_final:.2f} m")
+\end{minted}
+\textbf{Discusión:} Uso directo de float() para simplificar entrada, formato de decimales en salida.
+\end{frame>-------------
+% Slide 17: Trabajo en Equipo
+% ------------------------------------------------------------------------
+\begin{frame}{Organización de Equipos de Trabajo}
+  \begin{itemize}
+    \item Formar \textbf{grupos de 2-3 estudiantes}.
+    \item Seleccionar 2-3 ejercicios de los 5 propuestos (según el tiempo disponible).
+    \item Editar un \textbf{notebook compartido} en Google Colab.
+    \item \textbf{Estrategia recomendada}:
+      \begin{itemize}
+        \item Ejercicios 1-2: Fundamentales (variables, operaciones, bucles básicos)
+        \item Ejercicios 3-4: Intermedios (condicionales, validaciones)
+        \item Ejercicio 5: Avanzado (integración de conceptos)
+      \end{itemize}
+    \item \textbf{Objetivo}: Discutir soluciones, anotar dudas y resolver en conjunto.
+  \end{itemize}
+\end{frame>00 \texttt{ cm}\), \(\texttt{1 km} = 1000 \texttt{ m}\), etc.
+  
+  \textbf{Conceptos:} Condicionales múltiples, validación de entrada, factores de conversión.
+  \\
+  \textbf{Física relevante:} Sistema métrico de unidades, conversiones de longitud.
+\end{frame>
+
+% ------------------------------------------------------------------------
+% Slide 15: Ejercicio 4 - Tabla de Multiplicar
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Tabla de Multiplicar con Bucles}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicitar al usuario un número entero.
+      \item Usar un bucle \texttt{for} para generar la tabla de multiplicar de ese número.
+      \item Mostrar los resultados del 1 al 10 en formato: \texttt{"N x i = resultado"}.
+      \item Agregar una validación para verificar que el número ingresado sea positivo.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Bucles \texttt{for}, validación con \texttt{if}, formato de salida.
+  \\
+  \textbf{Física relevante:} Relaciones proporcionales, escalado de magnitudes.
+\end{frame>
+
+% ------------------------------------------------------------------------
+% Slide 16: Ejercicio 5 - Clasificador de Temperaturas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Clasificador de Temperaturas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicitar al usuario una lista de temperaturas en grados Celsius.
+      \item Usar un bucle \texttt{for} para procesar cada temperatura.
+      \item Clasificar cada temperatura usando \texttt{if-elif-else}:
+        \begin{itemize}
+          \item Menor a 0°C: "Congelación"
+          \item 0°C a 25°C: "Frío"
+          \item 25°C a 35°C: "Templado"
+          \item Mayor a 35°C: "Calor"
+        \end{itemize}
+      \item Mostrar un resumen final con la cantidad de temperaturas en cada categoría.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Bucles, condicionales anidados, contadores, procesamiento de listas.
+  \\
+  \textbf{Física relevante:} Estados de la materia, escalas de temperatura.
+\end{frame>-------------------
+% Slide 13: Ejercicio 2 - Promedio y Varianza
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Promedio y Varianza de Mediciones}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicitar al usuario \textbf{3 mediciones} físicas (pueden ser temperaturas, distancias, etc.).
+      \item Utilizar un bucle \texttt{for} para recopilar los datos.
+      \item Calcular el \textbf{promedio} (\(\bar{x}\)) y la \textbf{varianza} muestral.
+      \item Fórmula de varianza muestral:
+      \[
+        s^2 = \frac{\sum_{i=1}^{3}(x_i - \bar{x})^2}{n - 1}
+      \]
+      \item Mostrar ambos resultados con formato apropiado.
+    \end{itemize>
+  \end{block>
+  
+  \textbf{Conceptos:} Bucles \texttt{for}, listas, acumuladores, estadística básica.
+  \\
+  \textbf{Física relevante:} Análisis estadístico de mediciones experimentales.
+\end{frame>e}
+    \item Pedir los datos al usuario.
+    \item Imprimir la respuesta con un mensaje que indique la unidad (por ej. metros).
+  \end{itemize}
+  
+  \textbf{Conceptos:} Ecuaciones cinemáticas, variables de entrada, cálculos secuenciales.
+  \\
+  \textbf{Física relevante:} Movimiento rectilíneo uniformemente acelerado (MRUA).
+\end{frame}---------------------------------------------------------------
 \input{../preamble.tex}
 
 \begin{document}
@@ -192,7 +424,7 @@ for x in range(1, 6):
     cuadrados.append(x**2)  # [1, 4, 9, 16, 25]
 \end{minted}
 \textbf{Conceptos clave}: Acumulación, listas dinámicas, append()
-\end{frame}
+\end{frame>
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 3: Aplicación de Conceptos
@@ -217,138 +449,81 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 12: Ejercicio 1 - Ecuación de Movimiento
+% Slide 9: Ejercicio 1 - Ecuación de Movimiento
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Ecuación de Movimiento en 1D}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Dados los siguientes parámetros físicos:
+      \item Dados:
         \begin{itemize}
-          \item \texttt{x0}: posición inicial (m)
-          \item \texttt{v0}: velocidad inicial (m/s)
-          \item \texttt{a}: aceleración constante (m/s²)
-          \item \texttt{t}: tiempo (s)
+          \item \texttt{x0}: posición inicial (\(m\)).
+          \item \texttt{v0}: velocidad inicial (\(m/s\)).
+          \item \texttt{a}: aceleración constante (\(m/s^2\)).
         \end{itemize}
-      \item Calcular la posición final usando la ecuación cinemática:
+      \item Calcular la posición \(\texttt{x}(t)\) en un tiempo \(\texttt{t}\) usando:
         \[
-          x(t) = x_0 + v_0 \cdot t + \frac{1}{2} a t^2
+          x(t) = x0 + v0\cdot t + \frac{1}{2} a t^2
         \]
-      \item Mostrar el resultado con unidades apropiadas.
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos:} Ecuaciones cinemáticas, variables de entrada, cálculos secuenciales.
-  \\
-  \textbf{Física relevante:} Movimiento rectilíneo uniformemente acelerado (MRUA).
+  \textbf{Tips}:
+  \begin{itemize}
+    \item Pedir los datos al usuario.
+    \item Imprimir la respuesta con un mensaje que indique la unidad (por ej. metros).
+  \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 13: Ejercicio 2 - Promedio y Varianza
+% Slide 10: Ejercicio 2 - Promedio y Varianza
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Promedio y Varianza de Mediciones}
+\begin{frame}{Ejercicio 2: Promedio y Varianza (Intro)}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Solicitar al usuario \textbf{3 mediciones} físicas (pueden ser temperaturas, distancias, etc.).
-      \item Utilizar un bucle \texttt{for} para recopilar los datos.
+      \item Pedir al usuario \textbf{3 valores} (pueden representar mediciones físicas).
       \item Calcular el \textbf{promedio} (\(\bar{x}\)) y la \textbf{varianza} muestral.
-      \item Fórmula de varianza muestral:
+      \item Fórmula varianza (para 3 datos):
       \[
-        s^2 = \frac{\sum_{i=1}^{3}(x_i - \bar{x})^2}{n - 1}
+        \sigma^2 = \frac{\sum_{i=1}^{3}(x_i - \bar{x})^2}{3 - 1}
       \]
-      \item Mostrar ambos resultados con formato apropiado.
+      \item Mostrar ambos resultados.
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos:} Bucles \texttt{for}, listas, acumuladores, estadística básica.
-  \\
-  \textbf{Física relevante:} Análisis estadístico de mediciones experimentales.
+  \textbf{Discusión}: Manejo de potencias y restas, y cuidado con divisiones.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 14: Ejercicio 3 - Conversión de Unidades
+% Slide 11: Ejercicio 3 - Factor de Conversión
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Conversión de Unidades con Condicionales}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Crear un programa que solicite al usuario:
+      \item Crear un programa que solicite:
         \begin{itemize}
-          \item Un valor numérico
-          \item Una unidad origen: \texttt{"cm"}, \texttt{"m"}, \texttt{"km"}
-          \item Una unidad destino: \texttt{"cm"}, \texttt{"m"}, \texttt{"km"}
+          \item Un valor numérico (\texttt{valor}).
+          \item Una unidad origen (por ej. \texttt{"cm"}, \texttt{"m"}, \texttt{"km"}).
+          \item Una unidad destino (\texttt{"cm"}, \texttt{"m"}, \texttt{"km"}).
         \end{itemize}
-      \item Usar estructuras \texttt{if-elif-else} para determinar la conversión.
-      \item Calcular y mostrar el resultado con las unidades correspondientes.
-      \item Manejar casos de unidades inválidas con mensajes de error.
+      \item Convertir \texttt{valor} de la unidad origen a la unidad destino.
+      \item Imprimir el resultado final.
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos:} Condicionales múltiples, validación de entrada, factores de conversión.
-  \\
-  \textbf{Física relevante:} Sistema métrico de unidades, conversiones de longitud.
+  \textbf{Idea}: Reutilizar factores como: \(\texttt{1 m} = 100 \texttt{ cm}\), \(\texttt{1 km} = 1000 \texttt{ m}\), etc.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 15: Ejercicio 4 - Tabla de Multiplicar
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Tabla de Multiplicar con Bucles}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Solicitar al usuario un número entero.
-      \item Usar un bucle \texttt{for} para generar la tabla de multiplicar de ese número.
-      \item Mostrar los resultados del 1 al 10 en formato: \texttt{"N x i = resultado"}.
-      \item Agregar una validación para verificar que el número ingresado sea positivo.
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos:} Bucles \texttt{for}, validación con \texttt{if}, formato de salida.
-  \\
-  \textbf{Física relevante:} Relaciones proporcionales, escalado de magnitudes.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 16: Ejercicio 5 - Clasificador de Temperaturas
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Clasificador de Temperaturas}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Solicitar al usuario una lista de temperaturas en grados Celsius.
-      \item Usar un bucle \texttt{for} para procesar cada temperatura.
-      \item Clasificar cada temperatura usando \texttt{if-elif-else}:
-        \begin{itemize}
-          \item Menor a 0°C: "Congelación"
-          \item 0°C a 25°C: "Frío"
-          \item 25°C a 35°C: "Templado"
-          \item Mayor a 35°C: "Calor"
-        \end{itemize}
-      \item Mostrar un resumen final con la cantidad de temperaturas en cada categoría.
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos:} Bucles, condicionales anidados, contadores, procesamiento de listas.
-  \\
-  \textbf{Física relevante:} Estados de la materia, escalas de temperatura.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 17: Trabajo en Equipo
+% Slide 12: Trabajo en Equipo
 % ------------------------------------------------------------------------
 \begin{frame}{Organización de Equipos de Trabajo}
   \begin{itemize}
     \item Formar \textbf{grupos de 2-3 estudiantes}.
-    \item Seleccionar 2-3 ejercicios de los 5 propuestos (según el tiempo disponible).
+    \item Seleccionar 1-2 ejercicios propuestos (o intentar todos).
     \item Editar un \textbf{notebook compartido} en Google Colab.
-    \item \textbf{Estrategia recomendada}:
-      \begin{itemize}
-        \item Ejercicios 1-2: Fundamentales (variables, operaciones, bucles básicos)
-        \item Ejercicios 3-4: Intermedios (condicionales, validaciones)
-        \item Ejercicio 5: Avanzado (integración de conceptos)
-      \end{itemize}
     \item \textbf{Objetivo}: Discutir soluciones, anotar dudas y resolver en conjunto.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 18: Discusión y Retroalimentación
+% Slide 13: Discusión y Retroalimentación
 % ------------------------------------------------------------------------
 \begin{frame}{Discusión y Retroalimentación}
   \begin{itemize}
@@ -361,205 +536,131 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 19: Solución 1 de Referencia - Ecuación de Movimiento
+% Slide 18: Solución 1 de Referencia - Ecuación de Movimiento
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Ecuación de Movimiento en 1D}
 \begin{minted}{python}
-# Solicitar datos al usuario con unidades claras
-x0 = float(input("Posición inicial x0 (m): "))
-v0 = float(input("Velocidad inicial v0 (m/s): "))
-a = float(input("Aceleración a (m/s²): "))
-t = float(input("Tiempo t (s): "))
+x0_str = input("x0 (m): ")
+v0_str = input("v0 (m/s): ")
+a_str  = input("a  (m/s^2): ")
+t_str  = input("t  (s): ")
 
-# Aplicar la ecuación cinemática
-x_final = x0 + v0 * t + 0.5 * a * (t**2)
+x0 = float(x0_str)
+v0 = float(v0_str)
+a  = float(a_str)
+t  = float(t_str)
 
-# Mostrar resultado con formato claro
-print(f"La posición final es: {x_final:.2f} m")
+x_t = x0 + v0*t + 0.5*a*(t**2)
+
+print(f'La posición en el tiempo t es: {x_t} m')
 \end{minted}
-\textbf{Discusión:} Uso directo de float() para simplificar entrada, formato de decimales en salida.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 20: Solución 2 de Referencia - Promedio y Varianza
+% Slide 19: Solución 2 de Referencia - Promedio y Varianza
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Promedio y Varianza de Mediciones}
 \begin{minted}{python}
-# Recopilar datos usando bucle for
-mediciones = []
+vals = []
 for i in range(1, 4):
-    valor = float(input(f"Ingrese medición {i}: "))
-    mediciones.append(valor)
+    val_str = input(f"Ingrese valor {i}: ")
+    val = float(val_str)
+    vals.append(val)
 
-# Calcular promedio
-promedio = sum(mediciones) / len(mediciones)
+# Promedio
+mean = sum(vals) / 3
 
-# Calcular varianza muestral
-suma_diferencias = 0
-for valor in mediciones:
-    suma_diferencias += (valor - promedio)**2
+# Varianza muestral (n=3)
+var = 0
+for v in vals:
+    var += (v - mean)**2
+var = var / (3 - 1)
 
-varianza = suma_diferencias / (len(mediciones) - 1)
-
-# Mostrar resultados
-print(f"Promedio: {promedio:.3f}")
-print(f"Varianza muestral: {varianza:.3f}")
+print(f'Promedio = {mean}')
+print(f'Varianza = {var}')
 \end{minted}
-\textbf{Discusión:} Uso de len() para generalización, acumulador para varianza, formato de decimales.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 21: Solución 3 de Referencia - Conversión de Unidades
+% Slide 20: Solución 3 de Referencia - Conversión de Unidades
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Conversión de Unidades con Condicionales}
 \begin{minted}{python}
-# Solicitar datos al usuario
-valor = float(input("Ingrese el valor numérico: "))
-unidad_origen = input("Unidad origen (cm, m, km): ").lower()
-unidad_destino = input("Unidad destino (cm, m, km): ").lower()
+valor_str = input("Valor: ")
+unidad_origen = input("Unidad origen (cm, m, km): ")
+unidad_destino = input("Unidad destino (cm, m, km): ")
 
-# Convertir primero todo a metros (unidad base)
+valor = float(valor_str)
+# Convertir primero a metros
 if unidad_origen == "cm":
-    valor_metros = valor / 100
+    valor_m = valor / 100.0
 elif unidad_origen == "m":
-    valor_metros = valor
+    valor_m = valor
 elif unidad_origen == "km":
-    valor_metros = valor * 1000
+    valor_m = valor * 1000
 else:
-    print("Unidad de origen no válida")
-    valor_metros = None
-
-# Convertir de metros a unidad destino
-if valor_metros is not None:
-    if unidad_destino == "cm":
-        resultado = valor_metros * 100
-    elif unidad_destino == "m":
-        resultado = valor_metros
-    elif unidad_destino == "km":
-        resultado = valor_metros / 1000
-    else:
-        print("Unidad de destino no válida")
-        resultado = None
-    
-    if resultado is not None:
-        print(f"Resultado: {resultado:.3f} {unidad_destino}")
-\end{minted}
-\textbf{Discusión:} Validación de entradas, conversión a unidad base, manejo de errores.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 22: Solución 4 de Referencia - Tabla de Multiplicar
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Tabla de Multiplicar con Bucles}
-\begin{minted}{python}
-# Solicitar número al usuario
-numero = int(input("Ingrese un número para su tabla de multiplicar: "))
-
-# Validar que sea positivo
-if numero > 0:
-    print(f"Tabla de multiplicar del {numero}:")
-    print("-" * 25)
-    
-    # Generar tabla usando bucle for
-    for i in range(1, 11):
-        resultado = numero * i
-        print(f"{numero} x {i} = {resultado}")
+    valor_m = None
+# Convertir metros a destino
+if unidad_destino == "cm":
+    result = valor_m * 100.0
+elif unidad_destino == "m":
+    result = valor_m
+elif unidad_destino == "km":
+    result = valor_m / 1000
 else:
-    print("Por favor, ingrese un número positivo.")
+    result = None
+
+print(f"Resultado: {resultado:.3f} {unidad_destino}")
+\end{minted>
+	extbf{Discusión:} Validación de entradas, conversión a unidad base, manejo de errores.
+\end{frame>
 \end{minted}
-\textbf{Discusión:} Validación con if, bucle for con range, formato de salida organizado.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 23: Solución 5 de Referencia - Clasificador de Temperaturas
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Temperaturas}
-\begin{minted}{python}
-# Solicitar temperaturas
-temperaturas = []
-num_temp = int(input("¿Cuántas temperaturas desea clasificar? "))
-
-for i in range(num_temp):
-    temp = float(input(f"Temperatura {i+1} (°C): "))
-    temperaturas.append(temp)
-
-# Contadores para cada categoría
-congelacion = frio = templado = calor = 0
-
-# Clasificar cada temperatura
-for temp in temperaturas:
-    if temp < 0:
-        print(f"{temp}°C: Congelación")
-        congelacion += 1
-    elif temp <= 25:
-        print(f"{temp}°C: Frío")
-        frio += 1
-    elif temp <= 35:
-        print(f"{temp}°C: Templado")
-        templado += 1
-    else:
-        print(f"{temp}°C: Calor")
-        calor += 1
-
-# Resumen final
-print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
-      f"Templado={templado}, Calor={calor}")
-\end{minted}
-\textbf{Discusión:} Bucles anidados, contadores múltiples, clasificación con condicionales.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 24: Análisis de las Soluciones
+% Slide 17: Análisis de Soluciones
 % ------------------------------------------------------------------------
 \begin{frame}{Análisis de las Soluciones}
   \begin{itemize}
-    \item \textbf{Estructuras de control integradas}:
-      \begin{itemize}
-        \item \texttt{for} loops con \texttt{range()}: Ejercicios 2, 4 y 5
-        \item \texttt{if-elif-else}: Ejercicios 3 y 5
-        \item Validaciones: Ejercicios 4 y 5
-      \end{itemize}
-    \item \textbf{Conceptos de programación aplicados}:
-      \begin{itemize}
-        \item Acumuladores: varianza (Ej. 2), contadores (Ej. 5)
-        \item Listas dinámicas: \texttt{append()} en múltiples ejercicios
-        \item Formato de salida: \texttt{f-strings} con decimales
-      \end{itemize}
-    \item \textbf{Buenas prácticas observadas}:
-      \begin{itemize}
-        \item Comentarios explicativos en cada sección
-        \item Validación de entrada de usuario
-        \item Nombres de variables descriptivos
-      \end{itemize}
+    \item \textbf{For Loops} y \texttt{range}: usados en Ej. 2 para leer múltiples valores.
+    \item \textbf{if/elif/else} (Ej. 3): Estructura para manejar casos y evitar errores de usuario.
+    \item \textbf{Validaciones}: No cubrimos todas, pero en casos avanzados se revisan entradas inválidas.
+    \item \textbf{Reutilización de código}: Cómo podríamos organizarlo en funciones (tema futuro).
   \end{itemize}
 \end{frame}
 
 \section{Ejercicio a Evaluar: Tarea Semanal 1}
-
 % ------------------------------------------------------------------------
-% Slide 25: Actividad Extra - Calculadora Físico-Química
+% Slide 18: Ejercicio Adicional (Desafío)
 % ------------------------------------------------------------------------
-\begin{frame}{Actividad Extra 1: \hfill \textcolor{blue}{$\clubsuit$} \\ Calculadora Físico-Química Interactiva}
-  \begin{block}{Enunciado}
+\begin{frame}{Ejercicio a Evaluar}
+  \begin{block}{Calculadora Físico-Química}
     \begin{itemize}
-      \item Crear un programa que presente un menú al usuario con las opciones:
+      \item Pedir al usuario que seleccione:
         \begin{itemize}
-          \item (1) Calcular densidad: \(\rho = \frac{m}{V}\) (kg/m³)
-          \item (2) Calcular fuerza: \(F = m \cdot a\) (N)
-          \item (3) Calcular energía cinética: \(E_c = \frac{1}{2}mv^2\) (J)
-          \item (4) Salir del programa
+          \item (1) Calcular densidad (\(\rho = \frac{m}{V}\))
+          \item (2) Calcular fuerza (\(F = m \cdot a\))
+          \item (3) Calcular energía cinética (\(E_c = \frac{1}{2}mv^2\))
         \end{itemize}
-      \item Usar \texttt{if-elif-else} para procesar la selección del usuario.
-      \item Solicitar los datos necesarios y mostrar el resultado con unidades.
-      \item Permitir al usuario realizar múltiples cálculos hasta que elija salir.
+      \item Con base en la elección, se piden los datos correspondientes y se muestra el resultado.
+      \item Se puede repetir o terminar el programa tras cada operación.
     \end{itemize}
   \end{block}
-  
-  \textbf{Objetivo:} Integrar menús, condicionales, bucles y cálculos físicos en una aplicación completa.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 26: Retroalimentación Colectiva
+% Slide 19: Práctica Individual / Exposición
+% ------------------------------------------------------------------------
+%\begin{frame}{Práctica Individual}
+%  \begin{itemize}
+%    \item Si terminaste los ejercicios previos, intenta implementar el “Calculadora Físico-Química”.
+%    \item Comenta tu código para cada sección (explica qué pides y por qué).
+%    \item \textbf{Opcional}: Usa un \texttt{while} para permitir múltiples operaciones en una sola ejecución.
+%  \end{itemize}
+%\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Retroalimentación Colectiva
 % ------------------------------------------------------------------------
 \begin{frame}{Retroalimentación Colectiva}
   \begin{itemize}
@@ -578,7 +679,7 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
 \section{Conclusiones}
 
 % ------------------------------------------------------------------------
-% Slide 27: Síntesis de la Sesión
+% Slide 21: Síntesis de la Sesión
 % ------------------------------------------------------------------------
 \begin{frame}{Síntesis de la Sesión 4}
   \begin{itemize}
@@ -586,31 +687,29 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
       \begin{itemize}
         \item Operaciones matemáticas en escenarios reales (movimiento, varianza, conversiones).
         \item Manejo de datos desde el usuario.
-        \item Estructuras de control (\texttt{if}, \texttt{for}) aplicadas en contextos físicos.
+        \item Estructuración básica (\texttt{if}, \texttt{for}) sin profundizar en la teoría de control (eso vendrá pronto).
       \end{itemize}
     \item Vimos la importancia de la \textbf{colaboración} y la \textbf{discusión} para resolver problemas.
-    \item Integramos conceptos de programación con aplicaciones físicas reales.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 28: Preparación para Estructuras de Control
+% Slide 22: Preparación para Estructuras de Control
 % ------------------------------------------------------------------------
 \begin{frame}{Preparación para Estructuras de Control}
   \begin{itemize}
-    \item Próximamente: \textbf{Unidad III} del Syllabus (Controladores \texttt{while}, \texttt{break}, \texttt{continue}, etc.).
+    \item Próximamente: \textbf{Unidad III} del Syllabus (Controladores \texttt{if}, \texttt{while}, \texttt{break}, \texttt{continue}, etc.).
     \item \textbf{Recomendación}:
       \begin{itemize}
         \item Revisar cómo usar \texttt{while} para repeticiones indefinidas.
         \item Entender la diferencia entre \texttt{while} y \texttt{for}.
-        \item Practicar validaciones de entrada con bucles.
       \end{itemize}
     \item \textbf{Recordar}: Python 3.x es la versión recomendada. Fíjate en \texttt{/} vs \texttt{//}.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 29: Recursos y Lecturas
+% Slide 23: Recursos y Lecturas
 % ------------------------------------------------------------------------
 \begin{frame}{Recursos y Lecturas}
   \begin{itemize}
@@ -621,7 +720,7 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 30: Consejos de Autoaprendizaje
+% Slide 24: Consejos de Autoaprendizaje
 % ------------------------------------------------------------------------
 \begin{frame}{Consejos de Autoaprendizaje}
   \begin{itemize}
@@ -632,7 +731,7 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 31: Cierre de Sesión
+% Slide 25: Cierre de Sesión
 % ------------------------------------------------------------------------
 \begin{frame}
   \Huge{\centerline{¡Muchas gracias!}}
@@ -640,9 +739,10 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
   \normalsize
   \begin{itemize}
     \item Recuerda guardar tu trabajo en Google Drive.
-    \item La próxima sesión profundizaremos en \texttt{while} y estructuras de control avanzadas.
+    \item La próxima sesión profundizaremos en \texttt{if}, \texttt{while} y estructuras de control.
     \item ¡Sigan practicando con los ejercicios adicionales!
   \end{itemize}
 \end{frame}
 
 \end{document}
+

@@ -21,7 +21,7 @@
 \begin{frame}[plain]
   \titlepage
   % Ajusta el título/subtítulo si quieres más detalle, por ejemplo:
-  % \title{Semana 2 - Sesión 1 (Sesión 3): Sintaxis Básica de Python}
+  % \title{Semana 2 - Sesión 1 (Sesión 3): Estructuras de Control en Python}
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -135,7 +135,6 @@ if temperatura < 0:
 \end{itemize}
 \end{frame}
 
-
 % ------------------------------------------------------------------------
 % Slide 8: La Estructura IF-ELIF-ELSE
 % ------------------------------------------------------------------------
@@ -157,8 +156,7 @@ else:
   \end{minted}
   
   \textbf{Importante}: Solo se ejecuta \textbf{UNO} de los bloques (el primero que sea \texttt{True}).
-\end{frame}
-
+\end{frame>
 
 % ------------------------------------------------------------------------
 % Slide 9: Ejemplo Mejorado con IF-ELIF-ELSE
@@ -224,7 +222,6 @@ while condición:
     \item Útil cuando \textbf{no sabemos} cuántas repeticiones necesitamos.
   \end{itemize}
 \end{frame}
-
 
 % ------------------------------------------------------------------------
 % Slide 12: Ejemplo Práctico con WHILE
@@ -296,7 +293,6 @@ print("="*40)
 \end{verbatim}
 \end{frame}
 
-
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 4: Ejercicios Guiados
 % ----------------------------------------------------------------------------------------
@@ -325,7 +321,34 @@ print("="*40)
   \textbf{Física relevante:} Escalas de velocidad en diferentes contextos físicos.
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 16: Solución 1 de Referencia - Clasificador de Velocidades
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Velocidades}
+\begin{minted}{python}
+# Entrada de datos
+velocidad = float(input("Velocidad del objeto (m/s): "))
+masa = float(input("Masa del objeto (kg, opcional, 0 si no aplica): "))
 
+# Clasificación de velocidad
+if velocidad < 1:
+    categoria = "Movimiento lento"
+elif velocidad < 10:
+    categoria = "Movimiento moderado"
+elif velocidad < 100:
+    categoria = "Movimiento rápido"
+else:
+    categoria = "Movimiento muy rápido"
+
+print(f"Velocidad: {velocidad} m/s → {categoria}")
+
+# Cálculo de energía cinética si se proporciona masa
+if masa > 0:
+    energia_cinetica = 0.5 * masa * velocidad**2
+    print(f"Energía cinética: {energia_cinetica} J")
+\end{minted}
+\textbf{Discusión:} Uso de condicionales anidadas y validación de entrada opcional.
+\end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 17: Ejercicio 2 - Suma de Números Pares
@@ -343,52 +366,6 @@ print("="*40)
   \textbf{Conceptos:} Bucles \texttt{for}, acumuladores, validación matemática.
   \\
   \textbf{Física relevante:} Sumas de series son comunes en física estadística.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 19: Ejercicio 3 - Búsqueda de Número Secreto
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Juego de Adivinanza con Física}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item El programa "piensa" en la velocidad de la luz en el vacío (299,792,458 m/s).
-      \item El usuario debe adivinar este número.
-      \item Usar un bucle \texttt{while} que continúe hasta que el usuario acierte.
-      \item Dar pistas: "muy alto", "alto", "bajo", "muy bajo" según la proximidad.
-      \item Contar el número de intentos.
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos:} Bucles \texttt{while}, condicionales, contadores.
-  \\
-  \textbf{Física relevante:} Constantes físicas fundamentales.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 16: Solución 1 de Referencia - Clasificador de Velocidades
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Velocidades}
-\begin{minted}{python}
-# Entrada de datos
-velocidad = float(input("Velocidad del objeto (m/s): "))
-masa = float(input("Masa del objeto (kg, opcional, 0 si no aplica): "))
-# Clasificación de velocidad
-if velocidad < 1:
-    categoria = "Movimiento lento"
-elif velocidad < 10:
-    categoria = "Movimiento moderado"
-elif velocidad < 100:
-    categoria = "Movimiento rápido"
-else:
-    categoria = "Movimiento muy rápido"
-
-print(f"Velocidad: {velocidad} m/s → {categoria}")
-# Cálculo de energía cinética si se proporciona masa
-if masa > 0:
-    energia_cinetica = 0.5 * masa * velocidad**2
-    print(f"Energía cinética: {energia_cinetica} J")
-\end{minted}
-\textbf{Discusión:} Uso de condicionales anidadas y validación de entrada opcional.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -420,6 +397,24 @@ if n % 2 == 0:
 \textbf{Discusión:} Uso eficiente de range() con paso, acumuladores, y verificación matemática.
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 19: Ejercicio 3 - Búsqueda de Número Secreto
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Juego de Adivinanza con Física}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item El programa "piensa" en la velocidad de la luz en el vacío (299,792,458 m/s).
+      \item El usuario debe adivinar este número.
+      \item Usar un bucle \texttt{while} que continúe hasta que el usuario acierte.
+      \item Dar pistas: "muy alto", "alto", "bajo", "muy bajo" según la proximidad.
+      \item Contar el número de intentos.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Bucles \texttt{while}, condicionales, contadores.
+  \\
+  \textbf{Física relevante:} Constantes físicas fundamentales.
+\end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 20: Solución 3 de Referencia - Juego de Adivinanza
@@ -455,9 +450,8 @@ while True:
 \textbf{Discusión:} Bucle infinito con \texttt{break}, rangos de proximidad, constantes físicas.
 \end{frame}
 
-
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Actividad Colaborativa
+% SECCIÓN 5: Actividad Práctica
 % ----------------------------------------------------------------------------------------
 \section{Actividad Práctica}
 
