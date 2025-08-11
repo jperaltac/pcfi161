@@ -16,10 +16,9 @@
 % ------------------------------------------------------------------------
 % Slide 1: Título de la Sesión
 % ------------------------------------------------------------------------
-\begin{frame}
+\begin{frame}[plain]
   \titlepage
-  % Ejemplo de título: 
-  % \title{Semana 2 - Sesión 2 (Sesión 4): Aplicación de Conceptos Básicos de Python}
+  % Título de la sesión: Semana 2 - Sesión 2 (Sesión 4): Aplicación Práctica de Estructuras de Control
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -38,21 +37,21 @@
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 1: Conexión con la Sesión Anterior
 % ----------------------------------------------------------------------------------------
-\section{Introducción y Repaso}
+\section{Introducción y Conexión}
 
 % ------------------------------------------------------------------------
 % Slide 3: Repaso de la Sesión Previa
 % ------------------------------------------------------------------------
 \begin{frame}{Repaso de la Sesión Previa}
   \begin{itemize}
-    \item \textbf{Semana 2, Sesión 1 (Sesión 3)} se centró en:
+    \item \textbf{Sesión 3 (Semana 2-1)} dominamos:
       \begin{itemize}
-        \item Sintaxis básica de Python (indentación, palabras reservadas, comentarios).
-        \item Reforzar tipos de datos y operaciones (prioridades, conversión, etc.).
-        \item Ejemplos interactivos en Google Colab.
-        \item Actividad grupal: \textit{Mini-calculadora}.
+        \item Estructuras de control fundamentales (if, elif, else).
+        \item Bucles básicos (for, while) y su aplicación.
+        \item Condicionales y toma de decisiones en programas.
+        \item Ejercicios prácticos con aplicaciones físicas.
       \end{itemize}
-    \item \textbf{Objetivo de hoy}: Aplicar estos conceptos en problemas un poco más elaborados.
+    \item \textbf{Objetivo de hoy}: Aplicar y consolidar estas estructuras de control en problemas más elaborados y colaborativos.
   \end{itemize}
 \end{frame}
 
@@ -61,155 +60,46 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 4}
   \begin{itemize}
-    \item \textbf{Consolidar} el manejo de variables, operaciones y sintaxis en Python.
-    \item \textbf{Ejercitar} la resolución de problemas más complejos y colaborativos.
-    \item \textbf{Fomentar} el razonamiento algorítmico (secuencia, condición, repetición).
-    \item \textbf{Preparar} el terreno para estructuras de control (\texttt{if}, \texttt{while}, etc.).
+    \item \textbf{Consolidar} el uso de estructuras de control (if, elif, else, for, while).
+    \item \textbf{Aplicar} estas estructuras en problemas físicos y matemáticos complejos.
+    \item \textbf{Desarrollar} habilidades de resolución colaborativa de problemas.
+    \item \textbf{Integrar} múltiples conceptos de programación en aplicaciones prácticas.
+    \item \textbf{Preparar} el camino hacia funciones y modularización de código.
   \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Revisión de Conceptos Clave
+% SECCIÓN 2: Ejercicios Prácticos Integrados
 % ----------------------------------------------------------------------------------------
-\section{Revisión de Conceptos Clave}
+\section{Ejercicios Prácticos Integrados}
 
 % ------------------------------------------------------------------------
-% Slide 5: Variables y Operaciones
+% Slide 5: Enfoque de la Sesión
 % ------------------------------------------------------------------------
-\begin{frame}{Variables y Operaciones: Recordatorio}
+\begin{frame}{Enfoque de la Sesión: Aplicación Práctica}
   \begin{itemize}
-    \item Las variables se crean con una asignación: \texttt{x = 10}.
-    \item \textbf{Operaciones}:
-      \begin{itemize}
-        \item Suma, resta, multiplicación, división, división entera, exponente.
-        \item Uso de paréntesis para priorizar operaciones.
-      \end{itemize}
-    \item Python es \textbf{dinámico} en tipos: \texttt{x = 3} (int), luego \texttt{x = 3.14} (float).
-    \item \textbf{Comentarios} ayudan a documentar el código (\texttt{\#}, \texttt{"""..."""}).
+    \item \textbf{No más teoría}: Ya dominamos if, elif, else, for, while.
+    \item \textbf{Enfoque 100\% práctico}: Resolver problemas físicos complejos.
+    \item \textbf{Integración de conceptos}: Combinar múltiples estructuras de control.
+    \item \textbf{Trabajo colaborativo}: Equipos para resolver desafíos progresivos.
   \end{itemize}
+  
+  \begin{block}{Meta de la Sesión}
+    Que cada estudiante se sienta cómodo aplicando estructuras de control en problemas reales de física y matemáticas.
+  \end{block}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 6: Manejo de Entrada/Salida
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Entrada y Salida}
-\begin{minted}{python}
-user_input = input("Dame un número: ")  # str
-num = float(user_input)                 # convierto a float
-print(f'Tu número + 10 es: {num + 10}')
-\end{minted}
-\begin{itemize}
-  \item \texttt{input()} siempre regresa una cadena (\texttt{str}).
-  \item Para obtener números, se hace \texttt{int()} o \texttt{float()}.
-  \item \textbf{Sugerencia}: Manejar excepciones (ej.: \texttt{ValueError}) en casos avanzados.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 7: Indentación en Python
-% ------------------------------------------------------------------------
-\begin{frame}{Recordatorio: Indentación}
-  \begin{itemize}
-    \item \textbf{Bloques} de código definidos por sangría (generalmente 4 espacios).
-    \item Usar dos puntos (\texttt{:}) tras \texttt{if}, \texttt{for}, \texttt{while}, etc.
-    \item \textbf{Ejemplo simple}:
-    \[
-      \begin{array}{l}
-      \texttt{if x > 0:} \\
-      \quad \texttt{print("x es positivo")} \\
-      \end{array}
-    \]
-    \item \textbf{Cuidado}: Mezclar tabulaciones y espacios puede causar errores.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 8: Estructura Condicional IF
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Estructura Condicional: if, elif, else}
-\begin{minted}{python}
-edad = int(input("Ingresa tu edad: "))
-
-if edad >= 18:
-    print("Eres mayor de edad")
-elif edad >= 13:
-    print("Eres adolescente")
-else:
-    print("Eres menor de edad")
-\end{minted}
-\begin{itemize}
-  \item \texttt{if}: Evalúa una condición verdadera/falsa
-  \item \texttt{elif}: Condición alternativa (opcional)
-  \item \texttt{else}: Se ejecuta si ninguna condición anterior es verdadera (opcional)
-  \item \textbf{Operadores de comparación}: \texttt{==}, \texttt{!=}, \texttt{<}, \texttt{>}, \texttt{<=}, \texttt{>=}
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 9: Bucle FOR con range()
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Bucle FOR: Repetición Controlada}
-\begin{minted}{python}
-# Repetir 5 veces
-for i in range(5):
-    print(f"Iteración número: {i}")
-
-# Rango con inicio y fin
-for numero in range(1, 6):  # 1, 2, 3, 4, 5
-    print(f"Número: {numero}")
-
-# Rango con paso
-for par in range(0, 11, 2):  # 0, 2, 4, 6, 8, 10
-    print(f"Número par: {par}")
-\end{minted}
-\begin{itemize}
-  \item \texttt{range(n)}: genera números de 0 a n-1
-  \item \texttt{range(inicio, fin)}: de inicio a fin-1
-  \item \texttt{range(inicio, fin, paso)}: con incremento específico
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 10: FOR con Listas y Acumuladores
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{FOR: Trabajando con Listas y Acumuladores}
-\begin{minted}{python}
-# Crear una lista y recorrerla
-numeros = [2, 5, 8, 3, 9]
-for num in numeros:
-    print(f"El número es: {num}")
-
-# Acumulador para suma
-suma_total = 0
-for i in range(1, 6):  # suma de 1+2+3+4+5
-    suma_total += i    # equivale a: suma_total = suma_total + i
-    
-print(f"La suma total es: {suma_total}")
-
-# Crear listas dinámicamente
-cuadrados = []
-for x in range(1, 6):
-    cuadrados.append(x**2)  # [1, 4, 9, 16, 25]
-\end{minted}
-\textbf{Conceptos clave}: Acumulación, listas dinámicas, append()
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Aplicación de Conceptos
-% ----------------------------------------------------------------------------------------
-\section{Aplicación de Conceptos}
-
-% ------------------------------------------------------------------------
-% Slide 11: Actividad Central
+% Slide 6: Actividad Central
 % ------------------------------------------------------------------------
 \begin{frame}{Actividad Central: Problemas Paso a Paso}
   \begin{itemize}
     \item Realizaremos 5 \textbf{ejercicios progresivos} que integran:
       \begin{itemize}
-        \item Variables y operaciones matemáticas
-        \item Estructuras condicionales (\texttt{if})
-        \item Bucles de repetición (\texttt{for})
-        \item Aplicaciones en contexto físico
+        \item Estructuras condicionales complejas (if-elif-else)
+        \item Bucles de repetición avanzados (for, while)
+        \item Aplicaciones en contexto físico real
+        \item Validación de datos y manejo de errores
       \end{itemize}
     \item Cada ejercicio se abordará primero en \textbf{colaboración} y luego se compartirá la solución.
     \item Objetivo: Consolidar el uso de estructuras de control en problemas reales.
@@ -217,7 +107,7 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 12: Ejercicio 1 - Ecuación de Movimiento
+% Slide 7: Ejercicio 1 - Ecuación de Movimiento
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Ecuación de Movimiento en 1D}
   \begin{block}{Enunciado}
@@ -243,7 +133,7 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 13: Ejercicio 2 - Promedio y Varianza
+% Slide 8: Ejercicio 2 - Promedio y Varianza
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Promedio y Varianza de Mediciones}
   \begin{block}{Enunciado}
@@ -265,7 +155,7 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 14: Ejercicio 3 - Conversión de Unidades
+% Slide 9: Ejercicio 3 - Conversión de Unidades
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Conversión de Unidades con Condicionales}
   \begin{block}{Enunciado}
@@ -288,7 +178,7 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 15: Ejercicio 4 - Tabla de Multiplicar
+% Slide 10: Ejercicio 4 - Tabla de Multiplicar
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Tabla de Multiplicar con Bucles}
   \begin{block}{Enunciado}
@@ -306,7 +196,7 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 16: Ejercicio 5 - Clasificador de Temperaturas
+% Slide 11: Ejercicio 5 - Clasificador de Temperaturas
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Clasificador de Temperaturas}
   \begin{block}{Enunciado}
@@ -329,8 +219,13 @@ for x in range(1, 6):
   \textbf{Física relevante:} Estados de la materia, escalas de temperatura.
 \end{frame}
 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Trabajo Colaborativo
+% ----------------------------------------------------------------------------------------
+\section{Trabajo Colaborativo}
+
 % ------------------------------------------------------------------------
-% Slide 17: Trabajo en Equipo
+% Slide 12: Organización de Equipos de Trabajo
 % ------------------------------------------------------------------------
 \begin{frame}{Organización de Equipos de Trabajo}
   \begin{itemize}
@@ -339,7 +234,7 @@ for x in range(1, 6):
     \item Editar un \textbf{notebook compartido} en Google Colab.
     \item \textbf{Estrategia recomendada}:
       \begin{itemize}
-        \item Ejercicios 1-2: Fundamentales (variables, operaciones, bucles básicos)
+        \item Ejercicios 1-2: Fundamentales (ecuaciones, estadística)
         \item Ejercicios 3-4: Intermedios (condicionales, validaciones)
         \item Ejercicio 5: Avanzado (integración de conceptos)
       \end{itemize}
@@ -348,20 +243,26 @@ for x in range(1, 6):
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 18: Discusión y Retroalimentación
+% Slide 13: Discusión y Retroalimentación
 % ------------------------------------------------------------------------
 \begin{frame}{Discusión y Retroalimentación}
   \begin{itemize}
     \item ¿Cuál de los ejercicios fue el más complejo?
     \item ¿En qué parte surgieron errores recurrentes?
     \item ¿Cómo podría hacerse un \textbf{diseño modular} (dividir el problema en funciones)?
+    \item ¿Qué estrategias de debugging utilizaron?
   \end{itemize}
   \vspace{0.2cm}
   \textbf{Comparte tus experiencias con la clase.}
 \end{frame}
 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Soluciones de Referencia
+% ----------------------------------------------------------------------------------------
+\section{Soluciones de Referencia}
+
 % ------------------------------------------------------------------------
-% Slide 19: Solución 1 de Referencia - Ecuación de Movimiento
+% Slide 14: Solución 1 de Referencia - Ecuación de Movimiento
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Ecuación de Movimiento en 1D}
 \begin{minted}{python}
@@ -381,7 +282,7 @@ print(f"La posición final es: {x_final:.2f} m")
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 20: Solución 2 de Referencia - Promedio y Varianza
+% Slide 15: Solución 2 de Referencia - Promedio y Varianza
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Promedio y Varianza de Mediciones}
 \begin{minted}{python}
@@ -409,7 +310,7 @@ print(f"Varianza muestral: {varianza:.3f}")
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 21: Solución 3 de Referencia - Conversión de Unidades
+% Slide 16: Solución 3 de Referencia - Conversión de Unidades
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Conversión de Unidades con Condicionales}
 \begin{minted}{python}
@@ -448,7 +349,7 @@ if valor_metros is not None:
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 22: Solución 4 de Referencia - Tabla de Multiplicar
+% Slide 17: Solución 4 de Referencia - Tabla de Multiplicar
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Tabla de Multiplicar con Bucles}
 \begin{minted}{python}
@@ -471,7 +372,7 @@ else:
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 23: Solución 5 de Referencia - Clasificador de Temperaturas
+% Slide 18: Solución 5 de Referencia - Clasificador de Temperaturas
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Temperaturas}
 \begin{minted}{python}
@@ -508,8 +409,13 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
 \textbf{Discusión:} Bucles anidados, contadores múltiples, clasificación con condicionales.
 \end{frame}
 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Análisis y Actividades Extra
+% ----------------------------------------------------------------------------------------
+\section{Análisis y Actividades Extra}
+
 % ------------------------------------------------------------------------
-% Slide 24: Análisis de las Soluciones
+% Slide 19: Análisis de las Soluciones
 % ------------------------------------------------------------------------
 \begin{frame}{Análisis de las Soluciones}
   \begin{itemize}
@@ -534,10 +440,8 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
   \end{itemize}
 \end{frame}
 
-\section{Ejercicio a Evaluar: Tarea Semanal 1}
-
 % ------------------------------------------------------------------------
-% Slide 25: Actividad Extra - Calculadora Físico-Química
+% Slide 20: Actividad Extra 1 - Calculadora Físico-Química
 % ------------------------------------------------------------------------
 \begin{frame}{Actividad Extra 1: \hfill \textcolor{blue}{$\clubsuit$} \\ Calculadora Físico-Química Interactiva}
   \begin{block}{Enunciado}
@@ -559,90 +463,161 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 26: Retroalimentación Colectiva
+% Slide 21: Actividad Extra 2 - Simulador de Caída Libre
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra 2: \hfill \textcolor{blue}{$\clubsuit$} \\ Simulador de Caída Libre}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Simular la caída libre de un objeto usando: \(y(t) = y_0 - \frac{1}{2}gt^2\)
+      \item Pedir altura inicial \(y_0\) y gravedad \(g\) (9.81 m/s² por defecto).
+      \item Usar un bucle \texttt{while} para calcular la posición cada 0.1 segundos.
+      \item Detenerse cuando el objeto toque el suelo (\(y \leq 0\)).
+      \item Mostrar tabla con tiempo, altura y velocidad en cada paso.
+      \item Calcular tiempo total de caída y velocidad final.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Objetivo:} Bucles \texttt{while} con condiciones físicas y simulación temporal.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Evaluación y Retroalimentación
+% ----------------------------------------------------------------------------------------
+\section{Evaluación y Retroalimentación}
+
+% ------------------------------------------------------------------------
+% Slide 22: Tarea Semanal
+% ------------------------------------------------------------------------
+\begin{frame}{Tarea Semanal: Entrega en Canvas}
+  \begin{block}{Entrega Obligatoria}
+    \begin{itemize}
+      \item Completar los 5 ejercicios principales con código funcional.
+      \item Incluir comentarios explicando el razonamiento en cada paso.
+      \item Al menos una de las actividades extra completada.
+      \item Documentar cualquier dificultad encontrada y cómo se resolvió.
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Criterios de Evaluación}
+    \begin{itemize}
+      \item Código funcional y sin errores (40\%)
+      \item Uso correcto de estructuras de control (30\%)
+      \item Comentarios y documentación (20\%)
+      \item Actividad extra y creatividad (10\%)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 23: Retroalimentación Colectiva
 % ------------------------------------------------------------------------
 \begin{frame}{Retroalimentación Colectiva}
   \begin{itemize}
     \item ¿Alguno de los ejercicios resultó especialmente difícil?
     \item ¿Cómo han manejado los \textbf{mensajes de error} (entradas inválidas)?
-    \item \textbf{Sugerencia}: Documentar mejor tus funciones para cuando construyamos proyectos más grandes.
+    \item ¿Qué estrategias de debugging resultaron más útiles?
+    \item ¿Se sienten preparados para abordar funciones en la próxima unidad?
   \end{itemize}
-  \begin{block}{Recuerden}
-    El grupo debe entregar el resultado en la plataforma CANVAS
-  \end{block}
+  
+  \begin{alertblock}{Importante}
+    La colaboración es clave, pero cada estudiante debe entender completamente su código antes de entregarlo.
+  \end{alertblock}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Conclusiones y Próximos Pasos
+% SECCIÓN 7: Conclusiones y Próximos Pasos
 % ----------------------------------------------------------------------------------------
 \section{Conclusiones}
 
 % ------------------------------------------------------------------------
-% Slide 27: Síntesis de la Sesión
+% Slide 24: Síntesis de la Sesión 4
 % ------------------------------------------------------------------------
 \begin{frame}{Síntesis de la Sesión 4}
   \begin{itemize}
-    \item Ampliamos ejercicios que involucran:
+    \item \textbf{Consolidamos} el uso práctico de estructuras de control:
       \begin{itemize}
-        \item Operaciones matemáticas en escenarios reales (movimiento, varianza, conversiones).
-        \item Manejo de datos desde el usuario.
-        \item Estructuras de control (\texttt{if}, \texttt{for}) aplicadas en contextos físicos.
+        \item Condicionales complejas (if-elif-else)
+        \item Bucles aplicados (for, while)
+        \item Validación de datos y manejo de errores
       \end{itemize}
-    \item Vimos la importancia de la \textbf{colaboración} y la \textbf{discusión} para resolver problemas.
-    \item Integramos conceptos de programación con aplicaciones físicas reales.
+    \item \textbf{Aplicamos} programación a problemas físicos reales:
+      \begin{itemize}
+        \item Ecuaciones cinemáticas y análisis estadístico
+        \item Conversiones de unidades y procesamiento de datos
+        \item Simulaciones y clasificaciones automáticas
+      \end{itemize}
+    \item \textbf{Desarrollamos} habilidades de trabajo colaborativo y debugging.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 28: Preparación para Estructuras de Control
+% Slide 25: Preparación para la Próxima Unidad
 % ------------------------------------------------------------------------
-\begin{frame}{Preparación para Estructuras de Control}
+\begin{frame}{Preparación para la Próxima Unidad: Funciones}
   \begin{itemize}
-    \item Próximamente: \textbf{Unidad III} del Syllabus (Controladores \texttt{while}, \texttt{break}, \texttt{continue}, etc.).
-    \item \textbf{Recomendación}:
+    \item \textbf{Próximamente}: \textbf{Unidad IV} - Funciones en Python
+    \item \textbf{Temas por venir}:
       \begin{itemize}
-        \item Revisar cómo usar \texttt{while} para repeticiones indefinidas.
-        \item Entender la diferencia entre \texttt{while} y \texttt{for}.
-        \item Practicar validaciones de entrada con bucles.
+        \item Definición de funciones con \texttt{def}
+        \item Parámetros, argumentos y valores de retorno
+        \item Modularización de código y reutilización
+        \item Funciones en bibliotecas científicas (NumPy, Matplotlib)
       \end{itemize}
-    \item \textbf{Recordar}: Python 3.x es la versión recomendada. Fíjate en \texttt{/} vs \texttt{//}.
+    \item \textbf{Preparación recomendada}:
+      \begin{itemize}
+        \item Identificar código repetitivo en los ejercicios de hoy
+        \item Pensar en cómo dividir problemas complejos en partes más simples
+        \item Practicar la documentación de código con comentarios claros
+      \end{itemize}
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 29: Recursos y Lecturas
+% Slide 26: Recursos y Lecturas
 % ------------------------------------------------------------------------
 \begin{frame}{Recursos y Lecturas}
   \begin{itemize}
-    \item \href{https://docs.python.org/3/tutorial/controlflow.html}{\textbf{Python Docs - Control Flow}} (para un vistazo previo).
-    \item \href{https://www.learnpython.org/}{\textbf{LearnPython.org}} (ejercicios básicos).
-    \item \href{https://realpython.com/python-basics/}{\textbf{Real Python - Python Basics}} (material de repaso).
+    \item \href{https://docs.python.org/3/tutorial/controlflow.html}{\textbf{Python Docs - Control Flow}} (referencia oficial).
+    \item \href{https://www.learnpython.org/}{\textbf{LearnPython.org}} (ejercicios interactivos).
+    \item \href{https://realpython.com/python-basics/}{\textbf{Real Python - Python Basics}} (tutoriales profundos).
+    \item \href{https://realpython.com/python-functions/}{\textbf{Real Python - Functions}} (preparación para próxima unidad).
   \end{itemize}
+  
+  \begin{block}{Práctica Adicional}
+    Intenten modificar los ejercicios de hoy agregando más validaciones o cambiando los parámetros físicos para diferentes escenarios.
+  \end{block}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 30: Consejos de Autoaprendizaje
+% Slide 27: Consejos de Autoaprendizaje
 % ------------------------------------------------------------------------
 \begin{frame}{Consejos de Autoaprendizaje}
   \begin{itemize}
-    \item \textbf{Practicar todos los días}: sesiones cortas pero frecuentes.
-    \item \textbf{Explorar ejemplos reales}: si te gusta la astronomía, intenta con datos de planetas o estrellas.
-    \item \textbf{Comentar y Documentar} tu código: te ayudará a recordar qué hiciste la próxima vez.
+    \item \textbf{Practicar diariamente}: Sesiones cortas pero consistentes (20-30 min).
+    \item \textbf{Explorar aplicaciones reales}: Usar datos de experimentos, astronomía, física.
+    \item \textbf{Documentar y comentar}: El código se olvida rápido sin documentación.
+    \item \textbf{Depurar sistemáticamente}: Usar \texttt{print()} para entender el flujo.
+    \item \textbf{Colaborar y discutir}: Explicar código a otros consolida el aprendizaje.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 31: Cierre de Sesión
+% Slide 28: Cierre de Sesión
 % ------------------------------------------------------------------------
 \begin{frame}
-  \Huge{\centerline{¡Muchas gracias!}}
+  \Huge{\centerline{¡Excelente progreso!}}
   \vspace{0.3cm}
   \normalsize
   \begin{itemize}
-    \item Recuerda guardar tu trabajo en Google Drive.
-    \item La próxima sesión profundizaremos en \texttt{while} y estructuras de control avanzadas.
-    \item ¡Sigan practicando con los ejercicios adicionales!
+    \item Ya dominan las \textbf{estructuras de control fundamentales}
+    \item Pueden aplicar programación a \textbf{problemas físicos reales}
+    \item Están listos para \textbf{funciones y modularización}
+    \item Recuerden: \textbf{la práctica constante es clave}
   \end{itemize}
+  
+  \begin{center}
+    \textbf{¡Nos vemos en la próxima unidad: Funciones!}
+  \end{center}
 \end{frame}
 
 \end{document}
