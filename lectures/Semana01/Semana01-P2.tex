@@ -137,9 +137,9 @@ print(f"Área de círculo radio 5: {area}")
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 8: Solución Ejercicio 1 (Paso a Paso)
+% Slide 8: Ejemplo de Solución (Área y Perímetro de un Rectángulo)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución Ejercicio 1: \hfill \textcolor{green}{$\checkmark$} \\ Paso a Paso}
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Área y Perímetro de un Rectángulo}
 \begin{minted}{python}
 # Paso 1: Obtener datos del usuario
 largo = float(input("Largo del rectángulo (m): "))
@@ -199,19 +199,20 @@ print(f"Perímetro: {perimetro} m")
 
 
 % ------------------------------------------------------------------------
-% Slide 7: Ejercicio 2 - Calculadora de Velocidad
+% Slide 7: Ejercicio 2 - Calculadora de Masa y Peso
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$}\\ Calculadora de Velocidad}
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$}\\ Calculadora de Masa y Peso}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Pide al usuario la distancia recorrida (en metros) y el tiempo empleado (en segundos).
-      \item Calcula la velocidad usando la fórmula \(v = \frac{d}{t}\).
-      \item Muestra el resultado en m/s y también convertido a km/h.
+      \item Pide al usuario la masa de un objeto (en kilogramos).
+      \item Calcula el peso en la Tierra usando \(P = m \times g\) donde \(g = 9.81\) m/s².
+      \item Calcula también el peso en la Luna donde \(g_{luna} = 1.62\) m/s².
+      \item Muestra los resultados en Newtons (N) con sus respectivos lugares.
     \end{itemize}
   \end{block}
-  \textbf{Conversión:} Para pasar de m/s a km/h, multiplicar por 3.6.
+  \textbf{Conceptos:} Diferencia entre masa (invariable) y peso (depende de la gravedad).
   \\
-  \textbf{Física:} Esta es una de las ecuaciones cinemáticas fundamentales.
+  \textbf{Física relevante:} Comprensión fundamental de masa vs peso en diferentes cuerpos celestes.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -267,20 +268,25 @@ print(f"Perímetro: {perimetro} m")
 
 
 % ------------------------------------------------------------------------
-% Slide 12: Ejemplo de Solución (Calculadora de Velocidad)
+% Slide 12: Ejemplo de Solución (Calculadora de Masa y Peso)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Calculadora de Velocidad}
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Calculadora de Masa y Peso}
 \begin{minted}{python}
-distancia = float(input("Distancia recorrida (m): "))
-tiempo = float(input("Tiempo empleado (s): "))
+masa = float(input("Masa del objeto (kg): "))
 
-velocidad_ms = distancia / tiempo
-velocidad_kmh = velocidad_ms * 3.6
+# Constantes de gravedad
+g_tierra = 9.81  # m/s²
+g_luna = 1.62    # m/s²
 
-print(f'Velocidad: {velocidad_ms} m/s')
-print(f'Velocidad: {velocidad_kmh} km/h')
+# Cálculos de peso
+peso_tierra = masa * g_tierra
+peso_luna = masa * g_luna
+
+print(f'Masa: {masa} kg')
+print(f'Peso en la Tierra: {peso_tierra} N')
+print(f'Peso en la Luna: {peso_luna} N')
 \end{minted}
-\textbf{Discusión:} ¿Qué ocurre si tiempo = 0? (División por cero)
+\textbf{Discusión:} La masa es invariable, pero el peso cambia según la gravedad local.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -322,7 +328,7 @@ print(f'El promedio de las tres notas es: {promedio}')
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 13: Soluciones de Referencia - Ejercicio 5
+% Slide 15: Ejemplo de Solución (Conversión de Temperatura)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Conversión de Temperatura}
 \begin{minted}{python}

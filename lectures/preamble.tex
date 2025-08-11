@@ -1,3 +1,6 @@
+% Configuración de hyperref antes del tema
+\PassOptionsToPackage{pdfauthor={PCFI161 Team}}{hyperref}
+
 \usetheme[progressbar=frametitle]{metropolis}
 \usepackage{appendixnumberbeamer}
 \usepackage{fancyvrb}
@@ -33,6 +36,13 @@
 \definecolor{LightFrame}{RGB}{220, 220, 220}      % Marco gris claro
 
 \usepackage{minted}
+% Solución condicional para inputenc
+\usepackage{ifluatex,ifxetex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % si usa pdflatex
+  \usepackage[utf8]{inputenc}
+\else % si usa xelatex o lualatex
+  \usepackage{fontspec}
+\fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONFIGURACIÓN DE TEMAS - CAMBIA AQUÍ PARA ALTERNAR
