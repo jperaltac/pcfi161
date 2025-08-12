@@ -60,14 +60,9 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Conexión con Sesiones Previas}
   \begin{itemize}
-    \item Sesión 1 y 2 (Semana 1) cubrieron:
-      \begin{itemize}
-        \item Introducción al entorno Google Colab.
-        \item Variables, tipos de datos (\texttt{int}, \texttt{float}, \texttt{str}).
-        \item Operaciones aritméticas y entrada/salida (\texttt{input()}, \texttt{print()}).
-        \item Ejercicios simples de asignación y cálculos básicos.
-      \end{itemize}
-    \item Ahora daremos el \textbf{salto crucial}: hacer que nuestros programas puedan \textbf{tomar decisiones} y \textbf{repetir acciones}.
+    \item En la sesión anterior, exploramos la sintaxis básica de Python.
+    \item Aprendimos sobre variables, tipos de datos y operaciones básicas.
+    \item Ahora, construiremos sobre estos conceptos para manejar flujos de control.
   \end{itemize}
 \end{frame}
 
@@ -307,22 +302,15 @@ print("="*40)
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Clasificador de Velocidades}
   \begin{block}{Enunciado}
+    Clasifique la velocidad de un objeto en función de su magnitud, considerando las siguientes categorías:
     \begin{itemize}
-      \item Pedir al usuario la velocidad de un objeto (m/s).
-      \item Clasificar según rangos físicos:
-        \begin{itemize}
-          \item $v < 1$ m/s: "Movimiento lento"
-          \item $1 \leq v < 10$ m/s: "Movimiento moderado"
-          \item $10 \leq v < 100$ m/s: "Movimiento rápido"
-          \item $v \geq 100$ m/s: "Movimiento muy rápido"
-        \end{itemize}
-      \item Mostrar también la energía cinética si se proporciona la masa.
+      \item \textbf{Movimiento lento}: Velocidad menor a 1 m/s.
+      \item \textbf{Movimiento moderado}: Velocidad entre 1 y 10 m/s.
+      \item \textbf{Movimiento rápido}: Velocidad entre 10 y 100 m/s.
+      \item \textbf{Movimiento muy rápido}: Velocidad mayor a 100 m/s.
     \end{itemize}
+    \textbf{Física relevante:} Escalas de velocidad en diferentes contextos físicos.
   \end{block}
-  
-  \textbf{Conceptos:} Uso de \texttt{if-elif-else} y cálculos físicos.
-  \\
-  \textbf{Física relevante:} Escalas de velocidad en diferentes contextos físicos.
 \end{frame}
 
 
@@ -348,30 +336,31 @@ print("="*40)
 % ------------------------------------------------------------------------
 % Slide 19: Ejercicio 3 - Búsqueda de Número Secreto
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Juego de Adivinanza con Física}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Juego de Adivinanza de Números}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item El programa "piensa" en la velocidad de la luz en el vacío (299,792,458 m/s).
+      \item El programa "piensa" en un número secreto entre 1 y 50.
       \item El usuario debe adivinar este número.
       \item Usar un bucle \texttt{while} que continúe hasta que el usuario acierte.
-      \item Dar pistas: "muy alto", "alto", "bajo", "muy bajo" según la proximidad.
-      \item Contar el número de intentos.
+      \item Dar pistas: "muy cerca", "cerca", "alto", "bajo" según la proximidad.
+      \item Contar el número de intentos y mostrar estadísticas al final.
     \end{itemize}
   \end{block}
   
   \textbf{Conceptos:} Bucles \texttt{while}, condicionales, contadores.
   \\
-  \textbf{Física relevante:} Constantes físicas fundamentales.
+  \textbf{Física relevante:} Lógica de búsqueda y aproximación numérica.
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 16: Solución 1 de Referencia - Clasificador de Velocidades
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Velocidades}
-\begin{minted}{python}
+\begin{minted}[fontsize=\tiny]{python}
 # Entrada de datos
 velocidad = float(input("Velocidad del objeto (m/s): "))
 masa = float(input("Masa del objeto (kg, opcional, 0 si no aplica): "))
+
 # Clasificación de velocidad
 if velocidad < 1:
     categoria = "Movimiento lento"
@@ -383,6 +372,7 @@ else:
     categoria = "Movimiento muy rápido"
 
 print(f"Velocidad: {velocidad} m/s → {categoria}")
+
 # Cálculo de energía cinética si se proporciona masa
 if masa > 0:
     energia_cinetica = 0.5 * masa * velocidad**2
@@ -395,13 +385,12 @@ if masa > 0:
 % Slide 18: Solución 2 de Referencia - Suma de Números Pares
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Suma de Números Pares}
-\begin{minted}{python}
+\begin{minted}[fontsize=\tiny]{python}
 # Entrada de datos
 n = int(input("Ingrese el número límite: "))
 
 # Inicializar acumulador
 suma_pares = 0
-
 print(f"Números pares desde 2 hasta {n}:")
 
 # Bucle para sumar números pares
@@ -424,14 +413,15 @@ if n % 2 == 0:
 % ------------------------------------------------------------------------
 % Slide 20: Solución 3 de Referencia - Juego de Adivinanza
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Juego de Adivinanza con Física}
-\begin{minted}{python}
-# Número secreto: velocidad de la luz en m/s
-numero_secreto = 299792458
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Juego de Adivinanza de Números}
+\begin{minted}[fontsize=\tiny]{python}
+# Número secreto: número entre 1 y 50
+numero_secreto = 37
 intentos = 0
 
-print("Adivina la velocidad de la luz en el vacío (m/s)")
-print("Pista: es un número de 9 dígitos")
+print("¡Juego de adivinanza!")
+print("He pensado en un número entre 1 y 50")
+print("¿Puedes adivinarlo?")
 
 while True:
     intento = int(input("Tu estimación: "))
@@ -440,19 +430,19 @@ while True:
     diferencia = abs(intento - numero_secreto)
     
     if intento == numero_secreto:
-        print(f"¡Correcto! La velocidad de la luz es {numero_secreto} m/s")
+        print(f"¡Correcto! El número era {numero_secreto}")
         print(f"Lo lograste en {intentos} intentos")
         break
-    elif diferencia < 1000000:  # Dentro de 1 millón
+    elif diferencia <= 2:  # Muy cerca (diferencia de 1 o 2)
         print("¡Muy cerca!")
-    elif diferencia < 10000000:  # Dentro de 10 millones
+    elif diferencia <= 5:  # Cerca (diferencia de 3 a 5)
         print("Cerca...")
     elif intento < numero_secreto:
         print("Muy bajo")
     else:
         print("Muy alto")
 \end{minted}
-\textbf{Discusión:} Bucle infinito con \texttt{break}, rangos de proximidad, constantes físicas.
+\textbf{Discusión:} Bucle infinito con \texttt{break}, rangos de proximidad progresivos, contadores de intentos.
 \end{frame}
 
 
