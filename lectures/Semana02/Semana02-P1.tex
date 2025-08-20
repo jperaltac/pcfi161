@@ -224,6 +224,23 @@ while condición:
 % ------------------------------------------------------------------------
 % Slide 12: Ejemplo Práctico con WHILE
 % ------------------------------------------------------------------------
+
+\begin{frame}{Ejemplo \\ Aproximación a la Raíz Cuadrada}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Calcular la raíz cuadrada de un número usando el método de Newton-Raphson.
+      \item Usar la fórmula iterativa: $x_{n+1} = \frac{1}{2}(x_n + \frac{a}{x_n})$
+      \item Usar un bucle \texttt{while} que continúe hasta que la precisión sea menor a 0.0001.
+      \item Mostrar cada iteración y el resultado final.
+      \item Verificar comparando con el valor real.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Bucles \texttt{while}, precisión numérica, métodos iterativos.
+  \\
+  \textbf{Física relevante:} Métodos numéricos en simulaciones físicas.
+\end{frame}
+
 \begin{frame}[fragile]{Ejemplo: Aproximación a la Raíz Cuadrada (Método de Newton)}
 \begin{minted}{python}
 numero = float(input("Número para calcular raíz cuadrada: "))
