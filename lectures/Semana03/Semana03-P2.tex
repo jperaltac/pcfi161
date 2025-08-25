@@ -1,7 +1,7 @@
 \documentclass[10pt]{beamer}
 
 % ------------------------------------------------------------------------
-% Carga del preámbulo personalizado (preamble.tex)
+% Carga de tu preámbulo personalizado (preamble.tex)
 % Asegúrate de tenerlo en la misma carpeta para que \input funcione.
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
@@ -9,7 +9,7 @@
 \begin{document}
 
 % ------------------------------------------------------------------------
-% Portada personalizada (puedes usar \myfront si está definido en tu preamble.tex)
+% Portada personalizada (ejemplo \myfront si está definido en tu preámbulo)
 % ------------------------------------------------------------------------
 \myfront{}
 
@@ -18,12 +18,12 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % Ejemplo de configuración del título:
-  % \title{Semana 3 - Sesión 2 (Sesión 6): Laboratorio Práctico de Estructuras de Control}
+  % Por ejemplo:
+  % \title{Semana 4 - Sesión 2 (Sesión 8): Taller de Funciones, Módulos y Librerías Externas}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de contenidos
+% Slide 2: Índice / Tabla de Contenidos
 % ------------------------------------------------------------------------
 \begin{frame}
   \frametitle{Resumen - Semana 3, Sesión 2 (Sesión 6)}
@@ -36,429 +36,391 @@
 \metroset{block=fill}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Conexión con la Sesión Anterior
+% SECCIÓN 1: Introducción y Repaso
 % ----------------------------------------------------------------------------------------
 \section{Introducción y Repaso}
 
 % ------------------------------------------------------------------------
-% Slide 3: Recapitulación de la Sesión 5
+% Slide 3: Recapitulación de la Sesión 6
 % ------------------------------------------------------------------------
-\begin{frame}{Recapitulación de la Sesión Previa (Sesión 5)}
+\begin{frame}{Recapitulación de la Sesión Anterior (Sesión 6)}
   \begin{itemize}
-    \item \textbf{Semana 3, Sesión 1 (Sesión 5)} se enfocó en:
+    \item \textbf{Semana 3, Sesión 2 (Sesión 6)} se centró en:
       \begin{itemize}
-        \item Introducir las estructuras de control fundamentales en Python:
-          \begin{itemize}
-            \item \texttt{if}, \texttt{elif}, \texttt{else} para condicionales.
-            \item \texttt{while} para bucles basados en condiciones lógicas.
-          \end{itemize}
-        \item Ejemplos sencillos de decisiones y repeticiones.
-        \item Manejo de la indentación y bloques de código.
+        \item \textbf{Funciones}: sintaxis (\texttt{def}), parámetros, valores por defecto, alcance de variables.
+        \item \textbf{Módulos y Paquetes}: cómo organizar el código en archivos \texttt{.py} y carpetas.
+        \item Ejemplos de proyectos pequeños con \texttt{import} y definición de funciones útiles.
       \end{itemize}
-    \item \textbf{Objetivo de hoy}: Realizar un \textbf{laboratorio práctico} con ejercicios enfocados en la aplicación de condicionales y bucles.
+    \item \textbf{Objetivo de hoy}: Ampliar la práctica con funciones y módulos, e \textbf{introducir el uso de librerías externas} (vía \texttt{pip} o Colab).
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 4: Objetivos de la Sesión 6
+% Slide 4: Objetivos de la Sesión 5
 % ------------------------------------------------------------------------
-\begin{frame}{Objetivos de la Sesión 6}
+\begin{frame}{Objetivos de la Sesión 5}
   \begin{itemize}
-    \item \textbf{Aplicar} las estructuras de control en la resolución de problemas concretos.
-    \item \textbf{Fomentar} el trabajo en parejas o grupos para compartir estrategias.
-    \item \textbf{Profundizar} en el uso de \texttt{if-elif-else} y \texttt{while}.
-    \item \textbf{Fortalecer} la comprensión de la lógica condicional y bucles a través de experimentación en Colab.
+    \item \textbf{Profundizar} en el flujo de trabajo al crear y reutilizar módulos en Python.
+    \item \textbf{Explorar} la instalación de librerías externas (\texttt{pip}, Google Colab).
+    \item \textbf{Diseñar} una actividad grupal donde se combine la creación de funciones propias con el uso de librerías de terceros.
+    \item \textbf{Fomentar} la colaboración y la discusión sobre buenas prácticas de organización.
   \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Recordatorio de Estructuras de Control
+% SECCIÓN 2: Repaso Rápido de Módulos y Paquetes
 % ----------------------------------------------------------------------------------------
-\section{Recordatorio: Estructuras de Control}
+\section{Módulos y Paquetes (Repaso)}
 
 % ------------------------------------------------------------------------
-% Slide 5: Condicionales (If, Elif, Else)
+% Slide 5: Estructura de un Proyecto Simple
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Condicionales en Python}
+\begin{frame}{Estructura Básica de un Proyecto}
+  \begin{itemize}
+    \item \textbf{Carpetas} y \texttt{.py} para agrupar funcionalidades.
+    \item Ejemplo:
+%\begin{verbatim}
+%mi_proyecto/
+%    main.py
+%    mis_modulos/
+%        __init__.py
+%        matematicas.py
+%        fisica.py
+%\end{verbatim}
+    \item \texttt{main.py} orquesta la lógica usando \texttt{import mis\_modulos.fisica} y así sucesivamente.
+    \item Facilita la mantenibilidad y escalabilidad.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6: Importar vs. Desde
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Formas de Importar}
+\begin{itemize}
+  \item \textbf{Import completo}:
+  \begin{minted}{python}
+import mis_modulos.matematicas
+res = mis_modulos.matematicas.sumar(2, 3)
+  \end{minted}
+  \item \textbf{From / Import}:
+  \begin{minted}{python}
+from mis_modulos.matematicas import sumar
+res = sumar(2, 3)
+  \end{minted}
+  \item \textbf{Import renombrado}:
+  \begin{minted}{python}
+import mis_modulos.matematicas as mm
+res = mm.sumar(2, 3)
+  \end{minted}
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Librerías Externas y pip
+% ----------------------------------------------------------------------------------------
+\section{Librerías Externas}
+
+% ------------------------------------------------------------------------
+% Slide 7: ¿Por qué usar Librerías Externas?
+% ------------------------------------------------------------------------
+\begin{frame}{¿Por qué Librerías Externas?}
+  \begin{itemize}
+    \item \textbf{Ahorra tiempo}: aprovechas código ya probado por la comunidad.
+    \item \textbf{Funcionalidades avanzadas}: Desde manejo de redes hasta machine learning.
+    \item \textbf{Ejemplos}: \texttt{requests} para peticiones web, \texttt{numpy} para cálculo numérico, \texttt{pandas} para data frames, etc.
+    \item \textbf{Comunidad activa}: librerías mantenidas, actualizaciones frecuentes.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Instalación con pip
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Instalación con \texttt{pip}}
+  \begin{itemize}
+    \item \textbf{pip}: el gestor de paquetes oficial de Python.
+    \item Comando general en terminal:
+\begin{minted}{bash}
+pip install nombre_paquete
+\end{minted}
+    \item Si usas \textbf{Google Colab}, puedes instalar temporalmente en una celda:
 \begin{minted}{python}
-if condicion1:
-    # Bloque de código si condicion1 es True
-elif condicion2:
-    # Bloque de código si condicion2 es True
-else:
-    # Bloque de código si ninguna de las anteriores
+!pip install nombre_paquete
+\end{minted}
+    \item La librería quedará disponible para importarse en el resto del entorno (hasta reiniciar).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Ejemplo: Instalando \texttt{requests} en Colab
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: \texttt{requests} en Colab}
+\begin{minted}{python}
+# En una celda de Colab:
+!pip install requests
+
+import requests
+
+resp = requests.get("https://api.github.com")
+print(resp.status_code)
+print(resp.json())
 \end{minted}
 \begin{itemize}
-  \item Cada condición se evalúa en orden.
-  \item Solo se ejecuta el primer bloque que resulte \texttt{True}.
-  \item \textbf{Uso común}: validaciones, menús, decisiones.
+  \item \textbf{Uso real}: Conectarse a APIs, descargar datos, etc.
+  \item \textbf{Sugerencia}: Manejar casos de error (\texttt{resp.status\_code != 200}).
 \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 6: While (Bucles Basados en Condición)
+% Slide 10: Ejemplo: Instalando \texttt{numpy}
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Bucle While en Python}
+\begin{frame}[fragile]{Ejemplo: \texttt{numpy} Básico}
+\begin{minted}{bash}
+# Desde terminal local
+pip install numpy
+\end{minted}
 \begin{minted}{python}
-while condicion:
-    # bloque que se repite
-    # mientras la condicion sea True
+# Uso en el código
+import numpy as np
 
-# Al salir, la condicion es False (o se rompió el bucle con break)
+arr = np.array([1, 2, 3, 4])
+print(arr * 2)  # [2 4 6 8]
 \end{minted}
 \begin{itemize}
-  \item Útil cuando no se sabe cuántas iteraciones exactas serán necesarias.
-  \item \textbf{break}: fuerza la salida del bucle.
-  \item \textbf{continue}: salta a la siguiente iteración.
+  \item \textbf{NumPy} es la base de muchas librerías científicas en Python.
+  \item \textbf{Operaciones vectorizadas}: eficiencia y simplicidad.
 \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 7: Ejemplo Breve - Menú Interactivo
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo Rápido: Menú Interactivo con While}
-\begin{minted}{python}
-op = ""
-while op != "q":
-    print("Menú:")
-    print("(1) Saludar")
-    print("(2) Despedir")
-    print("(q) Salir")
-    op = input("Opción: ")
-
-    if op == "1":
-        print("Hola!")
-    elif op == "2":
-        print("Adiós!")
-    elif op == "q":
-        print("Saliendo...")
-    else:
-        print("Opción inválida")
-\end{minted}
-\end{frame}
-
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Laboratorio Práctico
+% SECCIÓN 4: Actividad Práctica
 % ----------------------------------------------------------------------------------------
-\section{Laboratorio Práctico}
+\section{Tarea Semanal}
 
 % ------------------------------------------------------------------------
-% Slide 8: Actividad General
+% Slide 11: Actividad: Creando un Módulo y Usando Librerías Externas
 % ------------------------------------------------------------------------
-\begin{frame}{Actividad General - Estructuras de Control}
-  \begin{itemize}
-    \item Se plantearán \textbf{tres problemas} de complejidad progresiva.
-    \item Cada problema requiere el uso de condicionales y/o bucles \texttt{while}.
-    \item Trabajaremos en \textbf{parejas} o \textbf{pequeños grupos}.
-    \item Esto nos servirá para fortalecer lo aprendido.
-  \end{itemize}
+\begin{frame}{Actividad General}
+\begin{center}
+  \huge{Manos a la Obra!}
+\end{center}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 9: Problema 1 - Adivina el Número
-% ------------------------------------------------------------------------
-\begin{frame}{Problema 1: Adivina el Número}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item El programa genera un número entero aleatorio entre 1 y 50.
-      \item El usuario debe adivinar el número.
-      \item Se le indica si su intento es \textbf{muy alto} o \textbf{muy bajo}, hasta acertar.
-      \item Cuando acierta, se imprime cuántos intentos utilizó.
-    \end{itemize}
-  \end{block}
-  \textbf{Indicaciones}:
-  \begin{itemize}
-    \item Usar \texttt{while} para repetir hasta acertar.
-    \item \textbf{módulo random}: \texttt{import random; random.randint(1,50)}.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 10: Problema 2 - Calculadora de Calificaciones
-% ------------------------------------------------------------------------
-\begin{frame}{Problema 2: Calculadora de Calificaciones}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Pedir repetidamente \textbf{notas} de estudiantes en el rango [1.0 - 7.0].
-      \item Acumular la suma y el conteo de notas.
-      \item Si se ingresa \texttt{-1}, termina la captura de datos.
-      \item Imprimir el \textbf{promedio final} de las notas ingresadas (o mensaje si no se ingresó ninguna).
-    \end{itemize}
-  \end{block}
-  \textbf{Puntos Clave}:
-  \begin{itemize}
-    \item \textbf{while} para la repetición.
-    \item Validar que la nota esté en [1.0, 7.0] o sea \texttt{-1} para salir.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 11: Problema 3 - Simulación de Movimiento Discreto
-% ------------------------------------------------------------------------
-\begin{frame}{Problema 3: Simulación de Movimiento Discreto}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Imaginemos un objeto en la posición \texttt{x=0} de una línea de números.
-      \item Cada paso de tiempo, el usuario ingresa un comando:
-        \begin{itemize}
-          \item \texttt{R} (mover +1)
-          \item \texttt{L} (mover -1)
-          \item \texttt{S} (mantenerse)
-          \item \texttt{Q} (terminar)
-        \end{itemize}
-      \item El programa muestra la posición actualizada tras cada comando.
-      \item Al final, imprime cuántos pasos se realizaron.
-    \end{itemize}
-  \end{block}
-  \textbf{Sugerencia}:
-  \begin{itemize}
-    \item Usar un \texttt{while} infinito y \texttt{break} al recibir \texttt{"Q"}.
-    \item Contar la cantidad de pasos totales (excluyendo el comando “Q”).
-  \end{itemize}
-\end{frame}
 
 \begin{comment}
+
 % ------------------------------------------------------------------------
-% Slide 12: Formación de Grupos
+% Slide 12: Lineamientos
 % ------------------------------------------------------------------------
-\begin{frame}{Formación de Grupos y Organización}
+\begin{frame}{Lineamientos de la Actividad}
   \begin{itemize}
-    \item Dividir la clase en \textbf{parejas} o \textbf{tríos}, según tamaño del grupo total.
-    \item Cada equipo elige al menos dos problemas a resolver:
+    \item Crear en Colab o localmente la siguiente estructura:
+    
+      \texttt{taller4/}\\
+      \quad \texttt{mi\_modulo.py}\\
+      \quad \texttt{main.ipynb} \quad \text{(o main.py)}\\
+    
+    \item \textbf{mi\_modulo.py}:
       \begin{itemize}
-        \item Problema 1: Adivina el Número.
-        \item Problema 2: Calculadora de Calificaciones.
-        \item Problema 3: Simulación de Movimiento Discreto.
+        \item Define algunas funciones (e.g., \texttt{multiplicar\_vector(vec, escalar)}) que internamente use \texttt{numpy}.
+        \item Podrías incluir una función que calcule la \textbf{media} y \textbf{desviación estándar} de un arreglo con \texttt{numpy}.
       \end{itemize}
-    \item \textbf{Objetivo}: Implementar y probar en Google Colab, comentando el código. Enviar resultado a CANVAS.
+    \item \textbf{main.ipynb}:
+      \begin{itemize}
+        \item Instala (si es necesario) la librería \texttt{numpy}.
+        \item Importa \texttt{mi\_modulo} y ejecuta las funciones, imprimiendo resultados.
+      \end{itemize}
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 13: Lineamientos Generales
+% Slide 13: Ejemplo de \texttt{mi\_modulo.py}
 % ------------------------------------------------------------------------
-\begin{frame}{Lineamientos para Resolver los Problemas}
+\begin{frame}[fragile]{Ejemplo: \texttt{mi\_modulo.py}}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+def multiplicar_vector(vec, escalar):
+    """
+    Multiplica cada elemento de 'vec' por 'escalar'.
+    'vec' y 'escalar' pueden ser float o int.
+    Retorna un np.array con el resultado.
+    """
+    arr = np.array(vec, dtype=float)
+    return arr * escalar
+
+def estadistica_basica(vec):
+    """
+    Retorna (media, desviacion_std) de vec,
+    asumiendo que vec es convertible a np.array.
+    """
+    arr = np.array(vec, dtype=float)
+    media = np.mean(arr)
+    desv = np.std(arr)
+    return (media, desv)
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Ejemplo de \texttt{main.ipynb}
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: \texttt{main.ipynb}}
+\begin{minted}{python}
+# En una celda:
+!pip install numpy
+
+# En otra celda:
+import mi_modulo
+
+resultado = mi_modulo.multiplicar_vector([1,2,3], 3)
+print(f'Multiplicación: {resultado}')
+
+media, desv = mi_modulo.estadistica_basica([10, 14, 22, 9])
+print(f'Media = {media}, Desviación = {desv}')
+\end{minted}
+\begin{itemize}
+  \item Observa cómo combinamos \textbf{nuestro módulo} con \textbf{numpy}.
+  \item Podrías extender con más funciones o ejemplos.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Trabajo en Grupos
+% ------------------------------------------------------------------------
+\begin{frame}{Trabajo en Grupos}
   \begin{itemize}
-    \item Crear un \textbf{notebook} específico para esta sesión.
-    \item Explicar brevemente la lógica al inicio de cada solución.
-    \item Probar \textbf{múltiples casos} (valores límites, valores inválidos, etc.).
-    \item Anotar cualquier dificultad o bug encontrado, junto con la forma de resolverlo.
+    \item Forma \textbf{parejas o tríos}.
+    \item Diseña un \textbf{mini-proyecto} (inspirado en ejemplos de Física, Matemática, Astronomía, etc.).
+    \item Usa \textbf{módulos propios} y una \textbf{librería externa} de tu elección (p.e. \texttt{requests} para datos en línea, \texttt{numpy} para vectores, \texttt{matplotlib} para graficar).
+    \item Documenta brevemente cada función en \texttt{docstrings}.
   \end{itemize}
 \end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Sugerencias
+% ------------------------------------------------------------------------
+\begin{frame}{Sugerencias para tu Mini-Proyecto}
+  \begin{itemize}
+    \item \textbf{Tema de Datos}: Descarga datos de Internet (por ejemplo, una tabla CSV) y analiza con \texttt{numpy}.
+    \item \textbf{Tema de Física}: Define funciones de ecuaciones de movimiento y gráficas con \texttt{matplotlib}.
+    \item \textbf{Tema Estadístico}: Genera datos aleatorios con \texttt{numpy} y calcula percentiles, histogramas, etc.
+    \item \textbf{Pruebas y Validaciones}: Maneja entradas no válidas y verifica resultados esperados.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Tiempo de Desarrollo
+% ------------------------------------------------------------------------
+\begin{frame}{Tiempo de Desarrollo}
+  \begin{itemize}
+    \item Dedicar \textbf{20-30 minutos} a la construcción y prueba de los módulos.
+    \item Intercambiar ideas y soluciones con el equipo.
+    \item \textbf{Objetivo}: Tener un prototipo funcional que demuestre la unión de:
+      \begin{itemize}
+        \item Funciones personalizadas (en un módulo).
+        \item Librería externa (instalada vía \texttt{pip} si hace falta).
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Espacio para Preguntas
+% ------------------------------------------------------------------------
+\begin{frame}{Espacio para Preguntas o Bloqueos}
+  \begin{itemize}
+    \item ¿Problemas al importar tu módulo (\texttt{ModuleNotFoundError})?
+    \item ¿Incompatibilidad en Colab vs entorno local?
+    \item ¿Dificultades con la instalación de librerías?
+  \end{itemize}
+  \vspace{0.2cm}
+  \textbf{Comparte tu experiencia con el resto de la clase.}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Comparte tu Solución
+% ------------------------------------------------------------------------
+\begin{frame}{Comparte tu Solución}
+  \begin{itemize}
+    \item Al cabo del tiempo de desarrollo:
+      \begin{itemize}
+        \item Muestra tu \textbf{código} y \textbf{resultados} a otros grupos.
+        \item Explica brevemente la \textbf{arquitectura} (\texttt{mi\_modulo.py}, \texttt{main.ipynb}, etc.).
+      \end{itemize}
+    \item \textbf{Discutir}:
+      \begin{itemize}
+        \item ¿Qué librería externa se eligió y por qué?
+        \item ¿Qué partes fueron más complejas?
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Ejemplo de Discusión
+% ------------------------------------------------------------------------
+\begin{frame}{Ejemplo de Discusión}
+  \begin{block}{Grupo 1}
+    \begin{itemize}
+      \item Usó \texttt{numpy} para multiplicar matrices.
+      \item Implementó una función \texttt{inversa\_matriz(A)} que devuelve \(\mathbf{A}^{-1}\).
+    \end{itemize}
+  \end{block}
+  \vspace{0.4cm}
+  \begin{block}{Grupo 2}
+    \begin{itemize}
+      \item Usó \texttt{requests} para descargar una tabla de datos climáticos en \texttt{CSV}.
+      \item Creó una función para calcular la temperatura promedio y la humedad relativa.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Conclusiones
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones y Próximos Pasos}
+
+% ------------------------------------------------------------------------
+% Slide 21: Análisis General
+% ------------------------------------------------------------------------
+\begin{frame}{Análisis General de la Actividad}
+  \begin{itemize}
+    \item Ventajas de \textbf{combinar módulos propios con librerías externas}:
+      \begin{itemize}
+        \item Reutilización de código (módulos).
+        \item Potencia y robustez (librerías de terceros).
+      \end{itemize}
+    \item Importancia de la \textbf{organización de archivos} y de un \textbf{flujo de trabajo} claro.
+    \item Manejar \textbf{entornos virtuales} (en local) es otra buena práctica (tema futuro).
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Recomendaciones de Estudio
+% ------------------------------------------------------------------------
+\begin{frame}{Recomendaciones de Estudio}
+  \begin{itemize}
+    \item Revisar la \textbf{documentación oficial} de \texttt{pip} y \texttt{virtualenv}.
+    \item Explorar \textbf{PyPI} (\url{https://pypi.org/}) para descubrir librerías útiles.
+    \item Practicar la creación de \textbf{módulos} en proyectos pequeños.
+    \item Investigar qué librerías podrían ser útiles para futuros trabajos de Física/Astronomía (p.e. \texttt{astropy}, \texttt{scipy}).
+  \end{itemize}
+\end{frame}
+
+
 \end{comment}
 
-
-\begin{comment}
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Desarrollo y Discusión
-% ----------------------------------------------------------------------------------------
-\section{Desarrollo y Discusión}
-
 % ------------------------------------------------------------------------
-% Slide 14: Trabajo en Clase
+% Slide 23: Visión de la Próxima Sesión
 % ------------------------------------------------------------------------
-\begin{frame}{Trabajo en Clase}
-  \begin{block}{Instrucciones}
-    \begin{itemize}
-      \item Cada grupo trabaja \textbf{20-25 minutos} en los problemas.
-      \item Se recomienda priorizar la corrección lógica antes que agregar extras.
-      \item Aquellos que terminen rápido pueden \textbf{extender} sus soluciones (más validaciones, mensajes más detallados, etc.).
-    \end{itemize}
-  \end{block}
-  \textbf{Consejo}: Revisen sintaxis de \texttt{while}, \texttt{if/elif/else}, y funciones de \texttt{random}.
-
-  \begin{block}{Recordar}
-    Los grupos deben subir la(s) soluciones de este problema a la plataforma CANVAS.
-  \end{block}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 15: Espacio para Dudas
-% ------------------------------------------------------------------------
-\begin{frame}{Espacio para Dudas}
+\begin{frame}{Próxima Sesión}
   \begin{itemize}
-    \item ¿Algún error frecuente al usar \texttt{while}?
-    \item ¿Cómo manejan valores fuera del rango permitido?
-    \item ¿Cómo se maneja la salida del bucle (\texttt{break} vs condición \texttt{False})?
+    \item \textbf{Sesion 9 (Semana 5)}: Repaso integral de Unidades I y II, y \textbf{Solemne I}.
+    \item \textbf{Recomendación}:
+      \begin{itemize}
+        \item Revisa todos los conceptos vistos: Sintaxis, Estructuras de Control, Funciones, Módulos.
+        \item Práctica con ejercicios y ejemplos de exámenes pasados (si los hubiera).
+      \end{itemize}
   \end{itemize}
   \vspace{0.3cm}
-  \textbf{Levanta la mano o consulta en voz alta para que todos aprendan.}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 16: Comparación de Enfoques
-% ------------------------------------------------------------------------
-\begin{frame}{Comparación de Enfoques en la Clase}
-  \begin{itemize}
-    \item Distintas formas de plantear la condición principal del \texttt{while}.
-    \item Manejo de variables “centinela” (por ejemplo, \texttt{-1} para terminar).
-    \item Uso de \texttt{else} en condicionales anidados para simplificar la lógica.
-    \item \textbf{Importancia}: Legibilidad vs. tamaño del código.
-  \end{itemize}
-\end{frame}
-\end{comment}
-
-\begin{comment}
-% ------------------------------------------------------------------------
-% Slide 17: Ejemplo de Solución - Problema 1 (Adivina el Número)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de Solución: Adivina el Número}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
-import random
-
-secreto = random.randint(1,50)
-intentos = 0
-adiv = 0
-
-while adiv != secreto:
-    adiv_str = input("Adivina un número (1-50): ")
-    adiv = int(adiv_str)
-    intentos += 1
-
-    if adiv < secreto:
-        print("Muy bajo!")
-    elif adiv > secreto:
-        print("Muy alto!")
-    else:
-        print("¡Acertaste!")
-
-print(f'Número de intentos: {intentos}')
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 18: Ejemplo de Solución - Problema 2 (Calificaciones)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de Solución: Calculadora de Calificaciones}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\scriptsize
-]{python}
-count = 0
-suma = 0.0
-
-while True:
-    nota_str = input("Ingrese una nota [1.0-7.0], o -1 para terminar: ")
-    nota = float(nota_str)
-
-    if nota == -1:
-        break
-    if nota < 1.0 or nota > 7.0:
-        print("Nota inválida, intente nuevamente.")
-        continue
-
-    suma += nota
-    count += 1
-
-if count > 0:
-    promedio = suma / count
-    print(f'Promedio de las {count} notas: {promedio}')
-else:
-    print("No se ingresaron notas válidas.")
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 19: Ejemplo de Solución - Problema 3 (Movimiento Discreto)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de Solución: Movimiento Discreto}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\tiny
-]{python}
-pos = 0
-pasos = 0
-
-while True:
-    comando = input("Ingrese (R, L, S, Q): ").upper()
-
-    if comando == "R":
-        pos += 1
-        pasos += 1
-    elif comando == "L":
-        pos -= 1
-        pasos += 1
-    elif comando == "S":
-        # no cambia pos
-        pasos += 1
-    elif comando == "Q":
-        print("Terminando simulación.")
-        break
-    else:
-        print("Comando inválido.")
-
-    print(f'Posición actual: {pos}')
-
-print(f'Total de pasos realizados: {pasos}')
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 20: Análisis de las Soluciones
-% ------------------------------------------------------------------------
-\begin{frame}{Análisis de las Soluciones}
-  \begin{itemize}
-    \item \textbf{Uso de banderas y centinelas}:
-      \begin{itemize}
-        \item \texttt{nota == -1} para terminar ciclo.
-        \item \texttt{comando == "Q"} para salir.
-      \end{itemize}
-    \item \textbf{Validaciones} y manejo de casos inválidos (\texttt{continue}).
-    \item \textbf{Contadores} de intentos y pasos, incrementándose en cada iteración.
-    \item \textbf{Mejoras potenciales}:
-      \begin{itemize}
-        \item Mensajes más descriptivos.
-        \item Manejo de excepciones para entradas no numéricas.
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-\end{comment}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Retroalimentación y Conclusiones
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones}
-
-% ------------------------------------------------------------------------
-% Slide 21: Integración de Conocimientos
-% ------------------------------------------------------------------------
-\begin{frame}{Integración de Conocimientos}
-  \begin{itemize}
-    \item \textbf{Condicionales} son la base de la \textit{toma de decisiones} en un programa.
-    \item \textbf{Bucle While} posibilita la \textit{repetición basada en una condición}, útil para menús interactivos o lectura indefinida.
-    \item Aprendimos la importancia de \textbf{validar} datos y usar \texttt{break}/\texttt{continue} en casos convenientes.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 22: Recomendaciones para el Estudio
-% ------------------------------------------------------------------------
-\begin{frame}{Recomendaciones para el Estudio}
-  \begin{itemize}
-    \item Practica \textbf{problemas pequeños} con \texttt{if} y \texttt{while}, como minijuegos o menús.
-    \item Lee la documentación de \textbf{Python} sobre control de flujo (if, while, for).
-    \item Experimenta con valores \textbf{fuera de rango} para entender mejor la lógica y los errores potenciales.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 23: Próximos Pasos
-% ------------------------------------------------------------------------
-\begin{frame}{Próximos Pasos}
-  \begin{itemize}
-    \item Siguiente tema: \textbf{Bucle For} y manejo de listas (Unidad III).
-    \item Revisaremos \textbf{break} y \textbf{continue} con más detalle.
-    \item Pronto veremos estructuras de datos (listas, arreglos) e interacción con bucles para manipular secuencias.
-  \end{itemize}
+  \textbf{¡Prepárate para la evaluación!}
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -466,10 +428,11 @@ print(f'Total de pasos realizados: {pasos}')
 % ------------------------------------------------------------------------
 \begin{frame}{Recursos Adicionales}
   \begin{itemize}
-    \item \href{https://docs.python.org/3/tutorial/controlflow.html}{\textbf{Python Docs - Control Flow}}
-    \item \href{https://www.learnpython.org/en/Conditions}{\textbf{Learn Python - Conditions}}
-    \item \href{https://realpython.com/python-while-loop/}{\textbf{Real Python - While Loops}}
-    \item \textbf{Foros y Comunidades}: Stack Overflow, Reddit \texttt{/r/learnpython}.
+    \item \href{https://packaging.python.org/tutorials/installing-packages/}{\textbf{Official Python Packaging Tutorial}}
+    \item \href{https://docs.python.org/3/library/}{\textbf{Documentación de la Biblioteca Estándar de Python}}
+    \item \href{https://pypi.org/}{\textbf{PyPI}} - Python Package Index
+    \item \href{https://numpy.org/doc/}{\textbf{Numpy Docs}}
+    \item \href{https://matplotlib.org/stable/}{\textbf{Matplotlib Docs}}
   \end{itemize}
 \end{frame}
 
@@ -477,12 +440,13 @@ print(f'Total de pasos realizados: {pasos}')
 % Slide 25: Cierre de la Sesión
 % ------------------------------------------------------------------------
 \begin{frame}
-  \Huge{\centerline{¡Gracias por su atención!}}
+  \huge{\centerline{¡Muchas gracias y éxito en su práctica!}}
   \vspace{0.4cm}
   \normalsize
   \begin{itemize}
-    \item Aseguren de \textbf{guardar} sus notebooks de hoy.
-    \item ¡Nos vemos en la próxima sesión para seguir avanzando con \texttt{for}, listas y más ejemplos!
+    \item Recuerden subir su trabajo a Google Drive o repositorio compartido.
+    \item Próxima sesión: \textbf{Solemne I} y repaso integral.
+    \item ¡Sigan explorando librerías externas y creando módulos propios!
   \end{itemize}
 \end{frame}
 

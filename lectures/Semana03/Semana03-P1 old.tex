@@ -27,7 +27,7 @@
 % Slide 2: Índice / Tabla de contenidos
 % ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Semana 3, Sesión 1 (Sesión 5)}
+  \frametitle{Resumen - Semana 4, Sesión 1 (Sesión 7)}
   \tableofcontents
 \end{frame}
 
@@ -44,9 +44,9 @@
 % ------------------------------------------------------------------------
 % Slide 3: Recapitulación de la Sesión 6
 % ------------------------------------------------------------------------
-\begin{frame}{Recapitulación de la Sesión Anterior (Sesión 5)}
+\begin{frame}{Recapitulación de la Sesión Anterior (Sesión 6)}
   \begin{itemize}
-    \item \textbf{Semana 3, Sesión 1 (Sesión 5)} se centró en:
+    \item \textbf{Semana 3, Sesión 2 (Sesión 6)} se centró en:
       \begin{itemize}
         \item Laboratorio práctico con estructuras de control (\texttt{if}, \texttt{while}).
         \item Problemas tipo: “Adivina el número”, “Calculadora de Calificaciones”, “Movimiento Discreto”.
@@ -59,7 +59,7 @@
 % ------------------------------------------------------------------------
 % Slide 4: Objetivos de la Sesión 7
 % ------------------------------------------------------------------------
-\begin{frame}{Objetivos de la Sesión 5}
+\begin{frame}{Objetivos de la Sesión 7}
   \begin{itemize}
     \item \textbf{Comprender} la sintaxis y concepto de funciones en Python (\texttt{def}, parámetros, \texttt{return}).
     \item \textbf{Explorar} cómo organizar código en módulos y paquetes simples.
@@ -89,7 +89,12 @@
 % Slide 6: Sintaxis de una Función
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Sintaxis Básica de Funciones en Python}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
 def nombre_de_funcion(param1, param2, ...):
     """
     Documentación opcional (docstring).
@@ -110,7 +115,12 @@ def nombre_de_funcion(param1, param2, ...):
 % Slide 7: Ejemplo de Función Sencilla
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo: Función para Calcular el Área de un Círculo}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
 import math
 
 def area_circulo(radio):
@@ -143,7 +153,12 @@ print("El área del círculo es:", a)
 % Slide 8: Tipos de Parámetros (Posicionales, Opcionales)
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Parámetros Posicionales y Opcionales}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  fontsize=\footnotesize,
+  bgcolor=LightGray
+]{python}
 def calcular_salario(base, horas_extra=0):
     """Calcula salario sumando base + 2000 por hora extra"""
     return base + 2000 * horas_extra
@@ -176,7 +191,12 @@ print(s1, s2)
 % Slide 10: Ejemplo de Conflicto Global vs Local
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Conflicto Global vs Local}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  fontsize=\footnotesize,
+  bgcolor=LightGray
+]{python}
 x = 5  # global
 
 def foo():
@@ -219,7 +239,12 @@ print("Fuera de foo, x =", x)
 % Slide 12: Ejemplo de Módulo Sencillo
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo de Módulo: \texttt{mifunciones.py}}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  fontsize=\footnotesize,
+  bgcolor=LightGray
+]{python}
 # mifunciones.py
 
 def suma(a, b):
@@ -247,7 +272,12 @@ print(mifunciones.resta(10, 2))
 % Slide 13: \texttt{from ... import ...}
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Importaciones Específicas}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
 from mifunciones import suma
 
 resultado = suma(5, 7)
@@ -288,7 +318,12 @@ print(resultado)
 % Slide 15: Ejemplo Completo - Cálculos Físicos
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo: Módulo con Funciones Físicas}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\scriptsize
+]{python}
 # fisica.py (módulo)
 import math
 
@@ -316,7 +351,12 @@ def lanzar_proyectil(v0, ang):
 % Slide 16: Uso del Módulo en un Script Principal
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Uso de \texttt{fisica.py} en un Script Principal}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
 # main.py
 import fisica
 
@@ -378,7 +418,12 @@ print("Alcance estimado =", distancia, "m")
 % Slide 20: Posible Ejemplo de Solución
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo de \texttt{utilidades.py}}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\scriptsize
+]{python}
 # utilidades.py
 def factorial(n):
     """Calcula n! de manera recursiva."""
@@ -406,7 +451,12 @@ def saludar(nombre="Mundo"):
 % Slide 21: Uso en un Notebook
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Uso en un Notebook o Script}
-\begin{minted}{python}
+\begin{minted}[
+  frame=lines,
+  framesep=2mm,
+  bgcolor=LightGray,
+  fontsize=\footnotesize
+]{python}
 import utilidades
 
 print("5! =", utilidades.factorial(5))
