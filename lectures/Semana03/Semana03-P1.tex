@@ -52,7 +52,7 @@
         \item Problemas tipo: “Adivina el número”, “Calculadora de Calificaciones”, “Movimiento Discreto”.
         \item Manejo de validaciones, contadores y salidas controladas de bucles.
       \end{itemize}
-      \textbf{Ejemplo}: {\texttt{\textcolor{blue}{def f(): x=10}}} — la variable {\texttt{\textcolor{blue}{x}}} vive solo en {\texttt{\textcolor{blue}{f()}}}.
+      \textbf{Ejemplo}: {\texttt{\textcolor{blue}{def f(x): x=10}}} — la variable {\texttt{\textcolor{blue}{x}}} vive solo en {\texttt{\textcolor{blue}{f(x)}}}.
   \end{itemize}
 \end{frame}
 
@@ -99,10 +99,11 @@ def nombre_de_funcion(param1, param2, ...):
     # opcionalmente retornar un valor
     return resultado
 \end{minted}
-\vspace{-1cm}
+
 \begin{itemize}
   \item \textbf{Parámetros}: valores de entrada que la función utiliza.
   \item \textbf{return}: finaliza la función y opcionalmente devuelve un valor.
+  \item \textbf{Mejor práctica}: Usar nombres descriptivos para parámetros y funciones.
 \end{itemize}
 \end{frame}
 
@@ -126,8 +127,8 @@ r = 5
 a = area_circulo(r)
 print("El área del círculo es:", a)
 \end{minted}
-\vspace{-1.0cm}
-\begin{itemize}\small
+
+\begin{itemize}\tiny
   \item \textbf{Encapsulamos} la operación en \texttt{area\_circulo}.
   \item \textbf{Parámetro} \texttt{radio}.
   \item \textbf{Retorno} con \texttt{return area}.
@@ -148,8 +149,8 @@ def calcular_salario(base, horas_extra=0):
     """Calcula salario sumando base + 2000 por hora extra"""
     return base + 2000 * horas_extra
 
-s1 = calcular_salario(50000)        # horas_extra por defecto: 0
-s2 = calcular_salario(50000, 3)     # 3 horas extra
+s1 = calcular_salario(50000)      # horas_extra por defecto: 0
+s2 = calcular_salario(50000, 3)   # 3 horas extra
 print(s1, s2)
 \end{minted}
 \begin{itemize}
@@ -266,74 +267,288 @@ print(resultado)
 \begin{frame}{Paquetes en Python}
   \begin{itemize}
     \item Un \textbf{paquete} es una carpeta que contiene un archivo \texttt{\_\_init\_\_.py} y varios módulos \texttt{.py}.
-    \item Estructura típica:
-%    \begin{verbatim}
-%    mipaquete/
-%    __init__.py
-%    modulo1.py
-%    modulo2.py
-%    ...
-%    \end{verbatim}
+    \item Estructura típica:  mypackage/modulo1.py  mypackage/modulo1.py
     \item Para usarlo: \texttt{import mipaquete.modulo1}.
   \end{itemize}
   \textbf{Uso}: Organizar proyectos grandes en submódulos lógicamente separados.
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Ejemplos y Actividad
+% SECCIÓN 5: Ejercicios Guiados
 % ----------------------------------------------------------------------------------------
-\section{Ejemplos y Actividad}
+\section{Ejercicios Guiados}
 
 % ------------------------------------------------------------------------
-% Slide 15: Ejemplo Completo - Cálculos Físicos
+% Slide 18: Ejercicio 1 - Función con Condicionales y Bucle
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Módulo con Funciones Físicas}
-\begin{minted}{python}
-# fisica.py (módulo)
-import math
-
-def energia_cinetica(m, v):
-    """Retorna la energía cinética: 0.5*m*v^2"""
-    return 0.5 * m * (v**2)
-
-def energia_potencial(m, g, h):
-    """Retorna la energía potencial: m*g*h"""
-    return m * g * h
-
-def lanzar_proyectil(v0, ang):
-    """
-    Retorna el alcance teórico de un proyectil
-    en un tiro parabólico sin rozamiento.
-    """
-    rad = math.radians(ang)
-    g = 9.8
-    R = (v0**2 * math.sin(2*rad)) / g
-    return R
-\end{minted}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ 
+Suma Condicional}
+  \begin{block}{Enunciado}
+    Crear una función que reciba dos números y realice lo siguiente:
+    \begin{itemize}
+      \item Si ambos números son positivos, retornar su suma.
+      \item Si uno de los números es negativo, retornar su división.
+      \item Si ambos números son negativos, retornar su producto.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Uso de estructuras condicionales (\texttt{if}, \texttt{elif}, \texttt{else}).
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 16: Uso del Módulo en un Script Principal
+% Slide 19: Ejercicio 2 - Clasificación con Ciclo
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Uso de \texttt{fisica.py} en un Script Principal}
-\begin{minted}{python}
-# main.py
-import fisica
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ 
+Clasificación de Números}
+  \begin{block}{Enunciado}
+    Crear una función que reciba una lista de números y clasifique cada número como:
+    \begin{itemize}
+      \item Positivo.
+      \item Negativo.
+      \item Cero.
+    \end{itemize}
+    La función debe imprimir el resultado para cada número y retornar la cantidad de números positivos, negativos y ceros.
+  \end{block}
+  \textbf{Conceptos:} Uso de ciclos \texttt{for} y estructuras condicionales.
+\end{frame}
 
-m = 10  # kg
-v = 5   # m/s
-ec = fisica.energia_cinetica(m, v)
-print("Energía Cinética =", ec, "J")
+% ------------------------------------------------------------------------
+% Slide 20: Ejercicio 3 - Suma con Validación
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ 
+Suma de Números con Validación}
+  \begin{block}{Enunciado}
+    Crear una función que reciba un número entero \( n \) y realice lo siguiente:
+    \begin{itemize}
+      \item Solicitar al usuario \( n \) números enteros.
+      \item Validar que cada número ingresado sea mayor que cero. Si no lo es, volver a solicitar el número.
+      \item Retornar la suma de los \( n \) números ingresados.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Uso de ciclos \texttt{while} y validaciones.
+\end{frame}
 
-distancia = fisica.lanzar_proyectil(20, 45)
-print("Alcance estimado =", distancia, "m")
+% ------------------------------------------------------------------------
+% Slide 21: Ejercicio 4 - Serie de Fibonacci
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ 
+Serie de Fibonacci}
+  \begin{block}{Enunciado}
+    Crear una función que reciba un número entero \( n \) y retorne los primeros \( n \) términos de la serie de Fibonacci.
+    \begin{itemize}
+      \item La serie de Fibonacci comienza con 0 y 1.
+      \item Cada término siguiente es la suma de los dos anteriores.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Uso de ciclos \texttt{for} y listas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Ejercicio 5 - Número Primo
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ 
+Verificación de Número Primo}
+  \begin{block}{Enunciado}
+    Crear una función que reciba un número entero y determine si es primo o no.
+    \begin{itemize}
+      \item Un número primo es divisible únicamente por 1 y por sí mismo.
+      \item La función debe retornar \texttt{True} si el número es primo y \texttt{False} en caso contrario.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Uso de ciclos \texttt{for} y estructuras condicionales.
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 23: Solución 1 de Referencia - Suma Condicional
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ 
+Suma Condicional}
+\begin{minted}[fontsize=\tiny]{python}
+def suma_condicional(a, b):
+    """
+    Realiza operaciones según los valores de a y b:
+    - Si ambos son positivos, retorna su suma.
+    - Si uno es negativo, retorna su división.
+    - Si ambos son negativos, retorna su producto.
+    """
+    if a > 0 and b > 0:
+        return a + b
+    elif a < 0 and b < 0:
+        return a * b
+    else:
+        return a / b
+
+# Ejemplo de uso
+resultado = suma_condicional(5, -3)
+print("Resultado:", resultado)
 \end{minted}
+\textbf{Discusión:} ¿Qué sucede si \( b = 0 \) en la división? ¿Cómo manejar este caso?
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 24: Solución 2 de Referencia - Clasificación con Ciclo
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ 
+Clasificación de Números}
+\begin{minted}[fontsize=\tiny]{python}
+def clasificar_numeros(lista):
+    """
+    Clasifica números en positivos, negativos y ceros.
+    Retorna la cantidad de cada tipo.
+    """
+    positivos = 0
+    negativos = 0
+    ceros = 0
+
+    for num in lista:
+        if num > 0:
+            print(f"{num} es positivo")
+            positivos += 1
+        elif num < 0:
+            print(f"{num} es negativo")
+            negativos += 1
+        else:
+            print(f"{num} es cero")
+            ceros += 1
+
+    return positivos, negativos, ceros
+
+# Ejemplo de uso
+resultado = clasificar_numeros([3, -1, 0, 7, -5])
+print("Positivos, Negativos, Ceros:", resultado)
+\end{minted}
+\textbf{Discusión:} ¿Cómo manejar listas vacías o valores no numéricos?
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Solución 3 de Referencia - Suma con Validación
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ 
+Suma de Números con Validación}
+\begin{minted}[fontsize=\tiny]{python}
+def suma_con_validacion(n):
+    """
+    Solicita n números positivos al usuario y retorna su suma.
+    Valida que cada número ingresado sea mayor que cero.
+    """
+    suma = 0
+    contador = 0
+
+    while contador < n:
+        num = float(input(f"Ingrese el número {contador + 1}: "))
+        if num > 0:
+            suma += num
+            contador += 1
+        else:
+            print("El número debe ser mayor que cero. Intente de nuevo.")
+
+    return suma
+
+# Ejemplo de uso
+resultado = suma_con_validacion(3)
+print("Suma total:", resultado)
+\end{minted}
+\textbf{Discusión:} ¿Cómo manejar entradas no numéricas o interrupciones del usuario?
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 26: Solución 4 de Referencia - Serie de Fibonacci
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ 
+Serie de Fibonacci}
+\begin{minted}[fontsize=\tiny]{python}
+def fibonacci(n):
+    """
+    Retorna los primeros n términos de la serie de Fibonacci.
+    """
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
+
+    serie = [0, 1]
+    for i in range(2, n):
+        siguiente = serie[-1] + serie[-2]
+        serie.append(siguiente)
+
+    return serie
+
+# Ejemplo de uso
+resultado = fibonacci(10)
+print("Serie de Fibonacci:", resultado)
+\end{minted}
+\textbf{Discusión:} ¿Cómo optimizar para valores grandes de \( n \)?
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 27: Solución 5 de Referencia - Número Primo
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ 
+Verificación de Número Primo}
+\begin{minted}[fontsize=\tiny]{python}
+def es_primo(num):
+    """
+    Determina si un número es primo.
+    Retorna True si es primo, False si no.
+    """
+    if num < 2:
+        return False
+    for i in range(2, num):
+        if num % i == 0:
+            return False
+    return True
+
+# Ejemplo de uso
+resultado = es_primo(13)
+print("¿Es primo?", resultado)
+\end{minted}
+\textbf{Discusión:} ¿Cómo manejar números negativos o muy grandes?
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Actividad Práctica
+% ----------------------------------------------------------------------------------------
+\section{Actividad Práctica}
+
+% ------------------------------------------------------------------------
+% Slide 21: Actividad Extra 1 - Función Avanzada
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra 1: \hfill \textcolor{blue}{$\clubsuit$} \\
+Función Avanzada}
+  \begin{block}{Enunciado}
+    Crear una función que calcule el factorial de un número de forma recursiva (que la función se llame a sí misma).
+  \end{block}
+  \textbf{Objetivo:} Aplicar recursión.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 22: Actividad Extra 2 - Módulo Personalizado
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra 2: \hfill \textcolor{blue}{$\clubsuit$} \\
+Módulo Personalizado}
+  \begin{block}{Enunciado}
+    Crear un módulo con funciones para calcular el área y perímetro de figuras geométricas básicas (círculo, cuadrado, triángulo).
+  \end{block}
+  \textbf{Objetivo:} Modularizar el código y practicar importaciones.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 23: Actividad Extra 3 - Proyecto Integrador
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra 3: \hfill \textcolor{blue}{$\clubsuit$} \\
+Proyecto Integrador}
+  \begin{block}{Enunciado}
+    Diseñar un programa que utilice funciones y módulos para resolver un problema práctico, como una calculadora científica básica.
+  \end{block}
+  \textbf{Objetivo:} Integrar conceptos de funciones, módulos y estructuras de control.
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 17: Actividad - Organizándote con Módulos
 % ------------------------------------------------------------------------
-\begin{frame}{Actividad: Creando Tus Módulos}
+\begin{frame}{Actividad Extra 4: Creando Tus Módulos}
   \begin{itemize}
     \item \textbf{Objetivo}: Organizar funciones útiles en un módulo y probar su importación.
     \item \textbf{Instrucciones}:
@@ -344,6 +559,7 @@ print("Alcance estimado =", distancia, "m")
       \end{enumerate}
   \end{itemize}
   \textbf{Sugerencia}: Comenta tu código y explica la lógica de cada función.
+  \textbf{Reflexión}: ¿Cómo ayuda la modularización a proyectos más grandes?
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -372,56 +588,6 @@ print("Alcance estimado =", distancia, "m")
   \end{itemize}
   \vspace{0.2cm}
   \textbf{Consulta en voz alta o pide ayuda a tus compañeros.}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 20: Posible Ejemplo de Solución
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de \texttt{utilidades.py}}
-\begin{minted}{python}
-# utilidades.py
-def factorial(n):
-    """Calcula n! de manera recursiva."""
-    if n <= 1:
-        return 1
-    else:
-        return n * factorial(n-1)
-
-def es_primo(num):
-    """Retorna True si 'num' es primo, False si no."""
-    if num < 2:
-        return False
-    for i in range(2, int(num**0.5)+1):
-        if num % i == 0:
-            return False
-    return True
-
-def saludar(nombre="Mundo"):
-    """Imprime un saludo a 'nombre'."""
-    print(f"Hola, {nombre}!")
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 21: Uso en un Notebook
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Uso en un Notebook o Script}
-\begin{minted}{python}
-import utilidades
-
-print("5! =", utilidades.factorial(5))
-print("¿13 es primo?:", utilidades.es_primo(13))
-utilidades.saludar()
-utilidades.saludar("Física")
-\end{minted}
-
-\textbf{Resultado Esperado}:
-\begin{itemize}
-  \item \texttt{5! = 120}
-  \item \texttt{¿13 es primo?: True}
-  \item \texttt{Hola, Mundo!}
-  \item \texttt{Hola, Física!}
-\end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------

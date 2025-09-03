@@ -1,4 +1,5 @@
 \documentclass[10pt]{beamer}
+\usepackage{xcolor}
 
 % ------------------------------------------------------------------------
 % Carga de tu preámbulo personalizado (preamble.tex)
@@ -70,49 +71,52 @@
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 2: Repaso Rápido de Módulos y Paquetes
 % ----------------------------------------------------------------------------------------
-\section{Módulos y Paquetes (Repaso)}
+\section{Módulos y Paquetes}
 
 % ------------------------------------------------------------------------
 % Slide 5: Estructura de un Proyecto Simple
 % ------------------------------------------------------------------------
 \begin{frame}{Estructura Básica de un Proyecto}
   \begin{itemize}
-    \item \textbf{Carpetas} y \texttt{.py} para agrupar funcionalidades.
-    \item Ejemplo:
-%\begin{verbatim}
-%mi_proyecto/
-%    main.py
-%    mis_modulos/
-%        __init__.py
-%        matematicas.py
-%        fisica.py
-%\end{verbatim}
-    \item \texttt{main.py} orquesta la lógica usando \texttt{import mis\_modulos.fisica} y así sucesivamente.
-    \item Facilita la mantenibilidad y escalabilidad.
+    \item \textbf{Carpetas y librerías}: Organiza tu proyecto en carpetas y utiliza librerías conocidas para funcionalidades específicas.
+    \item \texttt{main.py}: Archivo principal que orquesta la lógica del programa.
+    \item Ejemplo de estructura:
+      \begin{itemize}
+        \item \texttt{main.py}: Código principal.
+        \item \texttt{data/}: Carpeta para almacenar datos.
+        \item \texttt{requirements.txt}: Lista de librerías necesarias.
+      \end{itemize}
+    \item \textbf{Ventaja}: Facilita la mantenibilidad, escalabilidad y reutilización del código.
   \end{itemize}
 \end{frame}
 
+
+
 % ------------------------------------------------------------------------
-% Slide 6: Importar vs. Desde
+% Slide 6: Importar Librerías Conocidas
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Formas de Importar}
-\begin{itemize}
-  \item \textbf{Import completo}:
-  \begin{minted}{python}
-import mis_modulos.matematicas
-res = mis_modulos.matematicas.sumar(2, 3)
-  \end{minted}
-  \item \textbf{From / Import}:
-  \begin{minted}{python}
-from mis_modulos.matematicas import sumar
-res = sumar(2, 3)
-  \end{minted}
-  \item \textbf{Import renombrado}:
-  \begin{minted}{python}
-import mis_modulos.matematicas as mm
-res = mm.sumar(2, 3)
-  \end{minted}
-\end{itemize}
+\begin{frame}[fragile]{Formas de Importar Librerías Conocidas}
+\textbf{Import completo}: Útil para acceder a todas las funcionalidades de una librería.
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+arr = np.array([1, 2, 3])
+print(np.mean(arr))
+\end{minted}
+
+\textbf{From / Import}: Importa solo las funciones necesarias.
+\begin{minted}[fontsize=\tiny]{python}
+from math import sqrt
+resultado = sqrt(16)
+print(resultado)
+\end{minted}
+
+\textbf{Import renombrado}: Simplifica el uso de librerías con nombres largos.
+\begin{minted}[fontsize=\tiny]{python}
+import pandas as pd
+df = pd.DataFrame({"A": [1, 2], "B": [3, 4]})
+print(df)
+\end{minted}
+
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
@@ -139,13 +143,13 @@ res = mm.sumar(2, 3)
   \begin{itemize}
     \item \textbf{pip}: el gestor de paquetes oficial de Python.
     \item Comando general en terminal:
-\begin{minted}{bash}
-pip install nombre_paquete
-\end{minted}
+    \begin{minted}{bash}
+      pip install nombre_paquete
+    \end{minted}
     \item Si usas \textbf{Google Colab}, puedes instalar temporalmente en una celda:
-\begin{minted}{python}
+    \begin{minted}{python}
 !pip install nombre_paquete
-\end{minted}
+    \end{minted}
     \item La librería quedará disponible para importarse en el resto del entorno (hasta reiniciar).
   \end{itemize}
 \end{frame}
@@ -174,203 +178,204 @@ print(resp.json())
 % Slide 10: Ejemplo: Instalando \texttt{numpy}
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Ejemplo: \texttt{numpy} Básico}
-\begin{minted}{bash}
-# Desde terminal local
-pip install numpy
-\end{minted}
-\begin{minted}{python}
-# Uso en el código
+  \begin{itemize}
+    \item Instalación desde terminal local:
+    \begin{minted}{bash}
+      pip install numpy
+    \end{minted}
+    \item Uso en el código:
+    \begin{minted}{python}
 import numpy as np
-
 arr = np.array([1, 2, 3, 4])
 print(arr * 2)  # [2 4 6 8]
-\end{minted}
-\begin{itemize}
-  \item \textbf{NumPy} es la base de muchas librerías científicas en Python.
-  \item \textbf{Operaciones vectorizadas}: eficiencia y simplicidad.
-\end{itemize}
+    \end{minted}
+    \item \textbf{NumPy} es la base de muchas librerías científicas en Python.
+    \item \textbf{Operaciones vectorizadas}: eficiencia y simplicidad.
+  \end{itemize}
 \end{frame}
+
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Ejercicios práctivos Integrados
+% ----------------------------------------------------------------------------------------
+\section{Ejercicios Prácticos Integrados}
+
+
+% ------------------------------------------------------------------------
+% Slide 10: Ejercicio 1 - Análisis de Temperaturas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis de Temperaturas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear una función \texttt{clasificar\_temperatura(temp)} que clasifique una temperatura en grados Celsius:
+        \begin{itemize}
+          \item $< 0\,^\circ\mathrm{C}$: "Estado sólido (hielo)"
+          \item $0\,^\circ\mathrm{C}$ -- $100\,^\circ\mathrm{C}$: "Estado líquido (agua)"
+          \item $> 100\,^\circ\mathrm{C}$: "Estado gaseoso (vapor)"
+        \end{itemize}
+      \item Crear un programa principal (.ipynb de la clase) que:
+        \begin{itemize}
+          \item Pida al usuario 3 temperaturas diferentes
+          \item Use la función para clasificar cada temperatura
+          \item Muestre el resultado para cada temperatura ingresada
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Funciones básicas, condicionales if-elif-else.\\
+  \textbf{Física relevante:} Estados de la materia, puntos de cambio de fase.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Ejercicio 2 - Conversor de Unidades Simple
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Conversor de Unidades Simple}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un archivo \texttt{convertidor.py} con dos funciones:
+        \begin{itemize}
+          \item \texttt{celsius\_a\_fahrenheit(c)} → retorna $F = C \times 9/5 + 32$
+          \item \texttt{metros\_a\_pies(m)} → retorna $pies = metros \times 3.281$
+        \end{itemize}
+      \item En otro archivo (.ipynb de la clase):
+        \begin{itemize}
+          \item Importar las funciones del módulo \texttt{convertidor}
+          \item Pedir al usuario un valor y la conversión deseada (1: C→F, 2: m→pies)
+          \item Mostrar el resultado de la conversión
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Módulos básicos, importación, funciones simples, condicionales.\\
+  \textbf{Física relevante:} Sistemas de unidades y conversiones básicas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Ejercicio 3 - Calculadora de Caída Libre
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Calculadora de Caída Libre}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear una función \texttt{posicion\_caida(t, h0, g=9.8)}:
+        \begin{itemize}
+          \item Calcula posición usando $h = h0 - \frac{1}{2}g \cdot t^2$
+          \item Parámetros: t (tiempo), h0 (altura inicial), g (gravedad)
+        \end{itemize}
+      \item Crear un programa principal (.ipynb de la clase) que:
+        \begin{itemize}
+          \item Pida al usuario la altura inicial de un objeto
+          \item Calcular y mostrar la posición cada segundo (de 0 a 5 segundos)
+          \item Imprimir "¡El objeto tocó el suelo!" si la posición es menor o igual a 0
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Funciones con parámetros por defecto, bucle for simple, condicionales básicos.\\
+  \textbf{Física relevante:} Cinemática básica, caída libre.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Ejercicio 4 - Estadísticas Básicas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Estadísticas Básicas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un módulo \texttt{estadistica.py} con una función:
+        \begin{itemize}
+          \item \texttt{calcular\_promedio(valores)} - retorna la media aritmética
+        \end{itemize}
+      \item Crear un programa principal (.ipynb de la clase) que:
+        \begin{itemize}
+          \item Importe la función desde el módulo
+          \item Pida al usuario que ingrese 5 mediciones de temperatura
+          \item Valide que las entradas sean números (use un bucle while si es necesario)
+          \item Calcule y muestre el promedio de las mediciones
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Módulos básicos, funciones simples, listas, bucle for, validación básica.\\
+  \textbf{Física relevante:} Mediciones de temperatura, promedio de datos experimentales.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Ejercicio 5 - Mini-Calculadora Científica
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Mini-Calculadora Científica}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un módulo \texttt{calculadora.py} con dos funciones:
+        \begin{itemize}
+          \item \texttt{energia\_cinetica(masa, velocidad)} - calcula $E_c = \frac{1}{2}mv^2$
+          \item \texttt{energia\_potencial(masa, altura, g=9.8)} - calcula $E_p = mgh$
+        \end{itemize}
+      \item Crear un programa principal (.ipynb de la clase) que:
+        \begin{itemize}
+          \item Importar las funciones del módulo
+          \item Presentar un menú simple con opciones (1: E. Cinética, 2: E. Potencial)
+          \item Pedir los datos necesarios según la opción elegida
+          \item Mostrar el resultado del cálculo
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Módulos básicos, funciones, menú simple con if-elif, entrada de usuario.\\
+  \textbf{Física relevante:} Energía cinética y potencial, conservación de energía mecánica.
+\end{frame}
+
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 4: Actividad Práctica
 % ----------------------------------------------------------------------------------------
-\section{Tarea Semanal}
+\section{Tarea 2}
 
 % ------------------------------------------------------------------------
-% Slide 11: Actividad: Creando un Módulo y Usando Librerías Externas
+% Slide 15: Tarea Pregunta 1 - Calculadora de Movimiento Simple
 % ------------------------------------------------------------------------
-\begin{frame}{Actividad General}
-\begin{center}
-  \huge{Manos a la Obra!}
-\end{center}
-\end{frame}
-
-
-\begin{comment}
-
-% ------------------------------------------------------------------------
-% Slide 12: Lineamientos
-% ------------------------------------------------------------------------
-\begin{frame}{Lineamientos de la Actividad}
-  \begin{itemize}
-    \item Crear en Colab o localmente la siguiente estructura:
-    
-      \texttt{taller4/}\\
-      \quad \texttt{mi\_modulo.py}\\
-      \quad \texttt{main.ipynb} \quad \text{(o main.py)}\\
-    
-    \item \textbf{mi\_modulo.py}:
-      \begin{itemize}
-        \item Define algunas funciones (e.g., \texttt{multiplicar\_vector(vec, escalar)}) que internamente use \texttt{numpy}.
-        \item Podrías incluir una función que calcule la \textbf{media} y \textbf{desviación estándar} de un arreglo con \texttt{numpy}.
-      \end{itemize}
-    \item \textbf{main.ipynb}:
-      \begin{itemize}
-        \item Instala (si es necesario) la librería \texttt{numpy}.
-        \item Importa \texttt{mi\_modulo} y ejecuta las funciones, imprimiendo resultados.
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 13: Ejemplo de \texttt{mi\_modulo.py}
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: \texttt{mi\_modulo.py}}
-\begin{minted}[fontsize=\tiny]{python}
-import numpy as np
-
-def multiplicar_vector(vec, escalar):
-    """
-    Multiplica cada elemento de 'vec' por 'escalar'.
-    'vec' y 'escalar' pueden ser float o int.
-    Retorna un np.array con el resultado.
-    """
-    arr = np.array(vec, dtype=float)
-    return arr * escalar
-
-def estadistica_basica(vec):
-    """
-    Retorna (media, desviacion_std) de vec,
-    asumiendo que vec es convertible a np.array.
-    """
-    arr = np.array(vec, dtype=float)
-    media = np.mean(arr)
-    desv = np.std(arr)
-    return (media, desv)
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 14: Ejemplo de \texttt{main.ipynb}
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: \texttt{main.ipynb}}
-\begin{minted}{python}
-# En una celda:
-!pip install numpy
-
-# En otra celda:
-import mi_modulo
-
-resultado = mi_modulo.multiplicar_vector([1,2,3], 3)
-print(f'Multiplicación: {resultado}')
-
-media, desv = mi_modulo.estadistica_basica([10, 14, 22, 9])
-print(f'Media = {media}, Desviación = {desv}')
-\end{minted}
-\begin{itemize}
-  \item Observa cómo combinamos \textbf{nuestro módulo} con \textbf{numpy}.
-  \item Podrías extender con más funciones o ejemplos.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 15: Trabajo en Grupos
-% ------------------------------------------------------------------------
-\begin{frame}{Trabajo en Grupos}
-  \begin{itemize}
-    \item Forma \textbf{parejas o tríos}.
-    \item Diseña un \textbf{mini-proyecto} (inspirado en ejemplos de Física, Matemática, Astronomía, etc.).
-    \item Usa \textbf{módulos propios} y una \textbf{librería externa} de tu elección (p.e. \texttt{requests} para datos en línea, \texttt{numpy} para vectores, \texttt{matplotlib} para graficar).
-    \item Documenta brevemente cada función en \texttt{docstrings}.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 16: Sugerencias
-% ------------------------------------------------------------------------
-\begin{frame}{Sugerencias para tu Mini-Proyecto}
-  \begin{itemize}
-    \item \textbf{Tema de Datos}: Descarga datos de Internet (por ejemplo, una tabla CSV) y analiza con \texttt{numpy}.
-    \item \textbf{Tema de Física}: Define funciones de ecuaciones de movimiento y gráficas con \texttt{matplotlib}.
-    \item \textbf{Tema Estadístico}: Genera datos aleatorios con \texttt{numpy} y calcula percentiles, histogramas, etc.
-    \item \textbf{Pruebas y Validaciones}: Maneja entradas no válidas y verifica resultados esperados.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 17: Tiempo de Desarrollo
-% ------------------------------------------------------------------------
-\begin{frame}{Tiempo de Desarrollo}
-  \begin{itemize}
-    \item Dedicar \textbf{20-30 minutos} a la construcción y prueba de los módulos.
-    \item Intercambiar ideas y soluciones con el equipo.
-    \item \textbf{Objetivo}: Tener un prototipo funcional que demuestre la unión de:
-      \begin{itemize}
-        \item Funciones personalizadas (en un módulo).
-        \item Librería externa (instalada vía \texttt{pip} si hace falta).
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 18: Espacio para Preguntas
-% ------------------------------------------------------------------------
-\begin{frame}{Espacio para Preguntas o Bloqueos}
-  \begin{itemize}
-    \item ¿Problemas al importar tu módulo (\texttt{ModuleNotFoundError})?
-    \item ¿Incompatibilidad en Colab vs entorno local?
-    \item ¿Dificultades con la instalación de librerías?
-  \end{itemize}
-  \vspace{0.2cm}
-  \textbf{Comparte tu experiencia con el resto de la clase.}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 19: Comparte tu Solución
-% ------------------------------------------------------------------------
-\begin{frame}{Comparte tu Solución}
-  \begin{itemize}
-    \item Al cabo del tiempo de desarrollo:
-      \begin{itemize}
-        \item Muestra tu \textbf{código} y \textbf{resultados} a otros grupos.
-        \item Explica brevemente la \textbf{arquitectura} (\texttt{mi\_modulo.py}, \texttt{main.ipynb}, etc.).
-      \end{itemize}
-    \item \textbf{Discutir}:
-      \begin{itemize}
-        \item ¿Qué librería externa se eligió y por qué?
-        \item ¿Qué partes fueron más complejas?
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 20: Ejemplo de Discusión
-% ------------------------------------------------------------------------
-\begin{frame}{Ejemplo de Discusión}
-  \begin{block}{Grupo 1}
+\begin{frame}{Tarea Pregunta 1: \hfill \textcolor{blue}{$\bigstar$} \\ Calculadora de Movimiento Simple}
+  \begin{block}{Enunciado}
     \begin{itemize}
-      \item Usó \texttt{numpy} para multiplicar matrices.
-      \item Implementó una función \texttt{inversa\_matriz(A)} que devuelve \(\mathbf{A}^{-1}\).
+      \item Definir una función \texttt{calcular\_posiciones(velocidad\_inicial, tiempo\_max, intervalo=1)} que:
+        \begin{itemize}
+          \item Calcule las posiciones de un objeto en movimiento rectilíneo uniforme
+          \item La posición se determina por $x(t) = v \cdot t$ (donde $v$ es la velocidad constante)
+          \item Use un bucle \texttt{for} para calcular la posición en cada intervalo de tiempo desde 0 hasta \texttt{tiempo\_max}
+          \item Si la posición supera 100 unidades, incluya un mensaje "Fuera de rango" junto al valor
+        \end{itemize}
+      \item Ejemplo de uso:
+        \begin{itemize}
+          \item \texttt{calcular\_posiciones(10, 5)} debería calcular la posición cada segundo durante 5 segundos
+          \item \texttt{calcular\_posiciones(15, 10, 0.5)} debería calcular la posición cada medio segundo durante 10 segundos
+        \end{itemize}
     \end{itemize}
   \end{block}
-  \vspace{0.4cm}
-  \begin{block}{Grupo 2}
+  
+  \textbf{Entrega:} Notebook (\texttt{.ipynb}) con el código y ejemplos de uso de la función.\\
+  \textbf{Física relevante:} Cinemática básica, movimiento rectilíneo uniforme.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Tarea Pregunta 2 - Filtrado y Análisis de Datos Experimentales
+% ------------------------------------------------------------------------
+\begin{frame}{Tarea Pregunta 2: \hfill \textcolor{blue}{$\bigstar$} \\ Filtrado y Análisis de Datos Experimentales}
+  \begin{block}{Enunciado}
     \begin{itemize}
-      \item Usó \texttt{requests} para descargar una tabla de datos climáticos en \texttt{CSV}.
-      \item Creó una función para calcular la temperatura promedio y la humedad relativa.
+      \item Definir una función \texttt{procesar\_datos(datos, umbral\_min=None, umbral\_max=None)} que:
+        \begin{itemize}
+          \item Filtre valores atípicos fuera del rango [\texttt{umbral\_min}, \texttt{umbral\_max}]
+          \item Si \texttt{umbral\_min} es \texttt{None}, calcule automáticamente como $media - 2*desviacion$
+          \item Si \texttt{umbral\_max} es \texttt{None}, calcule automáticamente como $media + 2*desviacion$
+          \item Use \texttt{if} para verificar los umbrales
+          \item Use \texttt{for} y \texttt{continue} para saltar valores fuera de rango
+          \item Retorne la lista de valores filtrados
+        \end{itemize}
     \end{itemize}
   \end{block}
+  
+  \textbf{Entrega:} Notebook (\texttt{.ipynb}) con implementación y pruebas de las funciones.\\
+  \textbf{Física relevante:} Tratamiento de datos experimentales, análisis estadístico en mediciones.
 \end{frame}
+
+
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 5: Conclusiones
@@ -404,15 +409,12 @@ print(f'Media = {media}, Desviación = {desv}')
   \end{itemize}
 \end{frame}
 
-
-\end{comment}
-
 % ------------------------------------------------------------------------
 % Slide 23: Visión de la Próxima Sesión
 % ------------------------------------------------------------------------
 \begin{frame}{Próxima Sesión}
   \begin{itemize}
-    \item \textbf{Sesion 9 (Semana 5)}: Repaso integral de Unidades I y II, y \textbf{Solemne I}.
+    \item \textbf{Sesion 7 (Semana 4)}: Aplicaciones profundas de Unidades I y II.
     \item \textbf{Recomendación}:
       \begin{itemize}
         \item Revisa todos los conceptos vistos: Sintaxis, Estructuras de Control, Funciones, Módulos.
@@ -439,13 +441,12 @@ print(f'Media = {media}, Desviación = {desv}')
 % ------------------------------------------------------------------------
 % Slide 25: Cierre de la Sesión
 % ------------------------------------------------------------------------
-\begin{frame}
+\begin{frame}{Cierre de la Sesión}
   \huge{\centerline{¡Muchas gracias y éxito en su práctica!}}
   \vspace{0.4cm}
   \normalsize
   \begin{itemize}
     \item Recuerden subir su trabajo a Google Drive o repositorio compartido.
-    \item Próxima sesión: \textbf{Solemne I} y repaso integral.
     \item ¡Sigan explorando librerías externas y creando módulos propios!
   \end{itemize}
 \end{frame}

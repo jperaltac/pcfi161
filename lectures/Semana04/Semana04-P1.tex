@@ -41,492 +41,226 @@
 % ----------------------------------------------------------------------------------------
 \section{Repaso y Contexto}
 
+
 % ------------------------------------------------------------------------
-% Slide 3: Recapitulación de la Sesión 6
+% Slide 3: Repaso de las semanas previas y conexión con la sesión actual
 % ------------------------------------------------------------------------
-\begin{frame}{Recapitulación de la Sesión Anterior (Sesión 6)}
+\begin{frame}{Repaso de Semanas Previas}
   \begin{itemize}
-    \item \textbf{Semana 3, Sesión 2 (Sesión 6)} se centró en:
-      \begin{itemize}
-        \item Laboratorio práctico con estructuras de control (\texttt{if}, \texttt{while}).
-        \item Problemas tipo: “Adivina el número”, “Calculadora de Calificaciones”, “Movimiento Discreto”.
-        \item Manejo de validaciones, contadores y salidas controladas de bucles.
-      \end{itemize}
-      \textbf{Ejemplo}: {\texttt{\textcolor{blue}{def f(): x=10}}} — la variable {\texttt{\textcolor{blue}{x}}} vive solo en {\texttt{\textcolor{blue}{f()}}}.
+    \item \textbf{Semana 1:} Sintaxis básica, variables, tipos de datos y operadores.
+    \item \textbf{Semana 2:} Estructuras de control: condicionales (\texttt{if-elif-else}), bucles (\texttt{for}, \texttt{while}).
+    \item \textbf{Semana 3:} Definición y uso de funciones, alcance de variables, introducción a módulos.
+    \item \textbf{Conexión:} Todos estos conceptos se integran en la sesión de hoy para crear aplicaciones más estructuradas y reutilizables.
+  \end{itemize}
+  \begin{block}{Ejemplo de integración}
+    Un programa que calcula el área de figuras, valida datos y organiza el código en funciones y módulos.
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión}
+  \begin{itemize}
+    \item \textbf{Integrar} variables, operadores, estructuras de control y funciones en ejercicios prácticos.
+    \item \textbf{Aplicar} la modularización mediante la creación y uso de módulos propios.
+    \item \textbf{Desarrollar} habilidades para resolver problemas físicos y matemáticos usando Python.
+    \item \textbf{Preparar} el terreno para proyectos colaborativos y el uso de paquetes externos.
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 4: Objetivos de la Sesión 7
-% ------------------------------------------------------------------------
-\begin{frame}{Objetivos de la Sesión 7}
-  \begin{itemize}
-    \item \textbf{Comprender} la sintaxis y concepto de funciones en Python (\texttt{def}, parámetros, \texttt{return}).
-    \item \textbf{Explorar} cómo organizar código en módulos y paquetes simples.
-    \item \textbf{Aplicar} estos conceptos a pequeños proyectos para mejorar reutilización y claridad.
-    \item \textbf{Conectar} funciones con los temas previos (estructuras de control, manejo de datos, etc.).
-  \end{itemize}
-\end{frame}
+
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Funciones en Python
+% SECCIÓN: Ejercicios Guiados
 % ----------------------------------------------------------------------------------------
-\section{Funciones en Python}
+\section{Ejercicios Guiados}
 
 % ------------------------------------------------------------------------
-% Slide 5: Definición y Motivación
+% Ejercicio 1 (Fácil)
 % ------------------------------------------------------------------------
-\begin{frame}{¿Por qué usar Funciones?}
-  \begin{itemize}
-    \item \textbf{Reutilización de Código}: evitar escribir la misma lógica en múltiples lugares.
-    \item \textbf{Organización}: encapsular tareas específicas en “cajas negras”.
-    \item \textbf{Legibilidad}: el nombre de la función describe la operación que realiza.
-    \item \textbf{Mantenibilidad}: cambiar la lógica en un solo lugar (la definición de la función).
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 6: Sintaxis de una Función
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Sintaxis Básica de Funciones en Python}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
-def nombre_de_funcion(param1, param2, ...):
-    """
-    Documentación opcional (docstring).
-    Explica qué hace la función, los parámetros y el retorno.
-    """
-    # bloque de código
-    # opcionalmente retornar un valor
-    return resultado
-\end{minted}
-\vspace{-1cm}
-\begin{itemize}
-  \item \textbf{Parámetros}: valores de entrada que la función utiliza.
-  \item \textbf{return}: finaliza la función y opcionalmente devuelve un valor.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 7: Ejemplo de Función Sencilla
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Función para Calcular el Área de un Círculo}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
-import math
-
-def area_circulo(radio):
-    """
-    Retorna el área de un círculo de radio 'radio'.
-    Formula: pi * r^2
-    """
-    area = math.pi * (radio**2)
-    return area
-
-# Uso de la función
-r = 5
-a = area_circulo(r)
-print("El área del círculo es:", a)
-\end{minted}
-\vspace{-1.0cm}
-\begin{itemize}\small
-  \item \textbf{Encapsulamos} la operación en \texttt{area\_circulo}.
-  \item \textbf{Parámetro} \texttt{radio}.
-  \item \textbf{Retorno} con \texttt{return area}.
-\end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Parámetros, Retornos y Alcance
-% ----------------------------------------------------------------------------------------
-\section{Parámetros y Alcance}
-
-% ------------------------------------------------------------------------
-% Slide 8: Tipos de Parámetros (Posicionales, Opcionales)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Parámetros Posicionales y Opcionales}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
-def calcular_salario(base, horas_extra=0):
-    """Calcula salario sumando base + 2000 por hora extra"""
-    return base + 2000 * horas_extra
-
-s1 = calcular_salario(50000)        # horas_extra por defecto: 0
-s2 = calcular_salario(50000, 3)     # 3 horas extra
-print(s1, s2)
-\end{minted}
-\begin{itemize}
-  \item \textbf{Parámetros con valor por defecto} (ej. \texttt{horas\_extra=0}).
-  \item \textbf{Posicionales}: deben ir en orden; \texttt{calcular\_salario(50000, 3)}.
-  \item \textbf{Keyword arguments}: \texttt{calcular\_salario(base=50000, horas\_extra=3)}.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 9: Alcance de Variables (Scope)
-% ------------------------------------------------------------------------
-\begin{frame}{Scope o Alcance de Variables}
-  \begin{itemize}
-    \item \textbf{Local}: Variables definidas dentro de la función solo existen dentro de ella.
-    \item \textbf{Global}: Variables definidas fuera de cualquier función son accesibles dentro, pero no se recomienda modificarlas sin razón.
-    \item \textbf{Mejor práctica}: Mantener funciones “puras”, evitando depender de variables globales.
-  \end{itemize}
-  \vspace{0.2cm}
-  \textbf{Ejemplo}: {\texttt{\textcolor{blue}{def f(): x=10}}} — la variable {\texttt{\textcolor{blue}{x}}} vive solo en {\texttt{\textcolor{blue}{f()}}}.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 10: Ejemplo de Conflicto Global vs Local
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Conflicto Global vs Local}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
-x = 5  # global
-
-def foo():
-    x = 10  # local
-    print("Dentro de foo, x =", x)
-
-foo()
-print("Fuera de foo, x =", x)
-\end{minted}
-\begin{itemize}
-  \item Impresiones:
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Calcula el área de un triángulo}
+  \begin{block}{Enunciado}
     \begin{itemize}
-      \item “Dentro de foo, x = 10”
-      \item “Fuera de foo, x = 5”
+      \item Solicita la base y la altura de un triángulo en metros.
+      \item Calcula el área usando la fórmula: \(A = \frac{1}{2} \times \text{base} \times \text{altura}\).
+      \item Muestra el resultado con unidades.
     \end{itemize}
-  \item \textbf{Evitar confusiones} usando nombres significativos y parámetros claros.
-\end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Módulos y Paquetes
-% ----------------------------------------------------------------------------------------
-\section{Módulos y Paquetes}
-
-% ------------------------------------------------------------------------
-% Slide 11: ¿Qué es un Módulo?
-% ------------------------------------------------------------------------
-\begin{frame}{¿Qué es un Módulo en Python?}
-  \begin{itemize}
-    \item Un \textbf{módulo} es un archivo \texttt{.py} que contiene definiciones de funciones, variables y clases.
-    \item \textbf{Ventaja}: podemos importar este archivo desde otros scripts y reutilizar el código.
-    \item \textbf{Ejemplo}: Crear un archivo \texttt{mifunciones.py} con varias funciones y luego:
-    \[
-      \texttt{import mifunciones}
-    \]
-  \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Variables, operadores, entrada/salida.\\
+  \textbf{Física relevante:} Geometría básica.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 12: Ejemplo de Módulo Sencillo
+% Ejercicio 2 (Fácil)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de Módulo: \texttt{mifunciones.py}}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
-# mifunciones.py
-
-def suma(a, b):
-    return a + b
-
-def resta(a, b):
-    return a - b
-\end{minted}
-\vspace{0.3cm}
-\textbf{Uso en otro archivo}:
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  fontsize=\footnotesize,
-  bgcolor=LightGray
-]{python}
-import mifunciones
-
-print(mifunciones.suma(3, 4))
-print(mifunciones.resta(10, 2))
-\end{minted}
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Conversión de temperatura}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita una temperatura en grados Celsius.
+      \item Convierte a Fahrenheit usando la fórmula: \(F = C \times \frac{9}{5} + 32\).
+      \item Muestra ambos valores.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Variables, operadores, entrada/salida.\\
+  \textbf{Física relevante:} Termodinámica básica.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 13: \texttt{from ... import ...}
+% Ejercicio 3 (Fácil)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Importaciones Específicas}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
-from mifunciones import suma
-
-resultado = suma(5, 7)
-print(resultado)
-\end{minted}
-\begin{itemize}
-  \item Trae solo la función \texttt{suma} del módulo.
-  \item \textbf{Cuidado}: peligro de colisiones de nombre (si hay otra \texttt{suma}).
-  \item \texttt{from mifunciones import *} trae todo, también puede causar conflictos.
-\end{itemize}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Clasificador de números pares e impares}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita un número entero.
+      \item Indica si es par o impar usando condicionales.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Condicionales (\texttt{if-else}), operadores.\\
+  \textbf{Física relevante:} Lógica computacional.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 14: Paquetes (Carpetas con \_\_init\_\_.py)
+% Ejercicio 4 (Intermedio)
 % ------------------------------------------------------------------------
-\begin{frame}{Paquetes en Python}
-  \begin{itemize}
-    \item Un \textbf{paquete} es una carpeta que contiene un archivo \texttt{\_\_init\_\_.py} y varios módulos \texttt{.py}.
-    \item Estructura típica:
-%    \begin{verbatim}
-%    mipaquete/
-%    __init__.py
-%    modulo1.py
-%    modulo2.py
-%    ...
-%    \end{verbatim}
-    \item Para usarlo: \texttt{import mipaquete.modulo1}.
-  \end{itemize}
-  \textbf{Uso}: Organizar proyectos grandes en submódulos lógicamente separados.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Ejemplos y Actividad
-% ----------------------------------------------------------------------------------------
-\section{Ejemplos y Actividad}
-
-% ------------------------------------------------------------------------
-% Slide 15: Ejemplo Completo - Cálculos Físicos
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Módulo con Funciones Físicas}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\scriptsize
-]{python}
-# fisica.py (módulo)
-import math
-
-def energia_cinetica(m, v):
-    """Retorna la energía cinética: 0.5*m*v^2"""
-    return 0.5 * m * (v**2)
-
-def energia_potencial(m, g, h):
-    """Retorna la energía potencial: m*g*h"""
-    return m * g * h
-
-def lanzar_proyectil(v0, ang):
-    """
-    Retorna el alcance teórico de un proyectil
-    en un tiro parabólico sin rozamiento.
-    """
-    rad = math.radians(ang)
-    g = 9.8
-    R = (v0**2 * math.sin(2*rad)) / g
-    return R
-\end{minted}
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Calculadora de energía cinética}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita masa (kg) y velocidad (m/s).
+      \item Calcula la energía cinética: \(E_k = \frac{1}{2} m v^2\).
+      \item Usa una función para el cálculo.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Funciones, operadores, entrada/salida.\\
+  \textbf{Física relevante:} Mecánica clásica.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 16: Uso del Módulo en un Script Principal
+% Ejercicio 5 (Intermedio)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Uso de \texttt{fisica.py} en un Script Principal}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
-# main.py
-import fisica
-
-m = 10  # kg
-v = 5   # m/s
-ec = fisica.energia_cinetica(m, v)
-print("Energía Cinética =", ec, "J")
-
-distancia = fisica.lanzar_proyectil(20, 45)
-print("Alcance estimado =", distancia, "m")
-\end{minted}
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Simulador de caída libre}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita altura inicial (m).
+      \item Calcula el tiempo de caída usando \(t = \sqrt{2h/g}\), con \(g = 9.8\,m/s^2\).
+      \item Muestra el resultado con unidades.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Operadores, funciones, entrada/salida.\\
+  \textbf{Física relevante:} Movimiento rectilíneo uniformemente acelerado.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 17: Actividad - Organizándote con Módulos
+% Ejercicio 6 (Intermedio)
 % ------------------------------------------------------------------------
-\begin{frame}{Actividad: Creando Tus Módulos}
-  \begin{itemize}
-    \item \textbf{Objetivo}: Organizar funciones útiles en un módulo y probar su importación.
-    \item \textbf{Instrucciones}:
-      \begin{enumerate}
-        \item Crea un archivo \texttt{utilidades.py} con al menos 3 funciones (ej. \texttt{factorial(n)}, \texttt{es\_primo(n)}, etc.).
-        \item En un \textbf{notebook de Colab} o un script \texttt{main.py}, importa \texttt{utilidades} y prueba dichas funciones.
-        \item (Opcional) Añade una cuarta función con un \textbf{parámetro por defecto} (\texttt{def hola\_mundo(nombre="Mundo")}, etc.).
-      \end{enumerate}
-  \end{itemize}
-  \textbf{Sugerencia}: Comenta tu código y explica la lógica de cada función.
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Tabla de conversión de metros a kilómetros}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita un número entero \(n\).
+      \item Imprime una tabla de conversión de los primeros \(n\) valores (1 a \(n\)) de metros a kilómetros.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Bucles (\texttt{for}), operadores, entrada/salida.\\
+  \textbf{Física relevante:} Unidades y conversiones.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 18: Trabajo en Clase
+% Ejercicio 7 (Intermedio)
 % ------------------------------------------------------------------------
-\begin{frame}{Trabajo Colaborativo}
-  \begin{itemize}
-    \item Formar \textbf{parejas o tríos}.
-    \item Diseñar \textbf{un pequeño módulo} de funciones:
-      \begin{itemize}
-        \item Matemáticas, Estadística básica, Conversión de unidades, etc.
-      \end{itemize}
-    \item Utilizar dichas funciones en \textbf{otro script} o \textbf{notebook}.
-    \item \textbf{Opcional}: Explorar la creación de una carpeta con \texttt{\_\_init\_\_.py} para armar un paquete simple.
-  \end{itemize}
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Validación de entrada: número positivo}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita un número al usuario.
+      \item Si el número es negativo, vuelve a pedirlo hasta que sea positivo.
+      \item Muestra el número final.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Bucles (\texttt{while}), validación de datos.\\
+  \textbf{Física relevante:} Control de errores en mediciones.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 19: Dudas y Apoyo
+% Ejercicio 8 (Difícil)
 % ------------------------------------------------------------------------
-\begin{frame}{Espacio para Dudas y Apoyo}
-  \begin{itemize}
-    \item ¿Problemas al importar el módulo en Colab?
-    \item ¿Cómo organizar los archivos en Google Drive?
-    \item ¿Errores de \texttt{ModuleNotFoundError}?
-  \end{itemize}
-  \vspace{0.2cm}
-  \textbf{Consulta en voz alta o pide ayuda a tus compañeros.}
+\begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Módulo de conversiones físicas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crea un módulo llamado \texttt{conversiones.py} con funciones para convertir:
+        \begin{itemize}
+          \item Metros a centímetros.
+          \item Kilogramos a gramos.
+          \item Segundos a minutos.
+        \end{itemize}
+      \item Importa el módulo y prueba cada función.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Módulos, funciones, importación.\\
+  \textbf{Física relevante:} Unidades físicas.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 20: Posible Ejemplo de Solución
+% Ejercicio 9 (Difícil)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de \texttt{utilidades.py}}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\scriptsize
-]{python}
-# utilidades.py
-def factorial(n):
-    """Calcula n! de manera recursiva."""
-    if n <= 1:
-        return 1
-    else:
-        return n * factorial(n-1)
-
-def es_primo(num):
-    """Retorna True si 'num' es primo, False si no."""
-    if num < 2:
-        return False
-    for i in range(2, int(num**0.5)+1):
-        if num % i == 0:
-            return False
-    return True
-
-def saludar(nombre="Mundo"):
-    """Imprime un saludo a 'nombre'."""
-    print(f"Hola, {nombre}!")
-\end{minted}
+\begin{frame}{Ejercicio 9: \hfill \textcolor{red}{$\clubsuit$} \\ Calculadora de movimiento parabólico}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Solicita velocidad inicial (m/s) y ángulo (grados).
+      \item Calcula el alcance máximo usando \(R = \frac{v_0^2 \sin(2\theta)}{g}\).
+      \item Implementa la fórmula en una función y muestra el resultado.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Funciones, operadores, módulos (\texttt{math}).\\
+  \textbf{Física relevante:} Cinemática de proyectiles.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 21: Uso en un Notebook
+% Ejercicio 10 (Difícil)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Uso en un Notebook o Script}
-\begin{minted}[
-  frame=lines,
-  framesep=2mm,
-  bgcolor=LightGray,
-  fontsize=\footnotesize
-]{python}
-import utilidades
-
-print("5! =", utilidades.factorial(5))
-print("¿13 es primo?:", utilidades.es_primo(13))
-utilidades.saludar()
-utilidades.saludar("Física")
-\end{minted}
-
-\textbf{Resultado Esperado}:
-\begin{itemize}
-  \item \texttt{5! = 120}
-  \item \texttt{¿13 es primo?: True}
-  \item \texttt{Hola, Mundo!}
-  \item \texttt{Hola, Física!}
-\end{itemize}
+\begin{frame}{Ejercicio 10: \hfill \textcolor{red}{$\clubsuit$} \\ Clasificador de temperaturas usando módulos}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crea un módulo \texttt{clima.py} con una función que recibe una temperatura en Celsius y retorna “Frío”, “Templado” o “Caliente” según el valor.
+      \item Importa el módulo y prueba la función con diferentes valores.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Módulos, condicionales, funciones.\\
+  \textbf{Física relevante:} Clasificación de estados térmicos.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 22: Retroalimentación y Observaciones
-% ------------------------------------------------------------------------
-\begin{frame}{Retroalimentación}
-  \begin{itemize}
-    \item ¿Se entendió la \textbf{separación} entre la lógica (en un módulo .py) y el código principal?
-    \item ¿Ventajas de tener todo en un solo archivo vs. múltiples módulos?
-    \item ¿Dudas sobre parámetros y valores por defecto?
-  \end{itemize}
-\end{frame}
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 6: Conclusiones y Próximos Pasos
 % ----------------------------------------------------------------------------------------
 \section{Conclusiones}
 
-% ------------------------------------------------------------------------
-% Slide 23: Conclusiones de la Sesión
-% ------------------------------------------------------------------------
-\begin{frame}{Conclusiones de la Sesión 7}
-  \begin{itemize}
-    \item Apreciamos la \textbf{modularización} del código para mejor legibilidad y mantenimiento.
-    \item Vimos \textbf{funciones}: sintaxis \texttt{def}, parámetros, \texttt{return}, docstring.
-    \item Exploramos la creación de \textbf{módulos} y su importación en otros scripts o notebooks.
-    \item Ahora estamos preparados para proyectos más grandes y ordenados.
-  \end{itemize}
-\end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 24: Próximos Temas
+% Slide 23: Síntesis y Reflexión Final
 % ------------------------------------------------------------------------
-\begin{frame}{Próximos Temas}
+\begin{frame}{Síntesis de la Sesión}
   \begin{itemize}
-    \item \textbf{Sesion 8 (Semana 4)}: Continuaremos con el uso de módulos y paquetes, y profundizaremos en el uso de \texttt{pip} y librerías externas.
-    \item \textbf{Tarea sugerida}:
-      \begin{itemize}
-        \item Crear un pequeño proyecto con un paquete \texttt{mipaquete/} y varios módulos (ej. \texttt{mipaquete/calculos.py}, \texttt{mipaquete/utiles.py}, etc.).
-        \item Probar importarlos y usarlos en un script principal.
-      \end{itemize}
+    \item \textbf{Consolidamos:} el uso integrado de variables, operadores, condicionales, bucles y funciones.
+    \item \textbf{Aplicamos:} la modularización y reutilización del código mediante módulos propios.
+    \item \textbf{Resolvimos:} problemas físicos y matemáticos con Python, conectando teoría y práctica.
+    \item \textbf{Preparamos:} el camino para el trabajo colaborativo y el uso de librerías externas.
   \end{itemize}
+  \begin{block}{Habilidad adquirida}
+    Capacidad para estructurar programas en Python de forma clara, eficiente y reutilizable.
+  \end{block}
 \end{frame}
 
+
 % ------------------------------------------------------------------------
-% Slide 25: Cierre de la Sesión
+% Slide 25: Cierre y Motivación
 % ------------------------------------------------------------------------
 \begin{frame}
-  \huge{\centerline{¡Gracias y hasta la próxima sesión!}}
+  \huge{\centerline{¡Excelente trabajo!}}
   \vspace{0.5cm}
   \normalsize
   \begin{itemize}
-    \item Guarda tus \textbf{notebooks} y archivos \texttt{.py} en Google Drive.
-    \item Explora la documentación oficial de Python (sobre \textbf{funciones} y \textbf{módulos}).
-    \item ¡Sigue practicando!
+    \item Guarda tus avances y comparte dudas en el foro.
+    \item Explora la documentación oficial de Python y experimenta con nuevos módulos.
+    \item ¡Sigue practicando y colaborando!
   \end{itemize}
 \end{frame}
 
