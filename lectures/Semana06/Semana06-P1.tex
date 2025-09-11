@@ -36,21 +36,32 @@
 \metroset{block=fill}
 
 % ------------------------------------------------------------------------
-% NUEVA SECCIÓN (opcional)
-% ------------------------------------------------------------------------
-\section{Breve Repaso a Listas y For en Python}
-
-% ------------------------------------------------------------------------
 % Slide A (Listas en Python)
 % ------------------------------------------------------------------------
-\begin{frame}{Listas en Python}
+\section{Introducción y Repaso}
+\begin{frame}{Recapitulación de la Sesión Anterior}
   \begin{itemize}
-    \item Una \textbf{lista} es una colección ordenada y mutable de elementos.
-    \item Se definen con corchetes, por ejemplo: \texttt{mi\_lista = [1, 2, 3]}.
-    \item Podemos mezclarlas con distintos tipos de datos (enteros, cadenas, etc.).
-    \item Las listas se pueden indexar y “slicear” como en \texttt{mi\_lista[0]}, \texttt{mi\_lista[1:3]}, etc.
+    \item \textbf{Sesión anterior} se centró en:
+      \begin{itemize}
+        \item Listas y estructuras de datos básicas
+        \item Bucles for y manipulación de colecciones
+      \end{itemize}
+    \item \textbf{Conexión}: Hoy aplicaremos estos conceptos para trabajar con arreglos numéricos y NumPy.
   \end{itemize}
 \end{frame}
+
+% ------------------------------------------------------------------------
+% Slide B (Objetivos de la Sesión)
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 11}
+  \begin{itemize}
+    \item \textbf{Comprender} los conceptos básicos de NumPy: arreglos (arrays), vectorización, broadcasting.
+    \item \textbf{Practicar} la creación y manipulación de arrays en Google Colab.
+    \item \textbf{Aplicar} estas herramientas a ejemplos numéricos y pequeños problemas de Física/Astronomía.
+    \item \textbf{Desarrollar} habilidades de trabajo colaborativo y análisis numérico.
+  \end{itemize}
+\end{frame}
+
 
 % ------------------------------------------------------------------------
 % Slide B (Bucle for en Python)
@@ -100,7 +111,6 @@ print("La suma es:", suma)
 % ------------------------------------------------------------------------
 \begin{frame}{Después de la Solemne I}
   \begin{itemize}
-    \item \textbf{Semana 5} incluyó un repaso integral y la \textbf{Solemne I}.
     \item Ahora retomamos contenidos para profundizar nuestras habilidades de programación.
     \item \textbf{Objetivo de esta sesión}: Introducir la librería \textbf{NumPy} para manejo eficiente de arreglos y cálculos numéricos.
   \end{itemize}
@@ -332,48 +342,55 @@ print("Desv. Estándar:", np.std(arr))       # ~2.236
 % ------------------------------------------------------------------------
 % Slide 15: Ejercicio 1 - Primer Contacto con NumPy
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: Primer Contacto con NumPy}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Primer Contacto con NumPy}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Crear un arreglo 1D con los números del 1 al 10.
       \item Imprimir su \textbf{media}, \textbf{suma} y \textbf{producto} de todos los elementos.
-      \item Reemplazar los valores \(\leq 5\) por 0, y los restantes por 1 (opcional: slicing lógico).
+      \item Reemplazar los valores $\leq 5$ por 0, y los restantes por 1 (opcional: slicing lógico).
       \item Mostrar el arreglo resultante.
     \end{itemize}
   \end{block}
-  \textbf{Sugerencia}: Usa \texttt{np.arange} y \textbf{operaciones de comparación} (\texttt{arr <= 5}).
+  	extbf{Conceptos:} Arrays, operaciones vectorizadas, slicing lógico.\\
+  	extbf{Física relevante:} Manipulación de datos experimentales.
+  
+  	extbf{Sugerencia}: Usa \texttt{np.arange} y operaciones de comparación (\texttt{arr <= 5}).
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 16: Ejercicio 2 - Matriz y Broadcasting
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: Matriz y Broadcasting}
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Matriz y Broadcasting}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Crear una matriz 3x3 con \(\{[1,2,3],[4,5,6],[7,8,9]\}\).
-      \item Definir un \textbf{vector} \([10, 20, 30]\).
+      \item Crear una matriz 3x3 con $\{[1,2,3],[4,5,6],[7,8,9]\}$.
+      \item Definir un \textbf{vector} $[10, 20, 30]$.
       \item Sumar dicho vector a cada fila de la matriz (broadcasting).
       \item Mostrar el resultado.
     \end{itemize}
   \end{block}
-  \textbf{Objetivo}: Practicar la manipulación 2D y la “extensión” de forma con un vector 1D.
+  	extbf{Conceptos:} Manipulación 2D, broadcasting, suma de vectores.\\
+  	extbf{Física relevante:} Suma de señales o datos experimentales.
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 17: Ejercicio 3 - Pequeño Desafío Numérico
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: Aproximación de \(\pi\) con Serie}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Aproximación de $\pi$ con Serie}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Usar \texttt{np.arange} para generar un rango de \texttt{n} valores.
-      \item Calcular una aproximación de \(\pi\) usando la serie de Leibniz:
+      \item Usar \texttt{np.arange} para generar un rango de $n$ valores.
+      \item Calcular una aproximación de $\pi$ usando la serie de Leibniz:
       \[
         \pi \approx 4 \sum_{k=0}^{n} \frac{(-1)^k}{2k+1}
       \]
-      \item Comparar el valor obtenido para distintos \texttt{n}.
+      \item Comparar el valor obtenido para distintos $n$.
     \end{itemize}
   \end{block}
-  \textbf{Sugerencia}: Emplear \textbf{vectorización} para computar \(\frac{(-1)^k}{2k+1}\).
+  	extbf{Conceptos:} Vectorización, sumas numéricas, aproximación de constantes.\\
+  	extbf{Física relevante:} Métodos numéricos en física y matemáticas.
+  
+  	extbf{Sugerencia}: Emplear vectorización para computar $\frac{(-1)^k}{2k+1}$.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -405,15 +422,14 @@ print("Desv. Estándar:", np.std(arr))       # ~2.236
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 20: Ejemplo de Solución (Ejercicio 1)
+% Slide 20: Solución 1 de Referencia - Primer Contacto con NumPy
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Solución Ejercicio 1}
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Primer Contacto con NumPy}
 \begin{minted}{python}
+# Creamos el arreglo y calculamos estadísticas
 import numpy as np
-
 arr = np.arange(1, 11)  # [1..10]
 print("Array:", arr)
-
 print("Media:", np.mean(arr))   # 5.5
 print("Suma:", np.sum(arr))     # 55
 print("Producto:", np.prod(arr))# 3628800
@@ -424,33 +440,35 @@ arr_mod[arr_mod <= 5] = 0
 arr_mod[arr_mod > 5] = 1
 print("Array modificado:", arr_mod)
 \end{minted}
+	extbf{Discusión:} El uso de slicing lógico permite modificar el arreglo de forma eficiente y sin bucles.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 21: Ejemplo de Solución (Ejercicio 2)
+% Slide 21: Solución 2 de Referencia - Matriz y Broadcasting
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Solución Ejercicio 2}
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Matriz y Broadcasting}
 \begin{minted}{python}
+# Suma de vector a matriz usando broadcasting
 import numpy as np
-
 mat = np.array([[1,2,3],
                 [4,5,6],
                 [7,8,9]])
 fila = np.array([10, 20, 30])
-
 resultado = mat + fila  # Broadcasting
 print("Matriz resultante:\n", resultado)
 # [[11 22 33]
 #  [14 25 36]
 #  [17 28 39]]
 \end{minted}
+	extbf{Discusión:} Broadcasting permite sumar el vector a cada fila sin bucles explícitos.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 22: Ejemplo de Solución (Ejercicio 3)
+% Slide 22: Solución 3 de Referencia - Aproximación de $\pi$
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Solución Ejercicio 3 (Leibniz \(\pi\))}
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Aproximación de $\pi$}
 \begin{minted}{python}
+# Aproximación de pi usando la serie de Leibniz
 import numpy as np
 
 n = 100000  # término superior
@@ -466,6 +484,7 @@ print("Aproximación de pi con n =", n, ":", aprox_pi)
 import math
 print("Diferencia:", abs(math.pi - aprox_pi))
 \end{minted}
+	\textbf{Discusión:} La vectorización permite calcular sumas grandes de manera eficiente y rápida.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -480,33 +499,33 @@ print("Diferencia:", abs(math.pi - aprox_pi))
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 6: Conclusiones y Próximos Pasos
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones y Próximos Pasos}
 
-% ------------------------------------------------------------------------
-% Slide 24: Conclusiones de la Sesión 11
-% ------------------------------------------------------------------------
-\begin{frame}{Conclusiones de la Sesión 11}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN: Conclusiones
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones}
+
+\begin{frame}{Resumen de la Sesión}
   \begin{itemize}
-    \item Entendimos la importancia de \textbf{NumPy} para cálculos numéricos y arreglos multidimensionales.
-    \item Practicamos \textbf{creación}, \textbf{slicing}, \textbf{operaciones vectorizadas} y \textbf{broadcasting}.
-    \item Vimos ejemplos de aplicación en problemas matemáticos y de simulación.
-    \item Próximamente, profundizaremos en \textbf{manipulación avanzada} de datos y su visualización (Matplotlib, etc.).
+    \item \textbf{Aprendimos} los conceptos fundamentales de NumPy y su utilidad para cálculos numéricos.
+    \item \textbf{Practicamos} la creación, manipulación y operaciones vectorizadas con arrays.
+    \item \textbf{Exploramos} aplicaciones en problemas matemáticos y de simulación.
+    \item \textbf{Desarrollamos} habilidades de análisis numérico y trabajo colaborativo.
   \end{itemize}
+  \begin{block}{Habilidad adquirida}
+    Uso eficiente de arrays y operaciones vectorizadas para resolver problemas científicos.
+  \end{block}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 25: Próxima Sesión
-% ------------------------------------------------------------------------
-\begin{frame}
-  \Huge{\centerline{¡Gracias por su atención!}}
-  \vspace{0.3cm}
-  \normalsize
+\begin{frame}{Próximos Pasos}
   \begin{itemize}
-    \item En la \textbf{próxima sesión} (Semana 6, Sesión 2) exploraremos más operaciones avanzadas con NumPy (reshaping, funciones linalg, etc.) y su integración con \textbf{Matplotlib}.
-    \item ¡Sigan practicando con los ejercicios y datos reales para asimilar mejor NumPy!
+    \item \textbf{Sesión siguiente:} Operaciones avanzadas con NumPy (reshaping, álgebra lineal) y visualización con Matplotlib.
+    \item \textbf{Recomendación de estudio:} Repasa la documentación oficial de NumPy y experimenta con ejemplos propios.
+    \item \textbf{Práctica sugerida:} Resuelve ejercicios adicionales con datos reales o simulados.
   \end{itemize}
+  \begin{center}
+    	extbf{¡Nos vemos en la próxima sesión!}
+  \end{center}
 \end{frame}
 
 \end{document}
