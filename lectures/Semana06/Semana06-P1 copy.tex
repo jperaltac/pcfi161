@@ -63,10 +63,70 @@
 \end{frame}
 
 
+% ------------------------------------------------------------------------
+% Slide B (Bucle for en Python)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Bucle for en Python}
+  \begin{itemize}
+    \item El bucle \textbf{for} se utiliza para iterar sobre una secuencia (lista, cadena, etc.).
+    \item Ejemplo básico:
+    \begin{minted}{python}
+numeros = [10, 20, 30]
+for num in numeros:
+    print(num)
+    \end{minted}
+    \item En cada iteración, \texttt{num} toma un valor de la lista.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide C (Ejemplo Práctico con for)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Suma de Elementos de una Lista}
+  \begin{minted}{python}
+numeros = [1, 2, 3, 4, 5]
+suma = 0
+
+for n in numeros:
+    suma += n
+
+print("La suma es:", suma)
+  \end{minted}
+  \begin{itemize}
+    \item Con \texttt{for} iteramos directamente sobre cada elemento.
+    \item Acumulamos la suma en \texttt{suma}.
+    \item Resultado: \texttt{La suma es: 15}.
+  \end{itemize}
+\end{frame}
+
+
+
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
 % ----------------------------------------------------------------------------------------
 \section{Introducción y Contexto}
+
+% ------------------------------------------------------------------------
+% Slide 3: Retorno tras la Solemne
+% ------------------------------------------------------------------------
+\begin{frame}{Después de la Solemne I}
+  \begin{itemize}
+    \item Ahora retomamos contenidos para profundizar nuestras habilidades de programación.
+    \item \textbf{Objetivo de esta sesión}: Introducir la librería \textbf{NumPy} para manejo eficiente de arreglos y cálculos numéricos.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión 11
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión 11}
+  \begin{itemize}
+    \item \textbf{Comprender} los conceptos básicos de NumPy: arreglos (arrays), vectorización, broadcasting.
+    \item \textbf{Practicar} la creación y manipulación de arrays en Google Colab.
+    \item \textbf{Aplicar} estas herramientas a ejemplos numéricos y pequeños problemas de Física/Astronomía.
+    \item \textbf{Fomentar} la colaboración y el trabajo práctico en laboratorio.
+  \end{itemize}
+\end{frame}
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 2: ¿Por qué NumPy?
@@ -101,185 +161,184 @@
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% SECCIÓN: Manipulación de Listas en Python
-% ------------------------------------------------------------------------
-\section{Manipulación de Listas en Python}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Primeros Pasos con NumPy
+% ----------------------------------------------------------------------------------------
+\section{Primeros Pasos con NumPy}
 
 % ------------------------------------------------------------------------
-% Slide: Creación y Acceso a Listas
+% Slide 7: Instalación y Importación
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Creación y Acceso a Listas}
+\begin{frame}[fragile]{Instalación y Importación}
   \begin{itemize}
-    \item Las listas son \textbf{colecciones ordenadas y mutables}
-    \item Creación y acceso:
+    \item En muchos entornos (Colab, Anaconda), NumPy ya está incluido.
+    \item Si fuera necesario:
+\begin{minted}{bash}
+pip install numpy
+\end{minted}
+    \item \textbf{Importación típica}:
+\begin{minted}{python}
+import numpy as np
+\end{minted}
+    \item A partir de ahí, usamos \texttt{np.array}, \texttt{np.mean}, etc.
   \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Creación de Arrays
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Creación de Arrays NumPy}
 \begin{minted}{python}
-# Creación de listas
-numeros = [10, 20, 30, 40, 50]
-nombres = ["Ana", "Carlos", "Elena"]
-mixta = [1, "dos", 3.0, True]
+import numpy as np
 
-# Acceso por índice (desde 0)
-print(numeros[0])     # 10
-print(numeros[-1])    # 50 (último elemento)
+# Convertir lista de Python a array NumPy
+lista = [1, 2, 3, 4]
+arr = np.array(lista)
+print("Array:", arr)
+print("Tipo:", type(arr))  # <class 'numpy.ndarray'>
 
-# Slicing [inicio:fin:paso]
-print(numeros[1:4])   # [20, 30, 40]
-print(numeros[::2])   # [10, 30, 50] (saltos de 2)
+# Array de ceros
+zeros = np.zeros(5)
+print("Zeros:", zeros)
+
+# Array de unos
+unos = np.ones((2,3))  # 2 filas x 3 columnas
+print("Unos:\n", unos)
+
+# Rango de valores
+rango = np.arange(0, 10, 2)  # [0, 2, 4, 6, 8]
 \end{minted}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide: Métodos para Agregar y Quitar Elementos
+% Slide 9: Atributos de un Array
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Métodos para Agregar y Quitar Elementos}
+\begin{frame}[fragile]{Atributos de un Array}
 \begin{minted}{python}
-frutas = ["manzana", "naranja", "plátano"]
-
-# Agregar elementos
-frutas.append("uva")           # Al final
-print(frutas)  # ['manzana', 'naranja', 'plátano', 'uva']
-
-frutas.insert(1, "pera")       # En posición específica
-print(frutas)  # ['manzana', 'pera', 'naranja', 'plátano', 'uva']
-
-# Eliminar elementos
-eliminado = frutas.pop()       # Elimina y devuelve el último
-print("Eliminado:", eliminado) # Eliminado: uva
-print(frutas)  # ['manzana', 'pera', 'naranja', 'plátano']
-
-frutas.remove("pera")          # Elimina por valor
-print(frutas)  # ['manzana', 'naranja', 'plátano']
-
-del frutas[0]                  # Elimina por índice
-print(frutas)  # ['naranja', 'plátano']
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Unir y Separar Listas
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Unir y Separar Listas}
-\begin{minted}{python}
-# Unir listas
-lista1 = [1, 2, 3]
-lista2 = [4, 5, 6]
-
-# Concatenación con +
-combinada = lista1 + lista2
-print(combinada)  # [1, 2, 3, 4, 5, 6]
-
-# Método extend
-lista1.extend(lista2)
-print(lista1)     # [1, 2, 3, 4, 5, 6]
-
-# Multiplicar listas
-repetida = [0] * 4
-print(repetida)   # [0, 0, 0, 0]
-
-# Dividir cadena en lista
-texto = "Python es poderoso"
-palabras = texto.split()
-print(palabras)   # ['Python', 'es', 'poderoso']
-
-# Unir lista en cadena
-unida = " | ".join(palabras)
-print(unida)      # 'Python | es | poderoso'
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Métodos Adicionales para Listas
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Métodos Adicionales para Listas}
-\begin{minted}{python}
-numeros = [3, 1, 4, 1, 5, 9, 2]
-
-# Ordenar lista (modifica la original)
-numeros.sort()
-print(numeros)  # [1, 1, 2, 3, 4, 5, 9]
-
-# Invertir lista
-numeros.reverse()
-print(numeros)  # [9, 5, 4, 3, 2, 1, 1]
-
-# Contar ocurrencias
-print(numeros.count(1))  # 2
-
-# Encontrar índice (primera aparición)
-print(numeros.index(5))  # 1
-
-# Copiar una lista
-lista_copia = numeros.copy()  # o list(numeros) o numeros[:]
-print(lista_copia)     # [9, 5, 4, 3, 2, 1, 1]
-
-# Verificar si existe un elemento
-print(5 in numeros)  # True
-print(7 in numeros)  # False
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Listas por Comprensión
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Listas por Comprensión}
-  \begin{itemize}
-    \item Forma concisa de crear listas basadas en listas existentes
-    \item Estructura: \texttt{[expresión for item in iterable if condición]}
-  \end{itemize}
-\begin{minted}{python}
-# Lista del cuadrado de números del 0 al 9
-cuadrados = [x**2 for x in range(10)]
-print(cuadrados)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
-
-# Lista de números pares del 0 al 9
-pares = [x for x in range(10) if x % 2 == 0]
-print(pares)      # [0, 2, 4, 6, 8]
-
-# Combinar elementos de dos listas
-nombres = ["Ana", "Luis"]
-apellidos = ["Gómez", "Pérez"]
-nombres_completos = [n + " " + a for n in nombres for a in apellidos]
-print(nombres_completos)  
-# ['Ana Gómez', 'Ana Pérez', 'Luis Gómez', 'Luis Pérez']
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Caso Práctico con Listas
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Caso Práctico con Listas: Análisis de Datos}
-\begin{minted}{python}
-# Temperaturas diarias de una semana (°C)
-temperaturas = [22.5, 23.1, 21.8, 24.2, 25.0, 22.9, 21.5]
-
-# Análisis básico manual
-suma = sum(temperaturas)
-prom = suma / len(temperaturas)
-temp_max = max(temperaturas)
-temp_min = min(temperaturas)
-
-print(f"Promedio: {prom:.1f}°C")
-print(f"Máxima: {temp_max}°C, Mínima: {temp_min}°C")
-print(f"Rango: {temp_max - temp_min:.1f}°C")
-
-# Identificar días con temperaturas > 23°C
-dias_calurosos = [i+1 for i, t in enumerate(temperaturas) if t > 23]
-print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
+arr = np.array([[1, 2, 3],
+                [4, 5, 6]])
+print("Shape:", arr.shape)   # (2, 3)
+print("Dim:", arr.ndim)      # 2
+print("Tipo de datos:", arr.dtype)  # int64 (en sistemas Linux)
+print("Total de elementos:", arr.size) # 6
 \end{minted}
 \begin{itemize}
-  \item Observa cómo podemos combinar \texttt{enumerate}, listas por comprensión e \texttt{if} para análisis.
+  \item \texttt{shape} = tupla de dimensiones.
+  \item \texttt{dtype} = tipo de dato (\texttt{int32, float64}, etc.).
+  \item \texttt{ndim} = número de ejes.
 \end{itemize}
 \end{frame}
 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Manipulación y Operaciones
+% ----------------------------------------------------------------------------------------
+\section{Manipulación de Arrays y Operaciones}
 
+% ------------------------------------------------------------------------
+% Slide 10: Slicing y Indexación
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Slicing e Indexación}
+\begin{minted}{python}
+arr = np.array([10, 20, 30, 40, 50])
+print(arr[0])      # 10
+print(arr[1:3])    # [20 30]
+print(arr[0:3])    # [10 20 30]
 
+mat = np.array([[1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9]])
+# Acceder a fila 1, columna 2
+print(mat[1, 2])   # 6
 
+# Slicing de filas y columnas
+submat = mat[0:2, 1:3]  # Filas [0..1], Cols [1..2]
+print(submat)
+\end{minted}
+\begin{itemize}
+  \item \textbf{Ojo}: en NumPy, slicing crea \textbf{vistas}, no copias (con implicaciones en la modificación de datos).
+\end{itemize}
+\end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 11: Operaciones Elemento a Elemento
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Operaciones Elemento a Elemento (Vectorización)}
+\begin{minted}{python}
+x = np.array([1, 2, 3])
+y = np.array([4, 5, 6])
 
-\section{Ejercicios Prácticos}
+print("Suma:", x + y)   # [5  7  9]
+print("Producto:", x * y)  # [4 10 18]
+print("Potencia:", x**2)   # [1 4 9]
+\end{minted}
+\begin{itemize}
+  \item \textbf{Sin} bucles explícitos.
+  \item El núcleo de NumPy optimiza estas operaciones.
+\end{itemize}
+\end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 12: Broadcasting
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Broadcasting}
+  \begin{itemize}
+    \item Mecanismo que NumPy utiliza para manejar operaciones entre arrays de diferentes formas.
+    \item \textbf{Ejemplo}:
+\begin{minted}{python}
+a = np.array([1, 2, 3])
+b = 2
+# b se "expande" para coincidir con la forma de a
+res = a * b  # [2 4 6]
+\end{minted}
+    \item También puede ocurrir con arreglos 2D y 1D, etc.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Ejemplo de Broadcasting Matricial
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Sumar Fila a una Matriz}
+\begin{minted}{python}
+mat = np.array([[1,2,3],
+                [4,5,6],
+                [7,8,9]])
+fila = np.array([10, 20, 30])
+
+# Broadcasting: se suma fila a cada fila de la matriz
+res = mat + fila
+print(res)
+# [[11 22 33]
+#  [14 25 36]
+#  [17 28 39]]
+\end{minted}
+\begin{itemize}
+  \item NumPy reconoce que \texttt{fila} es de 1D y la "extiende" sobre las filas.
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Operaciones Numéricas y Práctica
+% ----------------------------------------------------------------------------------------
+\section{Operaciones Numéricas y Práctica}
+
+% ------------------------------------------------------------------------
+% Slide 14: Funciones NumPy Comunes
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Funciones NumPy Comunes}
+\begin{minted}{python}
+arr = np.array([2, 4, 6, 8])
+
+print("Suma total:", np.sum(arr))           # 20
+print("Mínimo:", np.min(arr))              # 2
+print("Máximo:", np.max(arr))              # 8
+print("Promedio:", np.mean(arr))           # 5.0
+print("Desv. Estándar:", np.std(arr))       # ~2.236
+\end{minted}
+\begin{itemize}
+  \item También hay \texttt{np.median(arr)}, \texttt{np.var(arr)} y muchas más.
+  \item Para arreglos 2D, se puede especificar \texttt{axis=0} o \texttt{axis=1}.
+\end{itemize}
+\end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 15: Ejercicio 1 - Primer Contacto con NumPy
