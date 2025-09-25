@@ -36,21 +36,6 @@
 \metroset{block=fill}
 
 % ------------------------------------------------------------------------
-% Slide A (Listas en Python)
-% ------------------------------------------------------------------------
-\section{Introducción y Repaso}
-\begin{frame}{Recapitulación de la Sesión Anterior}
-  \begin{itemize}
-    \item \textbf{Sesión anterior} se centró en:
-      \begin{itemize}
-        \item Listas y estructuras de datos básicas
-        \item Bucles for y manipulación de colecciones
-      \end{itemize}
-    \item \textbf{Conexión}: Hoy aplicaremos estos conceptos para trabajar con arreglos numéricos y NumPy.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
 % Slide B (Objetivos de la Sesión)
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 11}
@@ -66,7 +51,26 @@
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
 % ----------------------------------------------------------------------------------------
-\section{Introducción y Contexto}
+\section{Introducción y Repaso}
+
+% ------------------------------------------------------------------------
+% Slide 4: Limitaciones de las Estructuras Nativas
+% ------------------------------------------------------------------------
+\begin{frame}{Limitaciones de las Estructuras Nativas de Python}
+  \begin{itemize}
+    \item \textbf{Rendimiento}: Las listas de Python no están optimizadas para cálculos numéricos masivos
+    \item \textbf{Sintaxis verbose}: Operaciones matemáticas requieren bucles explícitos
+      \begin{itemize}
+        \item Ejemplo: Multiplicar cada elemento de una lista por 2 → \texttt{[x*2 for x in lista]}
+      \end{itemize}
+    \item \textbf{Funcionalidad limitada}: Sin soporte nativo para álgebra lineal, estadística avanzada
+    \item \textbf{Heterogeneidad}: Las listas pueden contener diferentes tipos de datos, lo que impide optimizaciones
+  \end{itemize}
+  
+  \begin{alertblock}{Problema en Ciencia y Física}
+    Los cálculos científicos requieren alto rendimiento y operaciones optimizadas con grandes conjuntos de datos numéricos
+  \end{alertblock}
+\end{frame}
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 2: ¿Por qué NumPy?
@@ -86,7 +90,12 @@
         \item Alto rendimiento (implementaciones en C bajo la interfaz de Python).
       \end{itemize}
     \item \textbf{Base de muchas librerías} científicas (p.e. SciPy, Pandas, etc.).
+    \item \textbf{Estándar de facto} en computación científica con Python.
   \end{itemize}
+  
+  \begin{block}{Historia Breve}
+    Creada en 2005, evolucionando de bibliotecas anteriores (Numeric, Numarray), diseñada específicamente para cálculos científicos eficientes.
+  \end{block}
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -99,8 +108,33 @@
     \item \textbf{Herramientas avanzadas}: slicing sofisticado, broadcasting, manipulación de ejes (dimensiones).
     \item \textbf{Compatibilidad} con otras librerías (Matplotlib, SciPy, etc.).
   \end{itemize}
+  
+  \begin{block}{Aplicaciones en Física}
+    \begin{itemize}
+      \item Simulaciones numéricas (p.e. dinámica de partículas)
+      \item Análisis de datos experimentales
+      \item Procesamiento de señales e imágenes astronómicas
+      \item Resolución numérica de ecuaciones diferenciales
+    \end{itemize}
+  \end{block}
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 7: Comparativa de Rendimiento
+% ------------------------------------------------------------------------
+\begin{frame}{Comparativa de Rendimiento: NumPy vs. Listas}
+  \begin{itemize}
+    \item \textbf{Ejemplo}: Suma de todos los elementos en una secuencia de un millón de números
+    \item Con \textbf{listas de Python}: Aproximadamente 10-100 veces más lento
+    \item Con \textbf{NumPy}: Operaciones optimizadas a nivel de hardware
+  \end{itemize}
+  
+  \begin{alertblock}{Importancia del Rendimiento}
+    En problemas físicos reales (simulaciones, análisis de datos experimentales), la diferencia de rendimiento puede significar horas o incluso días de tiempo de cómputo.
+  \end{alertblock}
+  
+  \textbf{Hoy aprenderemos}: Cómo aprovechar esta potencia para nuestros problemas científicos.
+\end{frame}
 % ------------------------------------------------------------------------
 % SECCIÓN: Manipulación de Listas en Python
 % ------------------------------------------------------------------------
@@ -134,7 +168,7 @@ print(numeros[::2])   # [10, 30, 50] (saltos de 2)
 % Slide: Métodos para Agregar y Quitar Elementos
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Métodos para Agregar y Quitar Elementos}
-\begin{minted}{python}
+\begin{minted}[fontsize=\tiny]{python}
 frutas = ["manzana", "naranja", "plátano"]
 
 # Agregar elementos
@@ -161,7 +195,7 @@ print(frutas)  # ['naranja', 'plátano']
 % Slide: Unir y Separar Listas
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Unir y Separar Listas}
-\begin{minted}{python}
+\begin{minted}[fontsize=\tiny]{python}
 # Unir listas
 lista1 = [1, 2, 3]
 lista2 = [4, 5, 6]
@@ -193,7 +227,7 @@ print(unida)      # 'Python | es | poderoso'
 % Slide: Métodos Adicionales para Listas
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Métodos Adicionales para Listas}
-\begin{minted}{python}
+\begin{minted}[fontsize=\tiny]{python}
 numeros = [3, 1, 4, 1, 5, 9, 2]
 
 # Ordenar lista (modifica la original)
@@ -228,7 +262,7 @@ print(7 in numeros)  # False
     \item Forma concisa de crear listas basadas en listas existentes
     \item Estructura: \texttt{[expresión for item in iterable if condición]}
   \end{itemize}
-\begin{minted}{python}
+\begin{minted}[fontsize=\tiny]{python}
 # Lista del cuadrado de números del 0 al 9
 cuadrados = [x**2 for x in range(10)]
 print(cuadrados)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]

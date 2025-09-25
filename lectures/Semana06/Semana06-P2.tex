@@ -41,399 +41,468 @@
 \section{Introducción y Repaso}
 
 % ------------------------------------------------------------------------
-% Slide 3: Repaso de la Sesión 11
+% Slide 3: Repaso de la Sesión Anterior
 % ------------------------------------------------------------------------
-\begin{frame}{Repaso de la Sesión 11}
+\begin{frame}{Repaso de la Sesión Anterior}
   \begin{itemize}
-    \item Vimos la introducción a \textbf{NumPy} y creamos arreglos básicos.
-    \item Exploramos:
+    \item \textbf{Sesión anterior (P1)} dominamos:
       \begin{itemize}
-        \item \texttt{np.array}, \texttt{np.zeros}, \texttt{np.arange}.
-        \item Slicing, indexación y operaciones vectorizadas.
-        \item Broadcasting con ejemplos simples.
+        \item Manipulación avanzada de listas en Python
+        \item Fundamentos de NumPy: arrays, atributos, operaciones vectorizadas
+        \item Broadcasting y funciones estadísticas
+        \item Slicing e indexación de arrays
       \end{itemize}
-    \item Resolvimos ejercicios como la aproximación a \(\pi\) con la serie de Leibniz.
-    \item \textbf{Objetivo de hoy}: Ampliar funciones avanzadas de NumPy, manipulación más compleja y daremos un primer vistazo a \textbf{Matplotlib} para gráficas.
+    \item \textbf{Objetivo de hoy:} Aplicar y consolidar estos conceptos en problemas más elaborados y colaborativos.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 4: Objetivos de la Sesión 12
+% Slide 4: Objetivos de la Sesión P2
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 12}
   \begin{itemize}
-    \item \textbf{Profundizar} en la manipulación de arrays: \texttt{reshape}, \texttt{transpose}, \texttt{concatenate}.
-    \item \textbf{Explorar} funciones adicionales de \texttt{np.random} y \texttt{np.linalg}.
-    \item \textbf{Iniciar} la transición a \textbf{visualizaciones} básicas con \textbf{Matplotlib}.
-    \item \textbf{Aplicar} estos conceptos en ejercicios de simulación y análisis de datos sencillos.
+    \item \textbf{Consolidar} el uso de listas y arrays de NumPy en problemas físicos
+    \item \textbf{Aplicar} análisis de datos experimentales usando ambas herramientas
+    \item \textbf{Desarrollar} habilidades de resolución colaborativa
+    \item \textbf{Integrar} múltiples conceptos en aplicaciones prácticas de Física/Astronomía
   \end{itemize}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Manipulación Avanzada de Arrays
-% ----------------------------------------------------------------------------------------
-\section{Manipulación Avanzada de Arrays}
-
 % ------------------------------------------------------------------------
-% Slide 5: Reshaping
+% Slide 5: Recordatorio de Conceptos Clave
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{\texttt{reshape} para Cambiar Forma}
-\begin{minted}{python}
-import numpy as np
-
-arr = np.arange(12)  # [0,1,2,...,11]
-print("Arr 1D:", arr)
-
-mat = arr.reshape((3,4))  # 3 filas, 4 columnas
-print("Matriz 3x4:\n", mat)
-\end{minted}
-\begin{itemize}
-  \item \textbf{reshape} no crea una copia, sino una vista (si posible).
-  \item Dimensiones deben \textbf{coincidir} en la cantidad total de elementos.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 6: Transposición
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{\texttt{transpose} o \texttt{.T} para Matrices}
-\begin{minted}{python}
-mat = np.array([[1,2,3],
-                [4,5,6]])
-print("Original:\n", mat)
-
-transpuesta = mat.T
-print("Transpuesta:\n", transpuesta)
-
-# También se puede usar:
-# np.transpose(mat)
-\end{minted}
-\begin{itemize}
-  \item Cambia ejes (filas pasan a ser columnas y viceversa).
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 7: Concatenación de Arrays
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{\texttt{np.concatenate}, \texttt{np.vstack}, \texttt{np.hstack}}
-\begin{minted}{python}
-a = np.array([1,2,3])
-b = np.array([4,5,6])
-
-c = np.concatenate((a,b))
-print("Concatenate 1D:", c)  # [1 2 3 4 5 6]
-
-mat1 = np.array([[1,2],[3,4]])
-mat2 = np.array([[5,6],[7,8]])
-
-res_h = np.hstack((mat1, mat2))
-# Horizontal: columnas se suman
-print("Horizontal:\n", res_h)
-# [[1 2 5 6]
-#  [3 4 7 8]]
-
-res_v = np.vstack((mat1, mat2))
-# Vertical: filas se suman
-print("Vertical:\n", res_v)
-# [[1 2]
-#  [3 4]
-#  [5 6]
-#  [7 8]]
-\end{minted}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Funciones NumPy Random y Linalg
-% ----------------------------------------------------------------------------------------
-\section{Funciones Random y Linalg}
-
-% ------------------------------------------------------------------------
-% Slide 8: \texttt{np.random}
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{\texttt{np.random} para Valores Aleatorios}
-\begin{minted}{python}
-# Generar arreglo 1D de floats uniformes en [0,1)
-rand_floats = np.random.rand(5)
-print("Floats aleatorios:", rand_floats)
-
-# Matriz 2x3 de flotantes uniformes
-mat_uniform = np.random.rand(2,3)
-
-# Enteros aleatorios en [low, high)
-rand_ints = np.random.randint(low=1, high=10, size=5)
-print("Enteros aleatorios [1..9]:", rand_ints)
-
-# Fijar semilla para reproducibilidad
-np.random.seed(42)
-\end{minted}
-\begin{itemize}
-  \item \texttt{np.random.randn} para distribución normal estándar.
-  \item \textbf{seed} para obtener siempre la misma secuencia.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 9: \texttt{np.linalg}
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{\texttt{np.linalg} para Álgebra Lineal}
-\begin{minted}{python}
-import numpy as np
-
-A = np.array([[1,2],
-              [3,4]])
-# Determinante
-detA = np.linalg.det(A)
-
-# Inversa
-invA = np.linalg.inv(A)
-
-# Autovalores y autovectores
-valores, vectores = np.linalg.eig(A)
-
-print("Det(A) =", detA)
-print("Inv(A) =\n", invA)
-print("Eigenvalues =", valores)
-print("Eigenvectors =\n", vectores)
-\end{minted}
-\begin{itemize}
-  \item Módulo \texttt{linalg} (linear algebra) provee funcionalidad típica: inversas, resoluciones de sistemas, SVD, etc.
-\end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Primeros Pasos con Matplotlib
-% ----------------------------------------------------------------------------------------
-\section{Primeros Pasos con Matplotlib}
-
-% ------------------------------------------------------------------------
-% Slide 10: ¿Por qué Matplotlib?
-% ------------------------------------------------------------------------
-\begin{frame}{¿Por qué Matplotlib?}
+\begin{frame}{Recordatorio: Conceptos Clave}
   \begin{itemize}
-    \item \textbf{Visualizar datos} es fundamental en Física/Astronomía:
-      \begin{itemize}
-        \item Gráficas de series temporales, funciones, histogramas, dispersión, etc.
-      \end{itemize}
-    \item \textbf{Matplotlib} es la librería más común para gráficos 2D en Python.
-    \item \textbf{Fácil integración} con NumPy: dibujar arreglos, transformaciones en tiempo real.
+    \item \textbf{Listas Python}: \texttt{append()}, \texttt{extend()}, slicing, comprensiones
+    \item \textbf{Arrays NumPy}: \texttt{np.array()}, \texttt{np.arange()}, \texttt{np.linspace()}
+    \item \textbf{Operaciones Vectorizadas}: elementos por elemento sin bucles
+    \item \textbf{Broadcasting}: operaciones entre arrays de diferentes formas
+    \item \textbf{Funciones Estadísticas}: \texttt{np.mean()}, \texttt{np.std()}, \texttt{np.sum()}
   \end{itemize}
+  
+  \begin{block}{Patrón de trabajo}
+    \texttt{datos → procesamiento vectorizado → análisis estadístico → resultados}
+  \end{block}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 11: Instalación / Importación
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Instalación e Importación Básica}
-\begin{minted}{bash}
-pip install matplotlib
-\end{minted}
-\begin{minted}{python}
-import matplotlib.pyplot as plt
-import numpy as np
-
-x = np.linspace(0, 2*np.pi, 100)
-y = np.sin(x)
-
-plt.plot(x, y)
-plt.show()
-\end{minted}
-\begin{itemize}
-  \item \texttt{pyplot} es la interfaz estilo \textbf{MATLAB} para Matplotlib.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 12: Ejemplo Sencillo de Gráfico
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Graficar \(\sin(x)\) y \(\cos(x)\)}
-\begin{minted}{python}
-import matplotlib.pyplot as plt
-import numpy as np
-
-x = np.linspace(0, 2*np.pi, 100)
-sinx = np.sin(x)
-cosx = np.cos(x)
-
-plt.plot(x, sinx, label='sin(x)')
-plt.plot(x, cosx, label='cos(x)')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Ejemplo Seno y Coseno')
-plt.legend()
-plt.show()
-\end{minted}
-\begin{itemize}
-  \item \texttt{plt.xlabel}, \texttt{plt.ylabel}, \texttt{plt.title}, \texttt{plt.legend} para etiquetar y personalizar.
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 13: Figuras y Ejes
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Figura y Ejes}
-\begin{minted}{python}
-fig, ax = plt.subplots()  # Crea figura y eje
-ax.plot(x, sinx, 'r-', label="Seno")
-ax.plot(x, cosx, 'b--', label="Coseno")
-ax.set_xlabel("Eje X")
-ax.set_ylabel("Eje Y")
-ax.set_title("Ejemplo con subplots")
-ax.legend()
-plt.show()
-\end{minted}
-\begin{itemize}
-  \item Método \texttt{subplots} retorna \textbf{fig} (figura) y \textbf{ax} (eje).
-  \item Permite mayor control al personalizar gráficas.
-\end{itemize}
-\end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Ejercicios Prácticos
+% SECCIÓN 2: Ejercicios Guiados
+% ----------------------------------------------------------------------------------------
+\section{Ejercicios Guiados}
+
+% ------------------------------------------------------------------------
+% Slide 6: Ejercicio Guiado 1 - Comparación Listas vs NumPy
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio Guiado 1: \hfill \textcolor{red}{$\clubsuit$} \\ Comparación de Rendimiento: Listas vs NumPy}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear una lista de 1000 números usando \texttt{range(1, 1001)}.
+      \item Calcular el cuadrado de cada elemento usando listas por comprensión.
+      \item Repetir el mismo cálculo usando un array de NumPy.
+      \item Comparar los resultados y discutir las diferencias.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Trabajemos este ejercicio JUNTOS paso a paso:}
+  \begin{enumerate}
+    \item Crear datos con ambos métodos
+    \item Aplicar la operación de elevar al cuadrado
+    \item Verificar que ambos dan el mismo resultado
+    \item Analizar ventajas de cada enfoque
+  \end{enumerate}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Solución Ejercicio Guiado 1
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución Guiado 1: \hfill \textcolor{green}{$\checkmark$} \\ Comparación Listas vs NumPy}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Método 1: Listas de Python
+lista_numeros = list(range(1, 1001))
+cuadrados_lista = [x**2 for x in lista_numeros]
+print(f"Primeros 5 cuadrados (lista): {cuadrados_lista[:5]}")
+print(f"Suma total (lista): {sum(cuadrados_lista)}")
+
+# Método 2: NumPy
+array_numeros = np.arange(1, 1001)
+cuadrados_array = array_numeros**2
+print(f"Primeros 5 cuadrados (NumPy): {cuadrados_array[:5]}")
+print(f"Suma total (NumPy): {np.sum(cuadrados_array)}")
+
+# Verificación
+son_iguales = cuadrados_lista == cuadrados_array.tolist()
+print(f"¿Los resultados son iguales? {all(son_iguales)}")
+
+# Análisis estadístico con NumPy
+print(f"Media: {np.mean(cuadrados_array)}")
+print(f"Desviación estándar: {np.std(cuadrados_array)}")
+\end{minted}
+\textbf{Discusión:} NumPy es más conciso para operaciones matemáticas y ofrece funciones estadísticas integradas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Ejercicio Guiado 2 - Análisis de Datos Experimentales
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio Guiado 2: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis de Datos de Temperatura}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un array con temperaturas medidas cada hora durante 24 horas.
+      \item Usar \texttt{np.random.normal(20, 3, 24)} para simular datos realistas.
+      \item Calcular estadísticas básicas: media, mínimo, máximo, desviación estándar.
+      \item Identificar las horas con temperaturas extremas (> media + std, < media - std).
+      \item Mostrar un resumen completo del análisis.
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Simulación de datos, análisis estadístico, indexación condicional.
+  \\
+  \textbf{Física relevante:} Análisis de datos meteorológicos y variabilidad térmica.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Solución Ejercicio Guiado 2
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución Guiado 2: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Datos de Temperatura}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Simular datos de temperatura (24 horas)
+np.random.seed(42)  # Para reproducibilidad
+temperaturas = np.random.normal(20, 3, 24)
+horas = np.arange(0, 24)
+
+# Estadísticas básicas
+media = np.mean(temperaturas)
+minimo = np.min(temperaturas)
+maximo = np.max(temperaturas)
+std_dev = np.std(temperaturas)
+
+print(f"=== ANÁLISIS DE TEMPERATURAS (24 HORAS) ===")
+print(f"Media: {media:.2f}°C")
+print(f"Mínimo: {minimo:.2f}°C (hora {np.argmin(temperaturas)})")
+print(f"Máximo: {maximo:.2f}°C (hora {np.argmax(temperaturas)})")
+print(f"Desviación estándar: {std_dev:.2f}°C")
+
+# Identificar temperaturas extremas
+temp_altas = temperaturas > (media + std_dev)
+temp_bajas = temperaturas < (media - std_dev)
+
+print(f"\n=== TEMPERATURAS EXTREMAS ===")
+print(f"Horas con temp. alta: {horas[temp_altas]}")
+print(f"Valores altos: {temperaturas[temp_altas]:.2f}")
+print(f"Horas con temp. baja: {horas[temp_bajas]}")
+print(f"Valores bajos: {temperaturas[temp_bajas]:.2f}")
+\end{minted}
+\textbf{Discusión:} El uso de indexación booleana permite filtrar datos eficientemente.
+\end{frame}
+
+
+
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN: Ejercicios Prácticos
 % ----------------------------------------------------------------------------------------
 \section{Ejercicios Prácticos}
 
 % ------------------------------------------------------------------------
-% Slide 14: Ejercicio 1 - Reshaping y Concatenación
+% Slide: Ejercicio 1 - 
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: Reshape y Concatenación}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Primeros Pasos con NumPy}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Crear un arreglo 1D con los números del 0 al 11 (\texttt{np.arange(12)}).
-      \item \textbf{Reshape} a una matriz de forma (3,4).
-      \item Crear otra matriz de (3,4) con valores \(\{[10,20,30,40],...\}\).
-      \item Concatenar horizontalmente ambas matrices (\texttt{np.hstack}) para obtener (3,8).
-      \item Imprimir el resultado final.
+      \item Importar la biblioteca NumPy.
+      \item Crear tres arrays diferentes:
+        \begin{itemize}
+          \item Un array de 5 elementos con valores 0 usando \texttt{np.zeros}.
+          \item Un array con los enteros del 1 al 10 usando \texttt{np.arange}.
+          \item Un array con 5 valores espaciados uniformemente entre 0 y 1 usando \texttt{np.linspace}.
+        \end{itemize}
+      \item Imprimir cada array y su forma (shape).
     \end{itemize}
   \end{block}
+  
+  \textbf{Conceptos:} Creación básica de arrays, funciones de NumPy.\\
+  \textbf{Física relevante:} Preparación de datos para análisis.
+  
+  \textbf{Sugerencia}: Explora la documentación de \texttt{np.zeros}, \texttt{np.arange} y \texttt{np.linspace}.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 15: Ejercicio 2 - \texttt{np.linalg}
+% Slide: Ejercicio 2 -
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: Álgebra Lineal Básica}
+
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Operaciones Básicas con NumPy}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Crear una matriz 3x3 aleatoria \texttt{(randint en [1..5])}.
-      \item Calcular su \textbf{determinante} y \textbf{traer} la \textbf{inversa} (si existe).
-      \item Imprimir autovalores y autovectores.
-      \item \textbf{Opcional}: revisar casos donde \(\det(A)=0\).
+      \item Crear un array con los números del 1 al 5.
+      \item Realizar operaciones matemáticas elementales:
+        \begin{itemize}
+          \item Sumar 10 a todos los elementos.
+          \item Multiplicar todos los elementos por 2.
+          \item Elevar todos los elementos al cuadrado.
+        \end{itemize}
+      \item Calcular la suma, media, valor máximo y mínimo del array final.
     \end{itemize}
   \end{block}
-  \textbf{Objetivo}: Practicar \texttt{np.linalg} y detección de singularidad.
+  
+  \textbf{Conceptos:} Operaciones vectorizadas básicas, funciones estadísticas simples.\\
+  \textbf{Física relevante:} Transformación de datos y estadísticas descriptivas.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 16: Ejercicio 3 - Gráfico de Datos Aleatorios
+% Slide: Ejercicio 3 - Ondas Sinusoidales
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: Visualización de Datos Aleatorios}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Comparación Lista vs NumPy}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Generar un \textbf{conjunto} de 50 valores \texttt{x} y \texttt{y} con \(\texttt{np.random.rand(50)}\).
-      \item Graficarlos con \textbf{Matplotlib} en un diagrama de dispersión (\texttt{plt.scatter}).
-      \item Agregar títulos y etiquetas de ejes.
-      \item \textbf{Opcional}: colorear los puntos según otro criterio (p.e. \(\texttt{x+y}\)).
+      \item Crear una lista Python con números del 1 al 5: \texttt{lista = [1, 2, 3, 4, 5]}
+      \item Crear un array NumPy con los mismos valores: \texttt{array = np.array([1, 2, 3, 4, 5])}
+      \item Comparar las dos aproximaciones para:
+        \begin{itemize}
+          \item Multiplicar todos los elementos por 3
+          \item Calcular la suma de todos los elementos
+        \end{itemize}
+      \item Discutir las diferencias en sintaxis y enfoque
     \end{itemize}
   \end{block}
-  \textbf{Objetivo}: Combinar NumPy (datos aleatorios) con Matplotlib (visualización).
+  
+  \textbf{Conceptos:} Diferencias entre listas y arrays, vectorización básica.\\
+  \textbf{Física relevante:} Eficiencia en procesamiento de datos experimentales.
+  
+  \textbf{Sugerencia}: Con lista Python necesitarás un bucle o comprensión de lista.
 \end{frame}
 
+
 % ------------------------------------------------------------------------
-% Slide 17: Ejercicio 4 - Tiro Parabólico
+% Slide: Ejercicio 4 - Indexación y Slicing
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: Tiro Parabólico (Física)}
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Indexación y Slicing con NumPy}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Definir una \textbf{función} \texttt{trayectoria\_proyectil}(\(v0, ang\)) que retorne los arreglos \texttt{x(t)}, \texttt{y(t)} para \(\theta\) y \(\Delta t\) apropiados.
-      \item Graficar la trayectoria en 2D con \texttt{plt.plot}.
-      \item Mostrar \(\max(y)\) y \(\text{alcance}\) aproximado.
+      \item Crear un array 2D de 4x4 con valores entre 0 y 15 usando \texttt{np.reshape}:
+        \begin{itemize}
+          \item Partir de \texttt{np.arange(16)}
+          \item Transformarlo en una matriz de 4x4
+        \end{itemize}
+      \item Realizar las siguientes operaciones de indexación:
+        \begin{itemize}
+          \item Extraer la segunda fila completa
+          \item Extraer la tercera columna completa
+          \item Extraer un subarray 2x2 de la esquina inferior derecha
+          \item Extraer todos los elementos mayores que 8
+        \end{itemize}
     \end{itemize}
   \end{block}
-  \textbf{Sugerencia}: Reutilizar \(\Delta t = 0.01\) y \(\texttt{np.arange}\) hasta que \(\texttt{y} \le 0\).
+  
+  \textbf{Conceptos:} Arrays multidimensionales, reshape, indexación avanzada.\\
+  \textbf{Física relevante:} Manipulación de matrices en análisis de datos físicos.
+  
+  \textbf{Sugerencia}: La indexación booleana permite filtrar datos según condiciones.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 18: Trabajo en Grupos
+% Slide: Ejercicio 5 - Análisis de Caída Libre
 % ------------------------------------------------------------------------
-\begin{frame}{Trabajo en Grupos}
-  \begin{itemize}
-    \item Dividir la clase en \textbf{pequeños grupos}.
-    \item Seleccionar al menos 2 ejercicios (o todos) para resolver en Colab.
-    \item Discutir estrategias de \textbf{NumPy} y \textbf{Matplotlib}.
-    \item Al final, hacer un breve \textbf{intercambio de soluciones} y observaciones.
-  \end{itemize}
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis de Caída Libre con NumPy}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Simular el movimiento de caída libre de un objeto durante 5 segundos:
+        \begin{itemize}
+          \item Crear un array de tiempo con 50 puntos entre 0 y 5 segundos
+          \item Calcular la posición usando la fórmula \(y = y_0 + v_0t - \frac{1}{2}gt^2\)
+          \item Calcular la velocidad usando \(v = v_0 - gt\)
+        \end{itemize}
+      \item Usar \(y_0 = 100\text{ m}\), \(v_0 = 0\text{ m/s}\), \(g = 9.8\text{ m/s}^2\)
+      \item Analizar:
+        \begin{itemize}
+          \item ¿En qué momento el objeto llega al suelo (y = 0)?
+          \item ¿Cuál es su velocidad máxima?
+          \item ¿Cuál es la posición a los 3 segundos?
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Vectorización, aplicación de fórmulas físicas, análisis de datos.\\
+  \textbf{Física relevante:} Mecánica clásica, movimiento bajo gravedad constante.
+\end{frame}
+
+
+
+% ------------------------------------------------------------------------
+% Soluciones de Referencia para los Ejercicios Prácticos
+% ------------------------------------------------------------------------
+\section{Soluciones de Referencia}
+
+% ------------------------------------------------------------------------
+% Solución Ejercicio 1 -
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Primeros Pasos con NumPy}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Creando diferentes tipos de arrays
+array_ceros = np.zeros(5)
+array_enteros = np.arange(1, 11)
+array_espaciado = np.linspace(0, 1, 5)
+
+# Imprimiendo arrays y sus formas
+print("Array de ceros:", array_ceros)
+print("Forma:", array_ceros.shape)
+print("\nArray de enteros:", array_enteros)
+print("Forma:", array_enteros.shape)
+print("\nArray espaciado:", array_espaciado)
+print("Forma:", array_espaciado.shape)
+
+# Resultado esperado:
+# Array de ceros: [0. 0. 0. 0. 0.]
+# Forma: (5,)
+# Array de enteros: [ 1  2  3  4  5  6  7  8  9 10]
+# Forma: (10,)
+# Array espaciado: [0.   0.25 0.5  0.75 1.  ]
+# Forma: (5,)
+\end{minted}
+\textbf{Discusión:} NumPy ofrece diferentes funciones para crear arrays según nuestras necesidades específicas.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 19: Sugerencias Generales
+% Solución Ejercicio 2 -
 % ------------------------------------------------------------------------
-\begin{frame}{Sugerencias Generales para la Práctica}
-  \begin{itemize}
-    \item \textbf{Planificar} el código: entender la forma de arreglos que necesitas (\texttt{reshape}, \texttt{ravel}, etc.).
-    \item \textbf{Probar} cada paso en celdas separadas, imprimiendo resultados parciales.
-    \item \textbf{Agregar} etiquetas y leyendas a los gráficos para mayor claridad.
-    \item Investigar métodos como \texttt{np.hsplit}, \texttt{np.vsplit}, \texttt{np.meshgrid} si tienes tiempo extra.
-  \end{itemize}
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Operaciones Básicas con NumPy}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Crear un array con números del 1 al 5
+arr = np.array([1, 2, 3, 4, 5])
+print("Array original:", arr)
+
+# Operaciones elementales
+arr_suma = arr + 10
+print("Después de sumar 10:", arr_suma)  # [11 12 13 14 15]
+
+arr_mult = arr_suma * 2
+print("Después de multiplicar por 2:", arr_mult)  # [22 24 26 28 30]
+
+arr_cuad = arr_mult ** 2
+print("Después de elevar al cuadrado:", arr_cuad)  # [484 576 676 784 900]
+
+# Estadísticas básicas
+print("\nEstadísticas del array final:")
+print("Suma:", np.sum(arr_cuad))  # 3420
+print("Media:", np.mean(arr_cuad))  # 684.0
+print("Valor máximo:", np.max(arr_cuad))  # 900
+print("Valor mínimo:", np.min(arr_cuad))  # 484
+\end{minted}
+\textbf{Discusión:} Las operaciones con arrays de NumPy se aplican a todos los elementos sin necesidad de bucles.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 20: Espacio para Dudas
+% Solución Ejercicio 3 
 % ------------------------------------------------------------------------
-\begin{frame}{Espacio para Dudas}
-  \begin{itemize}
-    \item ¿Algún problema con \textbf{reshape} o \texttt{transpose}?
-    \item ¿\textbf{Concatenate} vs. \textbf{hstack/vstack}? Cuándo usar cada uno.
-    \item ¿Dificultades con \textbf{linalg} (inversa, determinante, autovalores)?
-    \item ¿Cómo establecer rangos y ejes en Matplotlib?
-  \end{itemize}
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Comparación Lista vs NumPy}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Crear una lista Python y un array NumPy
+lista = [1, 2, 3, 4, 5]
+array = np.array([1, 2, 3, 4, 5])
+
+# Multiplicar por 3 - Enfoque con listas
+lista_multiplicada = []
+for elemento in lista:
+    lista_multiplicada.append(elemento * 3)
+print("Lista multiplicada:", lista_multiplicada)  # [3, 6, 9, 12, 15]
+
+# Multiplicar por 3 - Enfoque con NumPy
+array_multiplicado = array * 3
+print("Array multiplicado:", array_multiplicado)  # [3 6 9 12 15]
+
+# Suma - Enfoque con listas
+suma_lista = sum(lista)
+print("Suma de lista:", suma_lista)  # 15
+
+# Suma - Enfoque con NumPy
+suma_array = np.sum(array)
+print("Suma de array:", suma_array)  # 15
+\end{minted}
+\textbf{Discusión:} NumPy permite operaciones vectorizadas más concisas y legibles que las listas de Python.
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 6: Cierre y Próximos Pasos
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones y Próximos Pasos}
 
 % ------------------------------------------------------------------------
-% Slide 21: Discusión de Soluciones
+% Solución Ejercicio 4 - Indexación y Slicing
 % ------------------------------------------------------------------------
-\begin{frame}{Discusión de Soluciones}
-  \begin{itemize}
-    \item Comparte tus resultados de \textbf{tiro parabólico}, \textbf{visualización aleatoria}, etc.
-    \item Destaca si usaste \textbf{vectorización} para ahorrar bucles.
-    \item ¿Algún reto interesante con \(\texttt{np.linalg}\)?
-    \item Retroalimentación colectiva: \textbf{buenas prácticas} y \textbf{errores comunes}.
-  \end{itemize}
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Indexación y Slicing con NumPy}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+# Crear un array 2D de 4x4
+array_2d = np.arange(16).reshape(4, 4)
+print("Matriz 4x4 original:")
+print(array_2d)
+# Resultado:
+# [[ 0  1  2  3]
+#  [ 4  5  6  ...
+# Extraer la segunda fila completa (índice 1)
+segunda_fila = array_2d[1, :]  # o simplemente array_2d[1]
+print("\nSegunda fila:")
+print(segunda_fila)  # [4 5 6 7]
+# Extraer la tercera columna completa (índice 2)
+tercera_columna = array_2d[:, 2]
+print("\nTercera columna:")
+print(tercera_columna)  # [ 2  6 10 14]
+# Extraer subarray 2x2 de la esquina inferior derecha
+subarray = array_2d[2:4, 2:4]
+print("\nSubarray 2x2 (esquina inferior derecha):")
+print(subarray)
+# [[10 11]
+#  [14 15]]
+# Extraer elementos mayores que 8
+elementos_mayores = array_2d[array_2d > 8]
+print("\nElementos mayores que 8:")
+print(elementos_mayores)  # [ 9 10 11 12 13 14 15]
+\end{minted}
+\textbf{Discusión:} La indexación flexible de NumPy permite extraer datos específicos de matrices multidimensionales, fundamental para análisis de datos científicos.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 22: Conclusiones de la Sesión 12
+% Solución Ejercicio 5 - Análisis de Caída Libre
 % ------------------------------------------------------------------------
-\begin{frame}{Conclusiones de la Sesión 12}
-  \begin{itemize}
-    \item \textbf{NumPy Avanzado}:
-      \begin{itemize}
-        \item Manipulación de forma, transposición, concatenación y aleatorios.
-        \item Álgebra lineal básica (\texttt{np.linalg}).
-      \end{itemize}
-    \item \textbf{Primeros pasos con Matplotlib} para visualizar datos.
-    \item Unimos \textbf{Física y programación} con ejemplos como \textbf{tiro parabólico}.
-    \item Miramos la \textbf{importancia de la gráfica} para interpretar resultados.
-  \end{itemize}
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Caída Libre con NumPy}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+# Constantes físicas
+y0 = 100  # altura inicial (m)
+v0 = 0    # velocidad inicial (m/s)
+g = 9.8   # aceleración gravitacional (m/s^2)
+# Crear array de tiempos (0 a 5 segundos, 50 puntos)
+tiempos = np.linspace(0, 5, 50)
+# Calcular posición: y = y0 + v0*t - 0.5*g*t^2
+posiciones = y0 + v0*tiempos - 0.5*g*tiempos**2
+# Calcular velocidad: v = v0 - g*t
+velocidades = v0 - g*tiempos
+# Encontrar cuándo el objeto llega al suelo (y ≈ 0)
+indices_suelo = np.where(posiciones <= 0)[0]
+if len(indices_suelo) > 0:
+    tiempo_impacto = tiempos[indices_suelo[0]]
+    velocidad_impacto = velocidades[indices_suelo[0]]
+    print(f"Tiempo de impacto: {tiempo_impacto:.2f} s")
+    print(f"Velocidad al impactar: {velocidad_impacto:.2f} m/s")
+else:
+    print("El objeto no llega al suelo en el intervalo analizado")
+# Velocidad máxima (en magnitud)
+velocidad_max = np.max(np.abs(velocidades))
+tiempo_vel_max = tiempos[np.argmax(np.abs(velocidades))]
+print(f"Velocidad máxima: {velocidad_max:.2f} m/s a los {tiempo_vel_max:.2f} s")
+# Posición a los 3 segundos (aproximadamente)
+indice_3s = np.argmin(np.abs(tiempos - 3))
+posicion_3s = posiciones[indice_3s]
+print(f"Posición a los {tiempos[indice_3s]:.2f} s: {posicion_3s:.2f} m")
+\end{minted}
+\textbf{Discusión:} NumPy permite simular fácilmente fenómenos físicos y analizar resultados sin necesidad de bucles.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 23: Próximos Temas
-% ------------------------------------------------------------------------
-\begin{frame}{Próximos Temas}
-  \begin{itemize}
-    \item \textbf{Semana 7}: Profundizar en la creación de \textbf{gráficos avanzados} (histogramas, 3D, subplots múltiples).
-    \item Manejo de datos con \texttt{pandas} (posiblemente) y su integración con \texttt{matplotlib}.
-    \item \textbf{Recomendación}:
-      \begin{itemize}
-        \item Practicar la \textbf{generación de datos} y la \textbf{visualización} en conjunto.
-        \item Reforzar la manipulación de arrays 2D/3D con NumPy.
-      \end{itemize}
-  \end{itemize}
-\end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 24: Recursos Adicionales
