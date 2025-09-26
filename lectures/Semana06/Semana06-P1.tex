@@ -18,8 +18,7 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % Por ejemplo:
-  % \title{Semana 6 - Sesión 1 (Sesión 11): Introducción a la Biblioteca NumPy}
+  \title{Semana 6 - Sesión 1 (Sesión 11): Introducción a la Biblioteca NumPy}
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -35,8 +34,38 @@
 % ------------------------------------------------------------------------
 \metroset{block=fill}
 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Repaso}
+
 % ------------------------------------------------------------------------
-% Slide B (Objetivos de la Sesión)
+% Slide 3: Recapitulación de la Sesión Anterior
+% ------------------------------------------------------------------------
+\begin{frame}{Recapitulación de la Sesión Anterior}
+  \begin{itemize}
+    \item \textbf{En las sesiones previas} aprendimos:
+      \begin{itemize}
+        \item Uso de listas y sus métodos principales
+        \item Listas por comprensión para procesamiento de datos
+        \item Estructuras de control para análisis de datos
+        \item Funciones para encapsular operaciones complejas
+      \end{itemize}
+    \item \textbf{Conexión con la sesión actual:} 
+      \begin{itemize}
+        \item Ahora exploraremos las limitaciones de estas estructuras nativas
+        \item Aprenderemos herramientas especializadas para computación científica
+      \end{itemize}
+  \end{itemize}
+  
+  \begin{alertblock}{¿Por qué avanzar a NumPy?}
+    Para abordar problemas físicos y astronómicos reales necesitamos herramientas computacionales más potentes y especializadas.
+  \end{alertblock}
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos de la Sesión
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 11}
   \begin{itemize}
@@ -47,14 +76,8 @@
   \end{itemize}
 \end{frame}
 
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
-% ----------------------------------------------------------------------------------------
-\section{Introducción y Repaso}
-
 % ------------------------------------------------------------------------
-% Slide 4: Limitaciones de las Estructuras Nativas
+% Slide 5: Limitaciones de las Estructuras Nativas
 % ------------------------------------------------------------------------
 \begin{frame}{Limitaciones de las Estructuras Nativas de Python}
   \begin{itemize}
@@ -72,57 +95,10 @@
   \end{alertblock}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: ¿Por qué NumPy?
-% ----------------------------------------------------------------------------------------
-\section{Motivación: NumPy}
-
 % ------------------------------------------------------------------------
-% Slide 5: ¿Qué es NumPy?
+% Slide 6: Comparativa de Rendimiento
 % ------------------------------------------------------------------------
-\begin{frame}{¿Qué es NumPy?}
-  \begin{itemize}
-    \item \textbf{NumPy} = \textbf{Num}erical \textbf{Py}thon.
-    \item Ofrece:
-      \begin{itemize}
-        \item Estructura central: \textbf{ndarray} (arreglo multidimensional).
-        \item Funciones matemáticas optimizadas para operar sobre estos arreglos.
-        \item Alto rendimiento (implementaciones en C bajo la interfaz de Python).
-      \end{itemize}
-    \item \textbf{Base de muchas librerías} científicas (p.e. SciPy, Pandas, etc.).
-    \item \textbf{Estándar de facto} en computación científica con Python.
-  \end{itemize}
-  
-  \begin{block}{Historia Breve}
-    Creada en 2005, evolucionando de bibliotecas anteriores (Numeric, Numarray), diseñada específicamente para cálculos científicos eficientes.
-  \end{block}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 6: Ventajas Frente a Listas de Python
-% ------------------------------------------------------------------------
-\begin{frame}{Ventajas frente a Listas Nativas de Python}
-  \begin{itemize}
-    \item \textbf{Vectorización}: escribir operaciones como \texttt{arr * 2} en lugar de bucles manuales.
-    \item \textbf{Rendimiento}: implementaciones de bajo nivel (C/Fortran) para cálculos numéricos.
-    \item \textbf{Herramientas avanzadas}: slicing sofisticado, broadcasting, manipulación de ejes (dimensiones).
-    \item \textbf{Compatibilidad} con otras librerías (Matplotlib, SciPy, etc.).
-  \end{itemize}
-  
-  \begin{block}{Aplicaciones en Física}
-    \begin{itemize}
-      \item Simulaciones numéricas (p.e. dinámica de partículas)
-      \item Análisis de datos experimentales
-      \item Procesamiento de señales e imágenes astronómicas
-      \item Resolución numérica de ecuaciones diferenciales
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 7: Comparativa de Rendimiento
-% ------------------------------------------------------------------------
-\begin{frame}{Comparativa de Rendimiento: NumPy vs. Listas}
+\begin{frame}{Comparativa de Rendimiento: Python Nativo vs. NumPy}
   \begin{itemize}
     \item \textbf{Ejemplo}: Suma de todos los elementos en una secuencia de un millón de números
     \item Con \textbf{listas de Python}: Aproximadamente 10-100 veces más lento
@@ -130,11 +106,12 @@
   \end{itemize}
   
   \begin{alertblock}{Importancia del Rendimiento}
-    En problemas físicos reales (simulaciones, análisis de datos experimentales), la diferencia de rendimiento puede significar horas o incluso días de tiempo de cómputo.
+    En problemas físicos reales (simulaciones de N-cuerpos, análisis de datos del CERN o telescopios), la diferencia de rendimiento puede significar horas o incluso días de tiempo de cómputo.
   \end{alertblock}
   
   \textbf{Hoy aprenderemos}: Cómo aprovechar esta potencia para nuestros problemas científicos.
 \end{frame}
+
 % ------------------------------------------------------------------------
 % SECCIÓN: Manipulación de Listas en Python
 % ------------------------------------------------------------------------
@@ -163,6 +140,34 @@ print(numeros[1:4])   # [20, 30, 40]
 print(numeros[::2])   # [10, 30, 50] (saltos de 2)
 \end{minted}
 \end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Operaciones con Listas - Caso Práctico
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Caso Práctico con Listas: Análisis de Datos}
+\begin{minted}{python}
+# Temperaturas diarias de una semana (°C)
+temperaturas = [22.5, 23.1, 21.8, 24.2, 25.0, 22.9, 21.5]
+
+# Análisis básico manual
+suma = sum(temperaturas)
+prom = suma / len(temperaturas)
+temp_max = max(temperaturas)
+temp_min = min(temperaturas)
+
+print(f"Promedio: {prom:.1f}°C")
+print(f"Máxima: {temp_max}°C, Mínima: {temp_min}°C")
+print(f"Rango: {temp_max - temp_min:.1f}°C")
+
+# Identificar días con temperaturas > 23°C
+dias_calurosos = [i+1 for i, t in enumerate(temperaturas) if t > 23]
+print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
+\end{minted}
+\begin{itemize}
+  \item Observa cómo podemos realizar análisis básicos, pero cada operación requiere código específico.
+\end{itemize}
+\end{frame}
+
 
 % ------------------------------------------------------------------------
 % Slide: Métodos para Agregar y Quitar Elementos
@@ -309,6 +314,408 @@ print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
 
 
 
+\section{Introducción a NumPy}
+
+% ------------------------------------------------------------------------
+% Slide: ¿Qué es NumPy?
+% ------------------------------------------------------------------------
+\begin{frame}{¿Qué es NumPy?}
+  \begin{itemize}
+    \item \textbf{NumPy} = \textit{Numerical Python}
+    \item \textbf{Biblioteca fundamental} para computación científica en Python
+    \item Desarrollada para manejar eficientemente \textbf{grandes conjuntos de datos numéricos}
+    \item Pilares principales:
+      \begin{itemize}
+        \item \textbf{ndarray}: Estructura de datos multidimensional y homogénea
+        \item \textbf{Funciones vectorizadas}: Operaciones optimizadas sin bucles explícitos
+        \item \textbf{Herramientas matemáticas}: Álgebra lineal, transformaciones, estadística
+      \end{itemize}
+  \end{itemize}
+
+  \begin{alertblock}{Importancia en Física Computacional}
+    NumPy es la base de prácticamente todo el ecosistema científico de Python: SciPy, Matplotlib, Pandas, scikit-learn y TensorFlow se construyen sobre NumPy
+  \end{alertblock}
+  
+  \begin{block}{Instalación}
+    \texttt{pip install numpy} o ya incluido en Google Colab, Anaconda
+  \end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Creación de Arrays NumPy}
+\begin{minted}{python}
+import numpy as np
+
+# Convertir lista de Python a array NumPy
+lista = [1, 2, 3, 4]
+arr = np.array(lista)
+print("Array:", arr)
+print("Tipo:", type(arr))  # <class 'numpy.ndarray'>
+
+# Array de ceros
+zeros = np.zeros(5)
+print("Zeros:", zeros)
+
+# Array de unos
+unos = np.ones((2,3))  # 2 filas x 3 columnas
+print("Unos:\n", unos)
+
+# Rango de valores
+rango = np.arange(0, 10, 2)  # [0, 2, 4, 6, 8]
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Atributos de un Array
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Atributos de un Array}
+\begin{minted}{python}
+arr = np.array([[1, 2, 3],
+                [4, 5, 6]])
+print("Shape:", arr.shape)   # (2, 3)
+print("Dim:", arr.ndim)      # 2
+print("Tipo de datos:", arr.dtype)  # int64 (en sistemas Linux)
+print("Total de elementos:", arr.size) # 6
+\end{minted}
+\begin{itemize}
+  \item \texttt{shape} = tupla de dimensiones.
+  \item \texttt{dtype} = tipo de dato (\texttt{int32, float64}, etc.).
+  \item \texttt{ndim} = número de ejes.
+\end{itemize}
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 14: Slicing y Indexación
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Manipulación de Arrays y Operaciones }
+\begin{minted}{python}
+arr = np.array([10, 20, 30, 40, 50])
+print(arr[0])      # 10
+print(arr[1:3])    # [20 30]
+
+mat = np.array([[1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9]])
+# Acceder a fila 1, columna 2
+print(mat[1, 2])   # 6
+
+# Slicing de filas y columnas
+submat = mat[0:2, 1:3]  # Filas [0..1], Cols [1..2]
+print(submat)
+\end{minted}
+\begin{itemize}
+  \item \textbf{Ojo}: en NumPy, slicing crea \textbf{vistas}, no copias (con implicaciones en la modificación de datos).
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Operaciones Elemento a Elemento
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Operaciones Elemento a Elemento (Vectorización)}
+\begin{minted}[fontsize=\tiny]{python}
+x = np.array([1, 2, 3])
+y = np.array([4, 5, 6])
+
+print("Suma:", x + y)   # [5  7  9]
+print("Producto:", x * y)  # [4 10 18]
+print("Potencia:", x**2)   # [1 4 9]
+\end{minted}
+\begin{itemize}
+  \item \textbf{Sin} bucles explícitos.
+  \item El núcleo de NumPy optimiza estas operaciones.
+\end{itemize}
+
+\begin{block}{Ejemplo de Física: Ley de Gravitación Universal}
+\begin{minted}{python}
+# Calcular fuerza gravitacional entre masas
+G = 6.674e-11  # Constante gravitacional en N⋅m²/kg²
+m1 = np.array([1e5, 2e5, 3e5])  # masas en kg
+m2 = 5e5  # masa en kg
+r = np.array([10, 20, 30])  # distancias en m
+F = G * m1 * m2 / r**2  # Ley de Newton, vectorizada
+print("Fuerzas (N):", F)
+\end{minted}
+\end{block}
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 16: Broadcasting
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Broadcasting}
+  \begin{itemize}
+    \item Mecanismo que NumPy utiliza para manejar operaciones entre arrays de diferentes formas.
+    \item \textbf{Ejemplo básico}:
+  \end{itemize}
+\begin{minted}{python}
+a = np.array([1, 2, 3])
+b = 2
+# b se "expande" para coincidir con la forma de a
+res = a * b  # [2 4 6]
+\end{minted}
+    \begin{itemize}
+    \item \textbf{Ejemplo en Física}: Conversión de temperaturas
+  \end{itemize}
+\begin{minted}[fontsize=\tiny]{python}
+# Temperaturas en °C para varias ciudades durante una semana
+temps_C = np.array([[25, 24, 26, 28, 27],  # Ciudad 1
+                     [20, 19, 21, 22, 20],  # Ciudad 2
+                     [30, 31, 32, 30, 29]]) # Ciudad 3
+                     
+# Conversión a Fahrenheit: F = C*9/5 + 32
+temps_F = temps_C * 9/5 + 32
+
+print("Temperaturas en °F:\n", temps_F)
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Ejemplo de Broadcasting Matricial
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Sumar Fila a una Matriz}
+\begin{minted}[fontsize=\tiny]{python}
+mat = np.array([[1,2,3],
+                [4,5,6],
+                [7,8,9]])
+fila = np.array([10, 20, 30])
+
+# Broadcasting: se suma fila a cada fila de la matriz
+res = mat + fila
+print(res)
+# [[11 22 33]
+#  [14 25 36]
+#  [17 28 39]]
+\end{minted}
+\begin{block}{Aplicación en Astronomía}
+\begin{minted}[fontsize=\tiny]{python}
+# Ejemplo: Calibrar lecturas de un detector astronómico
+# Supongamos un detector 3x3 con valores brutos
+lecturas = np.array([[100, 120, 115],
+                     [95, 105, 110],
+                     [130, 125, 135]])
+                     
+# Factor de calibración para cada columna
+calibracion = np.array([1.05, 0.98, 1.02])
+
+# Aplicar calibración (broadcasting)
+lecturas_calibradas = lecturas * calibracion
+print("Lecturas calibradas:\n", lecturas_calibradas)
+\end{minted}
+\end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Funciones NumPy Comunes
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Funciones NumPy Comunes}
+\begin{minted}[fontsize=\tiny]{python}
+arr = np.array([2, 4, 6, 8])
+
+print("Suma total:", np.sum(arr))           # 20
+print("Mínimo:", np.min(arr))              # 2
+print("Máximo:", np.max(arr))              # 8
+print("Promedio:", np.mean(arr))           # 5.0
+print("Desv. Estándar:", np.std(arr))       # ~2.236
+\end{minted}
+\begin{itemize}
+  \item También hay \texttt{np.median(arr)}, \texttt{np.var(arr)} y muchas más.
+  \item Para arreglos 2D, se puede especificar \texttt{axis=0} o \texttt{axis=1}.
+\end{itemize}
+
+\begin{block}{Ejemplo en Física: Análisis Estadístico}
+\begin{minted}[fontsize=\tiny]{python}
+# Mediciones de velocidad de partículas (m/s)
+velocidades = np.array([
+    [12.3, 13.1, 12.8, 12.5],  # Experimento 1
+    [11.9, 12.7, 13.2, 12.9],  # Experimento 2
+    [12.5, 13.0, 12.6, 12.3]   # Experimento 3
+])
+
+print("Velocidad media por experimento:", np.mean(velocidades, axis=1))
+print("Desviación estándar total:", np.std(velocidades))
+\end{minted}
+\end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Reshape y Redimensionamiento de Arrays 
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Reshape y Redimensionamiento de Arrays}
+\begin{minted}{python}
+import numpy as np
+
+# Crear array 1D
+arr = np.arange(12)  # [0, 1, 2, ..., 11]
+print("Original:", arr)
+
+# Reshape a 2D (matriz 3x4)
+mat = arr.reshape(3, 4)
+print("Matriz 3x4:\n", mat)
+
+# Reshape a 2D (matriz 4x3)
+mat2 = arr.reshape(4, 3)
+print("Matriz 4x3:\n", mat2)
+
+# Reshape con dimensión automática (-1)
+mat3 = arr.reshape(2, -1)  # 2 filas, columnas automáticas
+print("Matriz 2x?:\n", mat3)
+\end{minted}
+
+\begin{itemize}
+  \item \texttt{reshape} reorganiza los elementos sin cambiarlos.
+  \item El total de elementos debe mantenerse (12 en este caso).
+  \item Usar \texttt{-1} para calcular automáticamente una dimensión.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Concatenación de Arrays
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Concatenación de Arrays}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Crear arrays
+a = np.array([[1, 2], [3, 4]])
+b = np.array([[5, 6], [7, 8]])
+
+print("Array a:\n", a)
+print("Array b:\n", b)
+
+# Concatenar horizontalmente (axis=1)
+h_concat = np.concatenate((a, b), axis=1)
+print("Concatenación horizontal:\n", h_concat)
+# [[1 2 5 6]
+#  [3 4 7 8]]
+
+# Concatenar verticalmente (axis=0)
+v_concat = np.concatenate((a, b), axis=0)
+print("Concatenación vertical:\n", v_concat)
+# [[1 2]
+#  [3 4]
+#  [5 6]
+#  [7 8]]
+\end{minted}
+
+\begin{itemize}
+  \item \texttt{concatenate} une arrays a lo largo de un eje específico.
+  \item \texttt{axis=0}: une a lo largo de las filas (verticalmente).
+  \item \texttt{axis=1}: une a lo largo de las columnas (horizontalmente).
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Stack - Apilamiento de Arrays
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Stack - Apilamiento de Arrays}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Crear arrays 1D
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+# Stack vertical (crear un array 2D)
+v_stack = np.vstack((a, b))
+print("vstack:\n", v_stack)
+# [[1 2 3]
+#  [4 5 6]]
+
+# Stack horizontal
+h_stack = np.hstack((a, b))
+print("hstack:", h_stack)
+# [1 2 3 4 5 6]
+
+# Crear una matriz 3D con arrays 2D
+c = np.array([[1, 2], [3, 4]])
+d = np.array([[5, 6], [7, 8]])
+depth_stack = np.dstack((c, d))
+print("dstack:\n", depth_stack)
+\end{minted}
+
+\begin{itemize}
+  \item \texttt{vstack}: apila arrays verticalmente (añade filas).
+  \item \texttt{hstack}: apila arrays horizontalmente (añade columnas).
+  \item \texttt{dstack}: apila arrays en "profundidad" (3D).
+  \item También existe \texttt{np.stack} para control más preciso.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Split - Dividir Arrays
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Split - Dividir Arrays}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Crear array
+arr = np.arange(12).reshape(3, 4)
+print("Array original:\n", arr)
+
+# Dividir horizontalmente en 2 partes
+h_split = np.hsplit(arr, 2)  # Divide en secciones de 2 columnas
+print("hsplit[0]:\n", h_split[0])
+print("hsplit[1]:\n", h_split[1])
+
+# Dividir verticalmente en 3 partes
+v_split = np.vsplit(arr, 3)  # Divide en secciones de 1 fila
+print("vsplit[0]:", v_split[0])
+print("vsplit[1]:", v_split[1])
+print("vsplit[2]:", v_split[2])
+\end{minted}
+
+\begin{block}{Aplicación en Física: Procesamiento de Imágenes}
+\begin{minted}[fontsize=\tiny]{python}
+# Simulando una matriz de datos de un detector 6x6
+detector = np.arange(36).reshape(6, 6)
+
+# Dividir en 4 cuadrantes para análisis separado
+cuadrantes = np.vsplit(np.hsplit(detector, 2), 2)
+
+# Procesar cada cuadrante
+for i, cuad in enumerate(np.array(cuadrantes).reshape(4, 3, 3)):
+    print(f"Cuadrante {i+1}:\n", cuad)
+    print(f"Suma del cuadrante: {np.sum(cuad)}")
+\end{minted}
+\end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Transposición y Manipulación de Ejes
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Transposición y Manipulación de Ejes}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+
+# Crear matriz 2D
+mat = np.array([[1, 2, 3],
+                [4, 5, 6]])
+print("Original:\n", mat)  # 2x3
+
+# Transponer matriz (intercambiar filas y columnas)
+trans = mat.T
+print("Transpuesta:\n", trans)  # 3x2
+
+# Crear un array 3D
+arr_3d = np.arange(24).reshape(2, 3, 4)
+print("Array 3D shape:", arr_3d.shape)  # (2, 3, 4)
+
+# Transponer todos los ejes (0, 1, 2) -> (2, 1, 0)
+trans_3d = arr_3d.transpose(2, 1, 0)
+print("Transpuesto 3D shape:", trans_3d.shape)  # (4, 3, 2)
+
+# Intercambiar solo algunos ejes
+swap_axes = np.swapaxes(arr_3d, 0, 2)
+print("Swapped shape:", swap_axes.shape)  # (4, 3, 2)
+\end{minted}
+
+\begin{itemize}
+  \item \texttt{.T} es equivalente a \texttt{transpose()} para 2D.
+  \item \texttt{transpose()} permite especificar el nuevo orden de ejes.
+  \item \texttt{swapaxes()} intercambia dos ejes específicos.
+\end{itemize}
+\end{frame}
 
 
 
@@ -327,10 +734,10 @@ print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
       \item Mostrar el arreglo resultante.
     \end{itemize}
   \end{block}
-  	extbf{Conceptos:} Arrays, operaciones vectorizadas, slicing lógico.\\
-  	extbf{Física relevante:} Manipulación de datos experimentales.
+  	\textbf{Conceptos:} Arrays, operaciones vectorizadas, slicing lógico.\\
+  	\textbf{Física relevante:} Manipulación de datos experimentales.
   
-  	extbf{Sugerencia}: Usa \texttt{np.arange} y operaciones de comparación (\texttt{arr <= 5}).
+  	\textbf{Sugerencia}: Usa \texttt{np.arange} y operaciones de comparación (\texttt{arr <= 5}).
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -345,8 +752,8 @@ print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
       \item Mostrar el resultado.
     \end{itemize}
   \end{block}
-  	extbf{Conceptos:} Manipulación 2D, broadcasting, suma de vectores.\\
-  	extbf{Física relevante:} Suma de señales o datos experimentales.
+  	\textbf{Conceptos:} Manipulación 2D, broadcasting, suma de vectores.\\
+  	\textbf{Física relevante:} Suma de señales o datos experimentales.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -363,38 +770,10 @@ print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
       \item Comparar el valor obtenido para distintos $n$.
     \end{itemize}
   \end{block}
-  	extbf{Conceptos:} Vectorización, sumas numéricas, aproximación de constantes.\\
-  	extbf{Física relevante:} Métodos numéricos en física y matemáticas.
+  	\textbf{Conceptos:} Vectorización, sumas numéricas, aproximación de constantes.\\
+  	\textbf{Física relevante:} Métodos numéricos en física y matemáticas.
   
-  	extbf{Sugerencia}: Emplear vectorización para computar $\frac{(-1)^k}{2k+1}$.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 18: Trabajo en Grupos (Laboratorio)
-% ------------------------------------------------------------------------
-\begin{frame}{Trabajo en Grupos}
-  \begin{itemize}
-    \item Dividir la clase en \textbf{parejas o tríos}.
-    \item Resolver los ejercicios en un \textbf{notebook de Colab}.
-    \item Explorar ejemplos adicionales: 
-      \begin{itemize}
-        \item Generar \textbf{matrices aleatorias} (\texttt{np.random.rand()}) y calcular su determinante (\textbf{opcional, con \texttt{np.linalg.det}}).
-        \item Practicar slicing y reemplazo de submatrices.
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 19: Espacio para Dudas
-% ------------------------------------------------------------------------
-\begin{frame}{Espacio para Dudas}
-  \begin{itemize}
-    \item ¿Problemas de instalación o importación en Colab?
-    \item ¿Dificultad para entender la forma \texttt{(shape)} de un arreglo?
-    \item ¿Alguna confusión con slicing, vistas y copias?
-  \end{itemize}
-  \vspace{0.3cm}
-  \textbf{Comparte tus dudas o experiencias, discutimos en conjunto.}
+  	\textbf{Sugerencia}: Emplear vectorización para computar $\frac{(-1)^k}{2k+1}$.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -416,7 +795,7 @@ arr_mod[arr_mod <= 5] = 0
 arr_mod[arr_mod > 5] = 1
 print("Array modificado:", arr_mod)
 \end{minted}
-	extbf{Discusión:} El uso de slicing lógico permite modificar el arreglo de forma eficiente y sin bucles.
+	\textbf{Discusión:} El uso de slicing lógico permite modificar el arreglo de forma eficiente y sin bucles.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -436,7 +815,7 @@ print("Matriz resultante:\n", resultado)
 #  [14 25 36]
 #  [17 28 39]]
 \end{minted}
-	extbf{Discusión:} Broadcasting permite sumar el vector a cada fila sin bucles explícitos.
+	\textbf{Discusión:} Broadcasting permite sumar el vector a cada fila sin bucles explícitos.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -500,7 +879,7 @@ print("Diferencia:", abs(math.pi - aprox_pi))
     \item \textbf{Práctica sugerida:} Resuelve ejercicios adicionales con datos reales o simulados.
   \end{itemize}
   \begin{center}
-    	extbf{¡Nos vemos en la próxima sesión!}
+    	\textbf{¡Nos vemos en la próxima sesión!}
   \end{center}
 \end{frame}
 
