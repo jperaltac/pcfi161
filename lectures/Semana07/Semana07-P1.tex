@@ -60,6 +60,7 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 13}
   \begin{itemize}
+    \item \textbf{Consolidar} los fundamentos de \textbf{Matplotlib} con guías paso a paso.
     \item \textbf{Profundizar} en las opciones de \textbf{Matplotlib} para visualizar datos:
       \begin{itemize}
         \item Subplots, estilos, anotaciones.
@@ -69,6 +70,293 @@
     \item \textbf{Ejercitar} estos conceptos con ejemplos y datos relevantes para Física/Astronomía.
   \end{itemize}
 \end{frame}
+
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Fundamentos de Matplotlib - Guía Paso a Paso
+% ----------------------------------------------------------------------------------------
+\section{Fundamentos de Matplotlib}
+
+% ------------------------------------------------------------------------
+% Slide 5: ¿Qué es Matplotlib?
+% ------------------------------------------------------------------------
+\begin{frame}{¿Qué es Matplotlib?}
+  \begin{itemize}
+    \item \textbf{Librería de visualización} más popular en Python para crear gráficos estáticos, animados e interactivos.
+    \item \textbf{Inspirada en MATLAB}: sintaxis similar y familiar.
+    \item \textbf{Dos interfaces principales}:
+      \begin{itemize}
+        \item \texttt{pyplot} (estilo MATLAB, más simple)
+        \item Orientada a objetos (más control y flexibilidad)
+      \end{itemize}
+    \item \textbf{Integración perfecta} con NumPy y otras librerías científicas.
+  \end{itemize}
+  
+  \begin{alertblock}{Importación estándar}
+    \texttt{import matplotlib.pyplot as plt}
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6: Tu Primera Gráfica - Paso a Paso
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Tu Primera Gráfica - Paso a Paso}
+\begin{minted}{python}
+# Paso 1: Importar librerías necesarias
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Paso 2: Crear datos
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 6, 8, 10]
+
+# Paso 3: Crear la gráfica
+plt.plot(x, y)
+
+# Paso 4: Mostrar la gráfica
+plt.show()
+\end{minted}
+
+\begin{itemize}
+  \item \textbf{plt.plot()}: función básica para gráficos de línea
+  \item \textbf{plt.show()}: muestra la gráfica en pantalla
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Mejorando la Gráfica - Etiquetas y Títulos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Mejorando la Gráfica - Etiquetas y Títulos}
+\begin{minted}{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 6, 8, 10]
+
+plt.plot(x, y)
+
+# Agregar etiquetas y título
+plt.xlabel("Tiempo (s)")          # Etiqueta eje X
+plt.ylabel("Posición (m)")        # Etiqueta eje Y
+plt.title("Movimiento Rectilíneo Uniforme")  # Título
+plt.show()
+\end{minted}
+
+\begin{itemize}
+  \item \textbf{Siempre incluir unidades} en las etiquetas
+  \item \textbf{Títulos descriptivos} ayudan a la interpretación
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Personalizando el Estilo de Línea
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Personalizando el Estilo de Línea}
+\begin{minted}[fontsize=\tiny]{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 50)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+# Diferentes estilos de línea
+plt.plot(x, y1, 'r-', linewidth=2, label='sen(x)')    # rojo, sólido
+plt.plot(x, y2, 'b--', linewidth=2, label='cos(x)')   # azul, punteado
+
+plt.xlabel("x (radianes)")
+plt.ylabel("f(x)")
+plt.title("Funciones Trigonométricas")
+plt.legend()  # Mostrar leyenda
+plt.grid(True)  # Agregar grilla
+plt.show()
+\end{minted}
+
+\begin{itemize}
+  \item \textbf{Códigos de estilo}: 'r-' (rojo sólido), 'b--' (azul punteado), 'g:' (verde puntos)
+  \item \textbf{plt.legend()}: muestra las etiquetas definidas con \texttt{label}
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Tipos de Gráficos Básicos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Tipos de Gráficos Básicos}
+\begin{minted}[fontsize=\tiny]{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Datos de ejemplo
+x = np.linspace(0, 5, 20)
+y = x**2
+
+# 1. Gráfico de línea
+plt.figure(figsize=(12, 4))
+
+plt.subplot(1, 3, 1)
+plt.plot(x, y, 'b-o')
+plt.title("Gráfico de Línea")
+plt.xlabel("x")
+plt.ylabel("x²")
+
+# 2. Gráfico de puntos (scatter)
+plt.subplot(1, 3, 2)
+plt.scatter(x, y, color='red', alpha=0.6)
+plt.title("Gráfico de Dispersión")
+plt.xlabel("x")
+plt.ylabel("x²")
+
+# 3. Gráfico de barras
+plt.subplot(1, 3, 3)
+categorias = ['A', 'B', 'C', 'D']
+valores = [3, 7, 2, 5]
+plt.bar(categorias, valores, color='green')
+plt.title("Gráfico de Barras")
+plt.xlabel("Categoría")
+plt.ylabel("Valor")
+
+plt.tight_layout()
+plt.show()
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Configurando Ejes y Escalas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Configurando Ejes y Escalas}
+\begin{minted}[fontsize=\tiny]{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 100)
+y = np.sin(x)
+
+plt.plot(x, y, 'b-', linewidth=2)
+
+# Configurar límites de los ejes
+plt.xlim(0, 2*np.pi)
+plt.ylim(-1.2, 1.2)
+
+# Configurar marcas en los ejes
+plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], 
+           ['0', 'π/2', 'π', '3π/2', '2π'])
+plt.yticks([-1, -0.5, 0, 0.5, 1])
+
+plt.xlabel("Ángulo")
+plt.ylabel("sen(x)")
+plt.title("Función Seno con Ejes Personalizados")
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+
+\begin{itemize}
+  \item \textbf{plt.xlim(), plt.ylim()}: controlan los rangos de visualización
+  \item \textbf{plt.xticks(), plt.yticks()}: personalizan las marcas en los ejes
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Guardando Gráficas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Guardando Gráficas}
+\begin{minted}[fontsize=\tiny]{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.exp(-x/5) * np.cos(x)
+
+plt.figure(figsize=(8, 6))
+plt.plot(x, y, 'r-', linewidth=2)
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud")
+plt.title("Oscilación Amortiguada")
+plt.grid(True, alpha=0.3)
+
+# Guardar la figura
+plt.savefig('oscilacion_amortiguada.png', dpi=300, bbox_inches='tight')
+plt.savefig('oscilacion_amortiguada.pdf', bbox_inches='tight')
+plt.show()
+\end{minted}
+
+\begin{itemize}
+  \item \textbf{plt.savefig()}: guarda la gráfica en varios formatos
+  \item \textbf{dpi}: resolución (dots per inch)
+  \item \textbf{bbox\_inches='tight'}: ajusta márgenes automáticamente
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Ejercicio Guiado - Paso a Paso
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio Guiado: \hfill \textcolor{red}{$\clubsuit$} \\ Gráfica de Caída Libre}
+  \begin{block}{Enunciado}
+    Crear una gráfica que muestre la posición vs tiempo para un objeto en caída libre:
+    \begin{itemize}
+      \item Usar la fórmula: \(y(t) = y_0 - \frac{1}{2}gt^2\)
+      \item \(y_0 = 100\) m (altura inicial)
+      \item \(g = 9.81\) m/s² (gravedad)
+      \item Tiempo desde 0 hasta cuando el objeto toca el suelo
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Pasos a seguir:}
+  \begin{enumerate}
+    \item Crear array de tiempo
+    \item Calcular posiciones
+    \item Crear gráfica con etiquetas apropiadas
+    \item Agregar título y grilla
+    \item Marcar el punto donde toca el suelo
+  \end{enumerate}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Solución del Ejercicio Guiado
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución del Ejercicio Guiado: \hfill \textcolor{green}{$\checkmark$} \\ Gráfica de Caída Libre}
+\begin{minted}[fontsize=\tiny]{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Paso 1: Definir parámetros
+y0 = 100  # altura inicial en metros
+g = 9.81  # aceleración de gravedad en m/s²
+
+# Calcular tiempo cuando toca el suelo: y = 0
+# 0 = y0 - (1/2)*g*t²  →  t = sqrt(2*y0/g)
+t_final = np.sqrt(2 * y0 / g)
+print(f"Tiempo de caída: {t_final:.2f} segundos")
+
+# Paso 2: Crear array de tiempo
+t = np.linspace(0, t_final, 100)
+
+# Paso 3: Calcular posiciones
+y = y0 - 0.5 * g * t**2
+
+# Paso 4: Crear la gráfica
+plt.figure(figsize=(8, 6))
+plt.plot(t, y, 'b-', linewidth=2, label='Posición vs Tiempo')
+
+# Paso 5: Marcar punto de impacto
+plt.plot(t_final, 0, 'ro', markersize=8, label='Impacto con el suelo')
+
+# Paso 6: Personalizar la gráfica
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Altura (m)')
+plt.title('Caída Libre desde 100 metros')
+plt.grid(True, alpha=0.3)
+plt.legend()
+
+# Agregar anotación
+plt.annotate(f't = {t_final:.2f} s', 
+             xy=(t_final, 0), xytext=(t_final-1, 20),
+             arrowprops=dict(arrowstyle='->', color='red'))
+
+plt.show()
+\end{minted}
+\end{frame}
+
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 2: Matplotlib Avanzado (Subplots, Barras, Histogramas)
@@ -246,7 +534,7 @@ print(df)
 % ------------------------------------------------------------------------
 % Slide 12: Ejercicio 1 - Subplots
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: Subplots Seno, Coseno, Tangente}
+\begin{frame}{Ejercicio 1:  \textcolor{red}{$\clubsuit$} \\ Subplots Seno, Coseno, Tangente}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Generar \texttt{x} en [0..2\(\pi\)], con \texttt{np.linspace}.
@@ -265,7 +553,7 @@ print(df)
 % ------------------------------------------------------------------------
 % Slide 13: Ejercicio 2 - Histograma vs. Barras
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: Comparando Histogramas y Barras}
+\begin{frame}{Ejercicio 2: \textcolor{red}{$\clubsuit$} \\ Comparando Histogramas y Barras  }
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Generar 100 valores aleatorios con \texttt{np.random.normal(5,1,100)} (media=5, sigma=1).
@@ -280,7 +568,7 @@ print(df)
 % ------------------------------------------------------------------------
 % Slide 14: Ejercicio 3 - Gráfico 3D
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: Gráfica 3D de una Función}
+\begin{frame}{Ejercicio 3: \textcolor{red}{$\clubsuit$} \\ Gráfica 3D de una Función}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Definir una \textbf{función} \(f(x,y) = e^{-x^2 - y^2}\) (campana).
@@ -295,7 +583,7 @@ print(df)
 % ------------------------------------------------------------------------
 % Slide 15: Ejercicio 4 (Opcional) - Leyendo Datos con pandas
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4 (Opcional): Leyendo Datos con pandas}
+\begin{frame}{Ejercicio 4: \textcolor{red}{$\clubsuit$} \\ Leyendo Datos con pandas}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Tener un archivo CSV simple con columnas: \texttt{Tiempo, PosX, PosY} (p.e., trayectoria de un objeto).
@@ -307,17 +595,201 @@ print(df)
   \textbf{Objetivo}: Introducir la idea de leer datos externos y visualizar.
 \end{frame}
 
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN: Soluciones de Referencia
+% ----------------------------------------------------------------------------------------
+\section{Soluciones de Referencia}
+
 % ------------------------------------------------------------------------
-% Slide 16: Trabajo Colaborativo en Clase
+% Slide 16: Solución 1 de Referencia - Subplots Trigonométricos
 % ------------------------------------------------------------------------
-\begin{frame}{Trabajo Colaborativo}
-  \begin{itemize}
-    \item Dividir en \textbf{parejas} o \textbf{tríos}.
-    \item Cada grupo elige \textbf{2-3 ejercicios} según interés.
-    \item Implementar y analizar resultados en un \textbf{notebook de Colab}.
-    \item Compartir conclusiones y dificultades al final.
-  \end{itemize}
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Subplots Seno, Coseno, Tangente}
+\begin{minted}[fontsize=\tiny]{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generar array x en [0, 2π]
+x = np.linspace(0, 2*np.pi, 100)
+
+# Calcular funciones trigonométricas
+y_sin = np.sin(x)
+y_cos = np.cos(x)
+y_tan = np.tan(x)
+
+# Limitar valores extremos de tangente para mejor visualización
+y_tan = np.where(np.abs(y_tan) > 10, np.nan, y_tan)
+
+# Crear subplots en una columna
+fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+
+# Subplot 1: Seno
+axs[0].plot(x, y_sin, 'r-', linewidth=2, label='sin(x)')
+axs[0].set_title('Función Seno')
+axs[0].set_ylabel('sin(x)')
+axs[0].legend()
+axs[0].grid(True, alpha=0.3)
+
+# Subplot 2: Coseno
+axs[1].plot(x, y_cos, 'b--', linewidth=2, label='cos(x)')
+axs[1].set_title('Función Coseno')
+axs[1].set_ylabel('cos(x)')
+axs[1].legend()
+axs[1].grid(True, alpha=0.3)
+
+# Subplot 3: Tangente
+axs[2].plot(x, y_tan, 'g:', linewidth=2, label='tan(x)')
+axs[2].set_title('Función Tangente')
+axs[2].set_xlabel('x (radianes)')
+axs[2].set_ylabel('tan(x)')
+axs[2].set_ylim(-5, 5)  # Limitar rango y para mejor visualización
+axs[2].legend()
+axs[2].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+\end{minted}
+\textbf{Discusión:} El manejo de la tangente requiere cuidado especial en sus discontinuidades usando \texttt{np.where} y \texttt{set\_ylim}.
 \end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Solución 2 de Referencia - Histograma vs Barras
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Comparando Histogramas y Barras}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generar datos aleatorios
+datos = np.random.normal(5, 1, 100)  # media=5, desv_std=1, 100 valores
+
+# Crear figura con subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+# Histograma
+n, bins, patches = ax1.hist(datos, bins=10, color='skyblue', 
+                           alpha=0.7, edgecolor='black')
+ax1.set_title('Histograma de Datos Aleatorios')
+ax1.set_xlabel('Valor')
+ax1.set_ylabel('Frecuencia')
+ax1.grid(True, alpha=0.3)
+
+# Calcular centros de bins para gráfico de barras
+centros_bins = (bins[:-1] + bins[1:]) / 2
+
+# Gráfico de barras usando las frecuencias del histograma
+ax2.bar(centros_bins, n, width=(bins[1]-bins[0])*0.8, 
+        color='lightcoral', alpha=0.7, edgecolor='black')
+ax2.set_title('Gráfico de Barras Equivalente')
+ax2.set_xlabel('Valor (centro del bin)')
+ax2.set_ylabel('Frecuencia')
+ax2.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print(f"Media de los datos: {np.mean(datos):.2f}")
+print(f"Desviación estándar: {np.std(datos):.2f}")
+print(f"Número total de valores: {len(datos)}")
+\end{minted}
+\textbf{Discusión:} Los valores de frecuencia \texttt{n} del histograma se usan directamente para crear el gráfico de barras equivalente.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Solución 3 de Referencia - Gráfico 3D
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Gráfica 3D de una Función}
+\begin{minted}[fontsize=\tiny]{python}
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Definir dominio para x e y
+x = np.linspace(-2, 2, 50)
+y = np.linspace(-2, 2, 50)
+
+# Crear meshgrid
+X, Y = np.meshgrid(x, y)
+
+# Calcular la función f(x,y) = e^(-x²-y²)
+Z = np.exp(-(X**2 + Y**2))
+
+# Crear figura 3D
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+# Plot de superficie
+surface = ax.plot_surface(X, Y, Z, cmap='plasma', alpha=0.9)
+
+# Configurar etiquetas y título
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('f(x,y) = e^(-x²-y²)')
+ax.set_title('Superficie 3D: Función Gaussiana 2D')
+
+# Agregar barra de colores
+fig.colorbar(surface, shrink=0.5, aspect=20)
+
+# Ajustar límites del eje z
+ax.set_zlim(0, 1)
+
+# Ajustar ángulo de visualización
+ax.view_init(elev=30, azim=45)
+
+plt.show()
+\end{minted}
+\textbf{Discusión:} La función gaussiana 2D crea una "campana" perfecta. El colormap \texttt{plasma} resalta bien las variaciones de altura.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Solución 4 de Referencia - Leyendo Datos con pandas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Leyendo Datos con pandas}
+\begin{minted}[fontsize=\tiny]{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Primero, crear un archivo CSV de ejemplo (opcional)
+# Simular trayectoria de proyectil
+t = np.linspace(0, 5, 50)
+pos_x = 10 * t  # velocidad constante en x
+pos_y = 20 * t - 4.9 * t**2  # movimiento parabólico en y
+
+# Crear DataFrame y guardar como CSV
+data_dict = {'Tiempo': t, 'PosX': pos_x, 'PosY': pos_y}
+df_ejemplo = pd.DataFrame(data_dict)
+df_ejemplo.to_csv('trayectoria.csv', index=False)
+
+# Leer datos desde CSV
+df = pd.read_csv('trayectoria.csv')
+
+# Mostrar primeras filas
+print("Primeras 5 filas del DataFrame:")
+print(df.head())
+
+# Crear gráfica
+plt.figure(figsize=(10, 6))
+plt.plot(df['Tiempo'], df['PosY'], 'bo-', linewidth=2, markersize=4)
+plt.title('Trayectoria Vertical vs Tiempo')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Posición Y (m)')
+plt.grid(True, alpha=0.3)
+
+# Agregar anotaciones
+plt.annotate('Altura máxima', 
+             xy=(df['Tiempo'][df['PosY'].idxmax()], df['PosY'].max()),
+             xytext=(3, 15),
+             arrowprops=dict(arrowstyle='->', color='red'))
+
+plt.show()
+
+print(f"Altura máxima: {df['PosY'].max():.2f} m")
+print(f"Tiempo al que ocurre: {df['Tiempo'][df['PosY'].idxmax()]:.2f} s")
+\end{minted}
+\textbf{Discusión:} pandas facilita la lectura de datos externos y su manipulación. La integración con matplotlib es directa.
+\end{frame}
+
 
 % ------------------------------------------------------------------------
 % Slide 17: Sugerencias y Tips
@@ -343,6 +815,11 @@ print(df)
   \vspace{0.2cm}
   \textbf{Levanta la mano o consulta abiertamente para que todos aprendan.}
 \end{frame}
+
+
+
+
+
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 6: Conclusiones y Próximos Pasos
