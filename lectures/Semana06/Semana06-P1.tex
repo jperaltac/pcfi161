@@ -539,6 +539,38 @@ print("Desviación estándar total:", np.std(velocidades))
 \end{frame}
 
 % ------------------------------------------------------------------------
+% Slide: Slicing Lógico en NumPy
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Slicing Lógico en NumPy}
+  \begin{itemize}
+    \item El \textbf{slicing lógico} permite modificar elementos basándose en condiciones
+    \item Sintaxis: \texttt{array[condición] = nuevo\_valor}
+  \end{itemize}
+
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np
+# Crear array de ejemplo
+arr = np.array([1, 3, 5, 7, 9, 2, 4, 6, 8])
+print("Array original:", arr)
+# Crear una copia para no modificar el original
+arr_mod = arr.copy()
+# Aplicar condiciones lógicas
+arr_mod[arr_mod <= 5] = 0    # Valores ≤ 5 → 0
+arr_mod[arr_mod > 5] = 1     # Valores > 5 → 1
+print("Array modificado:", arr_mod)
+# Resultado: [0 0 0 1 1 0 0 1 1]
+\end{minted}
+  \begin{alertblock}{¿Cómo funciona?}
+    \begin{itemize}
+      \item \texttt{arr\_mod <= 5} crea un array booleano: \texttt{[True, True, True, ...]}
+      \item NumPy usa este array como "máscara" para seleccionar elementos
+      \item Solo los elementos donde la condición es \texttt{True} se modifican
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+
+% ------------------------------------------------------------------------
 % Slide: Reshape y Redimensionamiento de Arrays 
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Reshape y Redimensionamiento de Arrays}

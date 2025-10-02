@@ -266,36 +266,7 @@ lectures/
      \end{itemize}
    \end{frame}
    ```
-
-2. **Sección: Trabajo Colaborativo**
-   ```latex
-   \section{Trabajo Colaborativo}
-   
-   \begin{frame}{Organización de Equipos de Trabajo}
-     \begin{itemize}
-       \item Formar \textbf{grupos de 2-3 estudiantes}
-       \item Seleccionar ejercicios específicos (según tiempo disponible)
-       \item Editar un \textbf{notebook compartido} en Google Colab
-       \item \textbf{Estrategia recomendada:}
-         \begin{itemize}
-           \item Discutir enfoque antes de programar
-           \item Anotar dudas y resolverlas en equipo
-           \item Probar con diferentes valores/escenarios
-         \end{itemize}
-     \end{itemize}
-   \end{frame}
-   
-   \begin{frame}{Discusión y Retroalimentación}
-     \begin{itemize}
-       \item ¿Cuál fue el ejercicio más complejo?
-       \item ¿Dónde surgieron errores recurrentes?
-       \item ¿Qué estrategias de debugging utilizaron?
-       \item ¿Cómo dividieron el trabajo en el equipo?
-     \end{itemize}
-   \end{frame}
-   ```
-
-3. **Sección: Ejercicios Prácticos Integrados**
+2. **Sección: Ejercicios Prácticos Integrados**
    ```latex
    \section{Ejercicios Prácticos Integrados}
    
@@ -330,7 +301,7 @@ lectures/
    \end{frame}
    ```
 
-4. **Sección: Soluciones de Referencia**
+3. **Sección: Soluciones de Referencia**
    ```latex
    \section{Soluciones de Referencia}
    
@@ -369,7 +340,109 @@ lectures/
    \end{frame}
    ```
 
-5. **Sección: Tarea (si corresponde)**
+
+# Instrucciones para Formato de Código Python en LaTeX/Beamer
+
+## Regla de Formato por Longitud de Código
+
+### **Criterio de División en Columnas**
+
+Cuando el código Python en un frame de LaTeX/Beamer **supere las 24 líneas**, debe aplicarse automáticamente el formato de **dos columnas** para mejorar la legibilidad y el aprovechamiento del espacio en la presentación.
+
+### **Formato para Código ≤ 24 líneas (Columna Única)**
+
+```latex
+\begin{frame}[fragile]{Título del Frame: \hfill \textcolor{green}{$\checkmark$} \\ Subtítulo}
+\begin{minted}[fontsize=\tiny]{python}
+# Código Python aquí
+# Máximo 24 líneas
+import numpy as np
+# ... resto del código
+\end{minted}
+\textbf{Discusión:} Comentario explicativo del código.
+\end{frame}
+```
+
+### **Formato para Código > 24 líneas (Dos Columnas)**
+
+```latex
+\begin{frame}[fragile]{Título del Frame: \hfill \textcolor{green}{$\checkmark$} \\ Subtítulo}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+# Primera parte del código
+# Líneas 1-N (aproximadamente la mitad)
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generar datos aleatorios normales
+np.random.seed(42)
+datos = np.random.normal(50, 10, 100)
+
+# Calcular estadísticas
+media = np.mean(datos)
+mediana = np.median(datos)
+std = np.std(datos)
+
+print(f"Media: {media:.2f}")
+print(f"Mediana: {mediana:.2f}")
+print(f"Desviación estándar: {std:.2f}")
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=16]{python}
+# Segunda parte del código
+# Líneas N+1 hasta el final
+# Crear histograma
+plt.figure(figsize=(8, 6))
+plt.hist(datos, bins=15, alpha=0.7, 
+         color='skyblue', edgecolor='black')
+plt.axvline(media, color='red', 
+            linestyle='--', linewidth=2, 
+            label=f'Media: {media:.1f}')
+plt.xlabel('Valor')
+plt.ylabel('Frecuencia')
+plt.title('Distribución de Datos Aleatorios')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Discusión:} Comentario explicativo del código.
+\end{frame}
+```
+
+### **Consideraciones Importantes para la División en Columnas**
+
+1. **Punto de división lógico**: Dividir el código en un punto que tenga sentido semánticamente (después de imports, al cambiar de sección lógica, etc.).
+
+2. **Numeración continua**: Usar `[firstnumber=X]` en la segunda columna donde X es el número de línea donde continúa el código.
+
+3. **Distribución equilibrada**: Intentar que ambas columnas tengan aproximadamente el mismo número de líneas.
+
+4. **Anchura de columnas**: Mantener `0.5\textwidth` para cada columna para aprovechamiento óptimo del espacio.
+
+5. **Espaciado**: Incluir `\vspace{0.3cm}` después del entorno `columns` para separar visualmente del texto de discusión.
+
+### **Casos Especiales**
+
+- **Código muy largo (>40 líneas)**: Considerar dividir en múltiples frames en lugar de forzar en un solo frame.
+- **Código con bloques muy específicos**: Priorizar la división lógica sobre la división exacta por número de líneas.
+- **Comentarios extensos**: Los comentarios cuentan para el total de líneas, pero se puede ser flexible si mejora la comprensión.
+
+### **Ejemplo de Aplicación Automática**
+
+**Código de 30 líneas** → Automáticamente formato de dos columnas
+**Código de 20 líneas** → Formato de columna única
+**Código de exactamente 24 líneas** → Formato de columna única (≤ 24)
+**Código de 25 líneas** → Formato de dos columnas (> 24)
+
+
+
+
+4. **Sección: Tarea (si corresponde)**
    ```latex
    \section{Tarea N}
    
@@ -395,7 +468,7 @@ lectures/
    \end{frame}
    ```
 
-6. **Sección: Evaluación y Retroalimentación (si corresponde)**
+5. **Sección: Evaluación y Retroalimentación (si corresponde)**
    ```latex
    \section{Evaluación y Retroalimentación}
    
@@ -431,7 +504,7 @@ lectures/
    \end{frame}
    ```
 
-7. **Sección: Conclusiones**
+6. **Sección: Conclusiones**
    ```latex
    \section{Conclusiones}
    

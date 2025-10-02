@@ -109,14 +109,36 @@
 \setminted[python]{
   breaklines,
   frame=lines,
-  framesep=2mm,
+  framesep=0mm,
+  numbersep=5pt,
   baselinestretch=1.2,
   bgcolor=\mybgcolor,
   linenos, 
-  fontsize=\footnotesize
+  fontsize=\tiny
 } % Configuración dinámica según tema elegido
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% breaklines: permite saltos de línea automáticos
+% frame=lines: agrega un marco alrededor del bloque de código
+% framesep=2mm: establece la separación entre el marco y el código
+% numbersep=5pt: establece la separación entre los números de línea y el código
+% baselinestretch=1.2: establece el interlineado del código
+% bgcolor=\mybgcolor: establece el color de fondo del bloque de código
+% linenos: habilita la numeración de líneas
+% fontsize=\tiny: establece el tamaño de fuente del código
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%fontsize=\tiny          % El más pequeño
+%fontsize=\scriptsize    % Muy pequeño
+%fontsize=\footnotesize  % Pequeño (actual en tu preámbulo)
+%fontsize=\small         % Ligeramente menor que normal
+%fontsize=\normalsize    % Tamaño normal
+%fontsize=\large         % Grande
+%fontsize=\Large         % Más grande
+%fontsize=\LARGE         % Muy grande
+%fontsize=\huge          % Enorme
+%fontsize=\Huge          % El más grande
+% firstnumber=16      % Comienza la numeración en 16
+% numbersep=5pt       % Separación entre números y código
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

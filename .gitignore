@@ -20,6 +20,7 @@ build/
 *.glg
 *.glsdefs
 *.synctex.gz
+*.synctex(busy)
 *.dvi
 *.nav
 *.snm

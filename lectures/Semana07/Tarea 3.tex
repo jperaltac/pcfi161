@@ -1,0 +1,318 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga de tu preámbulo personalizado (preamble.tex).
+% Recuerda ponerlo en la misma carpeta para que \input funcione.
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+
+\begin{document}
+
+% ------------------------------------------------------------------------
+% Portada de la Presentación
+% ------------------------------------------------------------------------
+\myfront{}
+
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Sesión
+% ------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+  % \title{Semana 7 - Sesión 2 (Sesión 14): Evaluación Práctica Integradora - NumPy y Matplotlib}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de Contenidos
+% ------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Resumen - Semana 7, Sesión 2 (Sesión 14)}
+  \tableofcontents
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
+\metroset{block=fill}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Objetivos de la Evaluación
+% ----------------------------------------------------------------------------------------
+\section{Objetivos de la Evaluación}
+
+% ------------------------------------------------------------------------
+% Slide 3: Objetivos de la Evaluación Integradora
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Evaluación Integradora}
+  \begin{itemize}
+    \item \textbf{Integrar} conocimientos de NumPy avanzado y visualización con Matplotlib
+    \item \textbf{Aplicar} operaciones de álgebra lineal en matrices generadas programáticamente
+    \item \textbf{Crear} visualizaciones 3D complejas combinadas con análisis estadístico
+    \item \textbf{Desarrollar} fluencia en la creación de figuras científicas profesionales
+    \item \textbf{Demostrar} capacidad de resolución de problemas en tiempo limitado
+  \end{itemize}
+  
+  \begin{alertblock}{Meta de la Sesión}
+    Evaluar la capacidad de combinar múltiples herramientas científicas para resolver un problema completo de análisis de datos.
+  \end{alertblock}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Problema de Evaluación
+% ----------------------------------------------------------------------------------------
+\section{Problema de Evaluación}
+
+% ------------------------------------------------------------------------
+% Slide 4: Problema Principal - Parte 1: Análisis Matricial
+% ------------------------------------------------------------------------
+\begin{frame}{Problema Principal - Parte 1: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis de Matriz Aleatoria}
+  \begin{block}{Enunciado - Generación y Análisis Matricial}
+    \begin{enumerate}
+      \item \textbf{Crear una matriz} $M$ de tamaño $5 \times 5$ con valores enteros aleatorios en el rango $[1, 10)$ usando \texttt{np.random.randint()}.
+      \item \textbf{Configurar semilla aleatoria} usando \texttt{np.random.seed()} con el último dígito de su cédula para reproducibilidad.
+      \item \textbf{Calcular las siguientes propiedades matriciales:}
+        \begin{itemize}
+          \item Determinante: $\det(M)$ usando \texttt{np.linalg.det()}
+          \item Traza: $\text{tr}(M) = \sum_{i=1}^{5} M_{ii}$ usando \texttt{np.trace()}
+          \item Norma Euclidiana: $\|M\|_F = \sqrt{\sum_{i,j} M_{ij}^2}$ usando \texttt{np.linalg.norm()}
+        \end{itemize}
+      \item \textbf{Imprimir resultados} con formato profesional incluyendo 2 decimales.
+    \end{enumerate}
+  \end{block}
+  
+  \textbf{Conceptos aplicados:} Álgebra lineal computacional, generación de datos aleatorios, propiedades matriciales.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 5: Problema Principal - Parte 2: Visualización Científica
+% ------------------------------------------------------------------------
+\begin{frame}{Problema Principal - Parte 2: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización Científica Simple}
+  \begin{block}{Enunciado - Gráfico de Funciones Superpuestas}
+    \begin{enumerate}
+      \item \textbf{Generar datos para el gráfico}:
+        \begin{itemize}
+          \item Crear array $x$ usando \texttt{np.linspace(0, 2*np.pi, 100)}
+          \item Calcular dos funciones: $f_1(x) = \sin(x)$ y $f_2(x) = \cos(x)$
+        \end{itemize}
+      \item \textbf{Crear una figura simple}:
+      \begin{itemize}
+        \item Usando \texttt{plt.figure(figsize=(10, 6))}.
+      \end{itemize}
+      \item \textbf{Configurar el gráfico}:
+        \begin{itemize}
+          \item Título: "Funciones Trigonométricas"
+          \item Etiquetas: "x (radianes)" y "f(x)"
+          \item Agregar leyenda y grilla
+          \item Configurar límites del eje y: $[-1.2, 1.2]$
+        \end{itemize}
+      \item \textbf{Añadir línea vertical} en $x = \pi/2$ con color verde y estilo discontinuo.
+    \end{enumerate}
+  \end{block}
+  
+  \textbf{Conceptos aplicados:} Gráficos superpuestos, personalización de estilos, funciones trigonométricas.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Instrucciones de Evaluación
+% ----------------------------------------------------------------------------------------
+\section{Instrucciones de Evaluación}
+
+% ------------------------------------------------------------------------
+% Slide 8: Modalidad de Trabajo y Tiempo
+% ------------------------------------------------------------------------
+\begin{frame}{Modalidad de Trabajo y Tiempo}
+  \begin{block}{Organización del Trabajo}
+    \begin{itemize}
+      \item \textbf{Un notebook por equipo} llamado: \texttt{Tarea\_3\_Nombre\_Apellidos.ipynb}
+      \item \textbf{Tiempo asignado:} 30 minutos exactos
+      \item \textbf{Entrega:} Una sola entrega por equipo en Canvas
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{Estrategia Recomendada}
+    \begin{itemize}
+      \item \textbf{Primeros 5 min:} Planificación y división de tareas
+      \item \textbf{Siguientes 20 min:} Desarrollo del código
+      \item \textbf{Últimos 5 min:} Verificación, comentarios y entrega
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Criterios de Evaluación Detallados
+% ------------------------------------------------------------------------
+\begin{frame}{Criterios de Evaluación Detallados}
+  \begin{block}{Distribución de Puntos (70 puntos total)}
+    \begin{itemize}
+      \item \textbf{Funcionalidad del código (30 pts):}
+        \begin{itemize}
+          \item Código ejecuta sin errores (20 pts)
+          \item Todas las partes del problema resueltas (10 pts)
+        \end{itemize}
+      \item \textbf{Uso correcto de NumPy (20 pts):}
+        \begin{itemize}
+          \item Operaciones matriciales apropiadas (10 pts)
+          \item Uso de funciones de álgebra lineal (10 pts)
+        \end{itemize}
+      \item \textbf{Calidad de visualización (10 pts):}
+        \begin{itemize}
+          \item Gráfico 3D correctamente configurado (5 pts)
+          \item Histograma y subplots apropiados (5 pts)
+        \end{itemize}
+      \item \textbf{Organización y documentación (10 pts):}
+        \begin{itemize}
+          \item Código limpio y comentado (5 pts)
+          \item Estructura lógica del notebook (5 pts)
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Recursos Permitidos y Restricciones
+% ------------------------------------------------------------------------
+\begin{frame}{Recursos Permitidos y Restricciones}
+  \begin{block}{Recursos Permitidos}
+    \begin{itemize}
+      \item \textbf{Documentación oficial:} NumPy, Matplotlib
+      \item \textbf{Notebooks de clase:} Semanas 6 y 7
+      \item \textbf{Consultas breves al profesor:} Máximo 2 consultas por equipo
+      \item \textbf{Colaboración intra-equipo:} Discusión y división de tareas
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{Restricciones}
+    \begin{itemize}
+      \item \textbf{Sin internet libre:} Solo sitios específicos autorizados
+      \item \textbf{Sin comunicación entre equipos:} Trabajo independiente
+      \item \textbf{Sin IA generativa:} ChatGPT, Copilot, etc. están prohibidos
+      \item \textbf{Entrega obligatoria:} No hay extensiones de tiempo
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Desarrollo de la Evaluación
+% ----------------------------------------------------------------------------------------
+\section{Desarrollo de la Evaluación}
+
+% ------------------------------------------------------------------------
+% Slide 11: Inicio del Tiempo de Trabajo
+% ------------------------------------------------------------------------
+\begin{frame}{Inicio del Tiempo de Trabajo}
+  \begin{block}{}
+    \begin{center}
+      \huge{\textbf{TIEMPO INICIAL: 30 MINUTOS}}
+      
+      \vspace{0.5cm}
+      
+      \large{Comenzar el desarrollo del problema}
+      
+      \vspace{0.5cm}
+      
+      \textbf{Cronómetro iniciado ahora}
+    \end{center}
+  \end{block}
+  
+  \textbf{Recordatorio final:}
+  \begin{itemize}
+    \item Probar cada parte del código antes de continuar
+    \item Comentar secciones importantes
+    \item Verificar que todas las gráficas se muestren correctamente
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Avisos de Tiempo
+% ------------------------------------------------------------------------
+\begin{frame}{Control de Tiempo}
+  \begin{alertblock}{Estrategia para Tiempo Limitado}
+    Si van retrasados, priorizar:
+    \begin{enumerate}
+      \item Funcionalidad básica del código
+      \item Matriz y cálculos de álgebra lineal
+      \item Gráfico 3D simple
+      \item Histograma básico (si hay tiempo)
+    \end{enumerate}
+  \end{alertblock}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Discusión y Retroalimentación
+% ----------------------------------------------------------------------------------------
+\section{Discusión y Retroalimentación}
+
+% ------------------------------------------------------------------------
+% Slide 13: Análisis Post-Evaluación
+% ------------------------------------------------------------------------
+\begin{frame}{Análisis Post-Evaluación}
+  \begin{itemize}
+    \item \textbf{¿Cómo se sintieron} con la integración de NumPy y Matplotlib?
+    \item \textbf{¿Qué parte resultó más desafiante?}
+      \begin{itemize}
+        \item ¿Los cálculos matriciales?
+        \item ¿La configuración del gráfico 3D?
+        \item ¿La combinación de subplots?
+      \end{itemize}
+    \item \textbf{¿El tiempo fue suficiente} para completar todas las partes?
+    \item \textbf{¿Qué estrategias} utilizaron para dividir el trabajo en equipo?
+  \end{itemize}
+  
+  \begin{block}{Objetivo de la Discusión}
+    Identificar fortalezas y áreas de mejora para futuras evaluaciones integradoras.
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Errores Comunes Observados
+% ------------------------------------------------------------------------
+\begin{frame}{Errores Comunes y Soluciones}
+  \begin{block}{Errores Técnicos Frecuentes}
+    \begin{itemize}
+      \item \textbf{Configuración de subplots 3D:} Olvidar \texttt{projection='3d'}
+      \item \textbf{Dimensiones de meshgrid:} Confusión entre arrays 1D y 2D
+      \item \textbf{Formato de impresión:} No usar f-strings para decimales
+      \item \textbf{Imports olvidados:} Especialmente \texttt{mpl\_toolkits.mplot3d}
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{Consejos para Próximas Evaluaciones}
+    \begin{itemize}
+      \item Probar cada función por separado antes de integrar
+      \item Leer mensajes de error cuidadosamente
+      \item Verificar tipos de datos (int vs float vs array)
+      \item Usar print statements para debugging durante desarrollo
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Conclusiones
+% ----------------------------------------------------------------------------------------
+\section{Conclusiones}
+
+% ------------------------------------------------------------------------
+% Slide 15: Síntesis de la Evaluación
+% ------------------------------------------------------------------------
+\begin{frame}{Síntesis de la Evaluación}
+  \begin{itemize}
+    \item \textbf{Integramos exitosamente:}
+      \begin{itemize}
+        \item Generación y manipulación de matrices aleatorias
+        \item Cálculos de álgebra lineal con NumPy
+        \item Visualización 3D de funciones matemáticas
+        \item Análisis estadístico con histogramas
+      \end{itemize}
+    \item \textbf{Desarrollamos habilidades:}
+      \begin{itemize}
+        \item Resolución de problemas bajo presión de tiempo
+        \item Trabajo colaborativo efectivo
+        \item Integración de múltiples librerías científicas
+      \end{itemize}
+  \end{itemize}
+  
+  \begin{block}{Logro Principal}
+    Demostrar capacidad de crear análisis científicos completos combinando computación numérica y visualización profesional.
+  \end{block}
+\end{frame}
+
+\end{document}
