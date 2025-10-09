@@ -64,81 +64,301 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 15}
   \begin{itemize}
-    \item \textbf{Comprender} los fundamentos de la Programación Orientada a Objetos (POO) en Python:
-      \begin{itemize}
-        \item Clases, objetos, atributos, métodos.
-        \item Encapsulamiento básico.
-      \end{itemize}
-    \item \textbf{Aplicar} estos conceptos en un ejemplo sencillo (clase \texttt{Particle} o similar).
-    \item \textbf{Refrescar} el uso de NumPy/pandas para análisis de datos básicos.
-    \item \textbf{Ejercitar} con un problema que combine POO y datos.
+    \item \textbf{Comprender} los fundamentos de la Programación Orientada a Objetos (POO) en Python.
+    \item \textbf{Explorar} el uso de \textbf{pandas} para análisis y manipulación de datos.
+    \item \textbf{Aplicar} operaciones básicas y avanzadas de pandas en contextos físicos y astronómicos.
+    \item \textbf{Desarrollar} habilidades para combinar POO y pandas en problemas prácticos.
   \end{itemize}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Fundamentos de Programación Orientada a Objetos en Python
-% ----------------------------------------------------------------------------------------
-\section{Fundamentos de POO}
 
-% ------------------------------------------------------------------------
-% Slide 5: ¿Por qué Programación Orientada a Objetos?
-% ------------------------------------------------------------------------
-\begin{frame}{¿Por qué POO?}
+
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Fundamentos de Pandas y POO
+% ----------------------------------------------------------------------------------------
+\section{Fundamentos de Pandas y POO}
+\begin{frame}{¿Por qué Pandas para Análisis de Datos?}
   \begin{itemize}
-    \item \textbf{Organización y modularidad}: agrupa datos y métodos lógicamente.
-    \item \textbf{Reutilización de código}: herencia y polimorfismo (más adelante).
-    \item \textbf{Facilita} el modelado de entidades del mundo real (partículas, sistemas, objetos astronómicos).
-    \item Python lo hace \textbf{fácil} con la palabra clave \texttt{class}.
+    \item \textbf{DataFrames}: estructuras tabulares similares a Excel/hojas de cálculo
+    \item \textbf{Lectura}: archivos CSV, Excel, JSON automáticamente
+    \item \textbf{Operaciones}: filtrado, agrupación, estadísticas descriptivas
+    \item \textbf{Limpieza}: manejo de datos faltantes, duplicados
+    \item \textbf{Integración}: funciona perfectamente con NumPy y Matplotlib
   \end{itemize}
+  
+  \begin{alertblock}{Para Física/Astronomía}
+    Ideal para analizar datos experimentales, observaciones astronómicas, resultados de simulaciones.
+  \end{alertblock}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 6: Definición de Clases
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Definición de una Clase en Python}
+\begin{frame}{¿Qué es pandas?}
+  \begin{itemize}
+    \item \textbf{pandas} es una biblioteca de Python para análisis y manipulación eficiente de datos.
+    \item Permite trabajar con datos tabulares (tipo Excel) de forma sencilla y poderosa.
+    \item Ofrece estructuras clave: \texttt{Series} (vectores) y \texttt{DataFrame} (tablas).
+    \item Esencial para ciencia de datos, física computacional y astronomía.
+  \end{itemize}
+  \begin{block}{Ventajas}
+    \begin{itemize}
+      \item Lectura y escritura de archivos (CSV, Excel, etc.)
+      \item Filtrado, selección y limpieza de datos
+      \item Estadísticas y agrupaciones rápidas
+      \item Integración con NumPy y Matplotlib
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Aplicación: Análisis de un archivo en línea con pandas}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Puedes aplicar los conceptos de pandas usando archivos públicos en la web.
+    \item Ejemplo: el archivo \texttt{titanic.csv} disponible en GitHub.
+    \item Carga el archivo directamente desde la URL y explora sus primeras filas.
+  \end{itemize}
+\end{block}
+
 \begin{minted}{python}
-class MiClase:
-    """Docstring o descripción de la clase."""
-    def __init__(self, valor):
-        # Método constructor (inicializador)
-        self.atributo = valor
-    
-    def mostrar_atributo(self):
-        print("El atributo es:", self.atributo)
+import pandas as pd
 
-# Uso
-obj = MiClase(10)
-obj.mostrar_atributo()  # "El atributo es: 10"
+url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
+df = pd.read_csv(url)
+print(df.head())
 \end{minted}
+
+\textbf{Discusión:} Así puedes practicar análisis de datos reales sin descargar archivos manualmente. Ideal para ejercicios en clase o tareas.
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Estructuras principales de pandas}
 \begin{itemize}
-  \item \textbf{self} refiere a la instancia en los métodos.
-  \item \texttt{\_\_init\_\_} se llama al crear el objeto (\textbf{constructor}).
+  \item \textbf{Series}: arreglo unidimensional con etiquetas (índice).
+  \item \textbf{DataFrame}: tabla bidimensional con filas y columnas etiquetadas.
 \end{itemize}
+
+\begin{minted}{python}
+import pandas as pd
+
+# Serie
+s = pd.Series([10, 20, 30], index=['a', 'b', 'c'])
+
+# DataFrame
+df = pd.DataFrame({
+    'masa': [1.5, 2.0, 0.8],
+    'velocidad': [10.5, 8.2, 15.3]
+})
+\end{minted}
+
+\textbf{Discusión:} Una \texttt{Series} es como un vector con índice; un \texttt{DataFrame} es como una tabla de Excel.
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Acceso y selección de datos en DataFrame}
+\begin{minted}{python}
+# Acceso por columna
+print(df['masa'])
+
+# Acceso por fila (iloc: por posición, loc: por etiqueta)
+print(df.iloc[0])      # Primera fila
+print(df.loc[1])       # Fila con índice 1
+
+# Selección de subconjuntos
+print(df[['masa', 'velocidad']])
+print(df[0:2])         # Primeras dos filas
+\end{minted}
+\textbf{Discusión:} pandas permite seleccionar datos de forma flexible y eficiente, facilitando análisis rápidos.
+\end{frame}
+
+
+\begin{frame}[fragile]{Operaciones vectorizadas y estadísticas}
+\begin{minted}{python}
+# Operaciones sobre columnas
+df['energia_cinetica'] = 0.5 * df['masa'] * df['velocidad']**2
+
+# Estadísticas rápidas
+print(df['energia_cinetica'].mean())
+print(df.describe())
+\end{minted}
+\textbf{Discusión:} Las operaciones se aplican a toda la columna sin necesidad de bucles explícitos.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 7: Atributos y Métodos
+% Nueva Slide: Limpieza y manejo de datos faltantes
 % ------------------------------------------------------------------------
-\begin{frame}{Atributos y Métodos}
-  \begin{itemize}
-    \item \textbf{Atributos} (variables) caracterizan el estado de un objeto.
-      \begin{itemize}
-        \item Definidos en \texttt{\_\_init\_\_} o fuera (variables de clase).
-      \end{itemize}
-    \item \textbf{Métodos} (funciones) definen el comportamiento.
-      \begin{itemize}
-        \item \textbf{Instancia}: necesitan \texttt{self}.
-        \item \textbf{Clase}: usan \texttt{@classmethod} y tienen \texttt{cls} en lugar de \texttt{self}.
-        \item \textbf{Estáticos}: usan \texttt{@staticmethod} y no reciben \texttt{self} ni \texttt{cls}.
-      \end{itemize}
-    \item Encapsulamiento es \textbf{limitado} en Python (no hay private real), pero se puede usar guión bajo (\texttt{\_atributo}) para indicar uso interno.
-  \end{itemize}
+\begin{frame}[fragile]{Limpieza y manejo de datos faltantes}
+\begin{minted}{python}
+import numpy as np
+df.loc[1, 'velocidad'] = np.nan
+
+# Detectar valores nulos
+print(df.isnull())
+
+# Eliminar filas con NaN
+df_clean = df.dropna()
+
+# Rellenar valores faltantes
+df_filled = df.fillna(0)
+\end{minted}
+\textbf{Discusión:} pandas facilita la detección y el tratamiento de datos incompletos, común en experimentos reales.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 8: Ejemplo: Clase \texttt{Particle}
+% Nueva Slide: Agrupación y resumen de datos
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo: Clase Particle}
+\begin{frame}[fragile]{Agrupación y resumen de datos}
+\begin{minted}{python}
+# Crear una columna categórica
+df['categoria'] = pd.cut(df['masa'], bins=[0,1,2], labels=['Baja','Alta'])
+
+# Agrupar y calcular promedio
+print(df.groupby('categoria')['velocidad'].mean())
+\end{minted}
+\textbf{Discusión:} Agrupar datos permite obtener estadísticas por categorías físicas (masas, temperaturas, etc.).
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Nueva Slide: Visualización rápida con pandas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Visualización rápida con pandas}
+\begin{minted}{python}
+import matplotlib.pyplot as plt
+
+df['velocidad'].hist(bins=5)
+plt.title('Histograma de velocidades')
+plt.xlabel('Velocidad')
+plt.ylabel('Frecuencia')
+plt.show()
+\end{minted}
+\textbf{Discusión:} pandas integra métodos de visualización para análisis exploratorio inmediato.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Operaciones Básicas con DataFrames
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Operaciones Básicas con DataFrames}
+\begin{minted}{python}
+import pandas as pd
+
+# Crear DataFrame desde diccionario
+data = {
+    'masa': [1.5, 2.0, 0.8, 1.2],
+    'velocidad': [10.5, 8.2, 15.3, 12.1],
+    'temperatura': [300, 350, 280, 320]
+}
+df = pd.DataFrame(data)
+
+# Operaciones básicas
+print(df.head())        # Primeras filas
+print(df.info())        # Información del DataFrame
+print(df.describe())    # Estadísticas descriptivas
+print(df.shape)         # Dimensiones (filas, columnas)
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Selección y Filtrado de Datos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Selección y Filtrado de Datos}
+\begin{minted}{python}
+# Seleccionar columnas
+masas = df['masa']                    # Una columna
+subset = df[['masa', 'velocidad']]    # Múltiples columnas
+
+# Filtrado con condiciones
+altas_temp = df[df['temperatura'] > 300]
+rapidos = df[df['velocidad'] > 10]
+
+# Filtrado múltiple
+criteria = (df['masa'] > 1.0) & (df['velocidad'] > 10)
+filtered_df = df[criteria]
+
+# Agregar nuevas columnas calculadas
+df['energia_cinetica'] = 0.5 * df['masa'] * df['velocidad']**2
+df['momento'] = df['masa'] * df['velocidad']
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Agrupación y Estadísticas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Agrupación y Estadísticas Avanzadas}
+\begin{minted}{python}
+# Crear categorías para agrupación
+df['categoria_masa'] = pd.cut(df['masa'], 
+                             bins=[0, 1, 2, np.inf], 
+                             labels=['Baja', 'Media', 'Alta'])
+
+# Agrupar y calcular estadísticas
+grouped = df.groupby('categoria_masa').agg({
+    'velocidad': ['mean', 'std'],
+    'energia_cinetica': ['sum', 'max'],
+    'temperatura': 'mean'
+})
+
+print(grouped)
+
+# Correlaciones entre variables
+correlations = df[['masa', 'velocidad', 'temperatura']].corr()
+print("Matriz de correlaciones:")
+print(correlations)
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Manejo de Datos Faltantes
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Manejo de Datos Faltantes y Limpieza}
+\begin{minted}{python}
+# Simular datos faltantes
+df.loc[1, 'temperatura'] = np.nan
+df.loc[3, 'velocidad'] = np.nan
+
+# Detectar valores faltantes
+print("Valores nulos por columna:")
+print(df.isnull().sum())
+
+# Opciones para manejar datos faltantes
+df_dropped = df.dropna()                    # Eliminar filas con NaN
+df_filled = df.fillna(df.mean())           # Rellenar con promedio
+df_interpolated = df.interpolate()          # Interpolación
+
+# Eliminar duplicados (si existen)
+df_clean = df.drop_duplicates()
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Lectura de Archivos y Exportación
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Lectura de Archivos y Exportación}
+\begin{minted}{python}
+# Leer diferentes formatos
+df_csv = pd.read_csv('datos_experimento.csv')
+df_excel = pd.read_excel('mediciones.xlsx', sheet_name='Hoja1')
+
+# Parámetros útiles para CSV
+df_custom = pd.read_csv('datos.csv', 
+                       sep=';',           # Separador
+                       decimal=',',       # Separador decimal
+                       encoding='utf-8',  # Codificación
+                       skiprows=2)        # Saltar filas
+
+# Exportar resultados
+df.to_csv('resultados_procesados.csv', index=False)
+df.to_excel('analisis.xlsx', sheet_name='Datos')
+
+# Exportar solo columnas específicas
+df[['masa', 'energia_cinetica']].to_csv('energia_datos.csv')
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 16: Integración con POO
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Integración con POO: Clase Particle}
 \begin{minted}{python}
 import math
 
@@ -164,64 +384,48 @@ class Particle:
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 9: Uso de la Clase \texttt{Particle}
+% Slide: Ejemplo de uso de la clase Particle
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Uso y Ejemplo}
+\begin{frame}[fragile]{Ejemplo de uso: \hfill \textcolor{green}{$\checkmark$} \\ Clase Particle}
 \begin{minted}{python}
+# Crear dos partículas con diferentes posiciones y velocidades
 p1 = Particle(mass=2.0, x=0, y=0, vx=3, vy=4)
-p2 = Particle(mass=1.5, x=5, y=5, vx=0, vy=-2)
+p2 = Particle(mass=1.5, x=1, y=2, vx=0, vy=5)
 
-print("E_c de p1:", p1.kinetic_energy())  # 0.5*2*25 = 25
+# Calcular energía cinética de cada partícula
+print("Energía cinética p1:", p1.kinetic_energy())
+print("Energía cinética p2:", p2.kinetic_energy())
+
+# Calcular distancia entre ambas partículas
 dist = p1.distance(p2)
-print("Distancia p1 - p2:", dist)
+print("Distancia entre p1 y p2:", dist)
 \end{minted}
-\begin{itemize}
-  \item Se pueden crear múltiples partículas y realizar cálculos \textbf{similares} sin reescribir la lógica.
-  \item Facilita la \textbf{extensión} futura (métodos de colisiones, etc.).
-\end{itemize}
+\textbf{Discusión:} Este ejemplo muestra cómo crear objetos \texttt{Particle}, calcular su energía cinética y la distancia entre ellas, integrando conceptos de POO y física.
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Análisis de Datos con NumPy/Pandas (Repaso)
-% ----------------------------------------------------------------------------------------
-\section{Análisis de Datos Rápido}
-
 % ------------------------------------------------------------------------
-% Slide 10: Llamado a Pandas
+% Slide 17: Visualización con Pandas y Matplotlib
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Recordatorio de Pandas}
+\begin{frame}[fragile]{Visualización Integrada con Pandas y Matplotlib}
 \begin{minted}{python}
-import pandas as pd
+import matplotlib.pyplot as plt
 
-df = pd.read_csv("datos_simulacion.csv")
-print(df.head())
-print(df.describe())
+# Pandas tiene métodos de plotting integrados
+df.plot(x='masa', y='velocidad', kind='scatter', 
+        title='Masa vs Velocidad')
+plt.show()
 
-# Seleccionar columna "VelX"
-velx = df["VelX"]
-# Calcular promedio de VelX
-prom_velx = velx.mean()
-print("Promedio de VelX:", prom_velx)
+# Histograma de una columna
+df['energia_cinetica'].hist(bins=10, alpha=0.7)
+plt.title('Distribución de Energía Cinética')
+plt.xlabel('Energía Cinética')
+plt.show()
+
+# Gráfico de barras por categorías
+df.groupby('categoria_masa')['velocidad'].mean().plot(kind='bar')
+plt.title('Velocidad Promedio por Categoría de Masa')
+plt.show()
 \end{minted}
-\begin{itemize}
-  \item \textbf{df.head()} muestra las primeras filas.
-  \item \textbf{df.describe()} da estadísticas (count, mean, std, min, max, quartiles).
-\end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 11: Conexión con POO
-% ------------------------------------------------------------------------
-\begin{frame}{Unir POO y Pandas}
-  \begin{itemize}
-    \item \textbf{Ejemplo}:
-      \begin{itemize}
-        \item Cargar datos de partículas (\texttt{mass, x, y, vx, vy}).
-        \item Crear objetos \texttt{Particle} a partir de cada fila del DataFrame.
-        \item Calcular energía cinética total, distancias, etc.
-      \end{itemize}
-    \item Nos ayuda a \textbf{organizar} simulaciones más complejas.
-  \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
@@ -229,63 +433,107 @@ print("Promedio de VelX:", prom_velx)
 % ----------------------------------------------------------------------------------------
 \section{Ejercicios Prácticos}
 
-% ------------------------------------------------------------------------
-% Slide 12: Ejercicio 1 - Clase Sencilla
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: Clase para Administrar Notas de Estudiantes}
-  \begin{block}{Enunciado}
+
+
+\begin{frame}{Dataset del Titanic}
+  \begin{block}{Información del Dataset}
     \begin{itemize}
-      \item Crear una clase \textbf{Student} con atributos: \(\texttt{name}\), \(\texttt{grades}\) (lista o array).
-      \item Método \texttt{average()} que retorne el promedio de \texttt{grades}.
-      \item Método \texttt{show\_info()} que imprima nombre y promedio.
-      \item Instanciar varios objetos y mostrarlos en un \textbf{DataFrame de pandas} (opcional).
+      \item \textbf{Fuente:} \url{https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv}
+      \item \textbf{Contenido:} Datos de pasajeros del Titanic (891 registros)
+      \item \textbf{Variables principales:}
+        \begin{itemize}
+          \item \texttt{Age}: Edad del pasajero
+          \item \texttt{Fare}: Precio del boleto
+          \item \texttt{Pclass}: Clase de pasajero (1, 2, 3)
+          \item \texttt{Sex}: Género (male, female)
+          \item \texttt{Survived}: Supervivencia (0=No, 1=Sí)
+          \item \texttt{SibSp}: Número de hermanos/esposas a bordo
+          \item \texttt{Parch}: Número de padres/hijos a bordo
+          \item \texttt{Ticket}: Número de ticket
+          \item \texttt{Fare}: Tarifa pagada
+          \item \texttt{Cabin}: Cabina asignada
+          \item \texttt{Embarked}: Puerto de embarque (C = Cherburgo, Q = Queenstown, S = Southampton)
+        \end{itemize}
     \end{itemize}
   \end{block}
-  \textbf{Sugerencia}: Manejar notas como lista de floats y \textbf{numpy.mean} u operaciones directas.
+  \textbf{Objetivo:} Analizar y visualizar patrones en los datos históricos del Titanic.
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 12: Ejercicio 1 - Exploración básica del Titanic con pandas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Exploración básica de datos del Titanic}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Cargar el archivo \texttt{titanic.csv} desde la URL pública.
+      \item Mostrar las primeras 8 filas del DataFrame.
+      \item Listar los nombres de todas las columnas.
+      \item Obtener el número total de pasajeros y cuántos sobrevivieron.
+      \item Calcular la edad promedio y la tarifa (\texttt{Fare}) promedio.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Practicar carga, inspección y estadísticas básicas con pandas usando un dataset real.
+  \url{https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 13: Ejercicio 2 - Partículas desde CSV
+% Slide: Ejercicio 2 - Filtrado y selección de datos
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: Partículas desde CSV (pandas + POO)}
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Filtrado y selección de datos}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Suponer un archivo \(\texttt{particles.csv}\) con columnas: \(\texttt{mass, x, y, vx, vy}\).
-      \item Cargarlo con \texttt{pandas}.
-      \item Por cada fila, crear un objeto \texttt{Particle}.
-      \item Calcular la \textbf{energía cinética total} y la \textbf{posición promedio} (\((\bar{x}, \bar{y})\)).
-      \item (Opcional) Graficar las partículas en un scatter (\texttt{x} vs \texttt{y}) usando \textbf{Matplotlib}.
+      \item Filtrar los pasajeros de clase 1 (\texttt{Pclass} == 1).
+      \item Seleccionar solo las columnas \texttt{Name}, \texttt{Sex}, \texttt{Age}, \texttt{Fare}.
+      \item Mostrar los 5 pasajeros más jóvenes de clase 1.
+      \item (Opcional) Calcular el porcentaje de mujeres en clase 1.
     \end{itemize}
   \end{block}
-  \textbf{Objetivo}: Combinar la \textbf{clase Particle} con datos reales/leídos de un CSV.
+  \textbf{Objetivo}: Aplicar filtrado y selección de columnas en pandas.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 14: Ejercicio 3 - Cálculo de Distancias
+% Slide: Ejercicio 3 - Limpieza y manejo de datos faltantes
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: Matriz de Distancias con NumPy}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Limpieza y manejo de datos faltantes}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Teniendo \texttt{n} partículas (ya sea generadas o leídas):
-      \item Crear una \textbf{matriz NxN} donde la entrada \((i,j)\) sea la distancia entre partícula \(i\) y \(j\).
-      \item Usar preferentemente \textbf{NumPy} para vectorizar o, si no, hacerlo en un doble \textbf{for}.
-      \item (Opcional) Mostrarla como un \textbf{mapa de calor} con \texttt{plt.imshow}.
+      \item Identificar cuántos valores faltantes hay en la columna \texttt{Age}.
+      \item Crear una copia del DataFrame y rellenar los valores faltantes de \texttt{Age} con la edad promedio.
+      \item Mostrar la edad mínima y máxima después de la limpieza.
+      \item (Opcional) Eliminar filas donde falte el valor de \texttt{Embarked}.
     \end{itemize}
   \end{block}
-  \textbf{Sugerencia}: \textbf{p1.distance(p2)} es el método que definimos en la clase \texttt{Particle}.
+  \textbf{Objetivo}: Practicar detección y tratamiento de datos faltantes en pandas.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 15: Trabajo en Grupos
+% Slide: Ejercicio 4 - Agrupación y análisis por categorías
 % ------------------------------------------------------------------------
-\begin{frame}{Trabajo en Grupos}
-  \begin{itemize}
-    \item Formar \textbf{parejas/tríos}.
-    \item Seleccionar al menos \textbf{2 ejercicios} anteriores (o crear una fusión).
-    \item Implementar soluciones en un \textbf{notebook} de Colab.
-    \item Agregar \textbf{gráficas}, \textbf{comentarios} y \textbf{pruebas} de cada parte.
-    \item Comparar resultados y dudas al final.
-  \end{itemize}
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupación y análisis por categorías}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Agrupar los datos por \texttt{Pclass} y calcular la tarifa promedio (\texttt{Fare}) y la edad promedio (\texttt{Age}) por clase.
+      \item Calcular la tasa de supervivencia (\texttt{Survived}) por clase y por sexo.
+      \item (Opcional) Mostrar los resultados en un gráfico de barras.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Aplicar agrupación y análisis estadístico por categorías usando pandas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 5 - Visualización y exportación de resultados
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización y exportación de resultados}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un histograma de la columna \texttt{Age} para visualizar la distribución de edades.
+      \item Crear un gráfico de barras con el número de pasajeros por puerto de embarque (\texttt{Embarked}).
+      \item Exportar un DataFrame con las columnas \texttt{Name}, \texttt{Age}, \texttt{Survived} a un archivo \texttt{titanic\_resumen.csv}.
+      \item (Opcional) Guardar una de las gráficas como imagen (\texttt{.png}).
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Consolidar visualización y exportación de datos con pandas.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -300,17 +548,6 @@ print("Promedio de VelX:", prom_velx)
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 17: Espacio para Dudas
-% ------------------------------------------------------------------------
-\begin{frame}{Espacio para Dudas}
-  \begin{itemize}
-    \item ¿Dificultades al instanciar objetos desde DataFrame?
-    \item ¿Uso de \textbf{NumPy} en la creación de la matriz de distancias?
-    \item ¿Cómo mostrar la información en un \textbf{DataFrame} de forma clara?
-    \item \textbf{Preguntar abiertamente} si algo no está claro.
-  \end{itemize}
-\end{frame}
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 5: Conclusiones y Próximos Pasos
@@ -320,54 +557,36 @@ print("Promedio de VelX:", prom_velx)
 % ------------------------------------------------------------------------
 % Slide 18: Discusión de Soluciones
 % ------------------------------------------------------------------------
-\begin{frame}{Discusión de Soluciones}
+\begin{frame}{Discusión de Soluciones con pandas}
   \begin{itemize}
-    \item Comparte \textbf{cómo implementaste} la clase y las funciones.
-    \item Menciona si \textbf{pandas} facilitó la lectura de datos.
-    \item Para la matriz de distancias, ¿usaste \textbf{doble for} o intentaste algo vectorizado?
-    \item Resultados numéricos y/o visuales (\textbf{gráficas}) que surgieron.
+    \item ¿Qué funciones de \textbf{pandas} te resultaron más útiles para explorar y limpiar el dataset del Titanic?
+    \item ¿Cómo filtraste y seleccionaste subconjuntos de datos relevantes?
+    \item ¿Qué dificultades encontraste al manejar datos faltantes o agrupar información?
+    \item ¿Qué visualizaciones generaste y cómo interpretaste los resultados?
+    \item ¿Exportaste algún resultado? ¿Cómo lo hiciste con pandas?
   \end{itemize}
+  \begin{alertblock}{Objetivo}
+    Compartir estrategias y buenas prácticas usando pandas para análisis de datos reales.
+  \end{alertblock}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 19: Conclusiones de la Sesión 15
+% Slide 19: Conclusiones de la Sesión 15 (Enfoque pandas)
 % ------------------------------------------------------------------------
 \begin{frame}{Conclusiones de la Sesión 15}
   \begin{itemize}
-    \item Iniciamos la \textbf{Programación Orientada a Objetos} (POO) en Python.
+    \item Aplicamos \textbf{pandas} para análisis y manipulación de datos reales (\texttt{titanic.csv}).
       \begin{itemize}
-        \item Clases, atributos, métodos, constructor.
-        \item Ejemplo con \texttt{Particle} y distancias.
+        \item Carga, inspección, filtrado y limpieza de datos.
+        \item Agrupación, estadísticas y visualización rápida.
       \end{itemize}
-    \item Reforzamos la \textbf{integración} con \textbf{NumPy} y \textbf{pandas}, importante para \textbf{análisis de datos} y simulaciones.
-    \item Seguiremos expandiendo POO y su aplicación en futuros problemas más complejos.
+    \item Reforzamos la importancia de pandas en el flujo de trabajo científico y en la exploración de grandes datasets.
+    \item Practicamos la exportación de resultados y la generación de gráficas directamente desde pandas.
+    \item Próximamente: integración de pandas con otras herramientas y análisis más avanzados.
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 20: Próxima Sesión
-% ------------------------------------------------------------------------
-\begin{frame}{Próximos Temas (Semana 8, Sesión 2)}
-  \begin{itemize}
-    \item Continuar con \textbf{POO} (herencia, métodos especiales).
-    \item Ejemplos avanzados: \textbf{clases para manejo estadístico}, o \textbf{modelos de partículas} con interacciones básicas.
-    \item Se revisará la \textbf{retroalimentación} del problema evaluado de la semana pasada.
-  \end{itemize}
-  \vspace{0.3cm}
-  \textbf{Recomendación}: Repasar la sintaxis de \texttt{class} y crear ejemplos propios para consolidar POO.
-\end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 21: Recursos Adicionales
-% ------------------------------------------------------------------------
-\begin{frame}{Recursos Adicionales}
-  \begin{itemize}
-    \item \href{https://docs.python.org/3/tutorial/classes.html}{\textbf{Python Tutorial - Classes}} (documentación oficial).
-    \item \href{https://pandas.pydata.org/}{\textbf{Pandas Documentation}} para operaciones de DataFrame.
-    \item \href{https://realpython.com/}{\textbf{Real Python}} - guías sobre OOP y análisis de datos en Python.
-    \item \href{https://numpy.org/doc/stable/reference/routines.linalg.html}{\textbf{NumPy linalg}} - recordatorio de funciones.
-  \end{itemize}
-\end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 22: Cierre de la Sesión

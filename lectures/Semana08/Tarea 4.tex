@@ -1,0 +1,196 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga de tu preámbulo personalizado (preamble.tex).
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+
+\begin{document}
+
+% ------------------------------------------------------------------------
+% Portada de la Presentación
+% ------------------------------------------------------------------------
+\myfront{}
+
+% ------------------------------------------------------------------------
+% Slide 1: Título de la Tarea
+% ------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+  % Tarea 3 - Semana 8
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 2: Índice / Tabla de Contenidos
+% ------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Resumen - Tarea 3, Semana 8}
+  \tableofcontents
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Configuración de bloques
+% ------------------------------------------------------------------------
+\metroset{block=fill}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Enunciado de la Tarea
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Dataset}
+
+\begin{frame}{Dataset del Titanic}
+  \begin{block}{Información del Dataset}
+    \begin{itemize}
+      \item \textbf{Fuente:} \url{https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv}
+      \item \textbf{Contenido:} Datos de pasajeros del Titanic (891 registros)
+      \item \textbf{Variables principales:}
+        \begin{itemize}
+          \item \texttt{Fare}: Precio del boleto
+          \item \texttt{Pclass}: Clase de pasajero (1, 2, 3)
+          \item \texttt{Sex}: Género (male, female)
+          \item \texttt{Survived}: Supervivencia (0=No, 1=Sí)
+          \item \texttt{SibSp}: Número de hermanos/esposas a bordo
+          \item \texttt{Parch}: Número de padres/hijos a bordo
+          \item \texttt{Ticket}: Número de ticket
+          \item \texttt{Cabin}: Cabina asignada
+          \item \texttt{Embarked}: Puerto de embarque (C = Cherburgo, Q = Queenstown, S = Southampton)
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo:} Analizar y visualizar patrones en los datos históricos del Titanic.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Parte 1 - Análisis con Pandas
+% ----------------------------------------------------------------------------------------
+\begin{frame}{Problema Principal - Parte 1: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis con Pandas}
+
+  \begin{block}{Paso 1: Carga y Exploración Inicial}
+    \begin{itemize}
+      \item Importar las librerías necesarias: \texttt{pandas}, \texttt{numpy}
+      \item Cargar el dataset desde la URL proporcionada
+      \item Mostrar las primeras 5 filas con \texttt{.head()}
+      \item Obtener información general con \texttt{.info()} y \texttt{.describe()}
+      \item Verificar las dimensiones del DataFrame con \texttt{.shape}
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Paso 2: Análisis de Valores Faltantes}
+    \begin{itemize}
+      \item Identificar columnas con valores nulos usando \texttt{.isnull().sum()}
+      \item Calcular el porcentaje de valores faltantes por columna
+      \item Decidir estrategia para manejar valores faltantes en \texttt{Age} y \texttt{Embarked}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Parte 1: Continuación \hfill \textcolor{blue}{$\bigstar$} \\ Limpieza y Transformación}
+  \begin{block}{Paso 3: Limpieza de Datos}
+    \begin{itemize}
+      \item Rellenar valores faltantes en \texttt{Age} con la mediana por clase (\texttt{Pclass})
+      \item Rellenar valores faltantes en \texttt{Embarked} con el valor más frecuente
+      \item Eliminar la columna \texttt{Cabin} (muchos valores faltantes)
+      \item Verificar que no queden valores nulos
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Paso 4: Análisis Estadístico Básico}
+    \begin{itemize}
+      \item Calcular la tasa de supervivencia general
+      \item Tasa de supervivencia por género usando \texttt{.groupby()}
+      \item Tasa de supervivencia por clase de pasajero
+      \item Edad promedio de supervivientes vs no supervivientes
+      \item Precio promedio del boleto por clase
+    \end{itemize}
+  \end{block}
+\end{frame}
+  
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Parte 2 - Visualización con Matplotlib
+% ----------------------------------------------------------------------------------------
+\begin{frame}{Problema Principal - Parte 2: \hfill \textcolor{red}{$\clubsuit$} \\  Visualización con Matplotlib}
+
+  \begin{block}{Paso 1: Configuración y Gráficos Univariados}
+    \begin{itemize}
+      \item Importar \texttt{matplotlib.pyplot} y configurar estilo
+      \item \textbf{Histograma de Edad:} Distribución de edades con bins apropiados
+      \item \textbf{Gráfico de Barras:} Conteo de supervivientes por género
+      \item \textbf{Gráfico de Barras:} Distribución de pasajeros por clase
+      \item Personalizar colores, títulos y etiquetas en cada gráfico
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Paso 2: Gráficos Bivariados}
+    \begin{itemize}
+      \item \textbf{Scatter Plot:} Edad vs Precio del boleto, coloreado por supervivencia
+      \item \textbf{Box Plot:} Distribución de edades por clase de pasajero
+      \item \textbf{Histograma Comparativo:} Edad de supervivientes vs no supervivientes
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Criterios de Evaluación
+% ----------------------------------------------------------------------------------------
+\section{Evaluación y Retroalimentación}
+
+\begin{frame}{Criterios de Evaluación}
+  \begin{block}{Entrega Obligatoria}
+    \begin{itemize}
+      \item Código funcional y bien comentado.
+      \item Uso correcto de pandas y matplotlib.
+      \item Explicación clara de los resultados.
+      \item Creatividad en la visualización (colores, estilos, etc.).
+    \end{itemize}
+  \end{block}
+  \begin{block}{Criterios de Evaluación}
+    \begin{itemize}
+      \item Código funcional (40\%)
+      \item Uso correcto de conceptos (30\%)
+      \item Comentarios y documentación (20\%)
+      \item Creatividad y extensiones (10\%)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Retroalimentación}
+  \begin{itemize}
+    \item ¿Dificultades específicas con la carga o visualización de datos?
+    \item ¿Qué aprendiste sobre la exploración de datos reales?
+    \item ¿Qué mejorarías en tu código o visualización?
+  \end{itemize}
+  \begin{alertblock}{Importante}
+    La colaboración es bienvenida, pero cada estudiante debe entender completamente su código y análisis.
+  \end{alertblock}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Cierre
+% ----------------------------------------------------------------------------------------
+\section{Cierre}
+
+\begin{frame}{Síntesis de la Tarea}
+  \begin{itemize}
+    \item \textbf{Consolidaste:} análisis y visualización de datos reales.
+    \item \textbf{Aplicaste:} pandas y matplotlib en un contexto práctico.
+    \item \textbf{Desarrollaste:} habilidades de documentación y comunicación de resultados.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Preparación para la Próxima Unidad}
+  \begin{itemize}
+    \item \textbf{Próximamente:} POO avanzada y análisis de datos complejos.
+    \item \textbf{Preparación recomendada:}
+      \begin{itemize}
+        \item Repasar visualización y manejo de DataFrames.
+        \item Explorar datasets adicionales en Kaggle o similares.
+      \end{itemize}
+  \end{itemize}
+  \begin{center}
+    \textbf{¡Éxito y nos vemos en la próxima clase!}
+  \end{center}
+\end{frame}
+
+\end{document}
