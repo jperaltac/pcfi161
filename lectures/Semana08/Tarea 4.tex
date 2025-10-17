@@ -60,76 +60,67 @@
   \textbf{Objetivo:} Analizar y visualizar patrones en los datos históricos del Titanic.
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Parte 1 - Análisis con Pandas
-% ----------------------------------------------------------------------------------------
+
 \begin{frame}{Problema Principal - Parte 1: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis con Pandas}
-
-  \begin{block}{Paso 1: Carga y Exploración Inicial}
+  \begin{block}{Paso 1: Análisis Demográfico}
     \begin{itemize}
-      \item Importar las librerías necesarias: \texttt{pandas}, \texttt{numpy}
-      \item Cargar el dataset desde la URL proporcionada
-      \item Mostrar las primeras 5 filas con \texttt{.head()}
-      \item Obtener información general con \texttt{.info()} y \texttt{.describe()}
-      \item Verificar las dimensiones del DataFrame con \texttt{.shape}
+      \item Calcular la proporción de pasajeros por género y clase
+      \item Determinar la edad media por puerto de embarque
+      \item Analizar la relación entre SibSp y Parch
+      \item Crear una nueva columna familia\_total sumando SibSp y Parch
+      \item Identificar los grupos familiares más grandes
     \end{itemize}
   \end{block}
   
-  \begin{block}{Paso 2: Análisis de Valores Faltantes}
+  \begin{block}{Paso 2: Análisis Económico}
     \begin{itemize}
-      \item Identificar columnas con valores nulos usando \texttt{.isnull().sum()}
-      \item Calcular el porcentaje de valores faltantes por columna
-      \item Decidir estrategia para manejar valores faltantes en \texttt{Age} y \texttt{Embarked}
+      \item Calcular la tarifa promedio por puerto de embarque
+      \item Identificar outliers en las tarifas usando IQR
+      \item Crear categorías de tarifas (económica, media, premium)
+      \item Relacionar tarifas con tasas de supervivencia
     \end{itemize}
   \end{block}
 \end{frame}
 
-\begin{frame}{Parte 1: Continuación \hfill \textcolor{blue}{$\bigstar$} \\ Limpieza y Transformación}
-  \begin{block}{Paso 3: Limpieza de Datos}
+\begin{frame}{Parte 1: Continuación \hfill \textcolor{blue}{$\bigstar$} \\ Análisis Avanzado}
+  \begin{block}{Paso 3: Correlaciones y Patrones}
     \begin{itemize}
-      \item Rellenar valores faltantes en \texttt{Age} con la mediana por clase (\texttt{Pclass})
-      \item Rellenar valores faltantes en \texttt{Embarked} con el valor más frecuente
-      \item Eliminar la columna \texttt{Cabin} (muchos valores faltantes)
-      \item Verificar que no queden valores nulos
+      \item Crear matriz de correlación entre variables numéricas
+      \item Analizar la relación entre clase y tamaño familiar
+      \item Estudiar patrones de supervivencia por cabina
+      \item Identificar títulos (Mr., Mrs., etc.) del campo Name
     \end{itemize}
   \end{block}
   
-  \begin{block}{Paso 4: Análisis Estadístico Básico}
+  \begin{block}{Paso 4: Análisis de Supervivencia}
     \begin{itemize}
-      \item Calcular la tasa de supervivencia general
-      \item Tasa de supervivencia por género usando \texttt{.groupby()}
-      \item Tasa de supervivencia por clase de pasajero
-      \item Edad promedio de supervivientes vs no supervivientes
-      \item Precio promedio del boleto por clase
-    \end{itemize}
-  \end{block}
-\end{frame}
-  
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Parte 2 - Visualización con Matplotlib
-% ----------------------------------------------------------------------------------------
-\begin{frame}{Problema Principal - Parte 2: \hfill \textcolor{red}{$\clubsuit$} \\  Visualización con Matplotlib}
-
-  \begin{block}{Paso 1: Configuración y Gráficos Univariados}
-    \begin{itemize}
-      \item Importar \texttt{matplotlib.pyplot} y configurar estilo
-      \item \textbf{Histograma de Edad:} Distribución de edades con bins apropiados
-      \item \textbf{Gráfico de Barras:} Conteo de supervivientes por género
-      \item \textbf{Gráfico de Barras:} Distribución de pasajeros por clase
-      \item Personalizar colores, títulos y etiquetas en cada gráfico
-    \end{itemize}
-  \end{block}
-  
-  \begin{block}{Paso 2: Gráficos Bivariados}
-    \begin{itemize}
-      \item \textbf{Scatter Plot:} Edad vs Precio del boleto, coloreado por supervivencia
-      \item \textbf{Box Plot:} Distribución de edades por clase de pasajero
-      \item \textbf{Histograma Comparativo:} Edad de supervivientes vs no supervivientes
+      \item Calcular supervivencia por rango de edad
+      \item Analizar impacto del tamaño familiar en supervivencia
+      \item Estudiar supervivencia por título y género
+      \item Crear un índice de privilegio basado en clase y tarifa
     \end{itemize}
   \end{block}
 \end{frame}
 
+\begin{frame}{Problema Principal - Parte 2: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización Avanzada}
+  \begin{block}{Paso 1: Gráficos Multivariables}
+    \begin{itemize}
+      \item Crear un scatter plot 3D de edad, tarifa y supervivencia
+      \item Generar subplots para análisis por puerto de embarque
+      \item Diseñar un heatmap de correlaciones
+      \item Visualizar distribución de edades por título
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Paso 2: Visualizaciones Especializadas}
+    \begin{itemize}
+      \item Crear un violin plot de tarifas por clase y supervivencia
+      \item Generar un treemap de pasajeros por clase y género
+      \item Diseñar gráficos de waffle para proporciones de supervivencia
+      \item Visualizar patrones de cabinas en un diagrama personalizado
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 2: Criterios de Evaluación
