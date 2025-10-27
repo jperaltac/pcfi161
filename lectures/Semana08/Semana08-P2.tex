@@ -91,15 +91,10 @@ n = 1200
 
 # Estrellas
 star_teff = np.clip(
-    rng.normal(5700, 800, n), 3500, 7500
-)  # K
-star_radius_Rsun = np.clip(
-    rng.lognormal(mean=np.log(1.0), sigma=0.25, size=n), 0.6, 2.5
-)  # R_sun
+    rng.normal(5700, 800, n), 3500, 7500)  # K
+star_radius_Rsun = np.clip(rng.lognormal(mean=np.log(1.0), sigma=0.25, size=n), 0.6, 2.5)  # R_sun
 star_metallicity = rng.normal(0.0, 0.2, n)  # [Fe/H] dex
-star_mass_Msun = np.clip(
-    rng.lognormal(np.log(1.0), 0.20, n), 0.5, 1.6
-)  # M_sun
+star_mass_Msun = np.clip(rng.lognormal(np.log(1.0), 0.20, n), 0.5, 1.6)  # M_sun
 
 # Planetas
 # Periodo ~ lognormal (mediana ~20 d)

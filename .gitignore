@@ -1,6 +1,9 @@
 build/
 #setvarinside.sh
 
+# SEGURIDAD: Archivos con tokens y credenciales
+Key.py
+
 # Intermedios LaTeX
 *.aux
 *.log
@@ -30,7 +33,6 @@ _minted*/
 _minted/
 *.txt
 _*.minted
-Canvas_Key.py
 #Semana??-P?.pdf
 # Si no quieres subir PDFs generados por LaTeX, ignora el PDF
 # (descomenta la línea si no deseas subirlos)
