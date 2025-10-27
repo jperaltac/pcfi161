@@ -1,4 +1,3 @@
-
 \documentclass[10pt]{beamer}
 \input{../preamble.tex}
 
@@ -14,8 +13,7 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % Por ejemplo:
-  % \title{Semana 8 - Sesión 2 (Sesión 16): Aplicaciones Prácticas y Evaluación Parcial en Clase}
+  % \title{Semana 8 - Sesión 2 (Sesión 16): Aplicación práctica con pandas (Exoplanetas)}
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -40,222 +38,396 @@
   \begin{itemize}
     \item \textbf{Semana 8, Sesión 1 (P1)}:
       \begin{itemize}
-        \item Fundamentos de \textbf{pandas} para análisis de datos.
-        \item Introducción a \textbf{POO} (clases, métodos, atributos).
-        \item Ejercicios de integración pandas + POO + visualización.
+        \item Fundamentos de \textbf{pandas}: Series, DataFrames, selección, filtrado, groupby.
+        \item Limpieza de datos (NaN), estadísticas y visualización con Matplotlib.
       \end{itemize}
-    \item \textbf{Objetivo de hoy:} Consolidar y aplicar estos conceptos en ejercicios prácticos integradores.
+    \item \textbf{Objetivo de hoy:} Aplicar estos conceptos en un caso integrado de \textbf{exoplanetas} con datos sintéticos, faltantes, derivaciones físicas y gráficas.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Objetivos de la Sesión P2}
   \begin{itemize}
-    \item \textbf{Consolidar} el uso de pandas y POO en problemas reales.
-    \item \textbf{Aplicar} visualización avanzada con Matplotlib.
-    \item \textbf{Desarrollar} habilidades de análisis, limpieza y exportación de datos.
-    \item \textbf{Integrar} múltiples conceptos en ejercicios colaborativos.
+    \item \textbf{Consolidar} lectura, limpieza y análisis con pandas.
+    \item \textbf{Aplicar} derivaciones físicas simples para exoplanetas.
+    \item \textbf{Desarrollar} criterio para tratar datos faltantes (MCAR/MNAR).
+    \item \textbf{Integrar} visualización y exportación de resultados.
   \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ejercicios Prácticos Integrados
+% SECCIÓN 2: Tema y Dataset Sintético (Astronomía)
 % ----------------------------------------------------------------------------------------
-\section{Ejercicios Prácticos Integrados}
+\section{Tema y Dataset}
 
-\begin{frame}{Enfoque de la Sesión: Aplicación Práctica}
-  \begin{itemize}
-    \item \textbf{Enfoque 100\% práctico:} Resolver problemas integradores.
-    \item \textbf{Integración de conceptos:} pandas, POO, visualización.
-    \item \textbf{Aplicación contextualizada:} Física, astronomía, datos reales.
-  \end{itemize}
-  \begin{block}{Meta de la Sesión}
-    Lograr que cada estudiante se sienta cómodo aplicando pandas y POO en problemas reales.
-  \end{block}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Ejercicio 1: Análisis y limpieza de datos experimentales
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis y limpieza de datos experimentales}
-  \begin{block}{Enunciado}
+\begin{frame}{Tema: Exoplanetas detectados por tránsito}
+  \begin{block}{Contexto}
     \begin{itemize}
-      \item Cargar el archivo \texttt{titanic.csv} desde la URL pública.
-      \item Mostrar las primeras 10 filas y las columnas disponibles.
-      \item Identificar cuántos valores faltantes hay en la columna \texttt{Age}.
-      \item Rellenar los valores faltantes de \texttt{Age} con la edad promedio.
-      \item Mostrar la edad mínima y máxima después de la limpieza.
+      \item Modelaremos un \textbf{catálogo sintético} de exoplanetas alrededor de estrellas tipo solar.
+      \item Variables clave:
+        \begin{itemize}
+          \item \texttt{star\_teff} [K], \texttt{star\_radius\_Rsun} [R$_\odot$], \texttt{star\_metallicity} [dex]
+          \item \texttt{period\_days} [d], \texttt{planet\_radius\_Re} [R$_\oplus$]
+          \item \texttt{a\_AU} [UA] (ley de Kepler), \texttt{depth\_ppm} [ppm] (profundidad de tránsito)
+          \item \texttt{snr} (señal-ruido observacional aprox.), \texttt{teq\_K} [K] (temperatura de equilibrio)
+        \end{itemize}
+      \item Inyectaremos \textbf{datos faltantes} MCAR/MNAR para practicar limpieza.
     \end{itemize}
   \end{block}
-  	extbf{Conceptos:} Carga, inspección y limpieza de datos con pandas.\\
-  	extbf{Física relevante:} Importancia de datos limpios en experimentos reales.
+  \textbf{Meta:} Progresión de inspección → limpieza → derivaciones → filtrado físico → visualización → exportación.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Ejercicio 2: Agrupación y análisis por categorías
+% Generación del dataset sintético (dos columnas por longitud)
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupación y análisis por categorías}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Agrupar los datos del Titanic por \texttt{Pclass} y calcular la tarifa promedio (\texttt{Fare}) y la edad promedio (\texttt{Age}) por clase.
-      \item Calcular la tasa de supervivencia (\texttt{Survived}) por clase y por sexo.
-      \item Mostrar los resultados en un gráfico de barras.
-    \end{itemize}
-  \end{block}
-  	extbf{Conceptos:} Agrupación y análisis estadístico por categorías usando pandas.\\
-  	extbf{Física relevante:} Clasificación y análisis de poblaciones en experimentos.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Ejercicio 3: Visualización y exportación de resultados
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización y exportación de resultados}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Crear un histograma de la columna \texttt{Age} para visualizar la distribución de edades.
-      \item Crear un gráfico de barras con el número de pasajeros por puerto de embarque (\texttt{Embarked}).
-      \item Exportar un DataFrame con las columnas \texttt{Name}, \texttt{Age}, \texttt{Survived} a un archivo \texttt{titanic\_resumen.csv}.
-      \item (Opcional) Guardar una de las gráficas como imagen (\texttt{.png}).
-    \end{itemize}
-  \end{block}
-  	extbf{Conceptos:} Visualización y exportación de datos con pandas y Matplotlib.\\
-  	extbf{Física relevante:} Presentación clara de resultados experimentales.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Ejercicio 4: Integración de POO y pandas
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Integración de POO y pandas}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Define una clase \texttt{Particle} con atributos: masa, posición (x, y), velocidad (vx, vy).
-      \item Crea una lista de objetos \texttt{Particle} a partir de un DataFrame con columnas adecuadas.
-      \item Calcula la energía cinética de cada partícula usando un método de la clase.
-      \item Agrega la energía cinética como nueva columna al DataFrame.
-    \end{itemize}
-  \end{block}
-  	extbf{Conceptos:} Integración de POO y pandas para análisis físico.\\
-  	extbf{Física relevante:} Energía cinética y manipulación de datos experimentales.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Ejercicio 5: Análisis libre y visualización avanzada
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis libre y visualización avanzada}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Usando un DataFrame propio (puede ser generado aleatoriamente), realiza un análisis exploratorio: estadísticas, correlaciones, filtrado.
-      \item Elige dos variables cuantitativas y realiza un scatter plot.
-      \item Personaliza etiquetas, títulos y leyendas.
-      \item (Opcional) Prueba un gráfico 3D si tienes variables adecuadas.
-    \end{itemize}
-  \end{block}
-  	extbf{Conceptos:} Análisis exploratorio y visualización avanzada.\\
-  	extbf{Física relevante:} Exploración de relaciones entre variables físicas.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Soluciones de Referencia
-% ----------------------------------------------------------------------------------------
-\section{Soluciones de Referencia}
-
-% ------------------------------------------------------------------------
-% Solución 1: Limpieza de datos Titanic
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Limpieza de datos Titanic}
-\begin{minted}{python}
-import pandas as pd
-url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
-df = pd.read_csv(url)
-print(df.head(10))
-print(df.columns)
-print(df['Age'].isnull().sum())
-df['Age'].fillna(df['Age'].mean(), inplace=True)
-print(df['Age'].min(), df['Age'].max())
-\end{minted}
-	extbf{Discusión:} Se muestra la carga, inspección y limpieza básica de datos reales.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 2: Agrupación y análisis
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Agrupación y análisis}
-\begin{minted}{python}
-grouped = df.groupby('Pclass').agg({'Fare':'mean', 'Age':'mean'})
-print(grouped)
-survived_by_class = df.groupby('Pclass')['Survived'].mean()
-survived_by_sex = df.groupby('Sex')['Survived'].mean()
-survived_by_class.plot(kind='bar', title='Tasa de supervivencia por clase')
-import matplotlib.pyplot as plt
-plt.show()
-\end{minted}
-	extbf{Discusión:} Se aplican agrupaciones y visualización de resultados categóricos.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 3: Visualización y exportación
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Visualización y exportación}
-\begin{minted}{python}
-df['Age'].hist(bins=20)
-import matplotlib.pyplot as plt
-plt.title('Distribución de edades')
-plt.xlabel('Edad')
-plt.ylabel('Frecuencia')
-plt.show()
-df['Embarked'].value_counts().plot(kind='bar', title='Pasajeros por puerto')
-plt.show()
-df[['Name','Age','Survived']].to_csv('titanic_resumen.csv', index=False)
-\end{minted}
-	extbf{Discusión:} Visualización y exportación de resultados con pandas.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 4: POO y pandas
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ POO y pandas}
-\begin{minted}{python}
-import math
-class Particle:
-    def __init__(self, mass, x, y, vx, vy):
-        self.mass = mass
-        self.x = x
-        self.y = y
-        self.vx = vx
-        self.vy = vy
-    def kinetic_energy(self):
-        v2 = self.vx**2 + self.vy**2
-        return 0.5 * self.mass * v2
-
-# Supón que tienes un DataFrame dfp con columnas: mass, x, y, vx, vy
-particles = [Particle(row['mass'], row['x'], row['y'], row['vx'], row['vy']) for idx, row in dfp.iterrows()]
-dfp['E_cinetica'] = [p.kinetic_energy() for p in particles]
-\end{minted}
-	extbf{Discusión:} Integración de objetos y DataFrames para análisis físico.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 5: Análisis libre y visualización avanzada
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Análisis libre y visualización avanzada}
+\begin{frame}[fragile]{Generación del dataset sintético: \hfill \textcolor{green}{$\checkmark$} \\ Exoplanetas por tránsito}
+\begin{columns}
+\begin{column}{0.5\textwidth}
 \begin{minted}{python}
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-np.random.seed(42)
+
+rng = np.random.default_rng(42)
+n = 1200
+
+# Estrellas
+star_teff = np.clip(
+    rng.normal(5700, 800, n), 3500, 7500
+)  # K
+star_radius_Rsun = np.clip(
+    rng.lognormal(mean=np.log(1.0), sigma=0.25, size=n), 0.6, 2.5
+)  # R_sun
+star_metallicity = rng.normal(0.0, 0.2, n)  # [Fe/H] dex
+star_mass_Msun = np.clip(
+    rng.lognormal(np.log(1.0), 0.20, n), 0.5, 1.6
+)  # M_sun
+
+# Planetas
+# Periodo ~ lognormal (mediana ~20 d)
+period_days = rng.lognormal(
+    mean=np.log(20), sigma=0.9, size=n
+)
+
+# Radio planetario con cola pesada (pareto + esc.)
+rp_base = 0.8 + rng.pareto(1.6, n)  # >0.8
+planet_radius_Re = np.clip(rp_base, 0.5, 15.0)
+
+# Geometría de tránsito simple
+b = rng.uniform(0, 1, n)  # impacto
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=24]{python}
+# Ley de Kepler en unidades astronómicas (aprox):
+# a[AU] ≈ (P/365.25)^(2/3) * M_star^(1/3)
+a_AU = (period_days/365.25)**(2/3) * (star_mass_Msun**(1/3))
+
+# Profundidad de tránsito (ppm) ~ (Rp/R*)^2
+Rsun_to_Re = 109.1
+depth_ppm = ((planet_radius_Re / (star_radius_Rsun * Rsun_to_Re))**2) * 1e6
+
+# SNR aprox: depth/sigma * sqrt(Ntr), sigma ~ lognormal
+sigma_ppm = rng.lognormal(mean=np.log(300), sigma=0.4, size=n)
+Ntr = np.maximum(1, (3*365.25)/period_days)  # 3 años misión
+snr = depth_ppm / sigma_ppm * np.sqrt(Ntr)
+
+# Dataset base
 df = pd.DataFrame({
-    'x': np.random.normal(0,1,100),
-    'y': np.random.normal(5,2,100),
-    'categoria': np.random.choice(['A','B'], size=100)
+    "id": [f"EP{idx:04d}" for idx in range(1, n+1)],
+    "star_teff": star_teff,
+    "star_radius_Rsun": star_radius_Rsun,
+    "star_metallicity": star_metallicity,
+    "star_mass_Msun": star_mass_Msun,
+    "period_days": period_days,
+    "planet_radius_Re": planet_radius_Re,
+    "b": b,
+    "a_AU": a_AU,
+    "depth_ppm": depth_ppm,
+    "snr": snr
 })
-print(df.describe())
-print(df.corr())
-plt.scatter(df['x'], df['y'], c=(df['categoria']=='A'), cmap='coolwarm', alpha=0.7)
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Scatter x vs y por categoría')
+
+# Datos faltantes: MCAR/MNAR
+mask_mcar_teff = rng.random(n) < 0.10
+df.loc[mask_mcar_teff, "star_teff"] = np.nan
+
+mask_mnar_rp = df["snr"] < 7
+drop_prob = rng.random(n) < 0.25
+df.loc[mask_mnar_rp & drop_prob, "planet_radius_Re"] = np.nan
+
+mask_mar_met = (df["star_teff"] < 4300) & (rng.random(n) < 0.20)
+df.loc[mask_mar_met, "star_metallicity"] = np.nan
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Discusión:} Distribuciones realistas aproximadas y faltantes MCAR/MNAR para practicar imputación. La SNR depende de profundidad y número de tránsitos.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Ejercicios Prácticos Integrados
+% ----------------------------------------------------------------------------------------
+\section{Ejercicios Prácticos Integrados}
+
+% ------------------------------------------------------------------------
+% Ejercicio 1: Inspección
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Inspección y unidades}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Muestra \texttt{df.shape}, \texttt{df.info()} y \texttt{df.describe()}.
+      \item Lista columnas numéricas y no numéricas.
+      \item Verifica unidades físicas de variables clave.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Inspección inicial y verificación de consistencia.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Inspección y unidades}
+\begin{minted}{python}
+print("shape:", df.shape)
+print("="*40); df.info()
+print("="*40); print(df.describe())
+
+num_cols = df.select_dtypes(include='number').columns.tolist()
+non_num_cols = df.select_dtypes(exclude='number').columns.tolist()
+print("Numéricas:", num_cols)
+print("No numéricas:", non_num_cols)
+
+# Unidades:
+# star_teff[K], star_radius_Rsun[R_sun], star_mass_Msun[M_sun],
+# period_days[d], planet_radius_Re[R_earth], a_AU[AU], depth_ppm[ppm]
+\end{minted}
+\textbf{Discusión:} Asegurar unidades y tipos guía decisiones de limpieza y derivaciones.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Ejercicio 2: Limpieza e imputación
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Limpieza y datos faltantes}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Cuenta nulos por columna y porcentaje.
+      \item Imputa \texttt{star\_teff} con la mediana por cuartiles de \texttt{star\_radius\_Rsun}.
+      \item Imputa \texttt{planet\_radius\_Re} usando profundidad: \(\hat{R_p} \approx \sqrt{\texttt{depth\_ppm}/10^6}\cdot R_\star \cdot 109.1\).
+      \item Imputa \texttt{star\_metallicity} con la mediana global.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Practicar estrategias basadas en física y en agrupaciones.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Limpieza y datos faltantes}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+# Resumen de nulos
+nulls = df.isnull().sum().sort_values(ascending=False)
+pct = df.isnull().mean().round(3)
+print(nulls); print(pct)
+
+# Imputación star_teff por cuartiles de radio estelar
+bins = pd.qcut(df['star_radius_Rsun'], 4, duplicates='drop')
+teff_med = df.groupby(bins)['star_teff'].transform(
+    lambda s: s.fillna(s.median())
+)
+df['star_teff'] = df['star_teff'].fillna(teff_med)
+
+# Imputación planet_radius_Re desde profundidad
+# Rp[Re] ≈ sqrt(depth/1e6) * Rstar[Rsun] * 109.1
+need_rp = df['planet_radius_Re'].isna() & df['depth_ppm'].notna() & df['star_radius_Rsun'].notna()
+Rp_est = np.sqrt(df.loc[need_rp, 'depth_ppm'] / 1e6) * df.loc[need_rp, 'star_radius_Rsun'] * 109.1
+df.loc[need_rp, 'planet_radius_Re'] = Rp_est
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=20]{python}
+# Imputación metallicity con mediana global
+met_med = df['star_metallicity'].median()
+df['star_metallicity'] = df['star_metallicity'].fillna(met_med)
+
+# Verificación
+print(df.isnull().sum())
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Discusión:} La imputación de Rp usa la relación física del tránsito; el resto usa medianas robustas por grupos.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Ejercicio 3: Derivaciones físicas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Columnas derivadas físicas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Recalcula \texttt{a\_AU} con Kepler: \(a \propto P^{2/3} M_\star^{1/3}\).
+      \item Calcula \(\texttt{teq\_K}\) con albedo 0.3: \(\mathrm{T}_{eq}\approx T_{eff}\sqrt{\frac{R_\star}{2a}}\cdot(1-0.3)^{1/4}\), usando \(R_\odot/\mathrm{AU}=0.00465047\).
+      \item Clasifica \texttt{planet\_type}: \textit{Terreno}(<2 R$_\oplus$), \textit{Sub-Neptuno}(2–4), \textit{Gigante}(>4).
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos}: Uso de unidades y umbrales astrofísicos comunes.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Columnas derivadas físicas}
+\begin{minted}{python}
+# a_AU (recalcular por consistencia)
+df['a_AU'] = (df['period_days']/365.25)**(2/3) * (df['star_mass_Msun']**(1/3))
+
+# Temperatura de equilibrio
+Rsun_AU = 0.00465047
+geom = (df['star_radius_Rsun'] * Rsun_AU) / (2.0 * df['a_AU'])
+albedo = 0.30
+df['teq_K'] = df['star_teff'] * np.sqrt(geom) * ((1 - albedo)**0.25)
+
+# Clasificación por tamaño
+def classify_rp(r):
+    if r < 2.0: return 'Terreno'
+    if r <= 4.0: return 'Sub-Neptuno'
+    return 'Gigante'
+df['planet_type'] = df['planet_radius_Re'].apply(classify_rp)
+\end{minted}
+\textbf{Discusión:} La \(\mathrm{T}_{eq}\) es una cota simplificada; útil para filtros de “zona habitable aproximada”.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Ejercicio 4: Filtrado físico
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Candidatos templados y detectables}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Selecciona candidatos con \(250 \le \texttt{teq\_K} \le 330\), \(\texttt{planet\_radius\_Re} \le 2.5\), \(\texttt{period\_days}\in[20,400]\), \(\texttt{snr} \ge 7\).
+      \item Reporta conteo y muestra las 10 mejores SNR.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Filtro físico + criterio de detectabilidad.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Candidatos templados y detectables}
+\begin{minted}{python}
+mask = (
+    df['teq_K'].between(250, 330) &
+    (df['planet_radius_Re'] <= 2.5) &
+    df['period_days'].between(20, 400) &
+    (df['snr'] >= 7)
+)
+candidatos = df[mask]
+print("Candidatos:", len(candidatos))
+candidatos.sort_values('snr', ascending=False).head(10)[
+    ['id','planet_radius_Re','period_days','teq_K','snr']
+]
+\end{minted}
+\textbf{Discusión:} El filtro combina habitabilidad aproximada con SNR mínima típica de detección.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Ejercicio 5: Agrupación y tasas
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Tasas por metalicidad y tipo de planeta}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Discretiza \texttt{star\_metallicity} en cuartiles.
+      \item Calcula proporción de \textit{Terreno}/\textit{Sub-Neptuno}/\textit{Gigante} por cuartil.
+      \item Interpreta tendencia: ¿mayor metalicidad favorece gigantes?
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos}: \texttt{pd.cut}, \texttt{groupby}, proporciones.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Tasas por metalicidad y tipo}
+\begin{minted}{python}
+met_bins = pd.qcut(df['star_metallicity'], 4, labels=['Q1','Q2','Q3','Q4'])
+tab = (df
+       .groupby([met_bins,'planet_type'])
+       .size()
+       .groupby(level=0)
+       .apply(lambda s: s/s.sum())
+       .unstack(fill_value=0)
+)
+print(tab.round(3))
+\end{minted}
+\textbf{Discusión:} Suele observarse mayor fracción de gigantes a metalicidades altas (tendencia plausible).
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Ejercicio 6: Visualización
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Gráficas integradas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Histograma de \texttt{period\_days} en escala log.
+      \item Dispersión \texttt{period\_days} vs \texttt{planet\_radius\_Re} coloreado por \texttt{teq\_K}.
+      \item Barras: conteo por \texttt{planet\_type}.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Explorar distribución, relaciones y composición de la muestra.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 6 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Gráficas}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+import matplotlib.pyplot as plt
+
+# Histograma de periodos (log)
+plt.figure()
+plt.hist(df['period_days'], bins=40)
+plt.xscale('log')
+plt.xlabel('Periodo [d] (log)'); plt.ylabel('Frecuencia')
+plt.title('Distribución de periodos'); plt.grid(alpha=0.3)
+plt.show()
+
+# Dispersión P vs Rp con color por Teq
+plt.figure()
+sc = plt.scatter(df['period_days'],
+                 df['planet_radius_Re'],
+                 c=df['teq_K'], cmap='plasma', s=10, alpha=0.7)
+plt.xscale('log'); plt.xlabel('Periodo [d] (log)')
+plt.ylabel('Radio planetario [R_⊕]')
+plt.title('Periodo vs Radio (color = Teq)')
+plt.colorbar(sc, label='Teq [K]')
+plt.grid(alpha=0.3); plt.show()
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=23]{python}
+# Barras por tipo de planeta
+plt.figure()
+df['planet_type'].value_counts().plot(kind='bar', rot=0)
+plt.ylabel('Conteo'); plt.title('Tipos de planeta')
+plt.grid(axis='y', alpha=0.3)
 plt.show()
 \end{minted}
-	extbf{Discusión:} Análisis exploratorio y visualización personalizada.
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Discusión:} Patrones esperados: más periodos cortos, relación P–Rp difusa, mezcla de tipos por formación/migración.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Ejercicio 7: Exportación
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Exportación de resultados}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crea \texttt{df\_clean} con columnas clave y sin nulos restantes.
+      \item Exporta a \texttt{exoplanetas\_sintetico.csv}.
+      \item Exporta top-50 \texttt{candidatos} del Ejercicio 4.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo}: Dejar resultados persistentes para análisis externo.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 7 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Exportación}
+\begin{minted}{python}
+cols = ['id','star_teff','star_radius_Rsun','star_metallicity','star_mass_Msun',
+        'period_days','planet_radius_Re','a_AU','depth_ppm','snr','teq_K','planet_type']
+df_clean = df[cols].dropna()
+print(df_clean.shape)
+
+df_clean.to_csv('exoplanetas_sintetico.csv', index=False)
+candidatos.sort_values('snr', ascending=False).head(50).to_csv(
+    'exoplanetas_candidatos_top50.csv', index=False
+)
+\end{minted}
+\textbf{Discusión:} Exportar vistas “limpias” facilita reproducibilidad y colaboración.
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
@@ -267,27 +439,26 @@ plt.show()
   \begin{itemize}
     \item \textbf{Estructuras y conceptos integrados:}
       \begin{itemize}
-        \item pandas: carga, limpieza, agrupación, exportación
-        \item POO: definición y uso de clases
-        \item Visualización: histogramas, barras, scatter
+        \item pandas: inspección, imputación, derivaciones, agrupación, exportación.
+        \item Visualización: histogramas, dispersión, barras.
       \end{itemize}
     \item \textbf{Buenas prácticas observadas:}
       \begin{itemize}
-        \item Comentarios explicativos
-        \item Nombres descriptivos de variables
-        \item Manejo de errores y datos faltantes
+        \item Imputaciones guiadas por física (tránsito).
+        \item Umbrales claros de filtrado físico y SNR.
+        \item Unidades consistentes y comentarios.
       \end{itemize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Retroalimentación Colectiva}
   \begin{itemize}
-    \item ¿Dificultades específicas con algún ejercicio?
-    \item ¿Estrategias efectivas para manejar errores?
-    \item ¿Preparación para los próximos temas?
+    \item ¿Qué estrategia de imputación funcionó mejor y por qué?
+    \item ¿Qué patrones observaron en P vs Rp y en \(\mathrm{T}_{eq}\)?
+    \item ¿Cómo cambia la composición por metalicidad?
   \end{itemize}
   \begin{alertblock}{Importante}
-    La colaboración es clave, pero cada estudiante debe entender completamente su código.
+    La interpretación física guía el análisis de datos y el tratamiento de faltantes.
   \end{alertblock}
 \end{frame}
 
@@ -298,29 +469,24 @@ plt.show()
 
 \begin{frame}{Síntesis de la Sesión}
   \begin{itemize}
-    \item \textbf{Consolidamos:} aplicación práctica de pandas, POO y visualización
-      \begin{itemize}
-        \item Limpieza y análisis de datos reales
-        \item Integración de clases y DataFrames
-      \end{itemize}
-    \item \textbf{Aplicamos:} programación a problemas físicos reales
-    \item \textbf{Desarrollamos:} habilidades de debugging y trabajo colaborativo
+    \item \textbf{Consolidamos:} flujo pandas completo con un caso astronómico realista.
+    \item \textbf{Aplicamos:} relaciones físicas simples para enriquecer el análisis.
+    \item \textbf{Desarrollamos:} criterio para filtros y evaluación de candidatos.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Preparación para la Próxima Unidad}
   \begin{itemize}
-    \item \textbf{Próximamente:} POO avanzada (herencia, polimorfismo) y análisis de datos más profundo
-    \item \textbf{Preparación recomendada:}
+    \item \textbf{Próximamente:} POO avanzada y análisis más profundo con pandas.
+    \item \textbf{Recomendación:}
       \begin{itemize}
-        \item Repasar clases y métodos en Python
-        \item Practicar agrupaciones y visualizaciones con pandas
+        \item Practicar imputación por modelos y validación cruzada.
+        \item Explorar visualizaciones interactivas.
       \end{itemize}
   \end{itemize}
   \begin{center}
-    	extbf{¡Nos vemos en la próxima sesión!}
+    \textbf{¡Nos vemos en la próxima sesión!}
   \end{center}
 \end{frame}
 
 \end{document}
-

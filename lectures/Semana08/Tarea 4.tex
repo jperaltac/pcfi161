@@ -62,64 +62,34 @@
 
 
 \begin{frame}{Problema Principal - Parte 1: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis con Pandas}
-  \begin{block}{Paso 1: Análisis Demográfico}
+
+  \begin{block}{Paso 0: Ver estado del dataset}
     \begin{itemize}
-      \item Calcular la proporción de pasajeros por género y clase
-      \item Determinar la edad media por puerto de embarque
-      \item Analizar la relación entre SibSp y Parch
-      \item Crear una nueva columna familia\_total sumando SibSp y Parch
-      \item Identificar los grupos familiares más grandes
+      \item Cargar el dataset usando pandas
+      \item Carga y revisión del dataset: Afecta en algo los datos daltantes de "Cabin"?
+      \item Resumir estadísticas descriptivas básicas, cuales son los promedios más relevantes?
     \end{itemize}
   \end{block}
-  
-  \begin{block}{Paso 2: Análisis Económico}
+
+  \begin{block}{Paso 1: Ver Análisis de Supervivencia}
     \begin{itemize}
-      \item Calcular la tarifa promedio por puerto de embarque
-      \item Identificar outliers en las tarifas usando IQR
-      \item Crear categorías de tarifas (económica, media, premium)
-      \item Relacionar tarifas con tasas de supervivencia
+      \item Cuantas personas habian en el barco y cuantas sobrebivieron?
+      \item Calcular supervivencia por genero y grafica.
+      \item Calcular supervivencia por clase y grafica.
+      \item Calcular supervivencia por edad y grafica.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Paso 2: Análisis Adicional}
+    \begin{itemize}
+      \item Analizar la relación entre clase y supervivencia 
+      \item Analizar la relación entre género y supervivencia
+      \item Analizar la relación entre edad y supervivencia
     \end{itemize}
   \end{block}
 \end{frame}
 
-\begin{frame}{Parte 1: Continuación \hfill \textcolor{blue}{$\bigstar$} \\ Análisis Avanzado}
-  \begin{block}{Paso 3: Correlaciones y Patrones}
-    \begin{itemize}
-      \item Crear matriz de correlación entre variables numéricas
-      \item Analizar la relación entre clase y tamaño familiar
-      \item Estudiar patrones de supervivencia por cabina
-      \item Identificar títulos (Mr., Mrs., etc.) del campo Name
-    \end{itemize}
-  \end{block}
   
-  \begin{block}{Paso 4: Análisis de Supervivencia}
-    \begin{itemize}
-      \item Calcular supervivencia por rango de edad
-      \item Analizar impacto del tamaño familiar en supervivencia
-      \item Estudiar supervivencia por título y género
-      \item Crear un índice de privilegio basado en clase y tarifa
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Problema Principal - Parte 2: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización Avanzada}
-  \begin{block}{Paso 1: Gráficos Multivariables}
-    \begin{itemize}
-      \item Crear un scatter plot 3D de edad, tarifa y supervivencia
-      \item Generar subplots para análisis por puerto de embarque
-      \item Diseñar un heatmap de correlaciones
-      \item Visualizar distribución de edades por título
-    \end{itemize}
-  \end{block}
-  
-  \begin{block}{Paso 2: Visualizaciones Especializadas}
-    \begin{itemize}
-      \item Crear un violin plot de tarifas por clase y supervivencia
-      \item Generar un treemap de pasajeros por clase y género
-      \item Diseñar gráficos de waffle para proporciones de supervivencia
-      \item Visualizar patrones de cabinas en un diagrama personalizado
-    \end{itemize}
-  \end{block}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------

@@ -73,11 +73,10 @@
 
 
 
-
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Fundamentos de Pandas y POO
+% SECCIÓN 2: Fundamentos de Pandas para Análisis de Datos
 % ----------------------------------------------------------------------------------------
-\section{Fundamentos de Pandas y POO}
+\section{Fundamentos de Pandas para Análisis de Datos}
 \begin{frame}{¿Por qué Pandas para Análisis de Datos?}
   \begin{itemize}
     \item \textbf{DataFrames}: estructuras tabulares similares a Excel/hojas de cálculo
@@ -109,81 +108,203 @@
   \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Aplicación: Análisis de un archivo en línea con pandas}
-\begin{block}{Enunciado}
-  \begin{itemize}
-    \item Puedes aplicar los conceptos de pandas usando archivos públicos en la web.
-    \item Ejemplo: el archivo \texttt{titanic.csv} disponible en GitHub.
-    \item Carga el archivo directamente desde la URL y explora sus primeras filas.
-  \end{itemize}
-\end{block}
 
-\begin{minted}{python}
+\section{Fundamentos de Pandas}
+
+% ------------------------------------------------------------------------
+% Nueva Slide
+% ------------------------------------------------------------------------
+
+\begin{frame}[fragile]{Series: Vector unidimensional}
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \begin{minted}{python}
 import pandas as pd
 
-url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
-df = pd.read_csv(url)
-print(df.head())
-\end{minted}
+# Series
+s = pd.Series([1.5, 2.0, 0.8])
 
-\textbf{Discusión:} Así puedes practicar análisis de datos reales sin descargar archivos manualmente. Ideal para ejercicios en clase o tareas.
+s
+    \end{minted}
+
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.4]{2) Pandas/s.png}
+    \end{figure}
+      
+    \begin{itemize}
+      \item \textbf{Series}: vector unidimensional con etiquetas de índice.
+    \end{itemize}
+  
+  \end{column}
+
+
+  \begin{column}{0.5\textwidth}
+    \begin{minted}{python}
+import pandas as pd
+
+# Series
+s = pd.Series([1.5, 2.0, 0.8], index=['objeto1', 'objeto2', 'objeto3'])
+
+s
+    \end{minted}
+
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.4]{2) Pandas/s_index.png}
+    \end{figure}
+    \textbf{Discusión:} Una \texttt{Series} es como un vector con índice.
+  \end{column}
+\end{columns}
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Nueva Slide
+% ------------------------------------------------------------------------
 
 
-
-\begin{frame}[fragile]{Estructuras principales de pandas}
+\begin{frame}[fragile]{DataFrame: Tabla bidimensional}
 \begin{itemize}
-  \item \textbf{Series}: arreglo unidimensional con etiquetas (índice).
   \item \textbf{DataFrame}: tabla bidimensional con filas y columnas etiquetadas.
 \end{itemize}
 
 \begin{minted}{python}
 import pandas as pd
 
-# Serie
-s = pd.Series([10, 20, 30], index=['a', 'b', 'c'])
-
 # DataFrame
 df = pd.DataFrame({
     'masa': [1.5, 2.0, 0.8],
     'velocidad': [10.5, 8.2, 15.3]
 })
+
+df
 \end{minted}
 
-\textbf{Discusión:} Una \texttt{Series} es como un vector con índice; un \texttt{DataFrame} es como una tabla de Excel.
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df.png}
+\end{figure}
+
+\textbf{Discusión:} Un \texttt{DataFrame} es como una tabla de Excel.
 \end{frame}
 
 
+% ------------------------------------------------------------------------
+% Nueva Slide
+% ------------------------------------------------------------------------
+
+
+\begin{frame}[fragile]{Etiquetas personalizadas en DataFrame}
+
+\begin{itemize}
+  \item \textbf{DataFrame}: tabla bidimensional con filas y columnas etiquetadas.
+\end{itemize}
+
+  \begin{minted}{python}
+df.rename(index={3: "Fila 3"}, inplace=True)
+
+df
+\end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_fila_3.png}
+\end{figure}
+
+\textbf{Discusión:} Se pueden personalizar las etiquetas de filas y columnas.
+\end{frame}
+
+
+
+
+% ------------------------------------------------------------------------
+% Nueva Slide
+% ------------------------------------------------------------------------
 
 \begin{frame}[fragile]{Acceso y selección de datos en DataFrame}
-\begin{minted}{python}
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \begin{minted}{python}
 # Acceso por columna
-print(df['masa'])
+df['masa']
+    \end{minted}
 
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.4]{2) Pandas/df_masa.png}
+    \end{figure}
+
+    \textbf{Discusión:} 
+    Este ejemplo muestra cómo acceder a una columna específica de un DataFrame utilizando su nombre como clave. Es útil para realizar operaciones o análisis sobre una sola variable.
+  \end{column}
+
+  \begin{column}{0.5\textwidth}
+    \begin{minted}{python}
 # Acceso por fila (iloc: por posición, loc: por etiqueta)
-print(df.iloc[0])      # Primera fila
-print(df.loc[1])       # Fila con índice 1
+df.iloc[2]      # Tercera fila
+df.loc["Fila 3"]       # Fila con nombre "Fila 3"
+    \end{minted}
 
-# Selección de subconjuntos
-print(df[['masa', 'velocidad']])
-print(df[0:2])         # Primeras dos filas
-\end{minted}
-\textbf{Discusión:} pandas permite seleccionar datos de forma flexible y eficiente, facilitando análisis rápidos.
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.4]{2) Pandas/df_fila3_acceso.png}
+    \end{figure}
+
+    \textbf{Discusión:} 
+    Aquí se muestra cómo acceder a filas específicas de un DataFrame, ya sea por su posición numérica (`iloc`) o por su etiqueta (`loc`). Esto es útil para inspeccionar o modificar datos en filas específicas.
+  \end{column}
+\end{columns}
 \end{frame}
+
+% ------------------------------------------------------------------------
+% Nueva Slide
+% ------------------------------------------------------------------------
 
 
 \begin{frame}[fragile]{Operaciones vectorizadas y estadísticas}
+
 \begin{minted}{python}
 # Operaciones sobre columnas
 df['energia_cinetica'] = 0.5 * df['masa'] * df['velocidad']**2
 
-# Estadísticas rápidas
-print(df['energia_cinetica'].mean())
-print(df.describe())
+df 
 \end{minted}
+
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_energia_cinetica.png}
+\end{figure}
+
 \textbf{Discusión:} Las operaciones se aplican a toda la columna sin necesidad de bucles explícitos.
+
 \end{frame}
+
+
+% ------------------------------------------------------------------------
+% Nueva Slide
+% ------------------------------------------------------------------------
+
+
+\begin{frame}[fragile]{Estadísticas descriptivas rápidas}
+
+\begin{minted}{python}
+# Operaciones sobre columnas
+# Estadísticas rápidas
+df['energia_cinetica'].mean() # Promedio de energía cinética 
+# Output: 81.18783333333334
+df.describe()
+\end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_describe.png}
+\end{figure}
+
+\textbf{Discusión:} Las estadísticas descriptivas proporcionan una visión general de la distribución y características de los datos en el DataFrame.
+\end{frame}
+
+
 
 % ------------------------------------------------------------------------
 % Nueva Slide: Limpieza y manejo de datos faltantes
@@ -191,18 +312,58 @@ print(df.describe())
 \begin{frame}[fragile]{Limpieza y manejo de datos faltantes}
 \begin{minted}{python}
 import numpy as np
-df.loc[1, 'velocidad'] = np.nan
+df.loc[1, 'velocidad'] = np.nan # O cualquier valor que uno quiera ingresar
 
-# Detectar valores nulos
-print(df.isnull())
+df
+\end{minted}
 
-# Eliminar filas con NaN
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_nan.png}
+\end{figure}
+
+\begin{minted}{python}
 df_clean = df.dropna()
 
-# Rellenar valores faltantes
-df_filled = df.fillna(0)
+df_clean
 \end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_clean.png}
+\end{figure}
+
 \textbf{Discusión:} pandas facilita la detección y el tratamiento de datos incompletos, común en experimentos reales.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Sección 3: Manejo Avanzado de Datos con Pandas
+% ------------------------------------------------------------------------
+
+\section{Manejo de datos con Pandas}
+
+% ------------------------------------------------------------------------
+% Nueva Slide: Agrupación y resumen de datos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Nuevos datos de ejemplo para agrupación}
+\begin{minted}{python}
+import random
+import pandas as pd
+# Creamos un DataFrame de ejemplo con datos aleatorios con 100 filas
+data = {
+    'masa': [random.uniform(0.5, 2.0) for _ in range(100)],
+    'velocidad': [random.uniform(5.0, 20.0) for _ in range(100)],
+    'temperatura': [random.randint(0, 400) for _ in range(100)]
+}
+df = pd.DataFrame(data)
+df
+\end{minted}
+
+\begin{figure}
+  %\centering
+  \includegraphics[scale=0.4]{2) Pandas/df_100.png}
+\end{figure}
+\textbf{Discusión:} Creamos un DataFrame con datos aleatorios para ilustrar la agrupación.
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -211,133 +372,325 @@ df_filled = df.fillna(0)
 \begin{frame}[fragile]{Agrupación y resumen de datos}
 \begin{minted}{python}
 # Crear una columna categórica
-df['categoria'] = pd.cut(df['masa'], bins=[0,1,2], labels=['Baja','Alta'])
+df['categoria'] = pd.cut(df['temperatura'], bins=[0,273,373,1000], labels=['Solido','Liquido','Gaseoso'])
 
-# Agrupar y calcular promedio
-print(df.groupby('categoria')['velocidad'].mean())
+df
 \end{minted}
+
+\begin{figure}
+  %\centering
+  \includegraphics[scale=0.4]{2) Pandas/df_categoria.png}
+\end{figure}
 \textbf{Discusión:} Agrupar datos permite obtener estadísticas por categorías físicas (masas, temperaturas, etc.).
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Nueva Slide: Visualización rápida con pandas
+% Nueva Slide: Agrupación y resumen de datos
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Visualización rápida con pandas}
-\begin{minted}{python}
-import matplotlib.pyplot as plt
 
-df['velocidad'].hist(bins=5)
-plt.title('Histograma de velocidades')
-plt.xlabel('Velocidad')
-plt.ylabel('Frecuencia')
-plt.show()
+\begin{frame}[fragile]{Agrupación y resumen de datos}
+\begin{minted}{python}
+# Agrupar y calcular estadísticas
+df.groupby('categoria')['temperatura'].mean() # Puede ser .mean(), .std(), .sum(), etc. 
 \end{minted}
-\textbf{Discusión:} pandas integra métodos de visualización para análisis exploratorio inmediato.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_temperatura.png}
+\end{figure}
+\textbf{Discusión:} Agrupar datos permite obtener estadísticas por categorías físicas (masas, temperaturas, etc.).
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 11: Operaciones Básicas con DataFrames
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Operaciones Básicas con DataFrames}
-\begin{minted}{python}
-import pandas as pd
-
-# Crear DataFrame desde diccionario
-data = {
-    'masa': [1.5, 2.0, 0.8, 1.2],
-    'velocidad': [10.5, 8.2, 15.3, 12.1],
-    'temperatura': [300, 350, 280, 320]
-}
-df = pd.DataFrame(data)
-
+\begin{frame}[fragile]{Información y Dimensiones de un DataFrame}
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \begin{minted}[fontsize=\scriptsize]{python}
 # Operaciones básicas
-print(df.head())        # Primeras filas
-print(df.info())        # Información del DataFrame
-print(df.describe())    # Estadísticas descriptivas
-print(df.shape)         # Dimensiones (filas, columnas)
+df.info()        # Información del DataFrame
+    \end{minted}
+
+    Output:
+    \begin{minted}[fontsize=\tiny]{text}
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 100 entries, 0 to 99
+Data columns (total 4 columns):
+ #   Column       Non-Null Count  Dtype   
+---  ------       --------------  -----   
+ 0   masa         100 non-null    float64 
+ 1   velocidad    100 non-null    float64 
+ 2   temperatura  100 non-null    int64   
+ 3   categoria    100 non-null    category
+dtypes: category(1), float64(2), int64(1)
+memory usage: 2.7 KB
+    \end{minted}
+  \end{column}
+
+  \begin{column}{0.5\textwidth}
+    \begin{minted}[fontsize=\scriptsize]{python}
+# Operaciones básicas
+df.shape        # Dimensiones (filas, columnas)
+    \end{minted}
+
+    Output:
+    \begin{minted}[fontsize=\tiny]{text}
+(100, 4)
+    \end{minted}
+  \end{column}
+\end{columns}
+
+\vspace{0.3cm}
+\textbf{Discusión:} Estas operaciones básicas permiten inspeccionar rápidamente la estructura y dimensiones de un DataFrame, facilitando el análisis inicial de los datos.
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 12: Selección y Filtrado de Datos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Selección de Columnas importantes}
+\begin{minted}{python}
+# Seleccionar columnas               
+subset = df[['masa', 'velocidad']]    # Múltiples columnas
+subset
 \end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_subset.png}
+\end{figure}
+
+\textbf{Discusión:} La selección de columnas específicas permite centrarse en variables de interés, facilitando el análisis y la visualización de datos relevantes.
+
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 12: Selección y Filtrado de Datos
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Selección y Filtrado de Datos}
+\begin{frame}[fragile]{Otra forma de Selección y Filtrado de Datos}
 \begin{minted}{python}
-# Seleccionar columnas
-masas = df['masa']                    # Una columna
-subset = df[['masa', 'velocidad']]    # Múltiples columnas
-
 # Filtrado con condiciones
 altas_temp = df[df['temperatura'] > 300]
-rapidos = df[df['velocidad'] > 10]
-
-# Filtrado múltiple
-criteria = (df['masa'] > 1.0) & (df['velocidad'] > 10)
-filtered_df = df[criteria]
-
-# Agregar nuevas columnas calculadas
-df['energia_cinetica'] = 0.5 * df['masa'] * df['velocidad']**2
-df['momento'] = df['masa'] * df['velocidad']
+altas_temp
 \end{minted}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_altas_temp.png}
+\end{figure}
+
+\textbf{Discusión:} El filtrado de datos permite identificar subconjuntos relevantes, como aquellos con temperaturas extremas, facilitando un análisis más enfocado.
+
 \end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Selección y Filtrado de Datos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Otra forma de Selección y Filtrado de Datos}
+\begin{minted}{python}
+# Filtrado múltiple
+criteria = (df['masa'] > 1.0) & (df['velocidad'] > 10) & (df['categoria'] == 'Liquido')
+filtered_df = df[criteria]
+filtered_df
+\end{minted}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_filtrado_multiple.png}
+\end{figure}
+
+\textbf{Discusión:} El filtrado múltiple permite combinar varias condiciones para extraer subconjuntos específicos de datos, facilitando análisis detallados basados en múltiples criterios.
+
+\end{frame}
+
+
+\section{Manejo avanzado de datos con pandas}
 
 % ------------------------------------------------------------------------
 % Slide 13: Agrupación y Estadísticas
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Agrupación y Estadísticas Avanzadas}
 \begin{minted}{python}
-# Crear categorías para agrupación
-df['categoria_masa'] = pd.cut(df['masa'], 
-                             bins=[0, 1, 2, np.inf], 
-                             labels=['Baja', 'Media', 'Alta'])
 
 # Agrupar y calcular estadísticas
-grouped = df.groupby('categoria_masa').agg({
+grouped = df.groupby('categoria').agg({
+    'masa': ['mean', 'min', 'max'],
     'velocidad': ['mean', 'std'],
-    'energia_cinetica': ['sum', 'max'],
     'temperatura': 'mean'
 })
 
-print(grouped)
+grouped
+\end{minted}
 
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_grouped_stats.png}
+\end{figure}
+
+\textbf{Discusión:} La agrupación avanzada permite obtener múltiples estadísticas descriptivas por categoría, facilitando un análisis más profundo de los datos según diferentes criterios físicos.
+
+\end{frame}
+
+
+
+% ------------------------------------------------------------------------
+% Slide 13: Agrupación y Estadísticas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Correlaciones entre Variables}
+\begin{minted}{python}
 # Correlaciones entre variables
 correlations = df[['masa', 'velocidad', 'temperatura']].corr()
 print("Matriz de correlaciones:")
-print(correlations)
+correlations
 \end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_correlations.png}
+\end{figure}
+
+\begin{block}{Discusión: Interpretación de la correlación}
+\begin{itemize}
+  \item Rango: \( -1 \le \rho \le 1 \).
+  \item \(\rho = -1\): correlación negativa perfecta — cuando una variable aumenta, la otra disminuye proporcionalmente.
+  \item \(\rho = 0\): ausencia de \textbf{correlación lineal} significativa.
+  \item \(\rho = 1\): correlación positiva perfecta — ambas variables aumentan proporcionalmente.
+\end{itemize}
+\end{block}
+
 \end{frame}
+
+\section{Limpieza de datos}
+
+
+\begin{frame}[fragile]{Manejo de Datos Faltantes y Limpieza}
+\begin{minted}{python}
+import numpy as np
+import random
+# Simular valores faltantes (NaN) solo en la columna 'temperatura'
+idx_temp = random.sample(range(100), 50) # Seleccionar 50 números aleatorios en una lista de 0 a 99
+# idx_temp = [5, 12, 23, 34, 45, ... , 78, 89, 90] # Ejemplo
+df.loc[idx_temp, 'temperatura'] = np.nan # Asignar NaN en esas posiciones o cualquier valor que quieras
+
+df
+\end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_nan_temp.png}
+\end{figure}
+
+\textbf{Discusión:} Simulamos datos faltantes en la columna de temperatura para ilustrar técnicas de limpieza.
+
+
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 14: Manejo de Datos Faltantes
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Detectar Valores Faltantes}
+\begin{minted}{python}
+# Detectar valores faltantes
+print("Valores nulos por columna:")
+df.isnull().sum()
+\end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_isnull.png}
+\end{figure}
+
+\textbf{Discusión:} Identificar valores faltantes es crucial para decidir cómo manejarlos en el análisis de datos.
+
+\end{frame}
+
 
 % ------------------------------------------------------------------------
 % Slide 14: Manejo de Datos Faltantes
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Manejo de Datos Faltantes y Limpieza}
 \begin{minted}{python}
-# Simular datos faltantes
-df.loc[1, 'temperatura'] = np.nan
-df.loc[3, 'velocidad'] = np.nan
-
-# Detectar valores faltantes
-print("Valores nulos por columna:")
-print(df.isnull().sum())
-
 # Opciones para manejar datos faltantes
 df_dropped = df.dropna()                    # Eliminar filas con NaN
-df_filled = df.fillna(df.mean())           # Rellenar con promedio
-df_interpolated = df.interpolate()          # Interpolación
-
-# Eliminar duplicados (si existen)
-df_clean = df.drop_duplicates()
+df_dropped
 \end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_dropped.png}
+\end{figure}
+
+\textbf{Discusión:} Eliminar filas con datos faltantes es una estrategia simple pero puede resultar en pérdida de información valiosa.
+
 \end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 14: Manejo de Datos Faltantes
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Manejo de Datos Faltantes y Limpieza}
+\begin{minted}{python}
+# Opciones para manejar datos faltantes
+df_filled = df.fillna(df.mean())           # Rellenar con promedio
+df_filled
+\end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_filled_error.png}
+\end{figure}
+
+\textbf{Discusión:} Rellenar valores faltantes con la media es una técnica común, pero puede no ser adecuada si los datos no son homogéneos.
+
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 14: Manejo de Datos Faltantes
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Manejo de Datos Faltantes y Limpieza}
+
+\begin{minted}{python}
+# Opciones para manejar datos faltantes
+numeric_means = df.select_dtypes(include=[np.number]).mean()
+numeric_means
+\end{minted}
+\vspace{-0.3cm}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/numeric_means.png}
+\end{figure}
+
+\textbf{Discusión:} Calculamos las medias solo de las columnas numéricas para evitar errores al rellenar.
+
+\begin{minted}{python}
+# Rellenar solo columnas numéricas con sus medias
+df_filled = df.fillna(numeric_means)
+df_filled
+\end{minted}
+\vspace{-0.8cm}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_filled.png}
+\end{figure}
+
+\textbf{Discusión:} Esta técnica asegura que solo las columnas numéricas sean rellenadas con sus respectivas medias, evitando errores en columnas no numéricas.
+
+\end{frame}
+
+\section{Lectura y Exportación de Datos}
 
 % ------------------------------------------------------------------------
 % Slide 15: Lectura de Archivos y Exportación
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Lectura de Archivos y Exportación}
+
+ \textbf{Lectura de archivos:} pandas facilita la importación de datos desde diversos formatos comunes en física y astronomía, como CSV y Excel.
+
 \begin{minted}{python}
-# Leer diferentes formatos
-df_csv = pd.read_csv('datos_experimento.csv')
-df_excel = pd.read_excel('mediciones.xlsx', sheet_name='Hoja1')
+# Leer diferentes formatos Ejemplos
+df_csv = pd.read_csv('datos_experimento.csv') # CSV por defecto
+df_excel = pd.read_excel('mediciones.xlsx', sheet_name='Hoja1') # Excel
 
 # Parámetros útiles para CSV
 df_custom = pd.read_csv('datos.csv', 
@@ -351,254 +704,403 @@ df.to_csv('resultados_procesados.csv', index=False)
 df.to_excel('analisis.xlsx', sheet_name='Datos')
 
 # Exportar solo columnas específicas
-df[['masa', 'energia_cinetica']].to_csv('energia_datos.csv')
+df[['masa', 'velocidad']].to_csv('energia_datos.csv')
 \end{minted}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 16: Integración con POO
+% Nueva Slide: Visualización rápida con pandas
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Integración con POO: Clase Particle}
+
+\begin{frame}[fragile]{Formato comun .csv}
+
+\textbf{Ejemplo de archivo CSV:} El siguiente es un ejemplo simple de un archivo CSV que contiene datos de masa, velocidad y temperatura.
+La primera fila contiene los nombres de las columnas, y las filas siguientes contienen los datos correspondientes, separados por comas.
+
+datos.csv
+\begin{minted}{text}
+masa,velocidad,temperatura
+1.5 , 10.5 , 300
+2.0 , 18.2 , 350
+0.8 , 15.3 , 250
+\end{minted}
+
+\textbf{Discusión:} El formato CSV es ampliamente utilizado para almacenar datos tabulares de manera sencilla y legible.
+
+
+\end{frame}
+
+\section{Visualización de Datos con Pandas}
+
+% ------------------------------------------------------------------------
+% Nueva Slide: Visualización rápida con pandas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Visualización rápida con pandas}
 \begin{minted}{python}
-import math
+import matplotlib.pyplot as plt
 
-class Particle:
-    def __init__(self, mass, x, y, vx, vy):
-        self.mass = mass
-        self.x = x
-        self.y = y
-        self.vx = vx
-        self.vy = vy
-    
-    def kinetic_energy(self):
-        """Retorna la energía cinética de la partícula."""
-        v2 = self.vx**2 + self.vy**2
-        return 0.5 * self.mass * v2
-    
-    def distance(self, other):
-        """Distancia a otra partícula."""
-        dx = self.x - other.x
-        dy = self.y - other.y
-        return math.sqrt(dx**2 + dy**2)
+df['velocidad'].hist(bins=20)
+plt.title('Histograma de velocidades')
+plt.xlabel('Velocidad')
+plt.ylabel('Frecuencia')
+plt.show()
 \end{minted}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{2) Pandas/df_histograma.png}
+\end{figure}
+
+\textbf{Discusión:} pandas integra métodos de visualización para análisis exploratorio inmediato.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Ejemplo de uso de la clase Particle
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Ejemplo de uso: \hfill \textcolor{green}{$\checkmark$} \\ Clase Particle}
-\begin{minted}{python}
-# Crear dos partículas con diferentes posiciones y velocidades
-p1 = Particle(mass=2.0, x=0, y=0, vx=3, vy=4)
-p2 = Particle(mass=1.5, x=1, y=2, vx=0, vy=5)
 
-# Calcular energía cinética de cada partícula
-print("Energía cinética p1:", p1.kinetic_energy())
-print("Energía cinética p2:", p2.kinetic_energy())
-
-# Calcular distancia entre ambas partículas
-dist = p1.distance(p2)
-print("Distancia entre p1 y p2:", dist)
-\end{minted}
-\textbf{Discusión:} Este ejemplo muestra cómo crear objetos \texttt{Particle}, calcular su energía cinética y la distancia entre ellas, integrando conceptos de POO y física.
-\end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 17: Visualización con Pandas y Matplotlib
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Visualización Integrada con Pandas y Matplotlib}
-\begin{minted}{python}
-import matplotlib.pyplot as plt
 
-# Pandas tiene métodos de plotting integrados
-df.plot(x='masa', y='velocidad', kind='scatter', 
-        title='Masa vs Velocidad')
-plt.show()
+    \begin{minted}{python}
+  # Gráfico de barras por categorías
+  df.groupby('categoria')['temperatura'].mean().plot(kind='bar')
+  plt.title('Temperatura Promedio por Categoría')
+  plt.show()
+    \end{minted}
 
-# Histograma de una columna
-df['energia_cinetica'].hist(bins=10, alpha=0.7)
-plt.title('Distribución de Energía Cinética')
-plt.xlabel('Energía Cinética')
-plt.show()
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.4]{2) Pandas/df_temperatura_por_categoria.png}
+    \end{figure}
 
-# Gráfico de barras por categorías
-df.groupby('categoria_masa')['velocidad'].mean().plot(kind='bar')
-plt.title('Velocidad Promedio por Categoría de Masa')
-plt.show()
-\end{minted}
+    \textbf{Discusión:} Este gráfico de barras muestra la temperatura promedio agrupada por categoría, facilitando el análisis comparativo.
+
 \end{frame}
+
+\begin{frame}[fragile]{Visualización Integrada con Pandas y Matplotlib}
+
+    \begin{minted}{python}
+import matplotlib.pyplot as plt
+# Pandas tiene métodos de plotting integrados
+df.plot(x='masa', y='velocidad', kind='scatter', title='Masa vs Velocidad')
+plt.show()
+    \end{minted}
+
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.4]{2) Pandas/df_masa_vs_velocidad_scatter.png}
+    \end{figure}
+
+    \textbf{Discusión:} Este gráfico muestra la relación entre masa y velocidad en un scatter plot, útil para identificar patrones.
+
+\end{frame}
+
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 4: Ejercicios Prácticos
 % ----------------------------------------------------------------------------------------
-\section{Ejercicios Prácticos}
-
-
-
-\begin{frame}{Dataset del Titanic}
-  \begin{block}{Información del Dataset}
-    \begin{itemize}
-      \item \textbf{Fuente:} \url{https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv}
-      \item \textbf{Contenido:} Datos de pasajeros del Titanic (891 registros)
-      \item \textbf{Variables principales:}
-        \begin{itemize}
-          \item \texttt{Age}: Edad del pasajero
-          \item \texttt{Fare}: Precio del boleto
-          \item \texttt{Pclass}: Clase de pasajero (1, 2, 3)
-          \item \texttt{Sex}: Género (male, female)
-          \item \texttt{Survived}: Supervivencia (0=No, 1=Sí)
-          \item \texttt{SibSp}: Número de hermanos/esposas a bordo
-          \item \texttt{Parch}: Número de padres/hijos a bordo
-          \item \texttt{Ticket}: Número de ticket
-          \item \texttt{Fare}: Tarifa pagada
-          \item \texttt{Cabin}: Cabina asignada
-          \item \texttt{Embarked}: Puerto de embarque (C = Cherburgo, Q = Queenstown, S = Southampton)
-        \end{itemize}
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo:} Analizar y visualizar patrones en los datos históricos del Titanic.
-\end{frame}
-
+\section{Ejercicios Guiados: Impactos de Meteoritos}
 
 % ------------------------------------------------------------------------
-% Slide 12: Ejercicio 1 - Exploración básica del Titanic con pandas
+% Slide: Dataset base (generación reproducible)
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Exploración básica de datos del Titanic}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Cargar el archivo \texttt{titanic.csv} desde la URL pública.
-      \item Mostrar las primeras 8 filas del DataFrame.
-      \item Listar los nombres de todas las columnas.
-      \item Obtener el número total de pasajeros y cuántos sobrevivieron.
-      \item Calcular la edad promedio y la tarifa (\texttt{Fare}) promedio.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo}: Practicar carga, inspección y estadísticas básicas con pandas usando un dataset real.
-  \url{https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv}
+\begin{frame}[fragile]{Dataset base: Impactos de meteoritos (200 filas)}
+\begin{minted}[fontsize=\tiny]{python}
+import numpy as np, pandas as pd
+
+# Semilla y tamaño
+rng = np.random.default_rng(42); n = 200
+
+# Columnas base
+diametro_m = rng.uniform(10, 1e5, n)               # 10 m a 100 km
+densidad_kg_m3 = rng.uniform(1500, 8000, n)        # roca-carbonáceo-metálico
+velocidad_kms = rng.uniform(11, 72, n)             # km/s
+angulo_deg = rng.uniform(10, 80, n)                # grados
+ids = [f"M{i:04d}" for i in range(1, n+1)]
+
+df = pd.DataFrame({
+    "id": ids,
+    "diametro_m": diametro_m,
+    "densidad_kg_m3": densidad_kg_m3,
+    "velocidad_kms": velocidad_kms,
+    "angulo_deg": angulo_deg
+})
+df.head()
+\end{minted}
+
+\begin{alertblock}{Nota física}
+Ley de cráter simplificada para Tierra (didáctica): 
+\(\texttt{crater\_diam\_km} \approx \tfrac{0.016}{1000} \cdot m^{1/3} \cdot v^{0.44} \cdot \sin(\theta)^{1/3}\) \,(resultado en km).
+\end{alertblock}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide: Ejercicio 2 - Filtrado y selección de datos
+% Slide 1: Ejercicio 1
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Filtrado y selección de datos}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Filtrar los pasajeros de clase 1 (\texttt{Pclass} == 1).
-      \item Seleccionar solo las columnas \texttt{Name}, \texttt{Sex}, \texttt{Age}, \texttt{Fare}.
-      \item Mostrar los 5 pasajeros más jóvenes de clase 1.
-      \item (Opcional) Calcular el porcentaje de mujeres en clase 1.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo}: Aplicar filtrado y selección de columnas en pandas.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 3 - Limpieza y manejo de datos faltantes
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Limpieza y manejo de datos faltantes}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Identificar cuántos valores faltantes hay en la columna \texttt{Age}.
-      \item Crear una copia del DataFrame y rellenar los valores faltantes de \texttt{Age} con la edad promedio.
-      \item Mostrar la edad mínima y máxima después de la limpieza.
-      \item (Opcional) Eliminar filas donde falte el valor de \texttt{Embarked}.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo}: Practicar detección y tratamiento de datos faltantes en pandas.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 4 - Agrupación y análisis por categorías
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupación y análisis por categorías}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Agrupar los datos por \texttt{Pclass} y calcular la tarifa promedio (\texttt{Fare}) y la edad promedio (\texttt{Age}) por clase.
-      \item Calcular la tasa de supervivencia (\texttt{Survived}) por clase y por sexo.
-      \item (Opcional) Mostrar los resultados en un gráfico de barras.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo}: Aplicar agrupación y análisis estadístico por categorías usando pandas.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 5 - Visualización y exportación de resultados
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización y exportación de resultados}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Crear un histograma de la columna \texttt{Age} para visualizar la distribución de edades.
-      \item Crear un gráfico de barras con el número de pasajeros por puerto de embarque (\texttt{Embarked}).
-      \item Exportar un DataFrame con las columnas \texttt{Name}, \texttt{Age}, \texttt{Survived} a un archivo \texttt{titanic\_resumen.csv}.
-      \item (Opcional) Guardar una de las gráficas como imagen (\texttt{.png}).
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo}: Consolidar visualización y exportación de datos con pandas.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 16: Sugerencias Generales
-% ------------------------------------------------------------------------
-\begin{frame}{Sugerencias Generales}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Identificar el dataset}
+\begin{block}{Enunciado}
   \begin{itemize}
-    \item \textbf{POO}: mantén las clases simples y bien comentadas.
-    \item \textbf{pandas}: \texttt{df.iterrows()} o \texttt{df.itertuples()} puede ayudarte a iterar filas.
-    \item \textbf{NumPy}: para la matriz de distancias, considera \texttt{np.zeros((n,n))} de base.
-    \item \textbf{Visualización}: usa \(\texttt{plt.scatter(df['x'], df['y'])}\) si usas DataFrame.
+    \item Visualiza $\rightarrow$ \texttt{head()}, \texttt{tail()}, \texttt{sample(5)} y \texttt{df.columns}.
+    \item Reporta unidades: diámetro (m), densidad (kg/m³), velocidad (km/s), ángulo (°).
   \end{itemize}
+\end{block}
+\textbf{Conceptos:} Inspección inicial. \quad
+\textbf{Física:} Revisión de magnitudes y unidades.
 \end{frame}
 
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Identificar el dataset}
+\begin{minted}{python}
+# Inspección inicial del DataFrame
+df.head()
+df.tail()
+df.sample(5, random_state=0)
+df.columns.tolist()
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Conclusiones y Próximos Pasos
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones y Próximos Pasos}
-
-% ------------------------------------------------------------------------
-% Slide 18: Discusión de Soluciones
-% ------------------------------------------------------------------------
-\begin{frame}{Discusión de Soluciones con pandas}
-  \begin{itemize}
-    \item ¿Qué funciones de \textbf{pandas} te resultaron más útiles para explorar y limpiar el dataset del Titanic?
-    \item ¿Cómo filtraste y seleccionaste subconjuntos de datos relevantes?
-    \item ¿Qué dificultades encontraste al manejar datos faltantes o agrupar información?
-    \item ¿Qué visualizaciones generaste y cómo interpretaste los resultados?
-    \item ¿Exportaste algún resultado? ¿Cómo lo hiciste con pandas?
-  \end{itemize}
-  \begin{alertblock}{Objetivo}
-    Compartir estrategias y buenas prácticas usando pandas para análisis de datos reales.
-  \end{alertblock}
+# Unidades:
+# diametro_m [m], densidad_kg_m3 [kg/m^3],
+# velocidad_kms [km/s], angulo_deg [°]
+\end{minted}
+\textbf{Discusión:} Validamos estructura y unidades para evitar errores de interpretación.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 19: Conclusiones de la Sesión 15 (Enfoque pandas)
+% Slide 2: Ejercicio 2
 % ------------------------------------------------------------------------
-\begin{frame}{Conclusiones de la Sesión 15}
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Dimensiones, tipos y describir}
+\begin{block}{Enunciado}
   \begin{itemize}
-    \item Aplicamos \textbf{pandas} para análisis y manipulación de datos reales (\texttt{titanic.csv}).
-      \begin{itemize}
-        \item Carga, inspección, filtrado y limpieza de datos.
-        \item Agrupación, estadísticas y visualización rápida.
-      \end{itemize}
-    \item Reforzamos la importancia de pandas en el flujo de trabajo científico y en la exploración de grandes datasets.
-    \item Practicamos la exportación de resultados y la generación de gráficas directamente desde pandas.
-    \item Próximamente: integración de pandas con otras herramientas y análisis más avanzados.
+    \item Ejecuta $\rightarrow$ \texttt{df.shape}, \texttt{df.info()} y \texttt{df.describe()}.
+    \item Identifica columnas numéricas vs no numéricas.
   \end{itemize}
+\end{block}
+\textbf{Conceptos:} Estructura y estadísticas rápidas.
 \end{frame}
 
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Dimensiones, tipos y describir}
+\begin{minted}{python}
+# Dimensiones, tipos y estadísticas
+print("shape:", df.shape)
+print("="*40)
+df.info()
+print("="*40)
+print(df.describe())
 
+# Columnas numéricas vs no numéricas
+num_cols = df.select_dtypes(include='number').columns.tolist()
+non_num_cols = df.select_dtypes(exclude='number').columns.tolist()
+print("Numéricas:", num_cols)
+print("No numéricas:", non_num_cols)
+\end{minted}
+\textbf{Discusión:} Diferenciar tipos guía la limpieza y transformaciones posteriores.
+\end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 22: Cierre de la Sesión
+% Slide 4: Ejercicio 3
 % ------------------------------------------------------------------------
-\begin{frame}
-  \Huge{\centerline{¡Gracias y hasta la próxima sesión!}}
-  \vspace{0.4cm}
-  \normalsize
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Filtrado físico}
+\begin{block}{Enunciado}
   \begin{itemize}
-    \item Practiquen la creación de \textbf{clases} y la \textbf{lectura} de datos con \textbf{pandas}.
-    \item ¡Nos vemos en la \textbf{Semana 8, Sesión 2} para profundizar POO!
+    \item Filtra impactos con: \texttt{diametro\_m > 1000}, \texttt{velocidad\_kms > 20} y \texttt{30 ≤ angulo\_deg ≤ 60}.
+    \item Cuenta filas y calcula promedio de \texttt{velocidad\_kms} del subconjunto.
   \end{itemize}
+\end{block}
+\textbf{Conceptos:} Máscaras booleanas y selección.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Filtrado físico}
+\begin{minted}{python}
+# Máscara booleana con tres condiciones
+crit = (
+    (df['diametro_m'] > 1000) &
+    (df['velocidad_kms'] > 20) &
+    (df['angulo_deg'].between(30, 60))
+)
+sub = df[crit]
+print("Filas filtradas:", len(sub))
+print("Promedio velocidad_kms:", sub['velocidad_kms'].mean())
+\end{minted}
+\textbf{Discusión:} El encadenamiento de condiciones permite filtros físicos realistas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 5: Ejercicio 4
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Columnas derivadas I (masa y energía)}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Agrega: \(\texttt{volumen\_m3} = \frac{\pi}{6}\cdot \texttt{diametro\_m}^3\).
+    \item \(\texttt{masa\_kg} = \texttt{densidad\_kg\_m3} \cdot \texttt{volumen\_m3}\).
+    \item \(\texttt{velocidad\_ms} = 1000 \cdot \texttt{velocidad\_kms}\).
+    \item \(\texttt{energia\_J} = 0.5\cdot \texttt{masa\_kg}\cdot \texttt{velocidad\_ms}^2\).
+  \end{itemize}
+\end{block}
+\textbf{Conceptos:} Operaciones vectorizadas y unidades.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Masa y energía}
+\begin{minted}{python}
+import numpy as np
+
+# Velocidad a m/s y masa (esfera): m = ρ * (π/6) * d^3
+df['velocidad_ms'] = df['velocidad_kms'] * 1000.0
+df['masa_kg'] = df['densidad_kg_m3'] * (np.pi/6.0) * (df['diametro_m']**3)
+
+# Energía cinética
+df['energia_J'] = 0.5 * df['masa_kg'] * (df['velocidad_ms']**2)
+df[['id','velocidad_ms','masa_kg','energia_J']].head()
+\end{minted}
+\textbf{Discusión:} Cuidar la coherencia de unidades evita errores de órdenes de magnitud.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Ejercicio 5
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Cráter (escala simplificada)}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Calcula \(\theta\) en rad: \(\texttt{theta\_rad} = \texttt{np.deg2rad(angulo\_deg)}\).
+    \item Agrega \(\texttt{crater\_diam\_km} = \tfrac{0.016}{1000} \cdot \texttt{masa\_kg}^{1/3} \cdot \texttt{velocidad\_ms}^{0.44} \cdot \sin(\theta)^{1/3}\).
+    \item Reporta el top-5 por \texttt{crater\_diam\_km}.
+  \end{itemize}
+\end{block}
+\textbf{Física:} Ley de escala de cráter didáctica (Tierra).
+\end{frame}
+
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Cráter (escala simplificada)}
+\begin{minted}{python}
+import numpy as np
+
+# Ángulo en radianes y diámetro de cráter
+df['theta_rad'] = np.deg2rad(df['angulo_deg'])
+df['crater_diam_km'] = (0.016 * (df['masa_kg']**(1/3)) * (df['velocidad_ms']**0.44) * (np.sin(df['theta_rad'])**(1/3))) / 1000.0
+
+df.nlargest(5, 'crater_diam_km')[['id','diametro_m','crater_diam_km']]
+\end{minted}
+
+\begin{alertblock}{Nota física}
+Ley de cráter simplificada para Tierra (didáctica): 
+\(\texttt{crater\_diam\_km} \approx \tfrac{0.016}{1000} \cdot m^{1/3} \cdot v^{0.44} \cdot \sin(\theta)^{1/3}\).
+\end{alertblock}
+
+\textbf{Discusión:} La fórmula ilustra tendencias cualitativas; no sustituye modelos detallados.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Ejercicio 6
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Mortalidad por rangos de diámetro}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Define bins en metros: 
+    \texttt{[0,100), [100,300), [300,1000), [1000,5000), [5000,20000), [20000,80000), [80000, inf)}.
+    \item Etiquetas: \textit{Inofensivo, Daños regionales, Ciudad devastada, Catástrofe regional, Catástrofe continental, Impacto global severo, Extinción total}.
+    \item Crea \texttt{mortalidad} con \texttt{pd.cut} y muestra \texttt{value\_counts()}.
+  \end{itemize}
+\end{block}
+\textbf{Conceptos:} Discretización con \texttt{pd.cut}.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 6 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Mortalidad por rangos}
+\begin{minted}{python}
+import numpy as np, pandas as pd
+
+bins = [0,100,300,1000,5000,20000,80000, np.inf]
+labels = [
+    'Inofensivo','Daños regionales','Ciudad devastada',
+    'Catástrofe regional','Catástrofe continental',
+    'Impacto global severo','Extinción total'
+]
+df['mortalidad'] = pd.cut(
+    df['diametro_m'], bins=bins, labels=labels, right=False, ordered=True)
+
+print(df['mortalidad'].value_counts().sort_index())
+\end{minted}
+\textbf{Discusión:} pd.cut permite análisis por categorías físicas interpretables.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Ejercicio 7
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupar y ranking por energía}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Agrupa por \texttt{mortalidad} y calcula media de \texttt{energia\_J} y \texttt{crater\_diam\_km}.
+    \item Obtén el top-5 impactos por \texttt{energia\_J}.
+  \end{itemize}
+\end{block}
+\textbf{Conceptos:} \texttt{groupby} + \texttt{agg} y \texttt{nlargest}.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 7 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Agrupar y ranking por energía}
+\begin{minted}{python}
+import numpy as np
+
+# Asegurar columnas requeridas
+df['velocidad_ms'] = df['velocidad_kms'] * 1000.0
+df['masa_kg'] = df['densidad_kg_m3'] * (np.pi/6.0) * (df['diametro_m']**3)
+df['energia_J'] = 0.5 * df['masa_kg'] * (df['velocidad_ms']**2)
+
+df['theta_rad'] = np.deg2rad(df['angulo_deg'])
+df['crater_diam_km'] = (
+  0.016 * (df['masa_kg']**(1/3)) * (df['velocidad_ms']**0.44) * (np.sin(df['theta_rad'])**(1/3))
+) / 1000.0
+
+# Resumen por categoría y top-5 por energía
+res = df.groupby('mortalidad')[['energia_J','crater_diam_km']].mean()
+print(res)
+print(df[['id','diametro_m','crater_diam_km']].sort_values("crater_diam_km", ascending=False).head())
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 10: Ejercicio 8
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización y exportación}
+\begin{block}{Enunciado}
+  \begin{itemize}
+    \item Dibuja histograma de \texttt{velocidad\_kms} y scatter \texttt{diametro\_m} vs \texttt{crater\_diam\_km} coloreado por \texttt{mortalidad}.
+    \item Exporta \texttt{df} limpio a \texttt{CSV} (\texttt{impactos\_meteoritos.csv}).
+  \end{itemize}
+\end{block}
+\textbf{Conceptos:} visualización rápida y persistencia con \texttt{to\_csv}.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 8 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Visualización y exportación}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+import matplotlib.pyplot as plt
+
+# Histograma de velocidad
+df['velocidad_kms'].hist(bins=20)
+plt.xlabel('Velocidad [km/s]')
+plt.ylabel('Frecuencia')
+plt.title('Histograma de velocidad')
+plt.show()
+
+# Asegurar categoría 'mortalidad'
+import numpy as np, pandas as pd
+bins = [0,100,300,1000,5000,20000,80000, np.inf]
+labels = ['Inofensivo','Daños regionales','Ciudad devastada','Catástrofe regional','Catástrofe continental','Impacto global severo','Extinción total']
+
+df['mortalidad'] = pd.cut(df['diametro_m'], bins=bins, labels=labels, right=False, ordered=True)
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=17]{python}
+# Scatter coloreado por categoría
+colors = df['mortalidad'].astype('category').cat.codes
+plt.scatter(df['diametro_m'], df['crater_diam_km'], c=colors,cmap='viridis', s=12)
+plt.xlabel('Diámetro [m]'); plt.ylabel('Diám. cráter [km]')
+plt.title('Diámetro vs Cráter (color = mortalidad)'); plt.show()
+
+# Exportar CSV
+df.to_csv('impactos_meteoritos.csv', index=False)
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Discusión:} Visualizamos distribución y relación; persistimos resultados para análisis externo.
 \end{frame}
 
 \end{document}
