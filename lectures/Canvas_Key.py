@@ -11,6 +11,81 @@ canvas = None
 current_user_name = None
 current_course_id = None
 
+# Diccionario simple de unidades y semanas (retrocompatibilidad)
+unidades = {
+    "UNIDAD I: ELEMENTOS BÁSICOS": [1, 2],
+    "UNIDAD II: PROGRAMACIÓN EN PYTHON": [3, 4, 5],
+    "UNIDAD III: CONTROLADORES Y ARREGLOS": [6, 7, 8],
+    "UNIDAD IV: EL CICLO FOR, GRÁFICAS": [9, 10],
+    "UNIDAD V: CLASES & ANALISIS DE DATOS": [11, 12],
+    "UNIDAD VI: ALGORITMOS, & PERFORMANCE": [13, 14, 15]
+}
+
+# Diccionario base con estructura completa y posiciones
+def _generar_estructura_base():
+    """
+    Genera la estructura base completa del módulo con posiciones
+    Retorna un diccionario con la jerarquía completa
+    """
+    estructura = {}
+    posicion = 1
+    
+    for unidad_titulo, semanas_nums in unidades.items():
+        estructura[unidad_titulo] = {
+            'position': posicion,
+            'indent': 0,
+            'semanas': {}
+        }
+        posicion += 1
+        
+        for num_semana in semanas_nums:
+            semana_str = f"{num_semana:02d}"
+            semana_titulo = f"Semana {semana_str}"
+            
+            estructura[unidad_titulo]['semanas'][num_semana] = {
+                'titulo': semana_titulo,
+                'position': posicion,
+                'indent': 1,
+                'archivos': {}
+            }
+            posicion += 1
+            
+            # Agregar archivos P1 y P2
+            for parte in ['P1', 'P2']:
+                archivo_nombre = f"Semana{semana_str}-{parte}.pdf"
+                estructura[unidad_titulo]['semanas'][num_semana]['archivos'][archivo_nombre] = {
+                    'position': posicion,
+                    'indent': 2
+                }
+                posicion += 1
+    
+    return estructura
+
+
+def ver_estructura_base():
+    """
+    Muestra la estructura base completa con posiciones
+    Útil para debugging y verificación
+    """
+    estructura = _generar_estructura_base()
+    
+    print("=" * 80)
+    print("📚 ESTRUCTURA BASE DEL MÓDULO")
+    print("=" * 80)
+    
+    for unidad_titulo, unidad_data in estructura.items():
+        print(f"\n[{unidad_data['position']}] {unidad_titulo} (indent={unidad_data['indent']})")
+        
+        for num_semana, semana_data in unidad_data['semanas'].items():
+            print(f"  [{semana_data['position']}] {semana_data['titulo']} (indent={semana_data['indent']})")
+            
+            for archivo_nombre, archivo_data in semana_data['archivos'].items():
+                print(f"    [{archivo_data['position']}] {archivo_nombre} (indent={archivo_data['indent']})")
+    
+    print("\n" + "=" * 80)
+    print(f"Total de items en estructura base: {sum(1 + len(u['semanas']) + sum(len(s['archivos']) for s in u['semanas'].values()) for u in estructura.values())}")
+    print("=" * 80)
+
 
 def select_user(nombre_usuario):
     """
@@ -120,6 +195,176 @@ def ver_cursos(filtro_codigo="2326"):
         return None
 
 
+def ordenar_modulo(course_id=None, test_mode=False):
+    """
+    Ordena manualmente todas las unidades del módulo según el orden correcto
+    
+    Args:
+        course_id: ID del curso en Canvas (si es None, usa el ID del usuario seleccionado)
+        test_mode: Si True, ordena el módulo TEST en lugar del módulo principal
+    
+    Returns:
+        True si se realizaron cambios, False si no
+    """
+    if canvas is None:
+        print("❌ Error: No hay conexión activa con Canvas")
+        print("💡 Primero ejecuta: Canvas_Key.select_user('TuNombre')")
+        return None
+    
+    # Usar el course_id del usuario si no se especifica uno
+    if course_id is None:
+        if current_course_id is None:
+            print("❌ Error: No hay un course_id asignado al usuario")
+            print("💡 Especifica el course_id: Canvas_Key.ordenar_modulo(course_id=123456)")
+            return None
+        course_id = current_course_id
+        print(f"📌 Usando course_id del usuario: {course_id}")
+
+    
+    # Nombre del módulo
+    module_name = 'Material del curso'
+    if test_mode:
+        module_name += ' TEST'
+    
+    # Obtener el curso
+    course = canvas.get_course(course_id)
+    
+    print("=" * 60)
+    print(f"🔧 ORDENAMIENTO MANUAL DE MÓDULO")
+    print(f"Curso ID: {course_id}")
+    print(f"Módulo: {module_name}")
+    print("=" * 60)
+    
+    # Buscar el módulo
+    print("\n1. Buscando módulo...")
+    main_module = None
+    modules = course.get_modules()
+    
+    for module in modules:
+        if module.name == module_name:
+            print(f"  ✓ Módulo '{module.name}' encontrado (ID: {module.id})")
+            main_module = module
+            break
+    
+    if not main_module:
+        print(f"  ❌ Módulo '{module_name}' no encontrado")
+        return False
+    
+    # Llamar a la función de reordenamiento
+    resultado = _reordenar_unidades(main_module, unidades)
+    
+    print("\n" + "=" * 60)
+    if resultado:
+        print("✅ Módulo ordenado correctamente")
+    else:
+        print("ℹ️ No se requirieron cambios")
+    print("=" * 60)
+    
+    return resultado
+
+
+def _reordenar_unidades(main_module, unidades_dict):
+    """
+    Reordena todas las unidades, semanas y archivos según la estructura base
+    Usa las posiciones predefinidas del diccionario base
+    
+    Args:
+        main_module: El módulo de Canvas a organizar
+        unidades_dict: Diccionario simple de unidades (para compatibilidad)
+    
+    Returns:
+        True si se realizaron cambios, False si no
+    """
+    print("\n🔄 Verificando y ordenando estructura completa...")
+    
+    # Generar estructura base con posiciones
+    estructura_base = _generar_estructura_base()
+    
+    # Obtener todos los items del módulo
+    items = list(main_module.get_module_items())
+    
+    if not items:
+        print("  ℹ No hay items en el módulo")
+        return False
+    
+    # Crear mapa de items actuales
+    items_mapa = {}
+    
+    for item in items:
+        if item.type == 'SubHeader':
+            # Es una unidad o semana
+            if item.indent == 0:
+                # Es una unidad
+                items_mapa[('unidad', item.title)] = item
+            elif item.indent == 1:
+                # Es una semana
+                items_mapa[('semana', item.title)] = item
+        elif item.indent == 2:
+            # Es un archivo
+            items_mapa[('archivo', item.title)] = item
+    
+    if not items_mapa:
+        print("  ℹ No hay items para reordenar")
+        return False
+    
+    # Verificar si hay cambios necesarios
+    cambios_necesarios = False
+    items_a_reposicionar = []
+    
+    print("  📋 Comparando estructura actual con estructura base...")
+    
+    # Recorrer estructura base y comparar posiciones
+    for unidad_titulo, unidad_data in estructura_base.items():
+        # Verificar unidad
+        key_unidad = ('unidad', unidad_titulo)
+        if key_unidad in items_mapa:
+            item_actual = items_mapa[key_unidad]
+            posicion_esperada = unidad_data['position']
+            
+            if item_actual.position != posicion_esperada:
+                cambios_necesarios = True
+                items_a_reposicionar.append((item_actual, posicion_esperada, f"Unidad: {unidad_titulo}"))
+            
+            # Verificar semanas de esta unidad
+            for num_semana, semana_data in unidad_data['semanas'].items():
+                key_semana = ('semana', semana_data['titulo'])
+                if key_semana in items_mapa:
+                    item_semana = items_mapa[key_semana]
+                    posicion_esperada_semana = semana_data['position']
+                    
+                    if item_semana.position != posicion_esperada_semana:
+                        cambios_necesarios = True
+                        items_a_reposicionar.append((item_semana, posicion_esperada_semana, f"  Semana: {semana_data['titulo']}"))
+                    
+                    # Verificar archivos de esta semana
+                    for archivo_nombre, archivo_data in semana_data['archivos'].items():
+                        key_archivo = ('archivo', archivo_nombre)
+                        if key_archivo in items_mapa:
+                            item_archivo = items_mapa[key_archivo]
+                            posicion_esperada_archivo = archivo_data['position']
+                            
+                            if item_archivo.position != posicion_esperada_archivo:
+                                cambios_necesarios = True
+                                items_a_reposicionar.append((item_archivo, posicion_esperada_archivo, f"    Archivo: {archivo_nombre}"))
+    
+    if not cambios_necesarios:
+        print("  ✓ Todo está en el orden correcto según estructura base")
+        return False
+    
+    # Aplicar reposicionamiento
+    print(f"  🔧 Reposicionando {len(items_a_reposicionar)} items...")
+    
+    for item, nueva_posicion, descripcion in items_a_reposicionar:
+        try:
+            item.edit(module_item={'position': nueva_posicion})
+            print(f"    ✓ {descripcion} → posición {nueva_posicion}")
+        except Exception as e:
+            print(f"    ✗ Error en {descripcion}: {e}")
+    
+    print("  ✓ Estructura completamente ordenada según base")
+    return True
+
+
 def subir_contenido(numero_semana, course_id=None, test_mode=False):
     """
     Sube contenido de una semana al curso de Canvas organizándolo por unidades
@@ -146,17 +391,7 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
             return None
         course_id = current_course_id
         print(f"📌 Usando course_id del usuario: {course_id}")
-    
-    # Diccionario de unidades y sus semanas (ORDEN IMPORTANTE)
-    unidades = {
-        "UNIDAD I: ELEMENTOS BÁSICOS": [1, 2],
-        "UNIDAD II: PROGRAMACIÓN EN PYTHON": [3, 4, 5],
-        "UNIDAD III: CONTROLADORES Y ARREGLOS": [6],
-        "UNIDAD IV: EL CICLO FOR, GRÁFICAS": [7, 8, 9, 10],
-        "UNIDAD V: CLASES & ANALISIS DE DATOS": [11, 12],
-        "UNIDAD VI: ALGORITMOS, & PERFORMANCE": [13, 14, 15]
-    }
-    
+        
     # Encontrar a qué unidad pertenece la semana
     nombre_unidad = None
     for unidad, semanas in unidades.items():
@@ -206,6 +441,9 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
             }
         )
         print(f"  ✓ Módulo creado: {main_module.name} (ID: {main_module.id})")
+    
+    # Reordenar unidades si es necesario
+    _reordenar_unidades(main_module, unidades)
     
     # Obtener todos los items actuales del módulo
     print("\n2. Analizando estructura actual del módulo...")
