@@ -1,0 +1,112 @@
+\documentclass[10pt]{article}
+
+% Compilar con LuaLaTeX o XeLaTeX
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella} % si no está, cámbiala
+\setsansfont{Fira Sans}       % instalar o cambiar
+\setmonofont{DejaVu Sans Mono}       % instalar o cambiar
+
+\usepackage[spanish]{babel}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{xcolor}
+\definecolor{unabblue}{HTML}{003366}
+\definecolor{unabgold}{HTML}{C69214}
+\definecolor{lightblue}{HTML}{E6F0FF}
+
+\usepackage[most]{tcolorbox}
+\tcbset{enhanced,
+  colback=lightblue!30,
+  colframe=unabblue,
+  fonttitle=\sffamily\bfseries\large,
+  boxrule=1pt,arc=3mm,
+  left=2mm,right=2mm,top=1mm,bottom=1mm,
+  before skip=8pt,after skip=12pt
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\sffamily\bfseries\textcolor{unabblue}{Prueba de Programación -- Versión A}}
+\rhead{\sffamily\textcolor{unabblue}{PCFI161}}
+\cfoot{\thepage}
+
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=unabblue,urlcolor=unabblue}
+
+
+% ------------------------------------------------------------------------------- 
+% ---------------------------------- Documento ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{document}
+
+\begin{center}
+  {\huge\bfseries\textcolor{unabblue}{Solemne 01 de Programación}}\\[4pt]
+  {\Large\sffamily\textcolor{unabgold}{Depto de Física y Astronomía}}\\[6pt]
+  {\large\sffamily Versión A}\\[10pt]
+  \today
+\end{center}
+
+\vspace{1em}
+\noindent\textbf{Instrucciones}: Responda cada pregunta escribiendo un programa en \texttt{Python 3}. Use solo módulos de la biblioteca estándar. Comente brevemente su código.
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 1 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 1 – Aproximación de $e^x$}]
+La función exponencial $e^x$ se puede aproximar mediante la serie de Taylor:
+\[
+  e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \dots
+\]
+Escriba un programa que:
+\begin{itemize}
+  \item Pida al usuario un valor real $x$.
+  \item Pida un entero positivo $n$ (número de términos).
+  \item Calcule la suma de los primeros $n$ términos usando un ciclo \texttt{for}.
+  \item Compare el resultado con \texttt{math.exp(x)}.
+\end{itemize}
+\end{tcolorbox}
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 2 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 2 – Ecuación cúbica}]
+Considere la ecuación $ax^{3}+bx^{2}+cx+d=0$. 
+Escriba un programa que:
+\begin{itemize}
+  \item Pida los coeficientes $a,\,b,\,c$.
+  \item Genere el coeficiente entero $d$ al azar entre $-20$ y $20$.
+  \item Implemente una función \texttt{resolver\_cubica(a,b,c,d)} que calcule las raíces reales usando la librería \texttt{numpy.roots}.
+  \item Clasifique el número de raíces reales usando un \texttt{if}.
+\end{itemize}
+\end{tcolorbox}
+
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 3 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 3 – Clasificación de estrellas por luminosidad}]
+La luminosidad relativa de una estrella de masa $M$ (en masas solares) se estima por
+\[
+  L = M^{3.5}
+\]
+Escriba un programa que:
+\begin{itemize}
+  \item Pida la masa $M$ de una estrella.
+  \item Implemente una función \texttt{luminosidad(M)} que calcule $L$.
+  \item Use un ciclo \texttt{while} para procesar varios valores hasta que el usuario ingrese \texttt{-1}.
+  \item Use \texttt{if/else} para indicar si la estrella es más o menos luminosa que el Sol. 
+  
+\end{itemize}
+\end{tcolorbox}
+
+\end{document}
+

@@ -28,7 +28,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\sffamily\bfseries\textcolor{unabblue}{Prueba de Programación -- Versión A}}
+\lhead{\sffamily\bfseries\textcolor{unabblue}{Prueba de Programación}}
 \rhead{\sffamily\textcolor{unabblue}{PCFI161}}
 \cfoot{\thepage}
 
@@ -36,81 +36,116 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=unabblue,urlcolor=unabblue}
 
+
+% ------------------------------------------------------------------------------- 
+% ---------------------------------- Documento ----------------------------------
+% ------------------------------------------------------------------------------- 
+
 \begin{document}
 \begin{center}
   {\huge\bfseries\textcolor{unabblue}{Prueba de Programación}}\\[4pt]
   {\Large\sffamily\textcolor{unabgold}{Física y Astronomía}}\\[6pt]
-  {\large\sffamily Versión A}\\[10pt]
-  \today
+  %{\large\sffamily Versión A}\\[10pt]
+  %\today
 \end{center}
 
 \vspace{0.5em}
-\noindent\textbf{Instrucciones}:
+\noindent\textbf{Instrucciones}: Responda cada pregunta escribiendo un programa en \texttt{Python 3}. Use solo módulos de la biblioteca estándar. Comente brevemente su código.
 
-\begin{itemize}
-    \item Debe contestar en total \textbf{sólo 3 preguntas}.
-    \begin{itemize}
-        \item \textbf{Una} de ellas debe ser elegida entre las dos primeras (mayor dificultad).
-        \item \textbf{Dos} de ellas deben ser elegidas entre las 3 últimas (menor dificultad)
-    \end{itemize}
-    \item Si responde más de las preguntas solicitadas, sus respuestas se anularán y se le asignará la nota 1.0.
-\end{itemize}
+
 
 \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-\section*{Preguntas con mayor dificultad}
-% -------------------- Pregunta 1 ---------------------------
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 1 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
 \begin{tcolorbox}[title={Pregunta 1 – Órbita elíptica parametrizada}]
-  En una elipse el radio vector en función del ángulo $\theta$ es  
+
+El movimiento de un planeta alrededor del Sol puede representarse mediante una elipse.  
+El radio vector en función del ángulo polar $\theta$ está dado por:
+
 \[
-r(\theta) = \frac{a\cdot (1-e^2)}{1+e\cdot \cos(\theta)}
+r(\theta) = \frac{a (1 - e^2)}{1 + e \cos(\theta)}
 \]
-  donde  
-  \begin{itemize}
-      \item $a = $1.0 UA  (UA = unidad astronómica, dato fijo)
-      \item $e= $0.40 (número adimensional llamado \textit{excentricidad}, si $e=0$ es un círculo)
-  \end{itemize}
 
-   Se pide:
-   \begin{itemize}
-       \item Crear un \textit{array} (arreglo) \texttt{theta} con 720 valores uniformes en $[0, 2\pi)$ mediante \texttt{np.linspace}.
-       \item Calcular \texttt{r} con la ecuación $r(\theta)$ y luego obtener $x = r\cdot \cos(\theta)$, y $y=r\cdot\sin(\theta)$, usando NumPy (sin bucles).
-       \item Graficar todos los puntos $(x, y)$ en una ventana cuadrada (\texttt{plt.axis('equal')})
-       \item Con NumPy verificar que los promedios $\langle x \rangle$ e $\langle y \rangle$ son $\sim 0$.
-   \end{itemize}
-\end{tcolorbox}
-
-% -------------------- Pregunta 2 ---------------------------
-\begin{tcolorbox}[title={Pregunta 2 – Mini-catálogo HIPPARCOS}]
-Se dispone del CSV:\\
-
-{\footnotesize
-\url{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S12/stars_brightness.csv}}\\
-
-
-Columnas: \texttt{spectral\_class}, \texttt{temperature\_K}(temperatura [K]), \texttt{magnitude\_app}(mag. aparente).\\
-
-Se pide:
+donde:
 \begin{itemize}
-    \item Leer el archivo en un \texttt{DataFrame}
-    \item Para cada \texttt{spectral\_class} calcular y mostrar
-    \begin{enumerate}
-        \item Temperatura media $\langle$\texttt{temperature\_K}$\rangle$.
-        \item Desviación estándard de \texttt{temperature\_K}.
-        \item Magnitud aparente mínima (estrella más brillante)
-    \end{enumerate}
-    \item Ordenar la tabla por $\langle$\texttt{temperature\_K}$\rangle$ descendente
-    \item Graficar \texttt{temperature\_K} \textit{vs} \texttt{magnitude\_app} (scatter); comentar brevemente la relación que se observa (¿estrellas más calientes son más brillantes?)
+    \item $a = 1.0$ UA (unidad astronómica, valor fijo)
+    \item $e = 0.40$ (excentricidad; si $e=0$, la órbita es circular)
 \end{itemize}
 
+\vspace{2mm}
+\textbf{Se pide:}
+\begin{enumerate}
+    \item Crear un arreglo \texttt{theta} con 720 valores igualmente espaciados en el intervalo $[0, 2\pi)$ usando \texttt{np.linspace}.
+    
+    \item Calcular el radio \texttt{r} para cada valor de $\theta$ aplicando la ecuación anterior (sin bucles, usando operaciones vectorizadas de NumPy).
+    
+    \item Obtener las coordenadas cartesianas:
+    \[
+    x = r \cos(\theta), \quad y = r \sin(\theta)
+    \]
+    
+    \item Graficar todos los puntos $(x, y)$ en una ventana cuadrada (\texttt{plt.axis('equal')}) para visualizar la órbita elíptica.
+    
+    \item Calcular los valores medios $\langle x \rangle$ y $\langle y \rangle$ con NumPy y verificar que son aproximadamente cero (simetría de la órbita).
+\end{enumerate}
+
 \end{tcolorbox}
 
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-\section*{Preguntas con menor dificultad}
-% -------------------- Pregunta 3 ---------------------------
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 2 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 2 – Mini-catálogo HIPPARCOS}]
+
+Se dispone del dataset en formato CSV:\\
+{\footnotesize
+\url{https://www.neuraldesigner.com/wp-content/uploads/2023/10/Stars.csv}}\\
+
+Este archivo contiene información básica sobre distintas estrellas observadas, con las siguientes columnas principales:
+
+\begin{itemize}
+    \item \texttt{temperature\_K}: Temperatura efectiva en la superficie de la estrella, medida en Kelvin (K).
+    \item \texttt{magnitude\_app}: Magnitud aparente, representa el brillo con que la estrella se observa desde la Tierra (valores menores = más brillante).
+    \item \texttt{spectral\_class}: Clase espectral de la estrella (O, B, A, F, G, K, M), la cual se relaciona directamente con su temperatura y color.
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Se pide:}
+
+\begin{enumerate}
+    \item Leer el archivo en un \texttt{DataFrame} de \texttt{pandas}.
+    
+    \item Para cada clase espectral (\texttt{Spectral\_Class}), calcular y mostrar:
+    \begin{enumerate}
+        \item Temperatura media $\langle$\texttt{Temperature\_K}$\rangle$.
+        \item Desviación estándar de \texttt{Temperature\_K}.
+        \item Magnitud aparente mínima (estrella más brillante dentro de la clase).
+    \end{enumerate}
+
+    \item Ordenar la tabla resultante por $\langle$\texttt{temperature\_K}$\rangle$ en orden descendente.
+    
+    \item Generar un gráfico de dispersión (\textit{scatter}) de \texttt{temperature\_K} \textit{vs.} \texttt{magnitude\_app}, e interpretar brevemente la relación observada:
+    
+    \begin{itemize}
+        \item ¿Las estrellas más calientes tienden a ser más brillantes?
+        \item ¿Se distingue alguna tendencia según la clase espectral?
+    \end{itemize}
+\end{enumerate}
+
+\end{tcolorbox}
+
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 3 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
 \begin{tcolorbox}[title={Pregunta 3 – Verificación directa de la ley de Kepler}]
-Datos (planetas interiores del Sistema Solar):
+Datos (planetas interiores del Sistema Solar): Los valores de 'Mercurio', 'Venus', 'Tierra', 'Marte'
+
 \begin{itemize}
     \item Semieje mayor: \texttt{a} [UA]      = [0.39, 0.72, 1.00, 1.52]
     \item Periodo orbital: \texttt{T} [años]  = [0.24, 0.61, 1.00, 1.88]
@@ -124,42 +159,21 @@ Para una órbita casi circular la teoría predice:
 donde $k$ debería ser 1 si $T$ se mide en años y $a$ en UA.
 
    Se pide:
-\begin{itemize}
-    \item Crear un gráfico tipo scatter con $a$ en el eje $x$ y $T$ en el eje $y$.
-    \item Para cada planeta calcule el cociente $R_i = \frac{T_i}{(a_i)^{(3/2)}}$. Muestre los cuatro valores de $R_i$ con 3 decimales.
+\begin{enumerate}
+    \item Crear un gráfico tipo (\textit{scatter}) con $a$ en el eje $x$ y $T$ en el eje $y$.
+    
+    \item Para cada planeta calcule el cociente:
+    \[
+    R_i = T_i / (a_i)^{(3/2)}
+    \]
+    Muestre los cuatro valores de $R_i$ con 3 decimales.
+
     \item Calcule el promedio $R_{prom}$ y la desviación estándar $\sigma_R$ de los $R_i$.
-\end{itemize}
+\end{enumerate}
 \end{tcolorbox}
 
-% -------------------- Pregunta 4 ---------------------------
-\begin{tcolorbox}[title={Pregunta 4 – Filtrado rápido de exoplanetas}]
-  Se dispone de un CSV :\\
 
 
-{\footnotesize
-\url{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S13/exoplanets_full.csv}}\\
-   
-con columnas: \texttt{name}, \texttt{mass\_Mj} (masas de Júpiter), \texttt{period\_d} (días).\\
-
-Se pide:
-\begin{itemize}
-    \item Cargar el archivo en un \texttt{DataFrame}.
-    \item Filtrar filas con \texttt{mass\_Mj}$\leq$1.5, y \texttt{period\_d}$\leq$10.
-    \item Genere un resumen estadístico de la tabla, por ejemplo promedios, desviaciones, etc.
-\end{itemize}
-\end{tcolorbox}
-
-% -------------------- Pregunta 5 ---------------------------
-\begin{tcolorbox}[title={Pregunta 5 – Razón de Fibonacci y número áureo}]
-Se pide:
-\begin{itemize}
-    \item Generar los primeros 20 términos de la serie de Fibonacci:
-    $$F_1=1\qquad F_2=1\qquad F_n = F_{n-1} + F_{n-2}$$
-    usando sólo dos variables y un buvle \texttt{for}.
-    \item Para $n \geq 2$ imprimir la razón $F_n/F_{n-1}$ con 6 decimales.
-    \item Mostrar el valor final calculado y compararlo con el valor teórico $\phi\sim 1.618034$.
-\end{itemize}
-\end{tcolorbox}
 
 
 \end{document}

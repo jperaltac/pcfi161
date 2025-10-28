@@ -1,0 +1,41 @@
+
+
+
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 4 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 4 – Filtrado rápido de exoplanetas}]
+  Se dispone de un CSV :\\
+
+
+{\footnotesize
+\url{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S13/exoplanets_full.csv}}\\
+   
+con columnas: \texttt{name}, \texttt{mass\_Mj} (masas de Júpiter), \texttt{period\_d} (días).\\
+
+Se pide:
+\begin{itemize}
+    \item Cargar el archivo en un \texttt{DataFrame}.
+    \item Filtrar filas con \texttt{mass\_Mj}$\leq$1.5, y \texttt{period\_d}$\leq$10.
+    \item Genere un resumen estadístico de la tabla, por ejemplo promedios, desviaciones, etc.
+\end{itemize}
+\end{tcolorbox}
+
+
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 5 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 5 – Razón de Fibonacci y número áureo}]
+Se pide:
+\begin{itemize}
+    \item Generar los primeros 20 términos de la serie de Fibonacci:
+    $$F_1=1\qquad F_2=1\qquad F_n = F_{n-1} + F_{n-2}$$
+    usando sólo dos variables y un buvle \texttt{for}.
+    \item Para $n \geq 2$ imprimir la razón $F_n/F_{n-1}$ con 6 decimales.
+    \item Mostrar el valor final calculado y compararlo con el valor teórico $\phi\sim 1.618034$.
+\end{itemize}
+\end{tcolorbox}
