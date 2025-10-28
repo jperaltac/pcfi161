@@ -31,7 +31,6 @@ Key.py
 *.tmp
 _minted*/
 _minted/
-*.txt
 _*.minted
 #Semana??-P?.pdf
 # Si no quieres subir PDFs generados por LaTeX, ignora el PDF

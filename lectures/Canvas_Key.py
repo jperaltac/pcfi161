@@ -1,5 +1,4 @@
 # Canvas API Configuration
-# IMPORTANTE: Este archivo NO debe ser compartido ni subido a repositorios públicos
 import os
 from canvasapi import Canvas
 from Key import USERS
