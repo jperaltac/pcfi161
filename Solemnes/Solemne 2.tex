@@ -101,16 +101,16 @@ donde:
 
 \begin{tcolorbox}[title={Pregunta 2 – Mini-catálogo HIPPARCOS}]
 
-Se dispone del dataset en formato CSV:\\
+Se dispone de un conjunto de datos en formato CSV:\\
 {\footnotesize
 \url{https://www.neuraldesigner.com/wp-content/uploads/2023/10/Stars.csv}}\\
 
-Este archivo contiene información básica sobre distintas estrellas observadas, con las siguientes columnas principales:
+Este archivo contiene información de diversas estrellas con las siguientes columnas:
 
 \begin{itemize}
-    \item \texttt{temperature\_K}: Temperatura efectiva en la superficie de la estrella, medida en Kelvin (K).
-    \item \texttt{magnitude\_app}: Magnitud aparente, representa el brillo con que la estrella se observa desde la Tierra (valores menores = más brillante).
-    \item \texttt{spectral\_class}: Clase espectral de la estrella (O, B, A, F, G, K, M), la cual se relaciona directamente con su temperatura y color.
+    \item \texttt{temperature\_K}: Temperatura superficial de la estrella (K).
+    \item \texttt{magnitude\_app}: Magnitud aparente, mide el brillo observado desde la Tierra (valores menores = mayor brillo).
+    \item \texttt{spectral\_class}: Clase espectral (O, B, A, F, G, K, M), relacionada con temperatura y color.
 \end{itemize}
 
 \vspace{3mm}
@@ -119,20 +119,20 @@ Este archivo contiene información básica sobre distintas estrellas observadas,
 \begin{enumerate}
     \item Leer el archivo en un \texttt{DataFrame} de \texttt{pandas}.
     
-    \item Para cada clase espectral (\texttt{Spectral\_Class}), calcular y mostrar:
+    \item Para cada clase espectral (\texttt{spectral\_class}), calcular y mostrar:
     \begin{enumerate}
-        \item Temperatura media $\langle$\texttt{Temperature\_K}$\rangle$.
-        \item Desviación estándar de \texttt{Temperature\_K}.
-        \item Magnitud aparente mínima (estrella más brillante dentro de la clase).
+        \item Temperatura promedio $\langle$\texttt{temperature\_K}$\rangle$.
+        \item Desviación estándar de \texttt{temperature\_K}.
+        \item Magnitud aparente mínima (la estrella más brillante de esa clase).
     \end{enumerate}
 
-    \item Ordenar la tabla resultante por $\langle$\texttt{temperature\_K}$\rangle$ en orden descendente.
+    \item Ordenar la tabla resultante por $\langle$\texttt{temperature\_K}$\rangle$ de mayor a menor.
     
-    \item Generar un gráfico de dispersión (\textit{scatter}) de \texttt{temperature\_K} \textit{vs.} \texttt{magnitude\_app}, e interpretar brevemente la relación observada:
+    \item Crear un gráfico de dispersión (\textit{scatter}) con \texttt{temperature\_K} en el eje \textit{x} y \texttt{magnitude\_app} en el eje \textit{y}. Interpretar brevemente:
     
     \begin{itemize}
         \item ¿Las estrellas más calientes tienden a ser más brillantes?
-        \item ¿Se distingue alguna tendencia según la clase espectral?
+        \item ¿Hay alguna tendencia según la clase espectral?
     \end{itemize}
 \end{enumerate}
 

@@ -18,8 +18,7 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % Por ejemplo:
-  % \title{Semana 11 - Sesión 2 (Sesión 22): Proyectos Colaborativos y Retroalimentación}
+  % \title{Semana 11 - Sesión 2 (Sesión 22): Ajuste de Datos y Modelado (Parte 2)}
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -40,241 +39,222 @@
 % ----------------------------------------------------------------------------------------
 \section{Introducción y Contexto}
 
-% ------------------------------------------------------------------------
-% Slide 3: Conexión con Semana 11, Sesión 1
-% ------------------------------------------------------------------------
-\begin{frame}{Contexto Tras la Solemne II (Continuación)}
-  \begin{itemize}
-    \item \textbf{Semana 11, Sesión 1 (Sesión 21)}:
-      \begin{itemize}
-        \item Retroalimentación general de la Solemne II.
-        \item Profundización en \textbf{POO avanzada}: polimorfismo, composición.
-        \item Propuesta de ejemplos físicos (Body, Star, SolarSystem).
-      \end{itemize}
-    \item \textbf{Semana 11, Sesión 2 (Sesión 22)}:
-      \begin{itemize}
-        \item Podríamos comenzar a plantear \textbf{proyectos colaborativos} o la fase final del curso, dependiendo del Syllabus.
-        \item Seguir revisando retroalimentación \textbf{individual} y plan de recuperación si alguien necesita.
-      \end{itemize}
-    \item \textbf{Objetivo de hoy}: Organizar ideas para trabajos/proyectos finales, o ejercicios de refuerzo según la ruta del Syllabus.
-  \end{itemize}
-\end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 4: Objetivos de la Sesión 22
+% Slide: Objetivos de la Sesión 22
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 22}
   \begin{itemize}
-    \item \textbf{Compartir} retroalimentación más detallada de la Solemne II a nivel individual (cuando corresponda).
-    \item \textbf{Proponer} líneas de trabajo para un \textbf{proyecto integrador} (o mini-proyecto), combinando POO y análisis de datos.
-    \item \textbf{Fomentar} la discusión y asignación de \textbf{equipos} o \textbf{temáticas}, si es un proyecto grupal.
-    \item \textbf{Refrescar} cualquier duda sobre polimorfismo, composición u otros temas recientes.
+    \item \textbf{Ajustes no lineales:} exponencial y potencia (contraste con transformaciones).
+    \item \textbf{Propagación de errores:} desde \texttt{curve\_fit} (\(\mathrm{cov}\)) y con Monte Carlo.
+    \item \textbf{Bandas de confianza:} visualización de incertidumbre en predicciones.
+    \item \textbf{Tarea:} Ajuste de curva de luz estelar (planteamiento y criterios).
   \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Retroalimentación Individual de la Solemne II
+% SECCIÓN 1: Ajustes no lineales
 % ----------------------------------------------------------------------------------------
-\section{Retroalimentación Individual}
+\section{Ajustes no lineales}
 
-% ------------------------------------------------------------------------
-% Slide 5: Acceso a Retroalimentación en CANVAS
-% ------------------------------------------------------------------------
-\begin{frame}{Acceso a Retroalimentación}
-  \begin{itemize}
-    \item \textbf{Notas y comentarios} ya publicadas en CANVAS.
-    \item Revisen su \textbf{archivo corregido} (o PDF de correcciones) para ver comentarios específicos.
-    \item \textbf{Pregunten} si hay dudas sobre la calificación o la forma de mejorar.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 6: Estadísticas Adicionales (si aplica)
-% ------------------------------------------------------------------------
-\begin{frame}{Estadísticas Adicionales}
-  \begin{itemize}
-    \item Medias y desv. estándar de notas, si corresponde.
-    \item Observaciones sobre \textbf{tiempo} y \textbf{estrategia} de resolución.
-    \item Tipos de errores frecuentes:
-      \begin{itemize}
-        \item Falta de \textbf{super()} en herencia.
-        \item Errores de \textbf{reshape} en NumPy o confusión en subplots.
-        \item Falta de validación en \textbf{pandas} (CSV mal formateados).
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Proyectos o Ejercicios Finales
-% ----------------------------------------------------------------------------------------
-\section{Proyectos Finales}
-
-% ------------------------------------------------------------------------
-% Slide 7: Propuesta de Proyecto Integrador
-% ------------------------------------------------------------------------
-\begin{frame}{Propuesta de Proyecto Integrador (Ejemplo)}
-  \begin{block}{Idea General}
-    \begin{itemize}
-      \item \textbf{Objetivo}: desarrollar un mini-proyecto donde se combinen:
-        \begin{itemize}
-          \item \textbf{POO} para modelar entidades (partículas, cuerpos astronómicos, datos experimentales).
-          \item \textbf{NumPy} para cálculos numéricos (simulaciones, estadísticas).
-          \item \textbf{Matplotlib} para visualización 2D/3D.
-          \item (Opcional) \textbf{pandas} para manejo de datos más robusto (CSV, merges, etc.).
-        \end{itemize}
-      \item \textbf{Equipo}: 2-3 personas, entregando un \textbf{repositorio} o un \textbf{notebook} en Colab con explicación.
-      \item \textbf{Extensión}: ~1-2 semanas de desarrollo, con check-ins intermedios.
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 8: Ejemplos de Temáticas
-% ------------------------------------------------------------------------
-\begin{frame}{Temáticas Suggeridas}
-  \begin{itemize}
-    \item \textbf{Simulación de órbitas} en un sistema planetario simple (\texttt{Body}, \texttt{SolarSystem}).
-    \item \textbf{Modelo de cargas} (Particle, ChargedParticle) e interacción electrostática.
-    \item \textbf{Análisis de datos experimentales} con una clase \texttt{Measurement} y comparaciones estadísticas en \textbf{pandas}.
-    \item \textbf{Animaciones} con Matplotlib (\texttt{FuncAnimation}) de un movimiento 2D/3D.
-    \item Cualquier otra idea relevante al campo de Física/Astronomía/Ingeniería.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 9: Organización y Entregables
-% ------------------------------------------------------------------------
-\begin{frame}{Organización del Proyecto (si aplica)}
-  \begin{itemize}
-    \item \textbf{Formación de grupos}: 2-3 integrantes.
-    \item \textbf{Plan de trabajo}:
-      \begin{itemize}
-        \item Propuesta inicial (alcances, clases a definir, datos a usar).
-        \item Avance parcial (estructuras POO, prototipos de gráficas).
-        \item Entrega final (documentación en un \textbf{README} o en celdas de \textbf{Markdown}).
-      \end{itemize}
-    \item \textbf{Evaluación}:
-      \begin{itemize}
-        \item Organización y claridad del código (POO, funciones auxiliares).
-        \item Uso correcto de NumPy/Matplotlib/pandas según corresponda.
-        \item Resultados coherentes, gráficas interpretables.
-        \item Documentación y conclusiones (Markdown o PDF anexo).
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Reforzando Temas Pendientes
-% ----------------------------------------------------------------------------------------
-\section{Refuerzo de Temas Pendientes}
-
-% ------------------------------------------------------------------------
-% Slide 10: Recopilación de Dudas
-% ------------------------------------------------------------------------
-\begin{frame}{Recopilación de Dudas Pendientes}
-  \begin{itemize}
-    \item \textbf{POO avanzada}: polimorfismo, composición, encapsulación relativa en Python.
-    \item \textbf{NumPy}: broadcast, random, performance tips.
-    \item \textbf{Matplotlib}: subplots 3D, animación (FuncAnimation), personalización avanzada (fonts, styles).
-    \item \textbf{pandas}: merges, groupby, time-series (si aplica).
-  \end{itemize}
-  \textbf{Comparte tus inquietudes en voz alta o en foros.}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 11: Minicharla: Animaciones en Matplotlib (si hay tiempo)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Minicharla: Animaciones (Opcional)}
-\begin{itemize}
-  \item Usar \(\texttt{matplotlib.animation.FuncAnimation}\).
-  \item Estructura típica:
+\begin{frame}[fragile]{Exponencial: \(y = A\, e^{-t/\tau} + C\)}
+\begin{columns}
+\begin{column}{0.5\textwidth}
 \begin{minted}{python}
-import matplotlib.animation as animation
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
 
-fig, ax = plt.subplots()
-line, = ax.plot([], [], 'o-')
+rng = np.random.default_rng(123)
+t = np.linspace(0, 10, 60)
+A_true, tau_true, C_true = 5.0, 2.0, 0.5
+sigma = 0.2
 
-def init():
-    ax.set_xlim(0, 10)
-    ax.set_ylim(-1, 1)
-    return line,
+def expo(t, A, tau, C):
+    return A*np.exp(-t/tau) + C
 
-def update(frame):
-    xdata.append(frame)
-    ydata.append(np.sin(frame))
-    line.set_data(xdata, ydata)
-    return line,
+y_true = expo(t, A_true, tau_true, C_true)
+y_obs = y_true + rng.normal(0, sigma, size=t.size)
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=16]{python}
+# Ajuste con curva inicial razonable
+p0 = (4.0, 1.0, 0.0)
+popt, pcov = curve_fit(expo, t, y_obs, p0=p0,
+                       sigma=np.full_like(t, sigma),
+                       absolute_sigma=True)
+perr = np.sqrt(np.diag(pcov))
+A, tau, C = popt
+print(f"A={A:.2f}±{perr[0]:.2f}, tau={tau:.2f}±{perr[1]:.2f}, C={C:.2f}±{perr[2]:.2f}")
 
-ani = animation.FuncAnimation(fig, update,
-                              frames=np.linspace(0,10,50),
-                              init_func=init, blit=True)
+plt.scatter(t, y_obs, s=12)
+plt.plot(t, expo(t,*popt), 'r')
+plt.grid(alpha=0.3); plt.show()
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+	\textbf{Tips:} las conjeturas iniciales (\texttt{p0}) ayudan a converger al mínimo correcto.
+\end{frame}
+
+\begin{frame}[fragile]{Potencia: \(y = k\, x^{\alpha}\) (no lineal vs log–log)}
+\begin{minted}{python}
+from scipy.optimize import curve_fit
+
+def power(x, k, alpha):
+    return k * x**alpha
+
+x = np.linspace(1, 20, 40)
+alpha_true, k_true, sigma_rel = 1.7, 2.0, 0.08
+y_true = power(x, k_true, alpha_true)
+rng = np.random.default_rng(5)
+y_obs = y_true * (1 + rng.normal(0, sigma_rel, size=x.size))
+
+popt, pcov = curve_fit(power, x, y_obs, p0=(1.0, 1.0))
+print('k, alpha =', popt)
+\end{minted}
+	\textbf{Comentario:} comparar con ajuste lineal en \(\log\)–\(\log\) para entender potenciales sesgos.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Propagación de errores
+% ----------------------------------------------------------------------------------------
+\section{Propagación de errores}
+
+\begin{frame}[fragile]{Errores de parámetros desde la covarianza}
+\begin{minted}{python}
+# Desde curve_fit: pcov -> varianzas en la diagonal
+perr = np.sqrt(np.diag(pcov))
+for name, val, err in zip(['k','alpha'], popt, perr):
+    print(f"{name} = {val:.3f} ± {err:.3f}")
+\end{minted}
+	\textbf{Interpretación:} asume errores gaussianos y modelo adecuado alrededor del óptimo.
+\end{frame}
+
+\begin{frame}[fragile]{Monte Carlo: muestreo de parámetros y banda de confianza}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Muestras de parámetros ~ N(popt, pcov)
+ns = 2000
+theta_s = np.random.multivariate_normal(popt, pcov, size=ns)
+xx = np.linspace(x.min(), x.max(), 200)
+
+Y = np.array([power(xx, *th) for th in theta_s])
+y_med = np.median(Y, axis=0)
+y_lo, y_hi = np.percentile(Y, [16,84], axis=0)
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=16]{python}
+plt.scatter(x, y_obs, s=12, label='datos')
+plt.plot(xx, y_med, 'r', label='ajuste (mediana)')
+plt.fill_between(xx, y_lo, y_hi, color='r', alpha=0.2,
+                 label='~68% conf.')
+plt.legend(); plt.grid(alpha=0.3)
+plt.xlabel('x'); plt.ylabel('y')
+plt.title('Banda de confianza por MC')
 plt.show()
 \end{minted}
-  \item \textbf{Aplicación}: movimiento de partículas, órbitas, propagación de ondas, etc.
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+	\textbf{Ventaja:} no requiere linealizar; captura correlaciones entre parámetros.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Visualización de intervalos de confianza
+% ----------------------------------------------------------------------------------------
+\section{Visualización de intervalos de confianza}
+
+\begin{frame}[fragile]{Enfoques prácticos}
+\begin{itemize}
+  \item \textbf{Bandas de predicción} por muestreo de parámetros (como antes) o por \(J\,\mathrm{cov}\,J^T\).
+  \item \textbf{Sombras (fill\_between)} para 1\,$\sigma$ (68%) y 2\,$\sigma$ (95%).
+  \item \textbf{Residuos con barras de error} para validar supuestos de ruido.
 \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Conclusiones y Próximos Pasos
+% SECCIÓN 4: Tarea
 % ----------------------------------------------------------------------------------------
-\section{Conclusiones y Próximos Pasos}
+\section{Tarea: Ajuste de curva de luz estelar}
 
-% ------------------------------------------------------------------------
-% Slide 12: Discusión de Próximos Proyectos
-% ------------------------------------------------------------------------
-\begin{frame}{Discusión Abierta}
-  \begin{itemize}
-    \item ¿Qué proyecto integrador les interesa más?
-    \item ¿Necesitan datos reales (CSV) o preferirían algo 100\% simulado (NumPy random)?
-    \item ¿Prefieren foco en \textbf{POO} o en \textbf{análisis/visualización}?
-    \item \textbf{Objetivo} de la discusión: definir \textbf{lineamientos} finales del proyecto (o mini-tarea).
-  \end{itemize}
+\begin{frame}{Tarea Pregunta: \hfill \textcolor{blue}{$\bigstar$} \\ Ajuste de curva de luz estelar}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Descargue o genere una \textbf{curva de luz} (tiempo vs flujo) de una estrella con variabilidad simple.
+      \item Proponga un \textbf{modelo} adecuado, por ejemplo:
+        \begin{itemize}
+          \item \(F(t) = A\,\sin(2\pi t/P + \phi) + C\) (rotación/mancha)
+          \item o pulso/gaussiana para un \textit{evento} breve
+        \end{itemize}
+      \item Ajuste parámetros con \texttt{curve\_fit}, estime errores (\(\sqrt{\mathrm{diag}(\mathrm{cov})}\)).
+      \item Visualice la \textbf{banda de confianza} (68%) y reporte \(\chi^2_\mathrm{red}\).
+    \end{itemize}
+  \end{block}
+  	\textbf{Entrega:} notebook o script + figuras (PDF/PNG). \textbf{Relevancia:} análisis fotométrico básico en astronomía.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 13: Conclusiones de la Sesión 22
-% ------------------------------------------------------------------------
-\begin{frame}{Conclusiones de la Sesión 22}
-  \begin{itemize}
-    \item Continuamos con la retroalimentación de la Solemne II, ahora a nivel \textbf{individual} y con consejos puntuales.
-    \item Iniciamos la \textbf{planificación} de proyectos finales o colaborativos, unificando POO y análisis de datos.
-    \item Reforzamos la disponibilidad de \textbf{espacios de dudas} para temas pendientes (polimorfismo, animaciones, etc.).
-  \end{itemize}
+\begin{frame}[fragile]{Plantilla de referencia (opcional): seno simple}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+import numpy as np
+from scipy.optimize import curve_fit
+
+def seno(t, A, P, phi, C):
+    return A*np.sin(2*np.pi*t/P + phi) + C
+
+rng = np.random.default_rng(10)
+t = np.linspace(0, 10, 200)
+F_true = seno(t, 0.02, 2.5, 0.3, 1.0)
+sigma = 0.005
+F_obs = F_true + rng.normal(0, sigma, size=t.size)
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=14]{python}
+p0 = (0.01, 2.0, 0.0, 1.0)
+popt, pcov = curve_fit(seno, t, F_obs, p0=p0,
+                       sigma=np.full_like(t, sigma),
+                       absolute_sigma=True)
+perr = np.sqrt(np.diag(pcov))
+print('parámetros ±1σ:', popt, perr)
+
+# Construya banda de confianza (MC) y grafique
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+	\textbf{Consejo:} Cotejar unidades, escalas y calidad de datos antes del ajuste.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 14: Próxima Sesión (Semana 12)
-% ------------------------------------------------------------------------
-\begin{frame}{Próximos Temas}
-  \begin{itemize}
-    \item \textbf{Semana 12}: Puesta en marcha de proyectos (si corresponde) o siguientes unidades del Syllabus.
-    \item Revisar la \textbf{fechas} de entrega intermedia (si se establece).
-    \item Seguir explorando \textbf{animaciones}, \textbf{estadística avanzada}, o \textbf{paralelización} (según plan).
-  \end{itemize}
-\end{frame}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Cierre y recursos
+% ----------------------------------------------------------------------------------------
+\section{Cierre y Recursos}
 
-% ------------------------------------------------------------------------
-% Slide 15: Recursos Adicionales
-% ------------------------------------------------------------------------
 \begin{frame}{Recursos Adicionales}
   \begin{itemize}
-    \item \href{https://realpython.com/courses/}{\textbf{Real Python}} - Sección de proyectos y guías prácticas.
-    \item \href{https://matplotlib.org/stable/api/animation_api.html}{\textbf{Matplotlib Animation API}} - documentación oficial.
-    \item \href{https://numpy.org/doc/stable/reference/routines.random.html}{\textbf{NumPy random}} - generadores pseudoaleatorios avanzados.
-    \item \textbf{Canvas/Foros}: para la comunicación de consultas y feedback continuo.
+    \item \href{https://docs.scipy.org/doc/scipy/reference/optimize.html}{\textbf{SciPy Optimize}}
+    \item \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html}{\textbf{curve\_fit}}
+    \item \href{https://numpy.org/doc/stable/reference/random/index.html}{\textbf{NumPy Random}} (simulaciones/MC)
+    \item \href{https://matplotlib.org/stable/}{\textbf{Matplotlib}} (visualización)
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 16: Cierre de la Sesión
-% ------------------------------------------------------------------------
 \begin{frame}
-  \Huge{\centerline{¡Excelente trabajo y hasta la próxima sesión!}}
+  \Huge{\centerline{¡Excelente trabajo!}}
   \vspace{0.5cm}
   \normalsize
   \begin{itemize}
-    \item Consulten en foros o mail si tienen dudas detalladas del proyecto/propuesta.
-    \item ¡Nos vemos en Semana 12 con más desarrollo de ideas!
+    \item Dudas y avances de la tarea en foros/Canvas.
+    \item Próxima unidad: consolidación de análisis y proyecto final.
   \end{itemize}
 \end{frame}
 
