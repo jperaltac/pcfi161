@@ -1,0 +1,178 @@
+\documentclass[10pt]{beamer}
+\input{../preamble.tex}
+
+% ----------  NUEVO: minted ----------
+\usepackage{minted}        % Requiere compilar con -shell-escape
+\setminted{
+  fontsize=\scriptsize,
+  linenos,
+  baselinestretch=1,
+  breaklines
+}
+
+\title{S12-P2 (Sesión 24)\\Repaso guiado}
+\author{PCFI161}
+\date{21 mayo 2025}
+
+\begin{document}
+\myfront{}
+
+% ───────────────────────────────────────────────
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Ruta de la sesión (60 min)}
+  \tableofcontents
+\end{frame}
+
+\metroset{block=fill}
+
+% ============================================================
+\section{Repaso \& Calentamiento (40 min)}
+% ============================================================
+
+\begin{frame}{Mini-quiz relámpago (3 min)}
+\begin{block}{¿Recuerdas…?}
+\begin{enumerate}
+  \item ¿Para qué sirve \texttt{df.info()}?
+  \item ¿Cómo obtengo la moda de una columna numérica?
+  \item ¿Qué gráfico elegirías para detectar \textit{outliers}?~\footnote{En un conjunto de datos, un \textbf{outlier} (dato atípico) es un valor que se aleja de manera notable del patrón general. Respuesta : \textbf{boxplot}}
+\end{enumerate}
+\end{block}
+{\scriptsize Respuestas rápidas en voz alta, sin nota.}
+\end{frame}
+
+\begin{frame}[fragile]{Creamos un dataset sintético de ¡pandas gigantes! (7 min)}
+\begin{minted}{python}
+import pandas as pd, numpy as np
+np.random.seed(42)
+n = 200
+df_syn = pd.DataFrame({
+    "height_m": np.random.normal(2.5, 0.3, n),     # altura
+    "weight_kg": np.random.normal(150, 15, n),     # peso
+    "bamboo_daily_kg": np.random.normal(25, 4, n), # bambú ingerido
+    "continent": np.random.choice(
+        ["Asia", "Europa", "América"], n, p=[.6,.25,.15])
+})
+\end{minted}
+
+\begin{itemize}
+  \item Datos inventados → sólo práctica.
+  \item Recordamos \texttt{head()}, \texttt{describe()}, \texttt{value\_counts()}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Trucos rápidos de inspección (5 min)}
+\begin{minted}{python}
+df_syn.isnull().sum()                       # ¿faltantes?
+df_syn.groupby("continent")["weight_kg"].mean()
+df_syn.quantile([.25, .75])                 # cuartiles
+\end{minted}
+\end{frame}
+
+% ──────────────────────────────────────────────────────────
+\begin{frame}[fragile]{¿Usemos \texttt{seaborn}?}
+\begin{itemize} \footnotesize
+  \item \textbf{Se apoya en \texttt{matplotlib}} todo lo que aprendes de la \textit{librería base} sigue siendo válido.
+  \item \textbf{Ajustes estéticos por defecto}: paletas perceptualmente uniformes, estilos limpios y tipografías coherentes sin configuración extra.
+  \item \textbf{API de alto nivel}: llamadas concisas (\texttt{sns.boxplot}, \texttt{sns.violinplot}, \texttt{sns.regplot}) que automatizan pasos de formateo y estadísticas.
+  \item \textbf{Gráficos estadísticos listos} (distribuciones, relaciones, catplots) sin escribir cálculos preliminares.
+  \item \textbf{Uso en investigación}: astrónomos y astrofísicos lo emplean para explorar catálogos masivos (Gaia, SDSS) y publicar figuras claras en revistas científicas.
+  \item Conocemos \texttt{matplotlib} porque es \emph{el} motor de renderizado, pero mostramos \texttt{seaborn} para que veas que existen atajos y estilos listos para producción.
+\end{itemize}
+
+\small{
+\begin{block}{Mensaje clave}
+Aprende la base (\texttt{matplotlib}), pero no dudes en aprovechar atajos como \texttt{seaborn} cuando necesites  rototipar visualizaciones estadísticas rápidamente.
+\end{block}
+}
+
+\end{frame}
+% ──────────────────────────────────────────────────────────
+
+
+\begin{frame}[fragile]{Gráficos de repaso}
+\begin{minted}{python}
+# Scatter altura vs peso
+df_syn.plot.scatter("height_m", "weight_kg",
+                    title="Pandas gigantes sintéticos")
+
+# Heatmap de correlación exprés
+import seaborn as sns, matplotlib.pyplot as plt
+sns.heatmap(df_syn.corr(numeric_only=True), annot=True, square=True)
+plt.title("Matriz de correlación")
+\end{minted}
+
+\begin{itemize}
+  \item Repasamos scatter y heatmap.
+  \item Discusión rápida: ¿correlación altura-peso?, ¿ingesta de bambú?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Transición a Tarea}
+\Large
+Repaso completado. ¡Vamos a la Tarea!
+\vspace{0.4cm}
+
+\small
+Recuerde archivar su notebook para entrega.
+\end{frame}
+
+% ============================================================
+\section{Trabajo en equipo (reforzar)}
+% ============================================================
+
+\begin{frame}{Dataset real: \texttt{stars\_brightness.csv}}
+\begin{itemize}
+  \item 500 estrellas (muestra HIPPARCOS).
+  \item Archivo csv : \url{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S12/stars_brightness.csv}
+  \item Columnas: \texttt{magnitude\_app}, \texttt{temperature\_K},
+        \texttt{spectral\_class}, \texttt{radius\_solar}, y \texttt{metallicity\_Fe\_H}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Instrucciones}
+Trabajo en grupos de 2-3  
+\begin{enumerate}
+  \item Leer el CSV con \texttt{pandas}.
+  \item Calcular: media, mediana, desvío estándar, IQR.
+  \item Graficar:
+        \begin{itemize}
+          \item Histograma de \texttt{magnitude\_app} (20 bins)
+          \item Boxplot de \texttt{temperature\_K} por \texttt{spectral\_class}
+          \item \emph{Opcional}: violin plot comparativo
+        \end{itemize}
+  \item Guarden su trabajo para estudiar.
+\end{enumerate}
+\end{frame}
+
+%\begin{frame}{Criterios de corrección}
+%\begin{itemize}
+%  \item Exactitud estadística 35 %
+%  \item Calidad de gráficas 25 %
+%  \item Claridad de código/comentarios 20 %
+%  \item Uso correcto de \texttt{pandas}/NumPy 20 %
+%\end{itemize}
+%\end{frame}
+
+% ============================================================
+%\section{Cuenta regresiva}
+% ============================================================
+%\begin{frame}{⏱ 20 min de Tarea}
+%\huge\centering ¡Manos a la obra!
+%\end{frame}
+
+% ============================================================
+\section{Cierre}
+% ============================================================
+\begin{frame}{Próximos pasos}
+\begin{itemize}
+  \item Guarden/descarguen su notebook antes de terminar la clase.
+  \item Si tiene dudas: ¡consulte!.
+  \item ¡Prepárense para la Solemne 2!
+\end{itemize}
+\end{frame}
+
+\end{document}

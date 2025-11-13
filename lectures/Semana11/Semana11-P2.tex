@@ -18,7 +18,7 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % \title{Semana 11 - Sesión 2 (Sesión 22): Ajuste de Datos y Modelado (Parte 2)}
+  % \title{Semana 11 - Sesión 2 (Sesión 22): Aplicación de Ajuste de Datos y Modelado}
 \end{frame}
 
 % ------------------------------------------------------------------------
@@ -37,226 +37,401 @@
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
 % ----------------------------------------------------------------------------------------
-\section{Introducción y Contexto}
+\section{Introducción y Conexión}
 
-
-% ------------------------------------------------------------------------
-% Slide: Objetivos de la Sesión 22
-% ------------------------------------------------------------------------
-\begin{frame}{Objetivos de la Sesión 22}
+\begin{frame}{Repaso de la Sesión Previa (P1)}
   \begin{itemize}
-    \item \textbf{Ajustes no lineales:} exponencial y potencia (contraste con transformaciones).
-    \item \textbf{Propagación de errores:} desde \texttt{curve\_fit} (\(\mathrm{cov}\)) y con Monte Carlo.
-    \item \textbf{Bandas de confianza:} visualización de incertidumbre en predicciones.
-    \item \textbf{Tarea:} Ajuste de curva de luz estelar (planteamiento y criterios).
+    \item Ajuste lineal con \texttt{curve\_fit}; residuos, \(R^2\), \(\chi^2_\text{red}\).
+    \item Ejemplo: Ley de Hubble \(v=H_0 d + b\) en datos simulados.
+    \item Interpolación 1D: lineal vs cúbica; evitar extrapolación.
+    \item Ajuste de distribuciones y modelo elegido con AIC/KS.
+  \end{itemize}
+  \begin{alertblock}{Objetivo de hoy}
+    Aplicar y consolidar estos conceptos en 6 ejercicios cortos y guiados.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Objetivos de la Sesión P2}
+  \begin{itemize}
+    \item Consolidar el uso de \texttt{scipy.optimize.curve\_fit} y diagnóstico básico.
+    \item Aplicar \texttt{interp1d} (lineal/cúbica) en señales con huecos.
+    \item Elegir distribuciones con \texttt{scipy.stats} mediante AIC y KS.
   \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Ajustes no lineales
+% SECCIÓN 2: Ejercicios Prácticos Integrados
 % ----------------------------------------------------------------------------------------
-\section{Ajustes no lineales}
+\section{Ejercicios Prácticos Integrados}
 
-\begin{frame}[fragile]{Exponencial: \(y = A\, e^{-t/\tau} + C\)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-
-rng = np.random.default_rng(123)
-t = np.linspace(0, 10, 60)
-A_true, tau_true, C_true = 5.0, 2.0, 0.5
-sigma = 0.2
-
-def expo(t, A, tau, C):
-    return A*np.exp(-t/tau) + C
-
-y_true = expo(t, A_true, tau_true, C_true)
-y_obs = y_true + rng.normal(0, sigma, size=t.size)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-# Ajuste con curva inicial razonable
-p0 = (4.0, 1.0, 0.0)
-popt, pcov = curve_fit(expo, t, y_obs, p0=p0,
-                       sigma=np.full_like(t, sigma),
-                       absolute_sigma=True)
-perr = np.sqrt(np.diag(pcov))
-A, tau, C = popt
-print(f"A={A:.2f}±{perr[0]:.2f}, tau={tau:.2f}±{perr[1]:.2f}, C={C:.2f}±{perr[2]:.2f}")
-
-plt.scatter(t, y_obs, s=12)
-plt.plot(t, expo(t,*popt), 'r')
-plt.grid(alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Tips:} las conjeturas iniciales (\texttt{p0}) ayudan a converger al mínimo correcto.
-\end{frame}
-
-\begin{frame}[fragile]{Potencia: \(y = k\, x^{\alpha}\) (no lineal vs log–log)}
-\begin{minted}{python}
-from scipy.optimize import curve_fit
-
-def power(x, k, alpha):
-    return k * x**alpha
-
-x = np.linspace(1, 20, 40)
-alpha_true, k_true, sigma_rel = 1.7, 2.0, 0.08
-y_true = power(x, k_true, alpha_true)
-rng = np.random.default_rng(5)
-y_obs = y_true * (1 + rng.normal(0, sigma_rel, size=x.size))
-
-popt, pcov = curve_fit(power, x, y_obs, p0=(1.0, 1.0))
-print('k, alpha =', popt)
-\end{minted}
-	\textbf{Comentario:} comparar con ajuste lineal en \(\log\)–\(\log\) para entender potenciales sesgos.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Propagación de errores
-% ----------------------------------------------------------------------------------------
-\section{Propagación de errores}
-
-\begin{frame}[fragile]{Errores de parámetros desde la covarianza}
-\begin{minted}{python}
-# Desde curve_fit: pcov -> varianzas en la diagonal
-perr = np.sqrt(np.diag(pcov))
-for name, val, err in zip(['k','alpha'], popt, perr):
-    print(f"{name} = {val:.3f} ± {err:.3f}")
-\end{minted}
-	\textbf{Interpretación:} asume errores gaussianos y modelo adecuado alrededor del óptimo.
-\end{frame}
-
-\begin{frame}[fragile]{Monte Carlo: muestreo de parámetros y banda de confianza}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Muestras de parámetros ~ N(popt, pcov)
-ns = 2000
-theta_s = np.random.multivariate_normal(popt, pcov, size=ns)
-xx = np.linspace(x.min(), x.max(), 200)
-
-Y = np.array([power(xx, *th) for th in theta_s])
-y_med = np.median(Y, axis=0)
-y_lo, y_hi = np.percentile(Y, [16,84], axis=0)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-plt.scatter(x, y_obs, s=12, label='datos')
-plt.plot(xx, y_med, 'r', label='ajuste (mediana)')
-plt.fill_between(xx, y_lo, y_hi, color='r', alpha=0.2,
-                 label='~68% conf.')
-plt.legend(); plt.grid(alpha=0.3)
-plt.xlabel('x'); plt.ylabel('y')
-plt.title('Banda de confianza por MC')
-plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Ventaja:} no requiere linealizar; captura correlaciones entre parámetros.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Visualización de intervalos de confianza
-% ----------------------------------------------------------------------------------------
-\section{Visualización de intervalos de confianza}
-
-\begin{frame}[fragile]{Enfoques prácticos}
-\begin{itemize}
-  \item \textbf{Bandas de predicción} por muestreo de parámetros (como antes) o por \(J\,\mathrm{cov}\,J^T\).
-  \item \textbf{Sombras (fill\_between)} para 1\,$\sigma$ (68%) y 2\,$\sigma$ (95%).
-  \item \textbf{Residuos con barras de error} para validar supuestos de ruido.
-\end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Tarea
-% ----------------------------------------------------------------------------------------
-\section{Tarea: Ajuste de curva de luz estelar}
-
-\begin{frame}{Tarea Pregunta: \hfill \textcolor{blue}{$\bigstar$} \\ Ajuste de curva de luz estelar}
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 1
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Calibración lineal sin gráficos}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Descargue o genere una \textbf{curva de luz} (tiempo vs flujo) de una estrella con variabilidad simple.
-      \item Proponga un \textbf{modelo} adecuado, por ejemplo:
-        \begin{itemize}
-          \item \(F(t) = A\,\sin(2\pi t/P + \phi) + C\) (rotación/mancha)
-          \item o pulso/gaussiana para un \textit{evento} breve
-        \end{itemize}
-      \item Ajuste parámetros con \texttt{curve\_fit}, estime errores (\(\sqrt{\mathrm{diag}(\mathrm{cov})}\)).
-      \item Visualice la \textbf{banda de confianza} (68%) y reporte \(\chi^2_\mathrm{red}\).
+      \item Simule 12 medidas \((T,V)\) de un sensor \(V=aT+b\) con \(\sigma_V\) constante.
+      \item Estime \(a,b\) con \texttt{curve\_fit}. Reporte \(R^2\) y \(\chi^2_\text{red}\).
+      \item Opcional fuera de clase: graficar (omitido aquí).
     \end{itemize}
   \end{block}
-  	\textbf{Entrega:} notebook o script + figuras (PDF/PNG). \textbf{Relevancia:} análisis fotométrico básico en astronomía.
+  \textbf{Física:} sensibilidad (V/°C) y offset del sensor.
 \end{frame}
 
-\begin{frame}[fragile]{Plantilla de referencia (opcional): seno simple}
-\begin{columns}
-\begin{column}{0.5\textwidth}
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 2
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Hubble con diagnóstico básico}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Genere 25 galaxias con \(d\in[10,200]\) Mpc y \(\sigma_v=180\) km/s constante.
+      \item Ajuste \(v=H_0 d + b\) con \texttt{curve\_fit}.
+      \item Calcule \(\chi^2_\text{red}\) y reporte \(H_0\) con su error.
+      \item Grafique datos, ajuste y residuos.
+    \end{itemize}
+  \end{block}
+  \textbf{Física:} estimación básica de la constante de Hubble.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 3
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Interpolación de curva de luz}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Simule \(F(t)=1+0.1\sin(2\pi t/P)\) en [0,10] con 60 puntos.
+      \item Elimine 20 puntos al azar.
+      \item Interpole con lineal y cúbica.
+      \item Grafique las tres curvas (original, lineal, cúbica) y comente diferencias.
+    \end{itemize}
+  \end{block}
+  \textbf{Nota:} enfoque visual, sin calcular integrales.
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 5
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Datos positivos: Lognormal vs Normal}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Genere 1500 datos positivos tipo lognormal (\(\mu=0\), \(\sigma=0.6\)).
+      \item Ajuste distribuciones Lognormal y Normal.
+      \item Calcule AIC para ambas y grafique histograma + PDFs.
+      \item Concluya cuál modelo es más apropiado.
+    \end{itemize}
+  \end{block}
+  \textbf{Objetivo:} selección de modelo con criterio cuantitativo simple.
+\end{frame}
+
+
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Soluciones de Referencia (código ≤ 24 líneas)
+% ----------------------------------------------------------------------------------------
+\section{Soluciones de Referencia}
+
+% filepath: d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\lectures\Semana11\Semana11-P2.tex
+
+% ------------------------------------------------------------------------
+% Solución 1
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Calibración lineal}
 \begin{minted}{python}
-import numpy as np
+import random, math
 from scipy.optimize import curve_fit
 
-def seno(t, A, P, phi, C):
-    return A*np.sin(2*np.pi*t/P + phi) + C
+# Generar datos sintéticos del sensor
+T = [i*10 for i in range(12)]  # Temperaturas de 0 a 110°C
+a_true, b_true, sigma = 0.018, 0.15, 0.02
+V = [a_true*t + b_true + random.gauss(0.0, sigma) for t in T]
 
-rng = np.random.default_rng(10)
-t = np.linspace(0, 10, 200)
-F_true = seno(t, 0.02, 2.5, 0.3, 1.0)
-sigma = 0.005
-F_obs = F_true + rng.normal(0, sigma, size=t.size)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=14]{python}
-p0 = (0.01, 2.0, 0.0, 1.0)
-popt, pcov = curve_fit(seno, t, F_obs, p0=p0,
-                       sigma=np.full_like(t, sigma),
-                       absolute_sigma=True)
-perr = np.sqrt(np.diag(pcov))
-print('parámetros ±1σ:', popt, perr)
+# Definir modelo lineal
+def modelo_lineal(x, a, b):
+    return a*x + b
 
-# Construya banda de confianza (MC) y grafique
+# Ajustar con curve_fit
+sig = [sigma]*len(T)
+popt, _ = curve_fit(modelo_lineal, T, V, sigma=sig, absolute_sigma=True)
+a_est, b_est = popt
+
+# Calcular métricas de calidad
+V_fit = [modelo_lineal(t, a_est, b_est) for t in T]
+media_V = sum(V)/len(V)
+SS_res = sum((vi - vfi)**2 for vi, vfi in zip(V, V_fit))
+SS_tot = sum((vi - media_V)**2 for vi in V)
+R2 = 1 - SS_res/SS_tot
+chi2_red = sum(((vi - vfi)/sigma)**2 for vi, vfi in zip(V, V_fit))/(len(T)-2)
+
+print(f"Sensibilidad: a={a_est:.4f} V/°C")
+print(f"Offset: b={b_est:.3f} V")
+print(f"R²={R2:.3f}, χ²_red={chi2_red:.2f}")
 \end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Consejo:} Cotejar unidades, escalas y calidad de datos antes del ajuste.
+\textbf{Lectura:} \(\chi^2_\text{red}\approx 1\) confirma que \(\sigma\) estimado es razonable.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 2
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Hubble con diagnóstico}
+\begin{minted}{python}
+import random, math
+from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
+
+# Generar datos de galaxias
+H0_true, sigma_v = 70.0, 180.0
+n = 25
+d = [10 + i*(190/(n-1)) for i in range(n)]  # 10 a 200 Mpc
+v_obs = [H0_true*di + random.gauss(0.0, sigma_v) for di in d]
+
+# Ajustar modelo de Hubble
+def hubble(d, H0, b):
+    return H0*d + b
+
+sig = [sigma_v]*n
+popt, pcov = curve_fit(hubble, d, v_obs, sigma=sig, absolute_sigma=True)
+H0_est, b_est = popt
+perr = [math.sqrt(pcov[i][i]) for i in range(len(popt))]
+
+# Calcular chi2_red
+v_fit = [hubble(di, H0_est, b_est) for di in d]
+res = [vi - vfi for vi, vfi in zip(v_obs, v_fit)]
+chi2_red = sum((ri/sigma_v)**2 for ri in res)/(n-2)
+
+print(f"H0 = {H0_est:.1f} ± {perr[0]:.1f} km/s/Mpc")
+print(f"Intercepto b = {b_est:.1f} km/s")
+print(f"χ²_red = {chi2_red:.2f}")
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 2 (continuación - gráficos)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Hubble con diagnóstico (gráficos)}
+\begin{minted}[firstnumber=25]{python}
+# Graficar datos y ajuste
+plt.figure(figsize=(10, 4))
+
+# Panel 1: Datos y ajuste
+plt.subplot(1, 2, 1)
+plt.scatter(d, v_obs, s=30, alpha=0.6, label='Galaxias')
+plt.plot(d, v_fit, 'r-', linewidth=2, label=f'H0={H0_est:.1f}')
+plt.xlabel('Distancia (Mpc)')
+plt.ylabel('Velocidad (km/s)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Panel 2: Residuos
+plt.subplot(1, 2, 2)
+plt.scatter(d, res, s=30, alpha=0.6)
+plt.axhline(0, color='r', linestyle='--')
+plt.xlabel('Distancia (Mpc)')
+plt.ylabel('Residuos (km/s)')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+\end{minted}
+\textbf{Física:} residuos reflejan velocidades peculiares de las galaxias.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 3
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Interpolación de curva de luz}
+\begin{minted}{python}
+from scipy.interpolate import interp1d
+import random, math
+import matplotlib.pyplot as plt
+
+# Generar curva de luz completa
+P = 2.5  # periodo
+t_full = [i*0.05 for i in range(201)]  # 0 a 10 en 201 puntos
+F_full = [1.0 + 0.1*math.sin(2*math.pi*t/P) for t in t_full]
+
+# Eliminar 20 puntos al azar
+random.seed(42)
+indices = random.sample(range(len(t_full)), len(t_full) - 20)
+indices.sort()
+t_obs = [t_full[i] for i in indices]
+F_obs = [F_full[i] for i in indices]
+
+# Crear interpoladores
+f_lin = interp1d(t_obs, F_obs, kind='linear')
+f_cub = interp1d(t_obs, F_obs, kind='cubic')
+
+# Evaluar en grilla fina
+t_interp = [i*0.025 for i in range(401)]  # más fino para suavidad
+F_lin = [f_lin(t) for t in t_interp]
+F_cub = [f_cub(t) for t in t_interp]
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 3 (continuación - gráficos)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Interpolación (gráficos)}
+\begin{minted}[firstnumber=23]{python}
+# Graficar comparación
+plt.figure(figsize=(10, 6))
+plt.plot(t_full, F_full, 'k-', alpha=0.3, linewidth=2, label='Original')
+plt.scatter(t_obs, F_obs, s=20, c='black', zorder=5, label='Observaciones')
+plt.plot(t_interp, F_lin, 'b--', linewidth=1.5, label='Lineal')
+plt.plot(t_interp, F_cub, 'r-', linewidth=1.5, label='Cúbica')
+plt.xlabel('Tiempo')
+plt.ylabel('Flujo F(t)')
+plt.title('Interpolación de Curva de Luz')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Comentario: La interpolación cúbica sigue mejor la forma suave
+# de la señal original, mientras que la lineal produce segmentos
+# rectos entre puntos. Ambas son exactas en los puntos observados.
+\end{minted}
+\textbf{Nota:} cúbica captura mejor la variación suave; lineal es más robusta al ruido.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 4
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Lognormal vs Normal}
+\begin{minted}{python}
+from scipy import stats
+import random
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generar datos lognormales
+random.seed(42)
+n = 1500
+mu, sigma = 0.0, 0.6
+x = [random.lognormvariate(mu, sigma) for _ in range(n)]
+
+# Ajustar distribución Lognormal
+s_log, _, scale_log = stats.lognorm.fit(x, floc=0)
+ll_log = sum(stats.lognorm.logpdf(xi, s_log, 0, scale_log) for xi in x)
+k_log = 2  # parámetros: s y scale
+AIC_log = 2*k_log - 2*ll_log
+
+# Ajustar distribución Normal
+mu_norm, sig_norm = stats.norm.fit(x)
+ll_norm = sum(stats.norm.logpdf(xi, mu_norm, sig_norm) for xi in x)
+k_norm = 2  # parámetros: mu y sigma
+AIC_norm = 2*k_norm - 2*ll_norm
+
+print(f"Lognormal: AIC = {AIC_log:.1f}")
+print(f"Normal: AIC = {AIC_norm:.1f}")
+print(f"Mejor modelo: {'Lognormal' if AIC_log < AIC_norm else 'Normal'}")
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 4 (continuación - gráficos)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Lognormal vs Normal (gráficos)}
+\begin{minted}[firstnumber=24]{python}
+# Graficar histograma y PDFs ajustadas
+plt.figure(figsize=(10, 6))
+plt.hist(x, bins=40, density=True, alpha=0.5, edgecolor='black', 
+         label='Histograma')
+
+# Generar curvas de densidad
+x_plot = np.linspace(0, max(x), 500)
+pdf_log = stats.lognorm.pdf(x_plot, s_log, 0, scale_log)
+pdf_norm = stats.norm.pdf(x_plot, mu_norm, sig_norm)
+
+plt.plot(x_plot, pdf_log, 'r-', linewidth=2, 
+         label=f'Lognormal (AIC={AIC_log:.1f})')
+plt.plot(x_plot, pdf_norm, 'b--', linewidth=2, 
+         label=f'Normal (AIC={AIC_norm:.1f})')
+
+plt.xlabel('Valor')
+plt.ylabel('Densidad de Probabilidad')
+plt.title('Comparación de Ajustes: Lognormal vs Normal')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\textbf{Conclusión:} Lognormal tiene menor AIC y captura mejor la asimetría positiva.
+\end{frame}
+
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Consolidación y Retroalimentación
+% ----------------------------------------------------------------------------------------
+\section{Consolidación y Retroalimentación}
+
+\begin{frame}{Puesta en Común - ¿Cómo les fue?}
+  \begin{itemize}
+    \item ¿Dónde costó más: ajuste, interpolación o AIC/KS?
+    \item ¿Qué indicadores reportarían siempre? (\(R^2\), \(\chi^2_\text{red}\), AIC, KS)
+    \item ¿Qué harían distinto si tuvieran datos reales con outliers?
+  \end{itemize}
+  \begin{alertblock}{Objetivo}
+    Construir criterio físico-estadístico al elegir modelos.
+  \end{alertblock}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Cierre y recursos
+% SECCIÓN 6: Conclusiones
 % ----------------------------------------------------------------------------------------
-\section{Cierre y Recursos}
+\section{Conclusiones}
 
-\begin{frame}{Recursos Adicionales}
+\begin{frame}{Síntesis de la Sesión}
   \begin{itemize}
-    \item \href{https://docs.scipy.org/doc/scipy/reference/optimize.html}{\textbf{SciPy Optimize}}
-    \item \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html}{\textbf{curve\_fit}}
-    \item \href{https://numpy.org/doc/stable/reference/random/index.html}{\textbf{NumPy Random}} (simulaciones/MC)
-    \item \href{https://matplotlib.org/stable/}{\textbf{Matplotlib}} (visualización)
+    \item Consolidamos ajuste lineal con \texttt{curve\_fit} y diagnóstico básico.
+    \item Aplicamos interpolación lineal/cúbica con integración.
+    \item Seleccionamos distribuciones usando AIC y validamos con KS.
   \end{itemize}
+  \begin{block}{Habilidad adquirida}
+    Resolver y justificar modelos simples con métricas claras.
+  \end{block}
 \end{frame}
 
-\begin{frame}
-  \Huge{\centerline{¡Excelente trabajo!}}
-  \vspace{0.5cm}
-  \normalsize
+\begin{frame}{Preparación para la Próxima Unidad}
   \begin{itemize}
-    \item Dudas y avances de la tarea en foros/Canvas.
-    \item Próxima unidad: consolidación de análisis y proyecto final.
+    \item Repasar: \texttt{curve\_fit}, \texttt{interp1d}, \texttt{scipy.stats}.
+    \item Práctica: repetir Ej. 5–6 con otro tamaño de muestra.
   \end{itemize}
+  \begin{center}
+    \textbf{¡Nos vemos en la próxima sesión!}
+  \end{center}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% APÉNDICE: Ver también (extras fuera del cuerpo principal)
+% ----------------------------------------------------------------------------------------
+%\appendix
+\section{Apéndice: Ver también}
+
+\begin{frame}[fragile]{Extra: \texttt{curve\_fit} lineal con errores}
+\begin{minted}{python}
+from scipy.optimize import curve_fit
+import random, math
+
+f = lambda x,m,b: m*x + b
+x = [i*(10/29) for i in range(30)]
+y = [f(xi, 2.0, 1.0) + random.gauss(0,0.5) for xi in x]
+sigma = [0.5]*len(x)
+popt, pcov = curve_fit(lambda x,m,b: [f(xi,m,b) for xi in x],
+                       x, y, sigma=sigma, absolute_sigma=True)
+perr = [math.sqrt(pcov[i][i]) for i in range(len(popt))]
+print(f"m={popt[0]:.2f}±{perr[0]:.2f}, b={popt[1]:.2f}±{perr[1]:.2f}")
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Extra: Prueba KS (solo referencia)}
+\begin{minted}{python}
+from scipy import stats
+import random
+
+x = [random.gauss(0,1) for _ in range(1000)]
+mu, sigma = stats.norm.fit(x)
+D, p = stats.kstest(x, 'norm', args=(mu, sigma))
+print(f"KS D={D:.3f}, p={p:.3f} (no usar en P2 como criterio principal)")
+\end{minted}
 \end{frame}
 
 \end{document}
-

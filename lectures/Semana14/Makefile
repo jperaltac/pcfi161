@@ -3,7 +3,7 @@ LATEX = lualatex -interaction=nonstopmode -halt-on-error -shell-escape
 OUTPUT = > /dev/null 2>&1
 
 # Archivos fuente
-PDFS = Semana14-P1.pdf Semana14-P2.pdf
+PDFS = Semana12-P1.pdf Semana12-P2.pdf
 
 all: $(PDFS)
 
