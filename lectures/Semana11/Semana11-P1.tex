@@ -48,9 +48,8 @@
     \item \textbf{Objetivo:} Construir, paso a paso, una base sólida para ajustar datos experimentales y astronómicos.
     \item \textbf{Hoy (P1):}
       \begin{itemize}
-        \item Ajuste lineal con \texttt{np.polyfit} y \texttt{scipy.optimize.curve\_fit}.
+        \item Ajuste lineal con \texttt{np.polyfit}.
         \item Ejemplos: Ley de Hubble, relación masa–luminosidad (transformación log–log).
-        \item Interpolación con \texttt{scipy.interpolate}.
         \item Residuos y bondad de ajuste (\(\chi^2\) reducido).
       \end{itemize}
     \item \textbf{Prerequisitos suaves:} \texttt{numpy} (arrays, operaciones vectorizadas) y \texttt{matplotlib}.
@@ -96,6 +95,23 @@ plt.show()
   \end{itemize}
 \end{frame}
 
+\begin{frame}{¿Qué es \texttt{np.polyfit}?}
+  \begin{block}{Definición}
+    \texttt{np.polyfit(x, y, deg)} ajusta un polinomio de grado \texttt{deg} a los datos \((x, y)\) minimizando la suma de los cuadrados de los residuos.
+  \end{block}
+  
+  \begin{itemize}
+    \item \textbf{Parámetros principales:}
+      \begin{itemize}
+        \item \texttt{x}: array de valores independientes
+        \item \texttt{y}: array de valores dependientes (observaciones)
+        \item \texttt{deg}: grado del polinomio (1 = lineal, 2 = cuadrático, etc.)
+      \end{itemize}
+    \item \textbf{Retorna:} coeficientes del polinomio en orden descendente
+    \item Para \texttt{deg=1}: retorna \([m, b]\) donde \(y = mx + b\)
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{Recta por mínimos cuadrados con \texttt{np.polyfit}}
 \begin{minted}{python}
 import numpy as np
@@ -105,15 +121,12 @@ import matplotlib.pyplot as plt
 m_est, b_est = np.polyfit(x, y_obs, deg=1) # deg (int) grado del polinomio a ajustar
 y_fit = m_est * x + b_est
 
-res = y_obs - y_fit
-SS_res = np.sum(res**2)
-SS_tot = np.sum((y_obs - np.mean(y_obs))**2)
-R2 = 1 - SS_res/SS_tot
-
 plt.scatter(x, y_obs, label='datos')
 plt.plot(x, y_fit, 'r', label=f'fit: y={m_est:.2f}x+{b_est:.2f}')
 plt.legend(); plt.grid(alpha=0.3); plt.show()
-print('R^2 =', R2)
+
+print(f'Pendiente: m = {m_est:.3f}')
+print(f'Intercepto: b = {b_est:.3f}')
 \end{minted}
 	\textbf{Notas:} \texttt{np.polyfit} entrega coeficientes polinomiales por mínimos cuadrados.
 \end{frame}
@@ -122,7 +135,6 @@ print('R^2 =', R2)
   \begin{itemize}
     \item Genera datos \(x\) y una relación lineal \(y\_\text{true}=mx+b\) con ruido gaussiano (\(\sigma\)).
     \item Aplica \texttt{np.polyfit} para obtener \(m,b\) que minimizan \(\sum r\_i^2\).
-    \item Calcula \(R^2\) para medir la fracción de varianza explicada.
     \item Grafica datos y la recta ajustada para inspección visual.
   \end{itemize}
   	\textbf{Por qué así:} es la forma estándar y eficiente de mínimos cuadrados en NumPy.
@@ -142,19 +154,432 @@ print('R^2 =', R2)
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Ponderación por incertidumbres: \(w = 1/\sigma\)}
+% ----------------------------------------------------------------------------------------
+% SUBSECCIÓN: Métricas de calidad del ajuste
+% ----------------------------------------------------------------------------------------
+
+\begin{frame}{Métricas de calidad del ajuste: ¿Qué tan bueno es nuestro modelo?}
+  \begin{block}{Pregunta fundamental}
+    Una vez que tenemos un ajuste, ¿cómo sabemos si es bueno?
+  \end{block}
+  
+  \begin{itemize}
+    \item \textbf{Inspección visual:} útil pero subjetiva
+    \item \textbf{Métricas cuantitativas:} nos dan números objetivos
+  \end{itemize}
+  
+  \begin{alertblock}{Tres métricas principales}
+    \begin{enumerate}
+      \item \textbf{Residuos} (\(r_i\)): diferencias punto a punto
+      \item \textbf{Coeficiente \(R^2\)}: fracción de varianza explicada
+      \item \textbf{\(\chi^2\) reducido}: consistencia con incertidumbres
+    \end{enumerate}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Métrica 1: \\ Residuos (\(r_i\))}
+  \begin{block}{Definición}
+    El residuo es la diferencia entre el valor observado y el predicho por el modelo:
+    \[
+    r_i = y_{\text{obs},i} - y_{\text{modelo},i}
+    \]
+  \end{block}
+  
+  \begin{itemize}
+    \item \textbf{Interpretación física:}
+      \begin{itemize}
+        \item \(r_i > 0\): el modelo subestima la observación
+        \item \(r_i < 0\): el modelo sobreestima la observación
+        \item \(r_i \approx 0\): el modelo predice bien ese punto
+      \end{itemize}
+    \item \textbf{Análisis de residuos:}
+      \begin{itemize}
+        \item Patrón aleatorio \(\Rightarrow\) modelo adecuado
+        \item Patrón sistemático (curva, tendencia) \(\Rightarrow\) modelo inadecuado
+      \end{itemize}
+    \item \textbf{Ejemplo:} Si ajustamos una recta a datos que siguen una parábola, los residuos mostrarán una forma de "U".
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Métrica 1: \\ Cálculo de residuos}
 \begin{minted}{python}
-# Si cada punto tiene una incertidumbre distinta sigma_i en y,
-# podemos ponderar el ajuste: puntos con menor sigma pesan más.
-rng = np.random.default_rng(0)
-sigma_i = rng.uniform(1.0, 3.0, size=x.size)
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Calcular residuos
+res = y_obs - y_fit
+
+# Estadísticas básicas de residuos
+print(f"Media de residuos: {np.mean(res):.6f}")  # debe ser ≈ 0
+print(f"Desviación estándar: {np.std(res):.3f}")
+print(f"Residuo máximo: {np.max(np.abs(res)):.3f}")
+
+# Gráfico de residuos vs x
+plt.figure(figsize=(10, 4))
+plt.subplot(1, 2, 1)
+plt.scatter(x, res, alpha=0.6)
+plt.axhline(0, color='r', linestyle='--')
+plt.xlabel('x'); plt.ylabel('Residuos'); plt.grid(alpha=0.3)
+plt.title('Residuos vs x')
+
+# Histograma de residuos
+plt.subplot(1, 2, 2)
+plt.hist(res, bins=10, alpha=0.7, edgecolor='black')
+plt.xlabel('Residuo'); plt.ylabel('Frecuencia')
+plt.title('Distribución de residuos'); plt.show()
+\end{minted}
+\end{frame}
+
+\begin{frame}{Métrica 2: \\ Coeficiente de determinación (\(R^2\))}
+  \begin{block}{Definición}
+    \(R^2\) mide la proporción de la varianza en \(y\) que es explicada por el modelo:
+    \[
+    R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}} = 1 - \frac{\sum (y_i - y_{\text{fit},i})^2}{\sum (y_i - \bar{y})^2}
+    \]
+  \end{block}
+  
+  \begin{itemize}
+    \item \textbf{Componentes:}
+      \begin{itemize}
+        \item \(SS_{\text{res}}\): suma de cuadrados de residuos (error del modelo)
+        \item \(SS_{\text{tot}}\): varianza total de los datos
+        \item \(\bar{y}\): promedio de las observaciones
+      \end{itemize}
+    \item \textbf{Rango de valores:} \(0 \leq R^2 \leq 1\)
+      \begin{itemize}
+        \item \(R^2 = 1\): el modelo explica perfectamente los datos
+        \item \(R^2 = 0\): el modelo no explica nada (equivalente a usar \(\bar{y}\))
+        \item \(R^2 < 0\): el modelo es peor que usar el promedio (raro)
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Métrica 2: \\ Cálculo de \(R^2\)}
+\begin{minted}{python}
+# Calcular componentes
+res = y_obs - y_fit
+SS_res = np.sum(res**2)  # Suma de cuadrados residual
+SS_tot = np.sum((y_obs - np.mean(y_obs))**2)  # Varianza total
+
+# Calcular R^2
+R2 = 1 - SS_res / SS_tot
+
+print(f"SS_res = {SS_res:.2f}")
+print(f"SS_tot = {SS_tot:.2f}")
+print(f"R² = {R2:.4f}")
+
+# Interpretación
+if R2 > 0.9:
+    print("Excelente ajuste: >90% de varianza explicada")
+elif R2 > 0.7:
+    print("Buen ajuste: >70% de varianza explicada")
+elif R2 > 0.5:
+    print("Ajuste moderado")
+else:
+    print("Ajuste pobre: considerar otro modelo")
+\end{minted}
+\end{frame}
+
+\begin{frame}{Métrica 2: \\ Interpretación de \(R^2\)}
+  \begin{itemize}
+    \item \textbf{Ventajas:}
+      \begin{itemize}
+        \item Fácil de interpretar (porcentaje de varianza explicada)
+        \item Sin unidades (adimensional)
+        \item Útil para comparar modelos en los mismos datos
+      \end{itemize}
+    \item \textbf{Limitaciones importantes:}
+      \begin{itemize}
+        \item NO indica si el modelo es apropiado físicamente
+        \item Siempre aumenta al agregar parámetros (sobreajuste)
+        \item NO usa las incertidumbres \(\sigma_i\) de las mediciones
+      \end{itemize}
+  \end{itemize}
+  
+  \begin{alertblock}{Advertencia física}
+    Un \(R^2\) alto NO garantiza que el modelo sea correcto. Ejemplo: ajustar una recta a datos que siguen una parábola puede dar \(R^2 > 0.9\) en un rango limitado, pero el modelo sigue siendo incorrecto.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Métrica 3: \\ \(\chi^2\) reducido}
+  \begin{block}{Definición}
+    El \(\chi^2\) reducido compara los residuos con las incertidumbres esperadas:
+    \[
+    \chi^2_{\text{red}} = \frac{1}{\nu} \sum_{i=1}^{N} \frac{(y_i - y_{\text{fit},i})^2}{\sigma_i^2}, \quad \nu = N - p
+    \]
+  \end{block}
+  
+  \begin{itemize}
+    \item \textbf{Componentes:}
+      \begin{itemize}
+        \item \(N\): número de puntos de datos
+        \item \(p\): número de parámetros ajustados (2 para recta: \(m, b\))
+        \item \(\nu\): grados de libertad = \(N - p\)
+        \item \(\sigma_i\): incertidumbre del punto \(i\)
+      \end{itemize}
+    \item \textbf{Diferencia clave con \(R^2\):} 
+      \begin{itemize}
+        \item \(\chi^2_{\text{red}}\) SÍ usa las incertidumbres \(\sigma_i\)
+        \item Responde: "¿son los residuos consistentes con \(\sigma_i\)?"
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Métrica 3: \\ Interpretación de \(\chi^2\) reducido}
+  \begin{itemize}
+    \item \textbf{Valores típicos e interpretación:}
+      \begin{itemize}
+        \item \(\chi^2_{\text{red}} \approx 1\): \textcolor{green}{\textbf{Ideal}}. Los residuos son consistentes con las \(\sigma_i\) estimadas.
+        \item \(\chi^2_{\text{red}} \gg 1\): \textcolor{red}{\textbf{Problema}}. Los residuos son mayores que \(\sigma_i\). Posibles causas:
+          \begin{itemize}
+            \item Modelo inadecuado (falta física)
+            \item Incertidumbres \(\sigma_i\) subestimadas
+            \item Datos atípicos (outliers)
+          \end{itemize}
+        \item \(\chi^2_{\text{red}} \ll 1\): \textcolor{orange}{\textbf{Sospechoso}}. Los residuos son menores que \(\sigma_i\). Posibles causas:
+          \begin{itemize}
+            \item Incertidumbres \(\sigma_i\) sobrestimadas
+            \item Sobreajuste (demasiados parámetros)
+          \end{itemize}
+      \end{itemize}
+  \end{itemize}
+  
+  \begin{alertblock}{Regla práctica}
+    Para un buen ajuste: \(0.5 < \chi^2_{\text{red}} < 2.0\)
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Métrica 3: \\ Cálculo de \(\chi^2\) reducido}
+\begin{minted}{python}
+# Supongamos que todos los puntos tienen sigma = 2.0
+sigma = 2.0
+
+# Calcular chi^2
+res = y_obs - y_fit
+chi2 = np.sum((res / sigma)**2)
+
+# Grados de libertad
+N = len(y_obs)
+p = 2  # parámetros: m y b
+nu = N - p
+
+# Chi^2 reducido
+chi2_red = chi2 / nu
+
+print(f"N = {N} puntos")
+print(f"p = {p} parámetros")
+print(f"ν = {nu} grados de libertad")
+print(f"χ² = {chi2:.2f}")
+print(f"χ²_red = {chi2_red:.2f}")
+
+if 0.5 < chi2_red < 2.0:
+    print("✓ Ajuste consistente con incertidumbres")
+elif chi2_red > 2.0:
+    print("✗ Residuos mayores que esperado")
+else:
+    print("⚠ Residuos menores que esperado")
+\end{minted}
+\end{frame}
+
+\begin{frame}{Comparación de las tres métricas}
+  \begin{center}
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Aspecto} & \textbf{Residuos} & \textbf{\(R^2\)} & \textbf{\(\chi^2_{\text{red}}\)} \\
+    \hline
+    Usa \(\sigma_i\) & No & No & \textbf{Sí} \\
+    \hline
+    Detecta patrones & Sí & No & No \\
+    \hline
+    Valor objetivo & \(\approx 0\) & \(\approx 1\) & \(\approx 1\) \\
+    \hline
+    Comparar modelos & Difícil & Sí & Sí \\
+    \hline
+    Interpretación & Visual & \% varianza & Consistencia \\
+    \hline
+  \end{tabular}
+  \end{center}
+  
+  \vspace{0.3cm}
+  \begin{block}{Recomendación}
+    \begin{itemize}
+      \item Use \textbf{residuos} para detectar problemas del modelo
+      \item Use \textbf{\(R^2\)} para comunicación general
+      \item Use \textbf{\(\chi^2_{\text{red}}\)} para validación estadística rigurosa
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SUBSECCIÓN: Ponderación por incertidumbres
+% ----------------------------------------------------------------------------------------
+
+\begin{frame}{Ponderación: \\ ¿Por qué pesar los datos?}
+  \begin{itemize}
+    \item \textbf{Problema:} No todas las mediciones son igual de confiables.
+    \item \textbf{Ejemplo físico:} 
+      \begin{itemize}
+        \item Medición 1: \(y_1 = 10.0 \pm 0.1\) (muy precisa)
+        \item Medición 2: \(y_2 = 10.5 \pm 2.0\) (menos precisa)
+      \end{itemize}
+    \item \textbf{Pregunta:} ¿Deberían ambas mediciones influir igual en el ajuste?
+    \item \textbf{Respuesta intuitiva:} NO. La medición más precisa debe "pesar más" en el resultado final.
+  \end{itemize}
+  
+  \begin{alertblock}{Principio físico}
+    Dar más importancia a las mediciones con menor incertidumbre es fundamental para obtener el mejor estimador de los parámetros.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ponderación matemática: \(w_i = 1/\sigma_i\)}
+  \begin{block}{Fórmula de ponderación}
+    El peso de cada punto es inversamente proporcional a su incertidumbre:
+    \[
+    w_i = \frac{1}{\sigma_i}
+    \]
+  \end{block}
+  
+  \begin{itemize}
+    \item \textbf{Interpretación:}
+      \begin{itemize}
+        \item \(\sigma_i\) pequeño \(\Rightarrow\) \(w_i\) grande \(\Rightarrow\) más influencia
+        \item \(\sigma_i\) grande \(\Rightarrow\) \(w_i\) pequeño \(\Rightarrow\) menos influencia
+      \end{itemize}
+    \item \textbf{Minimización ponderada:}
+    \[
+    \chi^2 = \sum_{i=1}^{N} w_i^2 \left(y_i - (mx_i + b)\right)^2 = \sum_{i=1}^{N} \frac{(y_i - (mx_i + b))^2}{\sigma_i^2}
+    \]
+    \item Los puntos con \(\sigma\) pequeño contribuyen más al \(\chi^2\) total.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 1)}
+\textbf{Paso 1: Generar datos con incertidumbres variables}
+\begin{minted}{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Datos originales (del ejemplo anterior)
+rng = np.random.default_rng(42)
+x = np.linspace(0, 10, 25)
+y_true = 2.5 * x + 5.0
+
+# Crear incertidumbres variables para cada punto
+rng2 = np.random.default_rng(0)
+sigma_i = rng2.uniform(1.0, 3.0, size=x.size)  # σ entre 1 y 3
+
+# Generar observaciones con ruido proporcional a sigma_i
+y_obs = y_true + rng.normal(0, 1, size=x.size) * sigma_i
+
+print("Primeros 5 puntos:")
+for i in range(5):
+    print(f"x={x[i]:.1f}, y={y_obs[i]:.2f}, σ={sigma_i[i]:.2f}")
+\end{minted}
+\textbf{Resultado:} Cada punto tiene diferente nivel de incertidumbre.
+\end{frame}
+
+\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 2)}
+\textbf{Paso 2: Ajuste SIN ponderación}
+\begin{minted}{python}
+# Ajuste estándar: todos los puntos pesan igual
+m_sin, b_sin = np.polyfit(x, y_obs, deg=1)
+y_fit_sin = m_sin * x + b_sin
+
+print(f"\nAjuste SIN ponderación:")
+print(f"  Pendiente m = {m_sin:.3f} (real: 2.500)")
+print(f"  Intercepto b = {b_sin:.3f} (real: 5.000)")
+
+# Calcular chi^2 sin ponderar (asumiendo σ=1 para todos)
+res_sin = y_obs - y_fit_sin
+chi2_sin = np.sum(res_sin**2)
+print(f"  Suma de residuos² = {chi2_sin:.2f}")
+\end{minted}
+\textbf{Problema:} Puntos con alta incertidumbre afectan igual que los precisos.
+\end{frame}
+
+\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 3)}
+\textbf{Paso 3: Ajuste CON ponderación}
+\begin{minted}{python}
+# Calcular pesos: w = 1/σ
 w = 1.0 / sigma_i
 
-m_w, b_w = np.polyfit(x, y_obs, deg=1, w=w)
-print(f"sin peso:  m={m_est:.2f}, b={b_est:.2f}")
-print(f"con peso:  m={m_w:.2f}, b={b_w:.2f}")
+# Ajuste ponderado: puntos precisos pesan más
+m_con, b_con = np.polyfit(x, y_obs, deg=1, w=w)
+y_fit_con = m_con * x + b_con
+
+print(f"\nAjuste CON ponderación:")
+print(f"  Pendiente m = {m_con:.3f} (real: 2.500)")
+print(f"  Intercepto b = {b_con:.3f} (real: 5.000)")
+
+# Calcular chi^2 ponderado correctamente
+res_con = y_obs - y_fit_con
+chi2_con = np.sum((res_con / sigma_i)**2)
+print(f"  χ² ponderado = {chi2_con:.2f}")
 \end{minted}
-	\textbf{Interpretación:} en física, mediciones más precisas deben influir más en el ajuste.
+\textbf{Resultado:} Los parámetros se acercan más al valor real.
+\end{frame}
+
+\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 4)}
+\textbf{Paso 4: Visualización comparativa}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+plt.figure(figsize=(10, 6))
+# Graficar datos con barras de error
+plt.errorbar(x, y_obs, yerr=sigma_i, 
+             fmt='o', alpha=0.6, 
+             label='Datos', capsize=3)
+# Línea verdadera
+plt.plot(x, y_true, 'g--', lw=2, 
+         label='Modelo real')
+# Ajuste sin ponderación
+plt.plot(x, y_fit_sin, 'r-', lw=2, 
+         label=f'Sin pond: '
+               f'm={m_sin:.2f}, '
+               f'b={b_sin:.2f}')
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=15]{python}
+# Ajuste con ponderación
+plt.plot(x, y_fit_con, 'b-', lw=2, 
+         label=f'Con pond: '
+               f'm={m_con:.2f}, '
+               f'b={b_con:.2f}')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.grid(alpha=0.3)
+plt.title('Comparación de ajustes')
+plt.show()
+\end{minted}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Interpretación física de la ponderación}
+  \begin{itemize}
+    \item \textbf{Efecto en parámetros:}
+      \begin{itemize}
+        \item El ajuste ponderado se "acerca" más a los puntos con \(\sigma\) pequeño
+        \item Se "aleja" de puntos con \(\sigma\) grande (menos confiables)
+      \end{itemize}
+    \item \textbf{Cuándo usar ponderación:}
+      \begin{itemize}
+        \item Mediciones con diferentes instrumentos o métodos
+        \item Datos tomados en diferentes condiciones
+        \item Combinación de observaciones históricas y modernas
+      \end{itemize}
+    \item \textbf{Advertencia importante:}
+      \begin{itemize}
+        \item Si las \(\sigma_i\) están mal estimadas, el ajuste será incorrecto
+        \item Es crucial conocer bien las incertidumbres experimentales
+      \end{itemize}
+  \end{itemize}
+  
+  \begin{alertblock}{Regla práctica}
+    Si todos los puntos tienen incertidumbre similar, la ponderación no cambia mucho el resultado.
+  \end{alertblock}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
@@ -270,677 +695,17 @@ print(f"chi2_red = {chi2_red:.2f}")
 
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 4: curve_fit vs polyfit (lineal)
-% ----------------------------------------------------------------------------------------
-\section{Ajuste lineal con \texttt{curve\_fit}}
-
-\begin{frame}[fragile]{\texttt{scipy.optimize.curve\_fit} en un modelo lineal}
-\begin{minted}{python}
-from scipy.optimize import curve_fit
-
-def modelo_lineal(x, m, b):
-    return m*x + b
-
-popt, pcov = curve_fit(modelo_lineal, d, v_obs, sigma=sigma_v,
-                        absolute_sigma=True)
-m_cf, b_cf = popt
-
-# Errores estándar de los parámetros
-# np.diag(pcov) extrae la varianza de cada parámetro
-perr = np.sqrt(np.diag(pcov))
-
-# Graficar resultados del ajuste
-plt.scatter(d, v_obs, s=20, label='galaxias')
-plt.plot(d, modelo_lineal(d, *popt), 'r', label=f'fit: m={m_cf:.2f}, b={b_cf:.1f}')
-
-print(f"m={m_cf:.2f}±{perr[0]:.2f}, b={b_cf:.1f}±{perr[1]:.1f}")
-\end{minted}
-	\textbf{Ventaja:} entrega \textit{covarianzas} de parámetros para estimar errores.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Relación masa–luminosidad
-% ----------------------------------------------------------------------------------------
-\section{Relación masa–luminosidad}
-
-\begin{frame}[fragile]{Potencia: \(L = k\, M^{\alpha}\). Enfoque log–log}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-# Simular estrellas
-rng = np.random.default_rng(1)
-alpha_true = 3.5
-k_true = 1.0
-M = np.linspace(0.5, 10, 40)
-L_true = k_true * M**alpha_true
-sigma_rel = 0.10
-L_obs = L_true * (1 + rng.normal(0, sigma_rel, size=M.size))
-
-# Transformación log10
-X = np.log10(M)
-Y = np.log10(L_obs)
-a, b = np.polyfit(X, Y, 1)  # Y = a X + b
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-alpha_hat = a
-k_hat = 10**b
-print(f"alpha≈{alpha_hat:.2f}, k≈{k_hat:.2f}")
-
-import matplotlib.pyplot as plt
-plt.scatter(X, Y, s=20)
-plt.plot(X, a*X + b, 'r')
-plt.xlabel('log M'); plt.ylabel('log L')
-plt.title('Masa–Luminosidad (log–log)')
-plt.grid(alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Discusión:} la linealización facilita el ajuste de leyes de potencia.
-\end{frame}
-
-\begin{frame}{¿Qué hace este código (log–log)?}
-  \begin{itemize}
-    \item Simula \(M\) y \(L\) con una ley de potencia y ruido multiplicativo (más realista en astrofísica).
-    \item Transforma a \(\log\) para linealizar: \(\log L = \alpha\,\log M + \log k\).
-    \item Ajusta con \texttt{polyfit} en el espacio logarítmico y recupera \(\alpha\) y \(k\).
-    \item Discute diferencias con el ajuste no lineal en el espacio original.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Potencia directa con \texttt{curve\_fit} (no lineal)}
-\begin{minted}{python}
-from scipy.optimize import curve_fit
-
-def power_law(M, k, alpha):
-    return k * M**alpha
-
-popt, pcov = curve_fit(power_law, M, L_obs, p0=(1.0, 3.0))
-k_cf, alpha_cf = popt
-perr = np.sqrt(np.diag(pcov))
-print(f"k={k_cf:.2f}±{perr[0]:.2f}, alpha={alpha_cf:.2f}±{perr[1]:.2f}")
-# Graficar resultados
-plt.scatter(M, L_obs, s=20, label='estrellas')
-M_fit = np.linspace(0.5, 10, 100)
-plt.plot(M_fit, power_law(M_fit, *popt), 'r', label='fit potencia')
-
-\end{minted}
-	\textbf{Comparación:} log–log vs ajuste no lineal; considerar sesgos con ruido multiplicativo.
-\end{frame}
-
-\begin{frame}{Física detrás de \(L \propto M^{\alpha}\)}
-  \begin{itemize}
-    \item \(\alpha\) captura cómo cambia la \textbf{producción de energía} con la masa (tasa de fusión y estructura interna).
-    \item Para estrellas de la secuencia principal, típicamente \(\alpha \approx 3{-}4\) en ciertos rangos de masa.
-    \item \textbf{Escalas y unidades:} cuidado con trabajar en unidades consistentes; la forma funcional es adimensional si se normaliza.
-    \item \textbf{Log–log vs no lineal:} la transformación logarítmica linealiza pero cambia la distribución de errores; el ajuste no lineal trabaja en el espacio original.
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 6: Interpolación con scipy.interpolate
-% ----------------------------------------------------------------------------------------
-\section{Interpolación}
-
-\begin{frame}[fragile]{Interpolación 1D con \texttt{interp1d}}
-\begin{minted}{python}
-import numpy as np
-from scipy.interpolate import interp1d
-import matplotlib.pyplot as plt
-
-x = np.linspace(0, 10, 12)
-y = np.sin(x) + 0.1*np.cos(3*x)
-f_lin = interp1d(x, y, kind='linear')
-f_cub = interp1d(x, y, kind='cubic')
-
-xx = np.linspace(0, 10, 200)
-plt.plot(x, y, 'o', label='muestras')
-plt.plot(xx, f_lin(xx), '-', label='lineal')
-plt.plot(xx, f_cub(xx), '--', label='cúbica')
-plt.legend(); plt.grid(alpha=0.3); plt.show()
-\end{minted}
-	\textbf{Uso típico:} rellenar curvas (p. ej., espectros o curvas de luz) entre puntos.
-\end{frame}
-
-\begin{frame}{¿Qué hace este código de interpolación?}
-  \begin{itemize}
-    \item Construye una señal suave \(y(x)\) muestreada en pocos puntos.
-    \item Define interpoladores lineal y cúbico, y evalúa en una malla densa.
-    \item Compara ambas curvas para decidir según la física del fenómeno (suavidad esperable).
-  \end{itemize}
-\end{frame}
-
-% Casos de sesgo/errores típicos en interpolación
-\begin{frame}[fragile]{Interpolación: polinomio de alto grado (mal) vs cúbica (bien)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Función tipo Runge con ruido
-rng = np.random.default_rng(0)
-x = np.linspace(-1, 1, 11)
-y = 1/(1 + 25*x**2) + rng.normal(0, 0.02, x.size)
-
-# MAL: polinomio de alto grado
-deg = 10
-p = np.polyfit(x, y, deg)
-xx = np.linspace(-1, 1, 400)
-yy_poly = np.polyval(p, xx)
-
-plt.plot(x, y, 'o', label='muestras')
-plt.plot(xx, yy_poly, 'r-', label=f'pol grado {deg}')
-plt.title('Oscilaciones (Runge)')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=1]{python}
-# BIEN: interpolación cúbica por tramos
-from scipy.interpolate import interp1d
-f_cub = interp1d(x, y, kind='cubic')  # corrección clave
-
-plt.plot(x, y, 'o', label='muestras')
-plt.plot(xx, f_cub(xx), 'g-', label='interp cúbica')
-plt.title('Cúbica estable (sin oscilaciones)')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Idea:} polinomios de grado alto suelen oscilar; preferir esquemas por tramos (cúbica, splines).
-\end{frame}
-
-\begin{frame}{¿Qué error vemos? Fenómeno de Runge}
-  \begin{itemize}
-    \item \textbf{Síntoma:} la curva ajustada con un polinomio global de alto grado \textbf{oscila} mucho, sobre todo en los extremos, pese a pasar cerca de los puntos.
-    \item \textbf{Causa:} polinomios globales son rígidos y sensibles a nodos equiespaciados; pequeñas variaciones en datos generan grandes ondulaciones.
-    \item \textbf{Consecuencia:} la forma física se distorsiona; el error entre nodos puede ser grande aunque el error en nodos sea pequeño.
-    \item \textbf{Buenas prácticas:}
-      \begin{itemize}
-        \item Usar \textbf{interpolación por tramos} (cúbica, splines B) o \textbf{PCHIP} si se requiere preservar forma.
-        \item Si se exige polinomio global, preferir \textbf{nodos de Chebyshev} en lugar de equiespaciados.
-        \item Validar visualmente y con métricas locales, no solo con \(R^2\).
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Extrapolación peligrosa vs límites seguros}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.interpolate import interp1d
-
-x = np.linspace(0, 10, 8)
-y = np.exp(-0.3*x)
-f_lin = interp1d(x, y, kind='linear',
-                 fill_value='extrapolate')
-xx = np.linspace(-2, 12, 300)
-
-plt.plot(x, y, 'o', label='muestras')
-plt.plot(xx, f_lin(xx), 'r-', label='extrapola')
-plt.axvspan(-2, 0, color='red', alpha=0.05)
-plt.axvspan(10, 12, color='red', alpha=0.05)
-plt.title('Fuera de rango: engañoso')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=1]{python}
-# Corrección: no extrapolar
-f_safe = interp1d(x, y, kind='linear',
-                  bounds_error=False,
-                  fill_value=np.nan)  # clave
-
-plt.plot(x, y, 'o')
-plt.plot(xx, f_safe(xx), 'g-', label='sin extrapolar')
-plt.title('Restringir al rango de datos')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Regla:} evitar extrapolar a menos que el modelo físico lo justifique.
-\end{frame}
-
-\begin{frame}{¿Por qué extrapolar es peligroso?}
-  \begin{itemize}
-    \item \textbf{Fuera del rango no hay datos:} la pendiente y curvatura son \textit{suposiciones}, no información.
-    \item \textbf{Amplificación de error:} pequeños errores en el ajuste dentro del rango pueden crecer mucho fuera de él.
-    \item \textbf{Modelos físicos primero:} solo extrapole si un \textbf{modelo físico} bien justificado describe el comportamiento.
-    \item \textbf{Prácticas seguras:}
-      \begin{itemize}
-        \item Use \texttt{bounds\_error=False, fill\_value=np.nan} para no “inventar” valores.
-        \item Señalice visualmente regiones extrapoladas si las muestra.
-        \item Si debe extrapolar, \textbf{propague incertidumbre} y reporte intervalos amplios.
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Conservar forma física: cúbica vs PCHIP (monótono)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.interpolate import interp1d
-
-x = np.linspace(0, 6, 12)
-y = 1 - np.exp(-x) + 0.02*np.sin(6*x)
-f_cub = interp1d(x, y, kind='cubic')
-xx = np.linspace(0, 6, 400)
-
-plt.plot(x, y, 'o')
-plt.plot(xx, f_cub(xx), 'r-', label='cúbica')
-plt.title('Overshoot (viola monotonicidad)')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=1]{python}
-# Corrección: PCHIP preserva forma/monot.
-from scipy.interpolate import PchipInterpolator
-f_mon = PchipInterpolator(x, y)  # clave
-
-plt.plot(x, y, 'o')
-plt.plot(xx, f_mon(xx), 'g-', label='PCHIP')
-plt.title('PCHIP: sin overshoot')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Uso:} cuando el fenómeno debe ser monótono o libre de oscilaciones no físicas.
-\end{frame}
-
-\begin{frame}{¿Qué es overshoot? ¿Por qué PCHIP ayuda?}
-  \begin{itemize}
-    \item \textbf{Overshoot/undershoot:} la interpolación \textbf{sobrepasa} (o cae por debajo de) el rango definido por puntos vecinos, creando crestas/valles \textit{no físicos}.
-    \item \textbf{Cúbica estándar:} prioriza suavidad de derivadas pero puede introducir oscilaciones y overshoot cerca de cambios de curvatura.
-    \item \textbf{PCHIP:} interpolador por tramos que \textbf{preserva la forma y la monotonicidad}; evita overshoot manteniendo la curva dentro del rango local.
-    \item \textbf{Cuándo usar:} series que deben ser \textbf{monótonas} o sin oscilaciones artificiales (curvas de respuesta, acumulados, luminosidad vs tiempo sin rebotes).
-    \item \textbf{Trade-off:} PCHIP puede ser menos suave en derivadas que un spline cúbico, pero más fiel físicamente.
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 6.25: Ajuste de distribuciones con SciPy
-% ----------------------------------------------------------------------------------------
-\section{Ajuste de distribuciones}
-
-\begin{frame}{¿Por qué ajustar distribuciones? (física/astro)}
-  \begin{itemize}
-    \item \textbf{Ruido térmico} y errores de medición: a menudo \textbf{normal} (gaussiano).
-    \item \textbf{Flujos/energías multiplicativos} y \textbf{masas} positivas: suelen ser \textbf{log-normales}.
-    \item \textbf{Tiempos de espera} para eventos aleatorios: \textbf{exponencial}.
-    \item \textbf{Conteos de fotones}: Poisson (discreta, fuera del alcance de este ejemplo continuo).
-    \item Elegir bien la distribución \textbf{mejora la modelación de incertidumbre} y la \textbf{inferencia} posterior.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Generar datos sintéticos: normal, lognormal, exponencial}
-\begin{minted}{python}
-import numpy as np
-rng = np.random.default_rng(42)
-
-# Normal (media=0, sigma=1)
-x_norm = rng.normal(0, 1, size=2000)
-
-# Lognormal: si Z~N(mu,s), X=exp(Z) => log X ~ N(mu,s)
-mu, s = 0.0, 0.6
-x_logn = rng.lognormal(mean=mu, sigma=s, size=2000)
-
-# Exponencial (escala=tau)
-tau = 2.0
-x_exp = rng.exponential(scale=tau, size=2000)
-\end{minted}
-	\textbf{Nota:} elegir tamaños suficientes para estimación estable de parámetros.
-\end{frame}
-
-\begin{frame}[fragile]{Ajustar parámetros con \texttt{scipy.stats}}
-\begin{minted}{python}
-from scipy import stats
-
-# Normal: params = (mu_hat, sigma_hat)
-mu_hat, sigma_hat = stats.norm.fit(x_norm)
-
-# Lognormal en SciPy: shape=s, loc, scale; X ~ lognorm(s, loc, scale)
-s_hat, loc_hat, scale_hat = stats.lognorm.fit(x_logn, floc=0)
-mu_hat_logn = np.log(scale_hat)  # equivalente a mu del log
-
-# Exponencial: params = (loc, scale=tau)
-loc_e, tau_hat = stats.expon.fit(x_exp, floc=0)
-
-print(mu_hat, sigma_hat)
-print(s_hat, mu_hat_logn)
-print(tau_hat)
-\end{minted}
-	\textbf{Por qué:} \texttt{fit} maximiza verosimilitud para obtener estimadores eficientes bajo supuestos.
-\end{frame}
-
-\begin{frame}[fragile]{Visualizar y comparar: histograma + PDFs (datos normales)}
-\begin{minted}{python}
-import numpy as np, matplotlib.pyplot as plt
-from scipy import stats
-
-# Datos normales simulados
-rng = np.random.default_rng(42)
-x = rng.normal(0, 1, 2000)
-
-# Ajustes candidatos
-mu, sig = stats.norm.fit(x)
-s, _, scale = stats.lognorm.fit(x)
-_, tau = stats.expon.fit(x)
-
-# Curvas de densidad
-xs = np.linspace(x.min(), x.max(), 400)
-pdf_norm = stats.norm.pdf(xs, mu, sig)
-pdf_logn = stats.lognorm.pdf(xs, s, 0, scale)
-pdf_exp  = stats.expon.pdf(xs, 0, tau)
-
-# Gráfico comparativo
-plt.hist(x, bins='auto', density=True, alpha=0.3, label='hist')
-plt.plot(xs, pdf_norm, 'r', label='normal')
-plt.plot(xs, pdf_logn, 'g--', label='lognormal')
-plt.plot(xs, pdf_exp, 'k:', label='exponencial')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-	\textbf{Regla:} siempre graficar el histograma y superponer PDFs ajustadas.
-\end{frame}
-
-\begin{frame}[fragile]{Visualizar y comparar: histograma + PDFs (datos lognormales)}
-\begin{minted}{python}
-import numpy as np, matplotlib.pyplot as plt
-from scipy import stats
-
-# Datos lognormales simulados
-rng = np.random.default_rng(0)
-x = rng.lognormal(mean=0.0, sigma=0.6, size=2000)
-
-# Ajustes candidatos
-s, _, scale = stats.lognorm.fit(x, floc=0)
-mu_n, sig_n = stats.norm.fit(x)
-_, tau = stats.expon.fit(x, floc=0)
-
-xs = np.linspace(0, np.percentile(x, 99.5), 400)
-pdf_logn = stats.lognorm.pdf(xs, s, 0, scale)
-pdf_norm = stats.norm.pdf(xs, mu_n, sig_n)
-pdf_exp  = stats.expon.pdf(xs, 0, tau)
-
-plt.hist(x, bins='auto', density=True, alpha=0.3, label='hist')
-plt.plot(xs, pdf_logn, 'g', label='lognormal')
-plt.plot(xs, pdf_norm, 'r--', label='normal')
-plt.plot(xs, pdf_exp, 'k:', label='exponencial')
-plt.legend(); plt.grid(True, alpha=0.3); plt.show()
-\end{minted}
-	\textbf{Lectura:} compare forma de colas y sesgo; el mejor ajuste debe seguir la masa del histograma.
-\end{frame}
-
-\begin{frame}{Siempre graficar: guía rápida}
-  \begin{itemize}
-    \item \textbf{Primero}: histograma con densidad (\texttt{density=True}) y \textbf{PDFs ajustadas} superpuestas.
-    \item \textbf{Luego}: CDF empírica (ECDF) vs CDF del modelo (como en KS) para ver desviaciones en colas.
-    \item \textbf{Opcional}: gráficos Q–Q/P–P para inspección fina de colas.
-    \item \textbf{Comparar varios candidatos} (normal/lognormal/exponencial) en el \textbf{mismo eje} antes de decidir.
-    \item Acompañar con un criterio cuantitativo (AIC/BIC/KS) pero \textbf{no decidir sin visualización}.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Bondad de ajuste: KS y verosimilitud (AIC)}
-\begin{minted}{python}
-from scipy import stats
-import numpy as np
-
-# KS para normal
-D, p = stats.kstest(x_norm, 'norm', args=(mu_hat, sigma_hat))
-
-# AIC: 2k - 2 ln L
-ll_norm = np.sum(stats.norm.logpdf(x_norm, mu_hat, sigma_hat))
-k = 2
-AIC_norm = 2*k - 2*ll_norm
-print(D, p, AIC_norm)
-\end{minted}
-	\textbf{Lectura:} p grande no rechaza; AIC menor suele preferirse entre modelos comparables.
-\end{frame}
-
-\begin{frame}{¿Qué hace el código y por qué?}
-  \begin{itemize}
-    \item \textbf{Generación:} construimos datos para escenarios típicos (normal, lognormal, exponencial).
-    \item \textbf{Ajuste:} usamos \texttt{.fit} de SciPy (MLE) para recuperar parámetros.
-    \item \textbf{Diagnóstico:} KS verifica distancia entre CDFs; AIC compara modelos por parsimonia.
-    \item \textbf{Cuidado:} lognormal en SciPy usa parámetros \textit{shape}\,\(s\), \textit{loc}, \textit{scale} (no directamente \(\mu,\sigma\)).
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Notas prácticas de interpolación en física/astro}
-  \begin{itemize}
-    \item \textbf{No extrapolar:} fuera del rango de datos la interpolación se vuelve especulación.
-    \item \textbf{Curvas de luz:} útil para rellenar huecos antes de integrar o ajustar un período.
-    \item \textbf{Espectros:} alinear rejillas (grid) antes de comparar o integrar flujo en bandas.
-    \item \textbf{Suavidad vs fidelidad:} \texttt{cubic} suaviza más que \texttt{linear}; elegir según física del fenómeno.
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 7.5: Ejercicios Guiados
-% ----------------------------------------------------------------------------------------
-\section{Ejercicios Guiados}
-
-% -------- LINEAL 1 --------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Calibración de sensor lineal}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Un sensor entrega voltaje \(V\) proporcional a temperatura \(T\): \(V = a\,T + b\).
-      \item Con 10 pares \((T_i, V_i)\) y \(\sigma_V=0.02\,\text{V}\), estime \(a,b\) con \texttt{np.polyfit} y calcule \(R^2\) y \(\chi^2_\text{red}\).
-      \item Interprete \(a\) y \(b\) físicamente (sensibilidad y offset).
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo:} práctica de ajuste lineal y métricas de calidad.
-\end{frame}
-
-\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Calibración de sensor}
-\begin{minted}{python}
-import numpy as np
-rng = np.random.default_rng(0)
-T = np.linspace(0, 100, 10)
-a_true, b_true, sigma = 0.015, 0.20, 0.02
-V = a_true*T + b_true + rng.normal(0, sigma, size=T.size)
-m, b = np.polyfit(T, V, 1)
-Vf = m*T + b
-R2 = 1 - np.sum((V-Vf)**2)/np.sum((V-V.mean())**2)
-chi2r = np.sum(((V-Vf)/sigma)**2)/(T.size-2)
-print(m, b, R2, chi2r)
-\end{minted}
-  \textbf{Discusión:} \(m\) es sensibilidad V/°C; \(b\) es voltaje a 0°C.
-\end{frame}
-
-% -------- LINEAL 2 --------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Estimar \(H_0\) con ponderación}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Genere 30 galaxias con dispersión peculiar \(\sigma_v\) variable (100–300 km/s).
-      \item Ajuste \(v=H_0 d + b\) sin y con pesos \(w=1/\sigma_v\). Compare \(H_0\) y \(\chi^2_\text{red}\).
-      \item Comente por qué el ponderado es más realista.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo:} introducir pesos según incertidumbre.
-\end{frame}
-
-\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Estimar \(H_0\) con ponderación}
-\begin{minted}{python}
-import numpy as np
-rng = np.random.default_rng(7)
-H0_true = 70.0
-d = np.linspace(0, 200, 30)
-sigma_v = rng.uniform(100, 300, size=d.size)
-v_obs = H0_true*d + rng.normal(0, sigma_v)
-
-# Sin pesos
-m0, b0 = np.polyfit(d, v_obs, 1)
-res0 = v_obs - (m0*d + b0)
-chi2r0 = np.sum((res0/sigma_v)**2)/(d.size-2)
-
-# Con pesos w = 1/sigma
-w = 1.0/sigma_v
-m1, b1 = np.polyfit(d, v_obs, 1, w=w)
-res1 = v_obs - (m1*d + b1)
-chi2r1 = np.sum((res1/sigma_v)**2)/(d.size-2)
-print(m0, chi2r0, m1, chi2r1)
-\end{minted}
-  \textbf{Comentario:} el ajuste ponderado privilegia mediciones más precisas.
-\end{frame}
-
-% -------- INTERPOLACIÓN 1 --------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Interpolación de curva de luz}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Simule una curva de luz \(F(t)\) con huecos (muestras perdidas).
-      \item Interpole (lineal y cúbica) y compare el flujo integrado (regla del trapecio) en un intervalo.
-      \item Discuta cuál método conserva mejor el área y por qué.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo:} conectar interpolación con magnitudes integradas.
-\end{frame}
-
-\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Interpolación y área}
-\begin{minted}{python}
-import numpy as np
-from scipy.interpolate import interp1d
-
-rng = np.random.default_rng(0)
-t_full = np.linspace(0, 10, 201)
-F_true = 1.0 + 0.1*np.sin(2*np.pi*t_full/2.5)
-
-# Muestras con huecos
-mask = rng.random(t_full.size) > 0.3
-t = t_full[mask]; F = F_true[mask]
-
-f_lin = interp1d(t, F, kind='linear', fill_value='extrapolate')
-f_cub = interp1d(t, F, kind='cubic', fill_value='extrapolate')
-
-A_true = np.trapz(F_true, t_full)
-A_lin = np.trapz(f_lin(t_full), t_full)
-A_cub = np.trapz(f_cub(t_full), t_full)
-print(A_true, A_lin, A_cub)
-\end{minted}
-  \textbf{Comparación:} elegir esquema según suavidad real del fenómeno.
-\end{frame}
-
-% -------- INTERPOLACIÓN 2 --------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Monotonicidad: cúbica vs PCHIP}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Genere datos monótonos con leve ruido suave: \(y=1-e^{-x}+0.02\sin(6x)\).
-      \item Interpole con \textbf{cúbica} y con \textbf{PCHIP}. Verifique si cada interpolación es monótona.
-      \item Discuta implicancias físicas del overshoot y cuándo preferir PCHIP.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo:} preservar forma/monotonicidad en fenómenos físicos.
-\end{frame}
-
-\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Monotonicidad}
-\begin{minted}{python}
-import numpy as np
-from scipy.interpolate import interp1d, PchipInterpolator
-
-x = np.linspace(0, 6, 12)
-y = 1 - np.exp(-x) + 0.02*np.sin(6*x)
-xx = np.linspace(0, 6, 400)
-
-f_cub = interp1d(x, y, kind='cubic')
-f_pch = PchipInterpolator(x, y)
-
-is_mono_cub = np.all(np.diff(f_cub(xx)) >= -1e-8)
-is_mono_pch = np.all(np.diff(f_pch(xx)) >= -1e-8)
-print('cúbica monótona?', is_mono_cub)
-print('PCHIP monótona?', is_mono_pch)
-\end{minted}
-  \textbf{Resultado:} PCHIP suele evitar overshoot y mantener monotonicidad.
-\end{frame}
-
-% -------- DISTRIBUCIONES 1 --------
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Ajuste normal: KS y AIC}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Genere 1500 datos de una normal desconocida (media y sigma).
-      \item Estime \(\mu,\sigma\) con \texttt{scipy.stats.norm.fit}.
-      \item Calcule estadístico KS y el AIC del modelo normal.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo:} evaluar bondad de ajuste con KS y AIC.
-\end{frame}
-
-\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Normal: KS y AIC}
-\begin{minted}{python}
-import numpy as np
-from scipy import stats
-rng = np.random.default_rng(42)
-x = rng.normal(0.0, 1.2, 1500)
-
-mu_hat, sig_hat = stats.norm.fit(x)
-D, p = stats.kstest(x, 'norm', args=(mu_hat, sig_hat))
-ll = np.sum(stats.norm.logpdf(x, mu_hat, sig_hat))
-AIC = 2*2 - 2*ll  # k=2 parámetros
-print(f"mu={mu_hat:.2f}, sigma={sig_hat:.2f}")
-print(f"KS: D={D:.3f}, p={p:.3f}")
-print(f"AIC={AIC:.1f}")
-\end{minted}
-  \textbf{Lectura:} p grande no rechaza; AIC sirve para comparar con otros modelos.
-\end{frame}
-
-% -------- DISTRIBUCIONES 2 --------
-\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Datos positivos: lognormal vs exponencial}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Genere 1500 datos positivos (tipo lognormal).
-      \item Ajuste \textbf{lognormal} y \textbf{exponencial} (\texttt{scipy.stats}).
-      \item Compare AIC y concluya qué modelo describe mejor los datos.
-    \end{itemize}
-  \end{block}
-  \textbf{Objetivo:} seleccionar modelo de distribución para datos positivos.
-\end{frame}
-
-\begin{frame}[fragile]{Solución 6 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Comparación AIC}
-\begin{minted}{python}
-import numpy as np
-from scipy import stats
-rng = np.random.default_rng(0)
-x = rng.lognormal(mean=0.0, sigma=0.6, size=1500)
-
-# Lognormal (fix loc=0)
-s, _, scale = stats.lognorm.fit(x, floc=0)
-ll_logn = np.sum(stats.lognorm.logpdf(x, s, 0, scale))
-AIC_logn = 2*2 - 2*ll_logn  # k=2: (s, scale)
-
-# Exponencial (loc=0)
-_, tau = stats.expon.fit(x, floc=0)
-ll_exp = np.sum(stats.expon.logpdf(x, 0, tau))
-AIC_exp = 2*1 - 2*ll_exp  # k=1: (tau)
-
-print(f"lognormal: s={s:.2f}, mu_log={np.log(scale):.2f}, AIC={AIC_logn:.1f}")
-print(f"exponencial: tau={tau:.2f}, AIC={AIC_exp:.1f}")
-\end{minted}
-  \textbf{Criterio:} AIC menor indica el modelo preferido.
-\end{frame}
-
-
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 8: Cierre
+% SECCIÓN 4: Cierre
 % ----------------------------------------------------------------------------------------
 \section{Cierre}
 
 \begin{frame}{Resumen y próximos pasos}
   \begin{itemize}
-    \item Vimos ajustes lineales con \texttt{np.polyfit} y \texttt{curve\_fit}.
-    \item Ejemplos físicos: Ley de Hubble y masa–luminosidad.
-    \item Interpolación básica y análisis de residuos con \(\chi^2\).
-    \item Próxima sesión (P2): ajustes no lineales, propagación de errores e intervalos de confianza.
+    \item Vimos ajustes lineales con \texttt{np.polyfit}.
+    \item Métricas de calidad: Residuos, \(R^2\), y \(\chi^2_{\text{red}}\).
+    \item Ponderación por incertidumbres variables.
+    \item Ejemplo físico: Ley de Hubble con análisis completo.
+    \item Próxima sesión (P2): Práctica intensiva con ejercicios de ajustes lineales y análisis de datos.
   \end{itemize}
 \end{frame}
 
@@ -950,8 +715,6 @@ print(f"exponencial: tau={tau:.2f}, AIC={AIC_exp:.1f}")
 \begin{frame}{Recursos Adicionales}
   \begin{itemize}
     \item \href{https://numpy.org/doc/stable/reference/routines.polynomials.polyfit.html}{\textbf{NumPy polyfit}}
-    \item \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html}{\textbf{SciPy curve\_fit}}
-    \item \href{https://docs.scipy.org/doc/scipy/reference/interpolate.html}{\textbf{SciPy interpolate}}
     \item \href{https://matplotlib.org/stable/}{\textbf{Matplotlib}} para visualización
   \end{itemize}
 \end{frame}

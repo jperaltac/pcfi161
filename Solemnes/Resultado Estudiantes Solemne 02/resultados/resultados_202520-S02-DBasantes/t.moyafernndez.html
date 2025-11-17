@@ -1,0 +1,126 @@
+<h1>Evaluación de t.moyafernndez@uandresbello.edu</h1>
+<h2>Cálculo de la nota final</h2>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th style="text-align: right;">Puntaje obtenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td style="text-align: right;">1.14</td>
+</tr>
+<tr>
+<td>P2</td>
+<td style="text-align: right;">1.26</td>
+</tr>
+<tr>
+<td>P3</td>
+<td style="text-align: right;">0.57</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Problemas considerados: <strong>3</strong> (P1, P2, P3).</li>
+<li>Puntaje total obtenido: <strong>2.97</strong> puntos.</li>
+<li>Puntaje máximo posible: <strong>4.50</strong> puntos.</li>
+<li>Resultado de la fórmula: <strong>4.96</strong> → registrado como <strong>5.0</strong> en escala 1.0–7.0.</li>
+</ul>
+<p>Fórmula aplicada: <code>1.0 + 6.0*(puntos)/(max_points)</code></p>
+<pre><code class="language-python">scores = {'p1': 1.1400, 'p2': 1.2600, 'p3': 0.5700}
+puntos = 2.9700
+max_points = 4.5000
+max = 4.5000
+nota = 1.0 + 6.0*(puntos)/(max_points)
+</code></pre>
+<h2>Resumen</h2>
+<ul>
+<li>Valor por item: 0.3</li>
+<li>Total ítems: 5</li>
+<li><strong>P1</strong>: 1.14 ptos</li>
+<li><strong>P2</strong>: 1.26 ptos</li>
+<li><strong>P3</strong>: 0.57 ptos</li>
+</ul>
+<p><strong>Nota final:</strong> 5.0</p>
+<h2>Detalle P1</h2>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+thetha = np.linspace(0,2*np.pi,720)
+#print(thetha)
+a = 1 
+e = 0.4
+r = a*(1- e**2)/(1+ e *np.cos(thetha))
+#print(r)
+x = r * np.cos(thetha)
+y = r * np.sin(thetha)
+#print(x)
+#print(y)
+x_max = np.mean(x)
+print(x_max)
+y_max = np.mean(y)
+print(y_max)
+plt.plot(x,y,'g-', linewidth=2 , label='Orbita eliptica')
+plt.title(&quot;Orbita eliptica parametrizada&quot;)
+plt.ylabel(&quot;r*sin()&quot;)
+plt.xlabel(&quot;r*cos()&quot;)
+plt.grid(True)
+</code></pre>
+<ul>
+<li>item 1: 0.24</li>
+<li>item 2: 0.24</li>
+<li>item 3: 0.24</li>
+<li>item 4: 0.18</li>
+<li>item 5: 0.24</li>
+</ul>
+<p><strong>Total:</strong> 1.14
+<strong>Comentarios:</strong> En general cumple la lógica de cada apartado, usando operaciones vectorizadas y calculando los promedios. Sin embargo, falta importar numpy (el código no corre tal cual), la malla de theta incluye el punto 2π y no se fuerza endpoint=False, no se usa plt.axis('equal') y la ‘verificación’ de <x>,<y> sólo se imprime sin comprobar tolerancia. Por ello se descuentan décimas en cada punto afectado.</p>
+<hr />
+<h2>Detalle P2</h2>
+<pre><code class="language-python">import numpy as np 
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv(&quot;stars_brightness.csv&quot;)
+#print(df)
+clase = df.groupby('spectral_class').agg({
+  'temperature_K':['mean', 'std'],'magnitude_app': 'min'
+}).round(2)
+print(clase)
+clase_ordenado = clase.sort_values(('temperature_K','mean'),ascending = False)
+print(clase_ordenado)
+plt.scatter(df['temperature_K'],df['magnitude_app'])
+</code></pre>
+<ul>
+<li>item 1: 0.30</li>
+<li>item 2: 0.30</li>
+<li>item 3: 0.30</li>
+<li>item 4: 0.30</li>
+<li>item 5: 0.06</li>
+</ul>
+<p><strong>Total:</strong> 1.26
+<strong>Comentarios:</strong> El código carga correctamente el CSV en un DataFrame, calcula las estadísticas por clase espectral, ordena por temperatura descendente y genera el scatter solicitado. Sin embargo, no incluye la interpretación pedida sobre la relación entre temperatura y brillo, por lo que el ítem 5 recibe un puntaje muy bajo.</p>
+<hr />
+<h2>Detalle P3</h2>
+<pre><code class="language-python">#print(T)
+plt.scatter(a,T)
+plt.xlabel(&quot;Semi eje Mayor&quot;)
+plt.ylabel(&quot;Periodo Orbital&quot;)
+plt.title(&quot;Ley Kepler&quot;)
+plt.grid(True)
+Ri = T / a**3/2
+print(Ri.round(3))
+Ri_prom = np.mean(Ri)
+print(Ri_prom)
+Ri_dsv = np.std(Ri_prom)
+print(Ri_dsv)
+</code></pre>
+<ul>
+<li>item 1: 0.30</li>
+<li>item 2: 0.18</li>
+<li>item 3: 0.09</li>
+<li>item 4: 0.00</li>
+<li>item 5: 0.00</li>
+</ul>
+<p><strong>Total:</strong> 0.57
+<strong>Comentarios:</strong> Se genera correctamente el scatter con etiquetas y rejilla (item 1). Para el cociente R_i se intenta la operación y se redondea, pero la expresión T / a<strong>3/2 no corresponde a T/(a</strong>1.5), por lo que el valor es incorrecto; sin embargo hay esfuerzo y salida (item 2). Se calcula el promedio, pero la desviación estándar se aplica al promedio escalar en lugar del arreglo Ri, por lo que es errónea (item 3). No hay implementación para otros ítems.</p>
+<hr />

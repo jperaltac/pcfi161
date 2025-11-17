@@ -1,0 +1,496 @@
+{
+  "4194875eead9e6b7691aa1b9270f39415053cff7806412b6916fcf03ae11812c_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.54,
+    "det": {
+      "score_item1": 0.27,
+      "score_item2": 0.12,
+      "score_item3": 0.06,
+      "score_item4": 0.06,
+      "score_item5": 0.03,
+      "score_total": 0.54,
+      "comments": "Se creó el arreglo con linspace, aunque incluye el punto final y se nombró 'b', no 'theta' (leve descuento). El cálculo de r falla: usa np.e en vez del parámetro e y una variable x inexistente; el intento es reconocible pero incorrecto. Las coordenadas cartesianas se evalúan en θ=0, por lo que no generan la órbita; intento mínimo. No se grafican puntos, sólo se fija axis y ni se llama plt.show(), por lo que la visualización no aparece. No se calculan los promedios <x>,<y>.",
+      "codigo_entregado": "import numpy as np \nimport matplotlib.pyplot as plt \n# Datos\na = 1.0   # (UA = unidad astronomica)\ne = 0.40   # (excrentricidad; si e = 0, la orbita es circular)\n# Datos para el grafico\nb = np.linspace(0, 2*np.pi, 720)  # Crear arreglo theta\nr = a * (1 - np.e**2)/[1 + np.e * np.cos(x)]\n# Coordenadas cartesianas \nx = r * np.cos(0)\ny = r * np.sin(0)\n# Grafico \nplt.axis(\"equal\")\nplt.show\n# Valores nedio de \"x\" e \"y\" con Numpy "
+    }
+  },
+  "14e2c7906c2b55f0c845f694f02e927586d681bbe78abdfc09f8f1afad6f7b43_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.57,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.12,
+      "score_item3": 0.03,
+      "score_item4": 0.12,
+      "score_item5": 0.0,
+      "score_total": 0.57,
+      "comments": "Se lee correctamente el CSV en un DataFrame (0.30). Se inicia un groupby pero no se realizan las agregaciones solicitadas (0.12). No se implementa la ordenación, solo un comentario (0.03). El scatter se intenta, pero las variables no existen, por lo que fallaría (0.12). Falta por completo la interpretación (0.00).",
+      "codigo_entregado": "import numpy as np \nimport pandas as pd \nimport matplotlib.pyplot as plt \n# a. Leer el archivo DataFrame\ndf = pd.read_csv(\"stars_brightness.csv\") \ndf.info()\n# b. Calcular para cada \"spectral_class\"\ndf.groupby(\"spectral_class\")\n# Ordenar la tabla \"temperature_K\" de mayor a menor\n# Grafico de dispersión\nplt.scatter(x= temperature_K, y= magnitude_app, color=\"red\", alpha= 0.5)\nplt.xlabel(\"temperature_K\")\nplt.ylabel(\"magnitude_app\")\nplt.title(\"Grafico de dispersión de estrellas\")\nplt.show()"
+    }
+  },
+  "8974fefc47ac785933b839ff3b1e11de7c6bb05493782803b7279aac1b9b5474_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.57,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.24,
+      "score_item3": 0.03,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.57,
+      "comments": "Se genera correctamente el gráfico scatter (item 1). Se calculan y muestran los R_i, pero sin el formato solicitado de 3 decimales, por lo que se otorga puntaje parcial (item 2). No se calcula ni el promedio ni la desviación estándar, apenas se avanza hasta obtener R, de ahí la mínima puntuación posible (item 3). Los ítems 4 y 5 no están definidos en la rúbrica y no se evidencian en el código, por lo que reciben 0.",
+      "codigo_entregado": "import numpy as np \nimport matplotlib.pyplot as plt \n# Datos                                                 \na = np.array([0.39, 0.72, 1.00, 1.52]) # Semieje mayor a UA [unidades astronomicas]\nT = np.array([0.24, 0.61, 1.00, 1.88]) # Periodo orbital T [años]\n# Grafico de dispersion \nplt.scatter(x= a, y= T, color=\"red\", alpha=0.7)\nplt.xlabel(\"Semieje Mayor [UA]\")\nplt.ylabel(\"Periodo Orbital [T]\")\nplt.show()\n# Calcular para cada planeta\nR = T/(a)**(3/2)\nprint(R)\n# Calcular promedio y desviacion estandar de los R "
+    }
+  },
+  "f341c4a24314194093a97e017809980c5509f00a2d01dce74c3daf4d13e8604a_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.02,
+    "det": {
+      "score_item1": 0.27,
+      "score_item2": 0.3,
+      "score_item3": 0.27,
+      "score_item4": 0.12,
+      "score_item5": 0.06,
+      "score_total": 1.02,
+      "comments": "Se crea el arreglo θ con 720 puntos y el radio de forma vectorizada. Las coordenadas cartesianas se calculan, aunque con nombres confusos. Al graficar se usa θ en vez de X, el scatter es erróneo y falta la importación de NumPy, por lo que la figura no es la órbita esperada. La comprobación de medias usa θ en lugar de x_cartesiano, así <x> no resulta ≈0.",
+      "codigo_entregado": "import matplotlib.pyplot as plt \nx=np.linspace(0, 2*np.pi, 720)\nr = 1.0 * (1- 0.40**2) / (1 + 0.40 * np.cos(x))\nX = r * np.cos(x)\ny = r * np.sin(x)\nplt.plot(x, y, linewidth=4, label=\"X\", color=\"blue\")\nplt.scatter(x=\"x\", y=\"y\")\nplt.xlabel(\"x\", fontsize=0.2)\nplt.ylabel(\"y\", fontsize=0.5)\nplt.axis(\"equal\")\nplt.grid(True, alpha=0.6)\nplt.legend()\nplt.show()\nprint(f\"La media de x es: {np.mean(x)}\")\nprint(f\"la media de y es: {np.mean(y)}\")\nprint(f\"Datos de las orbitas: {r}\")\nprint(f\"Coordenadas seno: {x}\")\nprint(f\"Coordenadas cos: {y}\")"
+    }
+  },
+  "cb240c14106f5503965c32ccff5a2233bf1b55a624ab490a50d8ebed8cec90ec_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.42,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.12,
+      "score_item3": 0.0,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.42,
+      "comments": "Se lee correctamente el CSV en un DataFrame. Se intenta calcular estadísticas, pero no se agrupa por spectral_class y además contiene errores de sintaxis; por eso se otorga un puntaje bajo. No hay intento de ordenar la tabla, crear el scatter o interpretar resultados.",
+      "codigo_entregado": "import numpy as np \nimport pandas as pd \ndf = pd.read_csv(\"stars_brightness.csv\")\nprint(df.describe())\nprint(df.head())\nprint(df.info())\nprint(df['temperature_K'].np.mean())\nprint(df['temperature_K'].np.std())\nprint(df.['magnitude_app'].np.min())"
+    }
+  },
+  "edc6016308532329047b31ff15c01bdd28ed38dc174f3aaf2112ae4fe7a7b184_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.18,
+    "det": {
+      "score_item1": 0.06,
+      "score_item2": 0.03,
+      "score_item3": 0.03,
+      "score_item4": 0.03,
+      "score_item5": 0.03,
+      "score_total": 0.18,
+      "comments": "El programa se queda a la mitad: solo importa NumPy y define constantes; la creación de theta está inconclusa y no hay cálculos posteriores ni la gráfica ni la verificación de los promedios. Se reconoce un esfuerzo mínimo por comenzar (item 1), pero el resto de los requisitos no se abordan.",
+      "codigo_entregado": "import numpy as np  \na = 1.0 UA # (UA=unidad astronómica)\ne = 0.40   # (excentricidad; si e = 0, la órbita es circular)\n# A: \ntheta = "
+    }
+  },
+  "9e13467d595ab9f83264904f6f7da319177d6648badae3d99de19e35226a8565_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.36,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.06,
+      "score_item3": 0.0,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.36,
+      "comments": "Se lee correctamente el archivo con pandas (0.30). Para los cálculos por clase espectral solo hay asignaciones de texto, sin groupby ni operaciones numéricas; se valora como intento muy pobre (0.06). No hay ordenamiento, ni gráfico, ni interpretación, por lo que esos ítems obtienen 0.00.",
+      "codigo_entregado": "import numpy as numpy\nimport pandas as pd  \n# Leer archivo en un dataframe \ndf = pd.read_csv(\"stars_brightness.csv\")\n#print(df)\n# Para cada clase espectral calcular\ntemperature_K = (\"temperatura promedio\")\ntemperature_K = (\"std\")\nspectral_class = (\"magnitude\")"
+    }
+  },
+  "a040fe1542417b13d19d5cf7aba8d5dad5c8766ee344087843f7edebd9c3ccb6_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.18,
+    "det": {
+      "score_item1": 0.12,
+      "score_item2": 0.03,
+      "score_item3": 0.03,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.18,
+      "comments": "El código intenta graficar pero los datos están mal construidos (strings en lugar de floats) y falta importar matplotlib, por lo que el scatter no se genera correctamente. No calcula R_i ni su promedio ni desviación estándar. No hay más ítems abordados.",
+      "codigo_entregado": "import numpy as np  \nk = 1\nx = np.array(\"0.39, 0.72, 1.00, 1.52\") # semieje mayor a [UA]\ny = np.array(\"0,24, 0.61, 1.00, 1.88\") # período orbital T [años]\ny = k*x**(3/2)\n#print(x,y)\nplt.scatter(x,y)"
+    }
+  },
+  "79d33574c48aade47e3a68414fd33b048c96485e972a76bc97745ef7106982d0_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.35,
+    "det": {
+      "score_item1": 0.27,
+      "score_item2": 0.27,
+      "score_item3": 0.3,
+      "score_item4": 0.24,
+      "score_item5": 0.27,
+      "score_total": 1.35,
+      "comments": "Buen uso de linspace (incluye 2π pero no afecta mucho), cálculo vectorizado de r aunque con sintaxis poco usual ([ ... ]), transformación a coordenadas cartesianas correcta. Gráfica con axis('equal') presente, pero faltan importaciones de NumPy y matplotlib, lo que impediría ejecutar el código tal cual; se descuenta un poco por ello. Se calculan y muestran los promedios <x> y <y>, cumpliendo la verificación de simetría. Código en general correcto con pequeños detalles.",
+      "codigo_entregado": "import pandas as pd \na = 1.0\ne = 0.40\ntheta = np.linspace(0, 2*np.pi, 720)\nr = a*(1-e**2)/[1+e*np.cos(theta)]\n \nx= r * np.cos(theta)\ny = r* np.sin(theta)\nplt.plot(x,y)\nplt.axis('equal')\nplt.title('orbita eliptica')\nplt.xlabel('x (UA)')\nplt.ylabel('y (UA)')\nplt.show()\nprint('x =', np.mean(x))\nprint('y =', np.mean(y))"
+    }
+  },
+  "f14acae3ccdc3434acb0b405101028d146dc5a4443da55c32141b683350289d8_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.78,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.24,
+      "score_item3": 0.06,
+      "score_item4": 0.18,
+      "score_item5": 0.0,
+      "score_total": 0.78,
+      "comments": "Lee correctamente el CSV (1). Calcula estadísticos por clase pero usa nombres de columnas distintos a los solicitados, aunque la lógica está (2). El ordenamiento falla por error tipográfico en 'ascending' y columna, por lo que probablemente arroja error (3). El scatter se intenta con nombres de columnas que podrían no existir; aun así la intención es clara (4). No hay ninguna interpretación escrita (5).",
+      "codigo_entregado": "import numpy as np \nimport pandas as pd \nimport matplotlib.pyplot as plt\ndf = pd.read_csv(\"stars_brightness.csv\")\ngrupo = df.groupby('spectral_class')\nresumen = grupo.agg(\n  temperatura_promedio=('temperatura_k', 'mean'),\n  desviacion_temp=('temperatura_k', 'std'),\n  magnitud_min=('magnitude_app', 'min')\n  ).reset_index()\n  \nresumen = resumen.sort_values('temperatura_promedio',asending=False)\nprint(resumen)\nplt.scatter(df['temperature_k'],df['magnitude_app'])\nplt.xlabel('temperature [K]')\nplt.ylabel('magnitude aparente')\nplt.show()"
+    }
+  },
+  "914d31a2e315ba9a257194e7c04056020473832c66595fa10b1d0b5f6acc5824_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.6,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.18,
+      "score_item3": 0.18,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.6,
+      "comments": "El scatter está codificado, pero el uso incorrecto de np.array[...] impediría que se ejecute; por eso se descuenta ligeramente. El cociente R se calcula con T^2 en vez de T, por lo que la fórmula no es correcta; aun así se intenta redondear a 3 decimales. Se calculan promedio y desviación estándar, pero parten de un R erróneo. No hay ítems 4 y 5 definidos en la rúbrica, se dejan en 0.",
+      "codigo_entregado": "import numpy as np \nimport pandas as pd \nimport matplotlib.pyplot as plt \na = np.array [0.39, 0.72, 1.00, 1.52]\nt = np.array [0.24, 0.61, 1.00, 1.88]\nplt.scatter(a,t)\nplt.xlabel('unidades de medida')\nplt.ylabel('años')\nplt.show()\nR = t**2/a**(3/2)\nprint('R',np.round(R,3))\nprint('promedio',np.mean(R))\nprint('desviacion', np.std(R))"
+    }
+  },
+  "fb097d3d4a6f0060040ad03c067930d3c710bfa3b4bd1fcf1da65e336a65ba8c_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.63,
+    "det": {
+      "score_item1": 0.27,
+      "score_item2": 0.18,
+      "score_item3": 0.12,
+      "score_item4": 0.06,
+      "score_item5": 0.0,
+      "score_total": 0.63,
+      "comments": "Se crea el arreglo con 720 puntos (endpoint incluido, pequeño desvío). Ecuación de r y coordenadas intentan ser vectorizadas, pero al usar corchetes se genera una lista y el código falla; se reconoce la intención. Solo se ajusta el aspecto del gráfico, pero no se dibuja la curva. No se calculan los valores medios.",
+      "codigo_entregado": "import numpy as np \nimport matplotlib.pyplot as plt\na = 1.0 #UA \ne = 0.40\nt = np.linspace(0,2*np.pi,720)\nr = a * (1 - e**2) / [1 + e*np.cos(t)]\nx = [r * np.cos(t)]\ny = [r * np.sin(t)]\nplt.axis(\"equal\")"
+    }
+  },
+  "38ee840160f8af4d827156d02349fc3ca413356563cd13df956ca69ab2fd77db_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.42,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.12,
+      "score_item3": 0.0,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.42,
+      "comments": "El código sólo carga el archivo correctamente (item 1). Item 2 muestra un intento muy básico (‘df.groupby’) sin cálculos, por lo que se otorgan 0.12. No se implementan ni el ordenamiento, ni el gráfico, ni la interpretación, así que esos ítems reciben 0.",
+      "codigo_entregado": "import numpy as np \nimport pandas as pd \ndf = pd.read_csv(\"stars_brightness.csv\")\nresultado = df.groupby"
+    }
+  },
+  "6ed2f68872782bd8d615844bef9c2c82b16017dc61a3a7af7dba32917f17c3f5_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.36,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.03,
+      "score_item3": 0.03,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.36,
+      "comments": "Se genera correctamente el gráfico solicitado. No se calculan ni se muestran los cocientes R_i, tampoco se obtiene el promedio ni la desviación estándar. Los ítems 4 y 5 no están presentes.",
+      "codigo_entregado": "import numpy as np \nimport matplotlib.pyplot as plt \na = np.array([0.39, 0.72, 1.00, 1.52])\nt = np.array([0.24, 0.61, 1.00, 1.88])\nplt.scatter(a, t)"
+    }
+  },
+  "7b7a3ebf6000c1e5eed0845c1dcc81745f856037b1519cc342314772bdd64846_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.14,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.24,
+      "score_item3": 0.24,
+      "score_item4": 0.18,
+      "score_item5": 0.24,
+      "score_total": 1.14,
+      "comments": "En general cumple la lógica de cada apartado, usando operaciones vectorizadas y calculando los promedios. Sin embargo, falta importar numpy (el código no corre tal cual), la malla de theta incluye el punto 2π y no se fuerza endpoint=False, no se usa plt.axis('equal') y la ‘verificación’ de <x>,<y> sólo se imprime sin comprobar tolerancia. Por ello se descuentan décimas en cada punto afectado.",
+      "codigo_entregado": "import matplotlib.pyplot as plt\nthetha = np.linspace(0,2*np.pi,720)\n#print(thetha)\na = 1 \ne = 0.4\nr = a*(1- e**2)/(1+ e *np.cos(thetha))\n#print(r)\nx = r * np.cos(thetha)\ny = r * np.sin(thetha)\n#print(x)\n#print(y)\nx_max = np.mean(x)\nprint(x_max)\ny_max = np.mean(y)\nprint(y_max)\nplt.plot(x,y,'g-', linewidth=2 , label='Orbita eliptica')\nplt.title(\"Orbita eliptica parametrizada\")\nplt.ylabel(\"r*sin()\")\nplt.xlabel(\"r*cos()\")\nplt.grid(True)"
+    }
+  },
+  "6fba55ea7a57e285638ea59dc3126b5fc7b8849a0387d84803964b3ea32965ba_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.26,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.3,
+      "score_item5": 0.06,
+      "score_total": 1.26,
+      "comments": "El código carga correctamente el CSV en un DataFrame, calcula las estadísticas por clase espectral, ordena por temperatura descendente y genera el scatter solicitado. Sin embargo, no incluye la interpretación pedida sobre la relación entre temperatura y brillo, por lo que el ítem 5 recibe un puntaje muy bajo.",
+      "codigo_entregado": "import numpy as np \nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.read_csv(\"stars_brightness.csv\")\n#print(df)\nclase = df.groupby('spectral_class').agg({\n  'temperature_K':['mean', 'std'],'magnitude_app': 'min'\n}).round(2)\nprint(clase)\nclase_ordenado = clase.sort_values(('temperature_K','mean'),ascending = False)\nprint(clase_ordenado)\nplt.scatter(df['temperature_K'],df['magnitude_app'])"
+    }
+  },
+  "0b4ca7bda485bf9ae056139735e5a7ca6d165af15e8bfe0c0e6786a3450c9513_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.57,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.18,
+      "score_item3": 0.09,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.57,
+      "comments": "Se genera correctamente el scatter con etiquetas y rejilla (item 1). Para el cociente R_i se intenta la operación y se redondea, pero la expresión T / a**3/2 no corresponde a T/(a**1.5), por lo que el valor es incorrecto; sin embargo hay esfuerzo y salida (item 2). Se calcula el promedio, pero la desviación estándar se aplica al promedio escalar en lugar del arreglo Ri, por lo que es errónea (item 3). No hay implementación para otros ítems.",
+      "codigo_entregado": "#print(T)\nplt.scatter(a,T)\nplt.xlabel(\"Semi eje Mayor\")\nplt.ylabel(\"Periodo Orbital\")\nplt.title(\"Ley Kepler\")\nplt.grid(True)\nRi = T / a**3/2\nprint(Ri.round(3))\nRi_prom = np.mean(Ri)\nprint(Ri_prom)\nRi_dsv = np.std(Ri_prom)\nprint(Ri_dsv)"
+    }
+  },
+  "12c270db4c4057bb1f3372077edc5e446b8cb60cbda60cbddd53c6296320ed7d_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.96,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.12,
+      "score_item3": 0.12,
+      "score_item4": 0.24,
+      "score_item5": 0.24,
+      "score_total": 0.96,
+      "comments": "La idea general está bien, pero hay omisiones que impedirían ejecutar el código tal cual. Falta definir la constante a (provoca error en r, x, y y gráficas). En linspace no se excluye 2π (endpoint=False). Aun así, la mayoría de los pasos están planteados correctamente y de forma vectorizada.",
+      "codigo_entregado": "e = 0.40 #excentricidad\ntheta = np.linspace(0, 2*np.pi, 720)\nr = a*(1-e**2)/(1 + e*np.cos(theta))\nx = r * np.cos(theta)\ny = r * np.sin(theta)\nplt.figure(figsize=(8,6))\nplt.plot(x, y, 'r-', linewidth  =2 )\nplt.title('orbita eliptica parametrizada')\nplt.xlabel('funcion coseno x r')\nplt.ylabel('funcion seno x r')\nplt.axis(\"equal\")\nplt.grid(True)\nplt.show()\nvalor_media_x = np.mean(x)\nvalor_media_y = np.mean(y)\nprint('el valor de la media de x e y es:')\nprint(f'{valor_media_x},{valor_media_y}')"
+    }
+  },
+  "a1ee54ade8d06a8668ea60dd8ebe79c607bbf329e8eddf56c77fb5a18ff8b832_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.38,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.24,
+      "score_item3": 0.3,
+      "score_item4": 0.24,
+      "score_item5": 0.3,
+      "score_total": 1.38,
+      "comments": "Lee correctamente el CSV (item1). Agrega media y desviación de temperatura, pero calcula el mínimo de temperature_K en vez de magnitude_app (item2 parcialmente). Ordena bien por temperatura promedio (item3). El scatter está bien planteado aunque falta importar matplotlib.pyplot, por lo que es parcialmente correcto (item4). Incluye una breve interpretación respondiendo ambas preguntas (item5).",
+      "codigo_entregado": "import numpy as np \nimport pandas as pd \ndf = pd.read_csv(\"stars_brightness.csv\")\nresultado = df.groupby('spectral_class').agg({'temperature_K':['mean','std', 'min']})\nprint('para cada clase espectral, la temperatura, la desviacion estandar y la magnitud minima son:')\nprint(resultado)\nprint('---------------------------------------------------------------------')\nresultado_ordenado = resultado.sort_values(('temperature_K','mean'), ascending=False)\nprint('tabla ordenada por temperatura promedio es:')\nprint(resultado_ordenado)\nplt.figure(figsize= (8,6))\nplt.scatter(df['temperature_K'], df['magnitude_app'])\nplt.grid(True)\nplt.xlabel('temperature K')\nplt.ylabel('magnitude app')\nplt.title('grafico de dispersion')\nprint('respondiendo a las preguntas de desarrollo, las estrellas mas calientes no necesariamente tienden a ser las mas brillantes y se puede ver como tendencia que encontramos la mayor cantidad de estrellas bajo los 10.000 K')"
+    }
+  },
+  "60874d2a14cd30dd753a01afb3a3f69a58b78e22f01523191e7070da5ad06a69_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.9,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.9,
+      "comments": "El código cumple correctamente con los tres ítems solicitados: genera el scatter a-T, calcula y muestra los cuatro valores de R con tres decimales, y obtiene promedio y desviación estándar. No hay implementación para otros ítems, por lo que se asigna 0 en los restantes.",
+      "codigo_entregado": "import matplotlib.pyplot as plt \nimport numpy as np \na = np.array([0.39,0.72,1.00,1.52])\nT = np.array([0.24,0.61,1.00,1.88])\nR = T/(a**(3/2))\nprint('4 valores de R igual a=')\nprint(R.round(3))\nR_promedio = np.mean(R)\nR_std = np.std(R)\nprint('el promedio y la desviacion estandar de los valores de R es:')\nprint(R_promedio.round(3),R_std.round(3))\nplt.figure(figsize=(8,6))\nplt.scatter(a,T)\nplt.xlabel('semieje mayor')\nplt.ylabel('periodo orbital')\nplt.title('grafica de dispersion')\nplt.grid(True)\nplt.show()"
+    }
+  },
+  "882362ad1b2cea8b3d2cd46176847fb1a4e6f152512fb86904f24a41e24c5a41_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.41,
+    "det": {
+      "score_item1": 0.27,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.24,
+      "score_item5": 0.3,
+      "score_total": 1.41,
+      "comments": "El código cumple correctamente con casi todos los requerimientos: θ se genera con linspace (aunque incluye el extremo derecho), se calcula r de forma vectorizada, se obtienen x e y adecuadamente y se calculan los promedios. La gráfica usa axis('equal'), pero falta llamar a plt.show(), por lo que se descuenta ligeramente en el ítem 4.",
+      "codigo_entregado": "import matplotlib.pyplot as plt\nimport numpy as np\na=1.0 \ne=0.40\ntheta=np.linspace(0,2*np.pi,720)\nr=(a*(1-e**2))/(1+e*np.cos(theta))\nx=r*np.cos(theta)\ny=r*np.sin(theta)\nplt.plot(x,y,'r-',)\nplt.title(\"orbita\")\nplt.xlabel(\"cos(theta)\")\nplt.ylabel(\"sin(theta)\")\nplt.axis('equal')\nplt.show\nvalor_mediox=np.mean(x) \nvalor_medioy=np.mean(y)\nprint(\"El valor medio para x es: \" , valor_mediox ,\"cercano a 0\" )\nprint(\"El valor medio par y es:\" ,valor_medioy , \"cercano a 0\")"
+    }
+  },
+  "ec4d8feffaab959254c140b4a375994f8f0b21eaf2b9fde91c25b0488eda93f5_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.45,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.03,
+      "score_item3": 0.03,
+      "score_item4": 0.06,
+      "score_item5": 0.03,
+      "score_total": 0.45,
+      "comments": "El código sólo carga el archivo en un DataFrame (bien). No calcula estadísticas por clase, no ordena los resultados y no ofrece interpretación. El intento de gráfico se limita a escribir plt.scatter sin argumentos. Puntajes mínimos otorgados por intento/entrega.",
+      "codigo_entregado": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf=pd.read_csv(\"stars_brightness.csv\")\nprint(df)\nplt.scatter"
+    }
+  },
+  "63f24cdf68a85c07a77040f1a6e141db9d0bb1a0255059f58df4f5c290d1e51d_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.84,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.84,
+      "comments": "Se genera correctamente el scatter, pero falta llamar a plt.show() (por eso se descuenta ligeramente). Los cocientes R_i se calculan y muestran con tres decimales, y se obtiene el promedio y la desviación estándar, todo correcto. Los ítems 4 y 5 no aparecen en la rúbrica provista, por lo que se califican con 0.",
+      "codigo_entregado": "import numpy as np\nimport matplotlib.pyplot as plt \nx=np.array([0.39,0.72,1.00,1.52])\ny=np.array([0.24,0.61,1.00,1.88])\nr=y/(x**(3/2))\nprint(\"El coeficionete para cada planeta es:\", r.round(3))\nplt.scatter(x,y)\nplt.title(\"verificacion de la ley de kepler\")\nplt.xlabel(\"semi eje mayor en UA(unidades )\")\nplt.ylabel(\"periodo orbital T(años)\")\nplt.show\npromedio=np.mean(r)\ndesviacion_estandar=np.std(r)\nprint(\"el promedio es:\" ,promedio)\nprint(\"la desviacion_estandar:\", desviacion_estandar)"
+    }
+  },
+  "62399bba8801c31430bd568a1fbf7e2862053506119b5f708ff057c531703008_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.05,
+    "det": {
+      "score_item1": 0.06,
+      "score_item2": 0.18,
+      "score_item3": 0.27,
+      "score_item4": 0.3,
+      "score_item5": 0.24,
+      "score_total": 1.05,
+      "comments": "Se omite la creación de theta (solo se usa), la expresión de r es vectorizada pero con la fórmula incorrecta (e*cos debería multiplicar), x e y se calculan bien sin bucles, la gráfica incluye plt.axis('equal'), y se promedian x e y aunque no se verifica explícitamente su cercanía a 0.",
+      "codigo_entregado": "cos=np.cos(theta)\nsen=np.sin(theta)\nr=a*(1-e**2)/(1+e+cos)\nx=r*cos\ny=r*sen\nplt.plot(x,y)\nplt.axis(\"equal\")\nplt.title('Órbita Elíptica')\nplt.legend('descripción orbital')\nplt.xlabel('eje x')\nplt.ylabel('eye y')\nplt.grid(True, alpha=0.2)\nplt.show()\nxmed=np.mean(x)\nymed=np.mean(y)\nprint(xmed)\nprint(ymed)"
+    }
+  },
+  "467d34ee6969029e31db9d8d1db3c0a653b619b200c3ef3ada5de349142f328c_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.26,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.12,
+      "score_item5": 0.24,
+      "score_total": 1.26,
+      "comments": "Lee correctamente el CSV a un DataFrame y calcula las métricas solicitadas por clase espectral, además de ordenarlas bien. El scatter presenta varios problemas (no importa matplotlib, usa variables incorrectas para los ejes), por lo que solo se otorga puntaje parcial. Incluye una breve interpretación, aunque algo superficial; se valora el esfuerzo.",
+      "codigo_entregado": "import numpy as np\nimport pandas as pd\ndf=pd.read_csv(\"stars_brightness.csv\")\nx=df.groupby('spectral_class').agg({'temperature_K':['mean', 'std'],'magnitude_app':'min'})\ny=x.sort_values(('temperature_K','mean'), ascending=False)\nprint(x)\nplt.scatter(x,y,alpha=0.5)\nplt.title('Mini catalogo')\nplt.legend('spectral class')\nplt.xlabel('temperature_K')\nplt.ylabel('magnitude_app')\nplt.grid(True, alpha=0.4)\nplt.show()\n#respuestas de punto e)\n#el grafico tiene tendencia lineal, por lo que a mayor temperatura, mayor luminosidad\n#si se ordenan de forma expectral  como la clase como la mayor y la clase o como la menor, seobserva un desenso de temperatura a medidad que se avanza de clase,\n#a exepcion de la clase B y la clase O que se escapan de la tendencia segun la tabla de datos tanto en luminosidad como en temperatura "
+    }
+  },
+  "026b786da8d5508bed087ec0792bd9d3b780cea9dc652cfd374a8ff8293b4dee_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.9,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.9,
+      "comments": "El código cumple correctamente los 3 requisitos especificados (gráfico scatter, cálculo y muestra del cociente R_i con 3 decimales, y cálculo de promedio y desviación estándar). No hay criterios definidos para los ítems 4 y 5, por lo que se asignan 0.",
+      "codigo_entregado": "import numpy as np \nimport matplotlib.pyplot as plt \nimport pandas as pd \na=np.array([0.39,0.72,1.00,1.52])\nT=np.array([0.24,0.64,1.00,1.88])\nplt.plot(a,T)\nplt.scatter(a,T)\nplt.title('Ley de Kepler')\nplt.legend('constante de Kepler?')\nplt.xlabel('semieje Mayor')\nplt.ylabel('periodo robital')\nplt.show()\nRi=T/(a**(3/2))\nprint(Ri.round(3),'promedio = ', np.mean(Ri).round(3),'desviacion estandar = ', np.std(Ri).round(3))"
+    }
+  },
+  "4e29160ed3686e2401528937c37a41e7886ddb846e55bc89bf29043eb5dde70a_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.0,
+    "det": {
+      "score_item1": 0.28,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.09,
+      "score_item5": 0.03,
+      "score_total": 1.0,
+      "comments": "Cumple casi por completo la generación de theta (incluye 2π, pequeño desvío). El cálculo vectorizado de r y las coordenadas cartesianas están correctos. Para la gráfica solo configura el aspecto igual pero no dibuja los puntos, por lo que se otorga puntaje bajo. No se calculan los promedios <x>,<y>.",
+      "codigo_entregado": "import matplotlib.pyplot as plt\nimport numpy as np \nimport pandas as pd \na = 1.0 \ne = 0.40 \ntheta = np.linspace(0,2*np.pi, 720)\nr = a * (1 - e**2) / (1 + e * np.cos(theta))\nx = r * np.cos(theta)\ny = r * np.sin(theta)\nplt.axis(\"equal\")"
+    }
+  },
+  "849020ccfd0297f3dd70c17fe6102148e9d822d1e8d83c41c54f65284cca1569_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.39,
+    "det": {
+      "score_item1": 0.27,
+      "score_item2": 0.03,
+      "score_item3": 0.03,
+      "score_item4": 0.03,
+      "score_item5": 0.03,
+      "score_total": 0.39,
+      "comments": "El código solo lee el CSV en un DataFrame (bien cumplido). No realiza los cálculos por clase espectral, ni ordena resultados, ni genera el scatter, ni incluye interpretación. Solo hay un intento mínimo de seleccionar columnas, por lo que se otorga el puntaje mínimo de cortesía en los ítems 2-5.",
+      "codigo_entregado": "import numpy as np\nimport pandas as pd\ndf = pd.read_csv(\"stars_brightness.csv\")\ndf[['temperatura_K','magnitude_app','spectral_class']]\nprint(df)"
+    }
+  },
+  "9eed942857ba0021c81381a0998c90aa58c971392acc8b951ed1af3ddeb11605_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.18,
+    "det": {
+      "score_item1": 0.06,
+      "score_item2": 0.03,
+      "score_item3": 0.03,
+      "score_item4": 0.03,
+      "score_item5": 0.03,
+      "score_total": 0.18,
+      "comments": "Se importan las librerías y se intenta definir datos y hacer un scatter, pero la sintaxis de np.array es incorrecta, no se pasan argumentos a plt.scatter, no se calculan R_i ni sus estadísticas y no hay otros elementos pedidos. Solo se reconoce un intento muy básico.",
+      "codigo_entregado": "import numpy as np \nimport matplotlib.pyplot as plt \ns = np.array[0.39, 0.72, 1.00, 1.52]\np = np.array[0.24, 0.61, 1.00, 1.88]\nT = k * a**(3/2)\nplt.scatter()"
+    }
+  },
+  "2b8516c9099bf6a93e47de99543ca4c7abb83dd7ec097337cc97c280a11648a8_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.6,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.12,
+      "score_item3": 0.18,
+      "score_item4": 0.06,
+      "score_item5": 0.0,
+      "score_total": 0.6,
+      "comments": "1) Usa np.linspace con 720 puntos, pero incluye el extremo 2π, por lo que el intervalo es [0,2π] y no [0,2π). 2) Intenta vectorizar la fórmula de r, pero el uso de corchetes crea una lista y provoca un error de tipo. 3) La conversión a coordenadas cartesianas está escrita correctamente, aunque depende de r (que falla). 4) Se ajusta la relación de aspecto, pero falta la llamada a plt.plot o similar para dibujar los puntos. 5) No calcula los valores medios <x> y <y>.",
+      "codigo_entregado": "import matplotlib.pyplot as plt \nimport numpy as np \nimport pandas as pd \na = 1             \ne = 0.40\n#a).\ntheta = np.linspace(0, 2*np.pi, 720)  #creamos un arrego theta con 720 valores \n#b). calcular r\nr = a * (1 - e**2) / [1 + e *np.cos(theta)]   # calculamos r \n#c). coordenadas cartesianas \nx = r * np.cos(theta)             \ny = r * np.sin(theta)   \n#d). graficar todos los puntos (x, y) \nplt.axis(\"equal\") \nplt.xlabel(\"X\")\nplt.ylabel(\"Y\")\nplt.title(\"orbita eliptica\")\nplt.grid(True)\nplt.show()"
+    }
+  },
+  "62383e1ab606ecf24dde1403bc71f781a29ee58e904eadb5b2d5421c9bdf4f6e_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.26,
+    "det": {
+      "score_item1": 0.18,
+      "score_item2": 0.24,
+      "score_item3": 0.3,
+      "score_item4": 0.3,
+      "score_item5": 0.24,
+      "score_total": 1.26,
+      "comments": "Se aprecia el uso de pandas (df, xe) pero no se muestra la carga explícita del archivo, por lo que se otorga un puntaje parcial. El agrupamiento parece calcular media y se infiere std/min aunque no se ve completo; buena intención, leve descuento. El ordenamiento y el scatter están implementados correctamente. La interpretación existe pero es muy breve y algo confusa, se le reconoce esfuerzo moderado.",
+      "codigo_entregado": "})\nprint(xe)\n \n#c). ordenar tabla de mayor a menor\nxe_ordenado = xe.sort_values(('temperature_K', 'mean'), ascending = False)\nprint(\"\\nxe_ordenado:\")\nprint(xe_ordenado)\n#d). grafico\nplt.figure(figsize = (10, 6))\nplt.scatter(df['temperature_K'], df['magnitude_app'], alpha= 0.6, edgecolors= 'red')\nplt.xlabel(\"temperature_k\")\nplt.ylabel(\"magnitude_app\")\nplt.title(\"stars brightness\")\nplt.grid(True)\nplt.show()\n#E). 1 ¿las extrellas más calientes tienden a se mas brillates?\n#    r. A interpretación del grafico a mayor temperatura menos brillantes son las extrellas.\n# \n#    2 ¿hay alguna tendencia según la clase espectral?\n#    r. según la clase espectral a menor temperatura más brillantes son las extrellas."
+    }
+  },
+  "eb06c5e2f743f07c902e42e3629bfda2ebc67e90e92d403d6fae5fb31bd527d3_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.6,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.24,
+      "score_item3": 0.12,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.6,
+      "comments": "Se genera un gráfico scatter, pero usa valores calculados en vez de los datos originales; el cociente R_i se calcula y se muestra con 3 decimales, aunque todos resultan 1.00. El promedio y la desviación estándar se dejan comentados, por lo que no se obtienen. No hay evidencias para los ítems 4 y 5.",
+      "codigo_entregado": "import numpy as np \nimport matplotlib.pyplot as plt \nx = np.array([0.39, 0.72, 1.00, 1.52])     #semieje mayor\ny = np.array([0.24, 0.61, 1.00, 1.88])     #periodo orbital\nk = 1                         # como el periodo orbital se mide en (UA) y el periodo en años entonces k =1\n \ny = k * x**(3/2)              # y = T, y = periodo orbital\n                              # x = a , x = semieje mayor \n# a). crear un grafico de dispersión \nplt.scatter(x,y)\nplt.title(\"Datos de los planetas interiores del sistema solar\")\nplt.xlabel(\"semieje mayor\")\nplt.ylabel(\"periodo orbital\")\nplt.grid(True)\nplt.show()\n#b). calcular para cada planeta el cociente\nri = y/(x)**(3/2)\nprint(ri.round(3))             # 3 decimales \n#ri = np.mean(ri)                 #calcular el promedio\n#ri = np.std(ri)                  #calcular la deviacion estandar"
+    }
+  },
+  "46d20d054b1130d01f05b37086962728ce3706e4544347ad0de7fe516ec0289c_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.26,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.3,
+      "score_item3": 0.3,
+      "score_item4": 0.18,
+      "score_item5": 0.24,
+      "score_total": 1.26,
+      "comments": "Se utiliza linspace con 720 puntos y operaciones vectorizadas; se calculan x e y correctamente y se grafica, pero falta plt.axis('equal') y linspace incluye 2π. La comprobación de medias solo se imprime, sin verificación formal.",
+      "codigo_entregado": "a = 1.0\ne = 0.40\ntheta = np.linspace(0, 2*np.pi, 720)\n#colocamos nuestra función principal y calculamos los 720 valores\nr = a*(1-e**2)/(1 + e*np.cos(theta))\n#obtenemos nuestras coordenadas cartesianas\nx = r * np.cos(theta)\ny = r * np.sin(theta)\nprint(x), print(y)\nprint('-'*60)\n#graficamos los puntos\nplt.plot(x,y, color = 'r')\nplt.xlabel(\"eje x\")\nplt.ylabel(\"eje y\")\nplt.title(\"Visualización de la órbita elíptica\")\nplt.grid(True)\nplt.show()\n#finalmente calculamos los valores medios y luego verificamos que sean cercanos a cercanos\nprom_x = np.mean(x)\nprom_y = np.mean(y)\nprint(f'el valor medio de x es {prom_x}')\nprint(f'el valor medio de y es {prom_y}')\nprint(\"los valores de ambos son cercanos a cero\")"
+    }
+  },
+  "f534545f7ebb1848f7654b5c03415af745788367477e3125c087934193073a6f_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 1.32,
+    "det": {
+      "score_item1": 0.18,
+      "score_item2": 0.24,
+      "score_item3": 0.3,
+      "score_item4": 0.3,
+      "score_item5": 0.3,
+      "score_total": 1.32,
+      "comments": "Se aprecian variables df y tem, lo que sugiere que el archivo fue leído previamente, pero el código mostrado no incluye explícitamente la instrucción de lectura, por lo que se otorga un puntaje medio-bajo. El agrupamiento parece calcular al menos la media (temperature_K) y probablemente la desviación estándar; no se visualiza la magnitud mínima, por eso no llega al máximo. El ordenamiento y el scatter están correctamente implementados. Las respuestas interpretativas existen y son coherentes aunque breves.",
+      "codigo_entregado": "print(tem)\n#ordenamos de menor a mayor la tabla que nos quedó\nmayor_a_menor = tem.sort_values(('temperature_K', 'mean'), ascending = False)\nprint(\"\\n mayor_a_menor:\")\nprint(mayor_a_menor)\n#creamos nuestro scatter\nx = df[\"temperature_K\"]\ny = df['magnitude_app']\nplt.figure(figsize=(20,8)) #le damos un tamaño a nuestra tabla\nplt.scatter(x,y, color = 'black')\nplt.title(\"Temperatura en kelvin vs. Magnitud Aparente\")\nplt.xlabel(\"temperatura\")\nplt.ylabel(\"magnitud\")\nplt.grid(True) #grilla para el gráfico\nplt.show()\n#aquí respondo las preguntas planteadas en la guía\nprint(\"pregunta 1\")\nprint(\"No, de hecho es todo lo contrario, como se puede ver en el gráfico, las estrellas más calientes suelen ser las menos brillantes.\")\nprint(\"pregunta 2\")\nprint(\"Al analizar este gráfico, se puede ver que hay un número muy elevado de estrellas que su temperatura es menor de los 10000K\")\nprint(\"Además, mientras más calientes se ponen las estrellas, hay menos de ellas.\")"
+    }
+  },
+  "2c369e9b44b5abfff5bab6b68a65159110569ff3d077ceb8e49e4f5398b42879_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.6,
+    "det": {
+      "score_item1": 0.3,
+      "score_item2": 0.12,
+      "score_item3": 0.18,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.6,
+      "comments": "El gráfico scatter está correctamente construido (item 1). Para el cociente R se intenta la operación pero se usa la expresión y/(x)**3/2, que corresponde a y/(x^3)/2 y no a y/(x^(3/2)); además se redondea a 2 y no a 3 decimales, por lo que el resultado es incorrecto pero muestra intención (item 2). El promedio y la desviación estándar se calculan y muestran adecuadamente, aunque basados en valores de R erróneos; se otorga crédito parcial (item 3). Los ítems 4 y 5 no están presentes en el código.",
+      "codigo_entregado": "#el semieje mayor es nuestro eje X\nx = np.array([0.39, 0.72, 1.00, 1.52])\n#el período orbital es nuestro eje Y\ny = np.array([0.24, 0.61, 1.00, 1.88])\n#creamos el gráfico\nplt.scatter(x,y)\nplt.title(\"Semieje Mayor vs. Período Orbital\")\nplt.xlabel(\"s.m (a) en UA\") #semieje mayor (a) en unidades astronomicas\nplt.ylabel(\"p.o (T) en años\") #período orbital (T) en años\nplt.grid(True) #grilla para nuestro gráfico\nplt.show()\n#calculamos el cociente\nR = y / (x)**3/2\nprint(\"el cociente es:\", R.round(2)) #round 2 para redondear los decimales a 2\n#calculamos el promedio y la desviación estándar de R\nprom_R = np.mean(R)\ndesv_R = np.std(R)\nprint(f'el promedio de los datos es de {prom_R}')\nprint(f'la desviación estandar de los datos es de {desv_R}')"
+    }
+  },
+  "4de0e432fe66486b6458cfde6009f069ea8dc79afb2897e041fc54dcad7b8257_ebdc7df776d5aad42eb31795060a1c2eb575b443f76d0015c871ed0efa406c9c_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.93,
+    "det": {
+      "score_item1": 0.03,
+      "score_item2": 0.18,
+      "score_item3": 0.3,
+      "score_item4": 0.3,
+      "score_item5": 0.12,
+      "score_total": 0.93,
+      "comments": "Falta crear el arreglo theta; el cálculo de r es vectorizado pero la fórmula y variables son incorrectas. Las coordenadas x,y y la gráfica están bien implementadas con axis equal. El intento de medias usa np.meand, por lo que falla aunque la idea es correcta.",
+      "codigo_entregado": "r = (a * 1 - (e ** 2)) / 1 + e * np.cos(theta)\nx = r * np.cos(theta)\ny = r * np.sin(theta)\nplt.title('Órbita elíptica parametrizada')\nplt.xlabel('Eje X')\nplt.ylabel('Eje Y')\nplt.plot(x, y)\nplt.axis('equal')\nplt.grid()\nplt.show()\nvalores_medios_x = np.meand(x)\nvalores_medios_y = np.meand(y)\nprint(f'valores medios de x = {valores_medios_x}')\nprint(f'valores medios de y = {valores_medios_y}')"
+    }
+  },
+  "c23d4d15cec64f018809b5d346e1bea280d17188cb4dfe1df9f61de9f7536a6e_e85c9f17c06872b29179906ecb0537d3c1bfe1eab391b657d67dd9a900521e4b_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.54,
+    "det": {
+      "score_item1": 0.06,
+      "score_item2": 0.06,
+      "score_item3": 0.12,
+      "score_item4": 0.3,
+      "score_item5": 0.0,
+      "score_total": 0.54,
+      "comments": "Se observa un DataFrame ya existente, pero no se muestra la lectura del archivo. Sólo se calcula la desviación estándar global y se ordena una serie, sin agrupar por clase espectral ni obtener el mínimo de magnitud. El ordenamiento muestra intención, aunque es parcial. El scatter está correctamente implementado. Falta por completo la interpretación de resultados.",
+      "codigo_entregado": "print(\"La desviación estandar de temperature_K es:\")\nprint(np.std(df.temperature_K))\nprint('=' * 60)\nprint(\"Tabla general de datos:\")\nprint()\nprint(df.describe())\nprint()\ntabla_ordenada = df.temperature_K.sort_values(('temperature_K'), ascending = False)\nprint(tabla_ordenada)\nx = df.temperature_K\ny = df.magnitude_app\nplt.figure(figsize = ( 6, 8))\nplt.scatter(x, y)\nplt.xlabel('temperature_K')\nplt.ylabel('magnitude_app')\nplt.grid()\nplt.show()"
+    }
+  },
+  "1ca13ab025b3570241ed043a0ede71b504a127cf9094b8311d05811526fa7a2a_a626d2e7212ed2bf86e90339bcce63a64c53d76d2de0a8ef1797a4728edc9343_a43180a83b9a9652df629f02f96fbd1d23bb173738e4903cbf78b44b227dfc54": {
+    "score": 0.3,
+    "det": {
+      "score_item1": 0.24,
+      "score_item2": 0.03,
+      "score_item3": 0.03,
+      "score_item4": 0.0,
+      "score_item5": 0.0,
+      "score_total": 0.3,
+      "comments": "Se carga la información y se preparan etiquetas para un scatter, pero no se llama plt.scatter() ni se muestra la figura, por lo que el gráfico queda incompleto. No se calcula ni se imprime el cociente R_i, ni su promedio ni su desviación estándar. El código solo refleja un intento parcial del ítem 1; los demás ítems no se abordan.",
+      "codigo_entregado": "import matplotlib.pyplot as plt\nimport pandas as pd\nimport numpy as np\na = np.array([0.39, 0.72, 1.00, 1.52])\nT = np.array([0.24, 0.61, 1.00, 1.88])\nk = 1\nprint(f'El semieje mayor \"a\" medido en [UA] es:')\nprint(a)\nprint()\nprint(f'El periodo orbital \"T\" medido en Años es:')\nprint(T)\nprint(\"=\" * 41)\nx = a\ny = T\nplt.title(\"Grafico de Dispersión Scatter\")\nplt.xlabel(\"Semieje mayor\")\nplt.ylabel(\"Periodo Orbital\")"
+    }
+  }
+}

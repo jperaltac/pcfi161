@@ -1,174 +1,1006 @@
 \documentclass[10pt]{beamer}
+\usepackage{xcolor}
 
 % ------------------------------------------------------------------------
-% Preambulo personalizado (colores, comandos, logo, etc.)
+% Carga del preámbulo personalizado
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
 
-% ----------  minted (igual que S12-P2) ----------
-\usepackage{minted}          % Requiere compilar con -shell-escape
-\setminted{
-  fontsize   = \scriptsize,
-  linenos,
-  baselinestretch = 1,
-  breaklines
-}
-
-\title{S13 -- Sesión 25\\Ejercicios integradores antes de la Solemne 2}
-\author{PCFI161 -- Programación para Física y Astronomía}
-\date{26 mayo 2025}
-
 \begin{document}
+
+% ------------------------------------------------------------------------
+% Portada
+% ------------------------------------------------------------------------
 \myfront{}
 
-% ──────────────────────────────────────────────────────────
+% ------------------------------------------------------------------------
+% Slide 1: Título
+% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
 \end{frame}
 
+% ------------------------------------------------------------------------
+% Slide 2: Índice
+% ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Ruta de la sesión (90 min)}
+  \frametitle{Resumen - Semana 12, Sesión 1}
   \tableofcontents
 \end{frame}
 
 \metroset{block=fill}
 
-% ============================================================
-\section{Warm-up: ciclos \texttt{for} (20 min)}
-% ============================================================
+% ========================================================================
+% SECCIÓN 1: Introducción y Motivación
+% ========================================================================
+\section{Introducción: Algoritmos Fundamentales}
 
-\begin{frame}[fragile]{Ejercicio 1 (10 min) – Caída libre discreta}
+% ------------------------------------------------------------------------
+% Slide 3: Por qué son importantes estos algoritmos
+% ------------------------------------------------------------------------
+\begin{frame}{¿Por qué ordenar y buscar?}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Astronomía y Física:}
+      \begin{itemize}
+        \item Ordenar estrellas por magnitud
+        \item Organizar mediciones de laboratorio
+        \item Buscar datos específicos en catálogos
+        \item Analizar distribuciones de datos
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Computación:}
+      \begin{itemize}
+        \item Base de algoritmos más complejos
+        \item Optimización de búsquedas
+        \item Análisis de eficiencia
+        \item Fundamento para estructuras de datos
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{0.5cm}
+  \begin{alertblock}{Objetivo de la Sesión}
+    Comprender cómo funcionan los algoritmos básicos de ordenamiento y búsqueda, 
+    y analizar su eficiencia.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 4: Objetivos específicos
+% ------------------------------------------------------------------------
+\begin{frame}{Objetivos de la Sesión}
+  \begin{itemize}
+    \item \textbf{Comprender} el concepto de recursividad con ejemplos prácticos
+    \item \textbf{Explorar} el algoritmo Bubble Sort paso a paso
+    \item \textbf{Implementar} búsqueda lineal y binaria
+    \item \textbf{Analizar} la eficiencia de diferentes algoritmos
+    \item \textbf{Aplicar} estos conceptos con datos astronómicos
+  \end{itemize}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 2: Recursividad (Concepto Fundamental)
+% ========================================================================
+\section{Recursividad: Fundamento de Algoritmos}
+
+% ------------------------------------------------------------------------
+% Slide 5: ¿Qué es la recursividad?
+% ------------------------------------------------------------------------
+\begin{frame}{¿Qué es la Recursividad?}
+  \begin{block}{Definición}
+    Una función es \textbf{recursiva} cuando se llama a sí misma para resolver 
+    un problema dividiéndolo en subproblemas más pequeños.
+  \end{block}
+  
+  \vspace{0.3cm}
+  \textbf{Estructura básica de una función recursiva:}
+  \begin{enumerate}
+    \item \textbf{Caso base:} Condición que detiene la recursión
+    \item \textbf{Caso recursivo:} Llamada a sí misma con un problema más simple
+  \end{enumerate}
+  
+  \vspace{0.3cm}
+  \begin{alertblock}{Importante}
+    Sin un caso base, la recursión sería infinita y causaría un error de desbordamiento de pila.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6: Ejemplo 1 - Factorial
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo 1: Factorial Recursivo}
+  \begin{block}{Definición matemática del factorial}
+    \[
+    n! = \begin{cases}
+      1 & \text{si } n = 0 \\
+      n \times (n-1)! & \text{si } n > 0
+    \end{cases}
+    \]
+  \end{block}
+  
+\begin{minted}{python}
+def factorial(n):
+    # Caso base: factorial de 0 es 1
+    if n == 0:
+        return 1
+    # Caso recursivo: n! = n × (n-1)!
+    else:
+        return n * factorial(n - 1)
+
+# Ejemplo
+print(factorial(5))  # 5! = 5×4×3×2×1 = 120
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 7: Visualización del factorial
+% ------------------------------------------------------------------------
+\begin{frame}{Visualización: factorial(5)}
+  \begin{center}
+    \textbf{Llamadas recursivas paso a paso:}
+  \end{center}
+  
+  \begin{enumerate}
+    \item \fcolorbox{red}{red!20}{\textbf{factorial(5)}} llama a \fcolorbox{blue}{blue!20}{\textbf{factorial(4)}}
+    \item \fcolorbox{blue}{blue!20}{\textbf{factorial(4)}} llama a \fcolorbox{orange}{orange!20}{\textbf{factorial(3)}}
+    \item \fcolorbox{orange}{orange!20}{\textbf{factorial(3)}} llama a \fcolorbox{green}{green!20}{\textbf{factorial(2)}}
+    \item \fcolorbox{green}{green!20}{\textbf{factorial(2)}} llama a \fcolorbox{purple}{purple!20}{\textbf{factorial(1)}}
+    \item \fcolorbox{purple}{purple!20}{\textbf{factorial(1)}} llama a \fcolorbox{brown}{brown!20}{\textbf{factorial(0)}}
+    \item \fcolorbox{brown}{brown!20}{\textbf{factorial(0)}} retorna \fcolorbox{brown}{brown!20}{\textbf{1}} (caso base)
+  \end{enumerate}
+  
+  \vspace{0.3cm}
+  \begin{center}
+    \textbf{Retornos sucesivos:}\\[0.2cm]
+    \fcolorbox{brown}{brown!20}{\textbf{1}} $\to$ 
+    \fcolorbox{purple}{purple!20}{\textbf{1×1=1}} $\to$ 
+    \fcolorbox{green}{green!20}{\textbf{2×1=2}} $\to$ 
+    \fcolorbox{orange}{orange!20}{\textbf{3×2=6}} $\to$ 
+    \fcolorbox{blue}{blue!20}{\textbf{4×6=24}} $\to$ 
+    \fcolorbox{red}{red!20}{\textbf{5×24=120}}
+  \end{center}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 8: Ejemplo 2 - Suma de lista
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo 2: Suma Recursiva de una Lista}
+\begin{minted}{python}
+def suma_recursiva(lista):
+    # Caso base: lista vacía suma 0
+    if len(lista) == 0:
+        return 0
+    # Caso recursivo: primer elemento + suma del resto
+    else:
+        return lista[0] + suma_recursiva(lista[1:])
+
+# Ejemplo con distancias planetarias (UA)
+distancias = [1.0, 1.52, 5.20]  # Tierra, Marte, Júpiter
+print(suma_recursiva(distancias))  # 7.72 UA
+\end{minted}
+
+\vspace{0.3cm}
+\textbf{Conceptos clave:}
+\begin{itemize}
+  \item \texttt{lista[0]}: primer elemento
+  \item \texttt{lista[1:]}: resto de la lista (slicing)
+  \item Cada llamada trabaja con una lista más pequeña
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 9: Visualización suma recursiva
+% ------------------------------------------------------------------------
+\begin{frame}{Visualización: suma\_recursiva([1.0, 1.52, 5.20])}
+  \textbf{Descomposición del problema:}
+  
+  \begin{enumerate}
+    \item \texttt{suma([\fcolorbox{red}{red!20}{\textbf{1.0}}, \fcolorbox{blue}{blue!20}{\textbf{1.52}}, \fcolorbox{orange}{orange!20}{\textbf{5.20}}])} = 
+          \fcolorbox{red}{red!20}{\textbf{1.0}} + \texttt{suma([\fcolorbox{blue}{blue!20}{\textbf{1.52}}, \fcolorbox{orange}{orange!20}{\textbf{5.20}}])}
+    
+    \item \texttt{suma([\fcolorbox{blue}{blue!20}{\textbf{1.52}}, \fcolorbox{orange}{orange!20}{\textbf{5.20}}])} = 
+          \fcolorbox{blue}{blue!20}{\textbf{1.52}} + \texttt{suma([\fcolorbox{orange}{orange!20}{\textbf{5.20}}])}
+    
+    \item \texttt{suma([\fcolorbox{orange}{orange!20}{\textbf{5.20}}])} = 
+          \fcolorbox{orange}{orange!20}{\textbf{5.20}} + \texttt{suma([])}
+    
+    \item \texttt{suma([])} = \fcolorbox{green}{green!20}{\textbf{0}} (caso base)
+  \end{enumerate}
+  
+  \vspace{0.3cm}
+  \textbf{Construcción de la solución:}
+  \begin{center}
+    \fcolorbox{green}{green!20}{\textbf{0}} $\to$ 
+    \fcolorbox{orange}{orange!20}{\textbf{5.20+0=5.20}} $\to$ 
+    \fcolorbox{blue}{blue!20}{\textbf{1.52+5.20=6.72}} $\to$ 
+    \fcolorbox{red}{red!20}{\textbf{1.0+6.72=7.72}}
+  \end{center}
+  
+  \vspace{0.3cm}
+  \begin{alertblock}{Ventaja de la recursividad}
+    Convierte un problema complejo en pasos simples y elegantes.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 3: Ordenamiento - Bubble Sort
+% ========================================================================
+\section{Ordenamiento: Bubble Sort}
+
+% ------------------------------------------------------------------------
+% Slide 10: Introducción al ordenamiento
+% ------------------------------------------------------------------------
+\begin{frame}{¿Qué es el Ordenamiento?}
+  \begin{block}{Definición}
+    Reorganizar una colección de elementos en un orden específico 
+    (ascendente o descendente).
+  \end{block}
+  
+  \vspace{0.3cm}
+  \textbf{¿Por qué es importante?}
+  \begin{itemize}
+    \item Facilita la búsqueda de información
+    \item Permite identificar extremos (máximos/mínimos)
+    \item Base para algoritmos más complejos
+    \item Mejora la visualización de datos
+  \end{itemize}
+  
+  \vspace{0.3cm}
+  \textbf{Hoy estudiaremos:} \textbf{Bubble Sort} (ordenamiento por burbujeo)
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 11: Concepto de Bubble Sort
+% ------------------------------------------------------------------------
+\begin{frame}{Bubble Sort: Idea Principal}
+  \begin{block}{¿Cómo funciona?}
+    Compara \textbf{pares de elementos adyacentes} y los intercambia si están 
+    en el orden incorrecto. Repite este proceso hasta que la lista esté ordenada.
+  \end{block}
+  
+  \vspace{0.3cm}
+  \textbf{Analogía visual:}
+  \begin{itemize}
+    \item Imagina burbujas de aire en agua
+    \item Las más ligeras "suben" naturalmente
+    \item Los elementos más grandes "burbujean" hacia el final
+    \item Video demostrativo: \url{https://www.youtube.com/watch?v=kPRA0W1kECg&t=242s}  
+  \end{itemize}
+  
+  \vspace{0.3cm}
+  \begin{alertblock}{Característica clave}
+    Después de cada pasada completa, el elemento más grande está en su posición final.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 12: Ejemplo paso a paso CON CAJAS
+% ------------------------------------------------------------------------
+\begin{frame}{Bubble Sort: Ejemplo Paso a Paso}
+  \textbf{Lista inicial:}
+  \begin{center}
+    \fcolorbox{red}{red!20}{\textbf{5}} \,
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
+    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
+    \fcolorbox{green}{green!20}{\textbf{1}} \,
+    \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
+  
+  \vspace{0.3cm}
+  \textbf{Pasada 1:}
+  \begin{itemize}
+    \item Comparar \fcolorbox{red}{red!20}{\textbf{5}} y \fcolorbox{blue}{blue!20}{\textbf{2}} → Intercambiar →
+          \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+    
+    \item Comparar \fcolorbox{red}{red!20}{\textbf{5}} y \fcolorbox{orange}{orange!20}{\textbf{8}} → No cambiar →
+          \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+    
+    \item Comparar \fcolorbox{orange}{orange!20}{\textbf{8}} y \fcolorbox{green}{green!20}{\textbf{1}} → Intercambiar →
+          \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+    
+    \item Comparar \fcolorbox{orange}{orange!20}{\textbf{8}} y \fcolorbox{purple}{purple!20}{\textbf{9}} → No cambiar → 
+          \fcolorbox{purple}{purple!20}{\textbf{9}} está en posición final ✓
+  \end{itemize}
+  
+  \vspace{0.3cm}
+  \textbf{Resultado final:}
+  \begin{center}
+    \fcolorbox{green}{green!20}{\textbf{1}} \,
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
+    \fcolorbox{red}{red!20}{\textbf{5}} \,
+    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
+    \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 13: Implementación de Bubble Sort
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Implementación de Bubble Sort}
+\begin{minted}{python}
+def bubble_sort(lista):
+    n = len(lista)
+    # Realizar n-1 pasadas
+    for i in range(n - 1):
+        # En cada pasada, comparar elementos adyacentes
+        for j in range(n - 1 - i):
+            # Si están en orden incorrecto, intercambiar
+            if lista[j] > lista[j + 1]:
+                lista[j], lista[j + 1] = lista[j + 1], lista[j]
+    return lista
+\end{minted}
+
+\vspace{0.3cm}
+\textbf{Análisis del código:}
+\begin{itemize}
+  \item \texttt{range(n-1)}: necesitamos n-1 pasadas
+  \item \texttt{range(n-1-i)}: cada pasada hace menos comparaciones
+  \item \texttt{lista[j], lista[j+1] = ...}: intercambio elegante en Python
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 14: Complejidad de Bubble Sort
+% ------------------------------------------------------------------------
+\begin{frame}{Análisis de Eficiencia: Bubble Sort}
+  \begin{block}{Complejidad Temporal}
+    \[
+    \mathcal{O}(n^2) \text{ (complejidad cuadrática)}
+    \]
+  \end{block}
+  
+  \vspace{0.3cm}
+  \textbf{¿Qué significa esto?}
+  \begin{itemize}
+    \item Para \textbf{10 elementos}: $\approx$ 100 comparaciones
+    \item Para \textbf{100 elementos}: $\approx$ 10,000 comparaciones
+    \item Para \textbf{1,000 elementos}: $\approx$ 1,000,000 comparaciones
+  \end{itemize}
+  
+  \vspace{0.3cm}
+  \begin{alertblock}{Ventajas y desventajas}
+    \textbf{Ventaja:} Fácil de entender e implementar\\
+    \textbf{Desventaja:} Ineficiente para listas grandes
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 15: Ejemplo astronómico
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejemplo: Ordenar Distancias Planetarias}
+\begin{minted}{python}
+# Distancias en Unidades Astronómicas (UA)
+dist_au = [1.52, 0.39, 5.20, 1.00, 30.07]
+planetas = ["Marte", "Mercurio", "Júpiter", "Tierra", "Neptuno"]
+
+print("Original :", dist_au)
+print("Planetas :", planetas)
+
+dist_ordenada = bubble_sort(dist_au.copy())
+print("\nOrdenado :", dist_ordenada)
+# [0.39, 1.00, 1.52, 5.20, 30.07]
+\end{minted}
+
+\textbf{Aplicación:}
+\begin{itemize}
+  \item Identificar el planeta más cercano/lejano al Sol
+  \item Preparar datos para gráficas
+  \item Facilitar comparaciones entre planetas
+\end{itemize}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 4: Búsqueda
+% ========================================================================
+\section{Algoritmos de Búsqueda}
+
+% ------------------------------------------------------------------------
+% Slide 16: Introducción a la búsqueda
+% ------------------------------------------------------------------------
+\begin{frame}{Búsqueda: ¿Qué es y por qué importa?}
+  \begin{block}{Problema}
+    Encontrar si un elemento específico existe en una colección de datos 
+    y determinar su posición.
+  \end{block}
+  
+  \vspace{0.3cm}
+  \textbf{Dos estrategias fundamentales:}
+  \begin{enumerate}
+    \item \textbf{Búsqueda Lineal:} revisar elemento por elemento
+    \item \textbf{Búsqueda Binaria:} aprovechar que la lista está ordenada
+  \end{enumerate}
+  
+  \vspace{0.3cm}
+  \textbf{Aplicaciones en astronomía:}
+  \begin{itemize}
+    \item Buscar estrella por magnitud en catálogos
+    \item Encontrar exoplaneta con características específicas
+    \item Localizar mediciones en grandes conjuntos de datos
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Búsqueda Lineal
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Búsqueda Lineal}
+  \begin{block}{Estrategia}
+    Revisar cada elemento de la lista secuencialmente hasta encontrar el objetivo 
+    o llegar al final.
+  \end{block}
+
+\begin{minted}{python}
+def linear_search(lista, objetivo):
+    for i, x in enumerate(lista):
+        if x == objetivo:
+            return i  # Retorna la posición
+    return -1  # No encontrado
+\end{minted}
+
+\vspace{0.3cm}
+\textbf{Características:}
+\begin{itemize}
+  \item \textbf{Complejidad:} $\mathcal{O}(n)$ - lineal
+  \item \textbf{Ventaja:} funciona en listas no ordenadas
+  \item \textbf{Desventaja:} lento para listas grandes
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 18: Búsqueda Binaria - Concepto
+% ------------------------------------------------------------------------
+\begin{frame}{Búsqueda Binaria: Idea Principal}
+  \begin{block}{Requisito previo}
+    La lista \textbf{DEBE} estar ordenada.
+  \end{block}
+  
+  \vspace{0.3cm}
+  \textbf{Estrategia "Divide y Conquista":}
+  \begin{enumerate}
+    \item Comparar el objetivo con el elemento del \textbf{centro}
+    \item Si es igual → encontrado
+    \item Si el objetivo es menor → buscar en la mitad izquierda
+    \item Si el objetivo es mayor → buscar en la mitad derecha
+    \item Repetir hasta encontrar o agotar opciones
+  \end{enumerate}
+  
+  \vspace{0.3cm}
+  \begin{alertblock}{Ventaja clave}
+    En cada paso, \textbf{elimina la mitad} de las opciones restantes.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 19: Ejemplo visual de búsqueda binaria CON CAJAS
+% ------------------------------------------------------------------------
+\begin{frame}{Búsqueda Binaria: Ejemplo Visual}
+  \textbf{Buscar el} \fcolorbox{red}{red!20}{\textbf{7}} \textbf{en:}
+  \begin{center}
+    \fcolorbox{black}{white}{\textbf{1}} \,
+    \fcolorbox{black}{white}{\textbf{3}} \,
+    \fcolorbox{black}{white}{\textbf{5}} \,
+    \fcolorbox{blue}{blue!20}{\textbf{7}} \,
+    \fcolorbox{black}{white}{\textbf{9}} \,
+    \fcolorbox{black}{white}{\textbf{11}} \,
+    \fcolorbox{black}{white}{\textbf{13}}
+  \end{center}
+  
+  \vspace{0.3cm}
+  \textbf{Paso 1:}
+  \begin{itemize}
+    \item Centro: posición 3, valor = \fcolorbox{blue}{blue!20}{\textbf{7}}
+    \item \textcolor{green}{\textbf{¡Encontrado!}} En 1 comparación
+  \end{itemize}
+  
+  \vspace{0.3cm}
+  \textbf{Buscar el} \fcolorbox{red}{red!20}{\textbf{11}}:
+  
+  \textbf{Paso 1:} Centro = \fcolorbox{black}{white}{\textbf{7}} → 11 > 7 → buscar derecha:
+  \begin{center}
+    \fcolorbox{black}{white}{\textbf{9}} \,
+    \fcolorbox{blue}{blue!20}{\textbf{11}} \,
+    \fcolorbox{black}{white}{\textbf{13}}
+  \end{center}
+  
+  \textbf{Paso 2:} Centro = \fcolorbox{blue}{blue!20}{\textbf{11}} → \textcolor{green}{\textbf{¡Encontrado!}} En 2 comparaciones
+  
+  \vspace{0.3cm}
+  \textbf{Comparación:}
+  \begin{itemize}
+    \item Búsqueda lineal: hasta 7 comparaciones
+    \item Búsqueda binaria: máximo 3 comparaciones
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Implementación búsqueda binaria
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Implementación de Búsqueda Binaria}
+\begin{minted}{python}
+def binary_search(lista_ordenada, objetivo):
+    low, high = 0, len(lista_ordenada) - 1
+    
+    while low <= high:
+        mid = (low + high) // 2  # Índice del centro
+        
+        if lista_ordenada[mid] == objetivo:
+            return mid  # Encontrado
+        elif objetivo < lista_ordenada[mid]:
+            high = mid - 1  # Buscar en mitad izquierda
+        else:
+            low = mid + 1   # Buscar en mitad derecha
+    
+    return -1  # No encontrado
+\end{minted}
+
+\textbf{Complejidad:} $\mathcal{O}(\log n)$ - logarítmica (muy eficiente)
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 21: Comparación de eficiencia
+% ------------------------------------------------------------------------
+\begin{frame}{Comparación de Eficiencia: Lineal vs. Binaria}
+  \begin{center}
+    \begin{tabular}{|c|c|c|}
+      \hline
+      \textbf{Tamaño (n)} & \textbf{Lineal} $\mathcal{O}(n)$ & \textbf{Binaria} $\mathcal{O}(\log n)$ \\
+      \hline
+      10 & 10 & 4 \\
+      100 & 100 & 7 \\
+      1,000 & 1,000 & 10 \\
+      10,000 & 10,000 & 14 \\
+      100,000 & 100,000 & 17 \\
+      1,000,000 & 1,000,000 & 20 \\
+      \hline
+    \end{tabular}
+  \end{center}
+  
+  \vspace{0.3cm}
+  \begin{alertblock}{Conclusión}
+    Para listas grandes, la búsqueda binaria es \textbf{dramáticamente más rápida}.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 5: Ejercicios Guiados
+% ========================================================================
+\section{Ejercicios Guiados}
+
+% ------------------------------------------------------------------------
+% Slide 22: Ejercicio 1 - Preparar datos
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Ordenamiento con Datos Simulados}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Parte un balón desde \(h_0=20\,\mathrm{m}\) con \(v_0=0\).
-      \item Crea un \textbf{ciclo \texttt{for}} con paso \(\Delta t = 0.2\,\mathrm{s}\).
-      \item En cada iteración imprime \(t,\,h,\,v\) hasta que \(h \le 0\).
-      \item Verifica que la altura nunca es negativa.
+      \item Generar 5,000 mediciones de temperatura simuladas (distribución normal: media = 22°C, desviación = 2°C)
+      \item Implementar bubble\_sort y ordenar los datos
+      \item Comparar el tiempo de ejecución con \texttt{np.sort()}
+      \item Calcular: temperatura mínima, máxima y mediana
     \end{itemize}
   \end{block}
-  \begin{minted}{python}
-g = 9.8        # m/s^2
-h, v = 20.0, 0.0
-dt = 0.2
-for step in range(100):        # suficiente margen
-    t = step * dt
-    print(f"{t:4.1f} s  h={h:5.2f} m  v={v:5.2f} m/s")
-    if h <= 0:
-        break
-    v = v - g*dt
-    h = h + v*dt
-  \end{minted}
+  
+  \textbf{Conceptos:} Generación de datos aleatorios, medición de rendimiento, estadística básica.
+  \\
+  \textbf{Aplicación física:} Análisis de grandes conjuntos de mediciones experimentales.
 \end{frame}
 
-\begin{frame}[fragile]{Ejercicio 2 (10 min) – Fibonacci y proporción áurea}
-  \begin{block}{Tarea}
-    \begin{enumerate}
-      \item Con un \texttt{for} genera los primeros 15 términos de Fibonacci.
-      \item Durante el bucle imprime la razón \(F_{n+1}/F_n\).
-      \item ¿A qué número converge la razón? (≈ 1.618)
-    \end{enumerate}
-  \end{block}
-  \begin{minted}{python}
-a, b = 1, 1
-for n in range(15):
-    print(f'F{n+1}={a},  razón={b/a:.5f}')
-    a, b = b, a+b
-  \end{minted}
-\end{frame}
-
-% ============================================================
-\section{NumPy y estadística (30 min)}
-% ============================================================
-
-\begin{frame}[fragile]{Ejercicio 3 (15 min) -- Órbita circular con arrays}
-\begin{block}{Pasos}
-  \begin{enumerate}
-    \item Usa \texttt{np.linspace(0,\,2\(\pi\),\,360, endpoint=False)} para 360 ángulos.
-    \item Calcula \(\displaystyle x=r\cos\theta,\;y=r\sin\theta\) con \(r=1\).
-    \item Muestra el promedio \(\bar x,\bar y\) y discute por qué se acerca a \(0,0\).
-  \end{enumerate}
-\end{block}
+% ------------------------------------------------------------------------
+% Slide 23: Solución Ejercicio 1 - Parte 1
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Preparación de Datos}
 \begin{minted}{python}
 import numpy as np
-theta = np.linspace(0, 2*np.pi, 360, endpoint=False)
-x = np.cos(theta);  y = np.sin(theta)
-print(" <x> =", x.mean(), " <y> =", y.mean())
+
+# Fijar semilla para reproducibilidad
+np.random.seed(42)
+
+# Generar 5000 temperaturas con distribución normal
+temps = np.random.normal(loc=22, scale=2, size=5_000)
+temps = temps.round(2).tolist()  # Redondear y convertir a lista
+
+print(f"Total de datos: {len(temps)}")
+print(f"Primeros 5 valores: {temps[:5]}")
 \end{minted}
+
+\textbf{Discusión:} 
+\begin{itemize}
+  \item \texttt{np.random.seed(42)}: garantiza resultados reproducibles
+  \item \texttt{.round(2)}: limita a 2 decimales (realista para mediciones)
+\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Ejercicio 4 (15 min) – Temperaturas estelares simuladas}
-\begin{block}{Enunciado}
+% ------------------------------------------------------------------------
+% Slide 24: Solución Ejercicio 1 - Parte 2
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Medición de Rendimiento}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+# Tu implementación
+def bubble_sort(lst):
+    n = len(lst)
+    for i in range(n-1):
+        for j in range(n-1-i):
+            if lst[j] > lst[j+1]:
+                lst[j], lst[j+1] = \
+                    lst[j+1], lst[j]
+    return lst
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+# NumPy optimizado
+import numpy as np
+arr = np.array(temps)
+arr_sorted = np.sort(arr)
+\end{minted}
+\end{column}
+\end{columns}
+
+\vspace{0.3cm}
+\begin{block}{Medir tiempos con \texttt{\%\%timeit} (Jupyter/Colab)}
+\begin{minted}[fontsize=\small]{python}
+%%timeit -n 3 -r 3
+bubble_sort(temps.copy())  # Tu versión
+
+%%timeit -n 3 -r 3
+np.sort(np.array(temps))   # NumPy
+\end{minted}
+\end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 25: Magic Commands
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Paréntesis: Magic Commands en Jupyter}
+  \texttt{\%timeit} y \texttt{\%\%timeit} son \textit{magic commands} que extienden 
+  las funcionalidades de Jupyter/Colab.
+  
+  \vspace{0.3cm}
+  \textbf{Ejemplos comunes:}
   \begin{itemize}
-    \item Genera 200 temperaturas: \texttt{T = np.random.normal(6000, 300, 200)}.
-    \item Con NumPy calcula: media, desvío estándar, percentiles 25/75.
-    \item ¿Cuántas estrellas caen fuera del rango \(\mu \pm 3\sigma\)?
+    \item \texttt{\%timeit}: mide tiempo de \textbf{una línea} de código
+    \item \texttt{\%\%timeit}: mide tiempo de \textbf{toda una celda}
+    \item \texttt{\%matplotlib inline}: habilita gráficos en el notebook
+    \item \texttt{\%ls}, \texttt{\%cd}: comandos del sistema de archivos
+    \item \texttt{\%who}: muestra variables definidas
   \end{itemize}
-\end{block}
+  
+  \vspace{0.3cm}
+  \begin{block}{Opciones de \%\%timeit}
+    \texttt{-n 3}: ejecuta 3 veces\\
+    \texttt{-r 3}: repite el proceso 3 veces (total: 9 ejecuciones)\\
+    Retorna: media y desviación estándar del tiempo
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 26: Solución Ejercicio 1 - Parte 3
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Cálculo de Estadísticas}
 \begin{minted}{python}
-T = np.random.normal(6000, 300, 200)
-mu, sigma = T.mean(), T.std()
-lo, hi = mu - 3*sigma, mu + 3*sigma
-outliers = ((T < lo) | (T > hi)).sum()
-print(f"{outliers} estrellas fuera de +- 3 sigma")
+# Ordenar con bubble_sort
+sorted_temps = bubble_sort(temps.copy())
+
+# Estadísticas
+n = len(sorted_temps)
+temp_min = sorted_temps[0]
+temp_max = sorted_temps[-1]
+
+# Mediana (promedio de los dos valores centrales)
+mediana = (sorted_temps[n//2] + sorted_temps[(n-1)//2]) / 2
+
+print(f"Temperatura mínima: {temp_min}°C")
+print(f"Temperatura máxima: {temp_max}°C")
+print(f"Mediana: {mediana:.2f}°C")
 \end{minted}
+
+\textbf{Discusión:} La mediana es más robusta que la media ante valores extremos (outliers).
 \end{frame}
 
-% ============================================================
-\section{Visualización con Matplotlib (15 min)}
-% ============================================================
+% ------------------------------------------------------------------------
+% Slide 27: Ejercicio 2 - Búsqueda binaria
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Búsqueda Binaria en Magnitudes Estelares}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Simular 300 magnitudes estelares (distribución normal: media = 8, desviación = 1.5)
+      \item Ordenar la lista de magnitudes
+      \item Implementar \texttt{binary\_search} con contador de comparaciones
+      \item Solicitar al usuario una magnitud a buscar
+      \item Comparar número de comparaciones con búsqueda lineal
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Búsqueda eficiente, complejidad algorítmica, contador de operaciones.
+  \\
+  \textbf{Aplicación astronómica:} Búsqueda de estrellas en catálogos por magnitud aparente.
+\end{frame}
 
-\begin{frame}[fragile]{Ejercicio 5 (15 min) – Ley de Kepler (mini versión)}
-\begin{block}{Datos de planetas interiores}
+% ------------------------------------------------------------------------
+% Slide 28: Solución Ejercicio 2 - Parte 1
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Preparación de Datos}
 \begin{minted}{python}
-import numpy as np, matplotlib.pyplot as plt
-a = np.array([0.39, 0.72, 1.00, 1.52])   # semieje mayor (AU)
-T = np.array([0.24, 0.61, 1.00, 1.88])   # periodo (años)
+import numpy as np
+
+# Generar 300 magnitudes estelares simuladas
+np.random.seed(42)
+mags = np.random.normal(8, 1.5, size=300).round(2)
+
+# Ordenar (requisito para búsqueda binaria)
+mags_ordenadas = sorted(mags)
+
+print(f"Total de estrellas: {len(mags_ordenadas)}")
+print(f"Rango de magnitudes: [{mags_ordenadas[0]}, {mags_ordenadas[-1]}]")
 \end{minted}
-\end{block}
-\begin{enumerate}
-  \item Dibuja un \textbf{scatter} de \(a\) vs \(T\).
-  \item Ajusta \(\log_{10}T = m\,\log_{10}a + b\) con \texttt{np.polyfit}.
-  \item Grafica la recta sobre los datos en escala log–log.
-  \item ¿El exponente \(m\) se acerca a 1.5?
-\end{enumerate}
-\end{frame}
 
-% ============================================================
-\section{pandas y datos reales (20 min)}
-% ============================================================
-
-\begin{frame}[fragile]{Ejercicio 6 (15 min) – Mini catálogo HIPPARCOS}
-\begin{block}{Archivo a usar}
-\url{https://gitarra.cl/lectures/gfiles/-/raw/main/pcfi161/S12/stars_brightness.csv}
-\end{block}
-\begin{enumerate}
-  \item Lee el CSV en un \texttt{DataFrame}.
-  \item Muestra \texttt{head()} y \texttt{describe()}.
-  \item Agrupa por \texttt{spectral\_class}:  
-        \(\displaystyle \text{mean}(T_K)\) y mínima magnitud aparente.
-  \item Concluye en 2 líneas qué clase es más caliente y brillante.
-\end{enumerate}
-\end{frame}
-
-\begin{frame}[fragile]{Ejercicio 7 (opc., 10 min) – Filtrar exoplanetas}
+\textbf{Discusión:}
 \begin{itemize}
-  \item Se entregará un CSV muy pequeño con columnas  
-        \texttt{name}, \texttt{mass\_Mj}, \texttt{period\_d}.
-  \item Filtra planetas con \(m < 1.5\,M_J\) y periodo < 10 d.
-  \item Guarda el resultado en \texttt{exoplanets\_short.csv}.
+  \item \texttt{sorted()}: retorna nueva lista ordenada (no modifica original)
+  \item Magnitud 8: estrellas débiles visibles con telescopios pequeños
 \end{itemize}
 \end{frame}
 
-% ============================================================
-\section{Cierre}
-% ============================================================
+% ------------------------------------------------------------------------
+% Slide 29: Solución Ejercicio 2 - Parte 2
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Implementación con Contador}
+\begin{minted}{python}
+def binary_search(lst, target):
+    low, high, checks = 0, len(lst) - 1, 0
+    
+    while low <= high:
+        mid = (low + high) // 2
+        checks += 1  # Contar cada comparación
+        
+        if lst[mid] == target:
+            return mid, checks  # Encontrado
+        elif target < lst[mid]:
+            high = mid - 1
+        else:
+            low = mid + 1
+    
+    return -1, checks  # No encontrado
+\end{minted}
 
-\begin{frame}{Próximos pasos}
+\textbf{Discusión:} El contador \texttt{checks} nos permite verificar la eficiencia teórica $\mathcal{O}(\log n)$.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 30: Solución Ejercicio 2 - Parte 3
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Ejecución y Análisis}
+\begin{minted}{python}
+# Solicitar magnitud a buscar
+val = float(input("Ingresa magnitud a buscar: "))
+
+# Realizar búsqueda binaria
+pos, nchecks = binary_search(mags_ordenadas, val)
+
+if pos != -1:
+    print(f"Encontrada en índice {pos}")
+    print(f"Comparaciones realizadas: {nchecks}")
+else:
+    print(f"No encontrada (se hicieron {nchecks} comparaciones)")
+
+# Comparar con búsqueda lineal
+print(f"\nBúsqueda lineal habría necesitado: {pos+1} comparaciones")
+print(f"Ahorro: {pos+1-nchecks} comparaciones")
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 31: Comparación búsqueda lineal vs binaria
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Comparación: Lineal vs. Binaria}
+\begin{minted}{python}
+def linear_search(lst, target):
+    for checks, x in enumerate(lst, 1):
+        if x == target:
+            return checks
+    return checks  # No encontrado
+
+# Medir tiempos
+%timeit binary_search(mags_ordenadas, val)
+%timeit linear_search(mags_ordenadas, val)
+\end{minted}
+
+\vspace{0.3cm}
+\textbf{Resultados esperados (para 300 elementos):}
 \begin{itemize}
-  \item Repasen estos problemas: conceptos clave para la Solemne 2.
-  \item Dudas $\longrightarrow$ consultas al ayudante o profesor.
-  \item ¡Éxito en la evaluación!
+  \item Búsqueda lineal: hasta 300 comparaciones
+  \item Búsqueda binaria: máximo $\log_2(300) \approx 9$ comparaciones
+  \item \textbf{Diferencia:} $\sim$97\% menos comparaciones
 \end{itemize}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 6: Actividad Práctica
+% ========================================================================
+\section{Actividad Práctica}
+
+% ------------------------------------------------------------------------
+% Slide 32: Organización de la actividad
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Práctica Colaborativa}
+  \begin{itemize}
+    \item Formar \textbf{equipos de 2-3 estudiantes}
+    \item Cada estudiante crea su propio notebook
+    \item Tiempo asignado: \textbf{25 minutos}
+    \item \textbf{Objetivo:} Implementar y comparar algoritmos con datos reales
+  \end{itemize}
+  
+  \vspace{0.3cm}
+  \begin{alertblock}{Metodología}
+    Trabajen juntos en la lógica, pero cada uno escribe su código.
+    Comparen resultados y discutan diferencias.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 33: Actividad Extra 1
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra 1: \hfill \textcolor{blue}{$\clubsuit$} \\ Análisis de Velocidades Radiales}
+  Simular mediciones de velocidades radiales de estrellas para detectar exoplanetas.
+  
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Generar 1000 velocidades radiales (m/s) con distribución normal (media=0, desv=50)
+      \item Ordenar usando bubble\_sort
+      \item Identificar las 10 mayores variaciones (valores extremos)
+      \item Calcular el tiempo de ejecución
+      \item Comparar con \texttt{np.sort()}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Objetivo:} Comprender limitaciones de bubble\_sort con datos reales 
+  y ventajas de implementaciones optimizadas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 34: Actividad Extra 2
+% ------------------------------------------------------------------------
+\begin{frame}{Actividad Extra 2: \hfill \textcolor{blue}{$\clubsuit$} \\ Catálogo de Estrellas Brillantes}
+  Trabajar con un catálogo simplificado de estrellas.
+  
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear lista de 500 magnitudes aparentes (distribución: media=5, desv=2)
+      \item Ordenar de más brillante a más débil (menor a mayor magnitud)
+      \item Implementar función que busque estrellas en rango específico
+      \item Usar búsqueda binaria para encontrar límites del rango
+      \item Contar cuántas estrellas hay en el rango [4.0, 6.0]
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Objetivo:} Aplicar búsqueda binaria para consultas de rango, 
+  común en análisis astronómico.
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 7: Consolidación
+% ========================================================================
+\section{Consolidación y Retroalimentación}
+
+% ------------------------------------------------------------------------
+% Slide 35: Puesta en común
+% ------------------------------------------------------------------------
+\begin{frame}{Puesta en Común - ¿Cómo les fue?}
+  \begin{itemize}
+    \item ¿Qué algoritmo resultó más difícil de implementar?
+    \item ¿Encontraron errores comunes? ¿Cómo los solucionaron?
+    \item ¿La diferencia de eficiencia fue la esperada?
+    \item ¿Qué ventajas tiene pensar recursivamente?
+  \end{itemize}
+  
+  \begin{alertblock}{Objetivo}
+    Aprender de las experiencias colectivas y normalizar los errores como 
+    parte del aprendizaje.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 36: Errores comunes
+% ------------------------------------------------------------------------
+\begin{frame}{Errores Comunes}
+  \begin{block}{En Bubble Sort}
+    \begin{itemize}
+      \item Olvidar \texttt{.copy()} al ordenar (modifica lista original)
+      \item Índices incorrectos: \texttt{range(n)} en lugar de \texttt{range(n-1)}
+      \item No reducir comparaciones: \texttt{range(n-1-i)} es crucial para eficiencia
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{En Búsqueda Binaria}
+    \begin{itemize}
+      \item Olvidar ordenar la lista previamente
+      \item Usar \texttt{/} en lugar de \texttt{//} para \texttt{mid} (debe ser entero)
+      \item Actualizar incorrectamente \texttt{low} o \texttt{high}
+      \item Bucle infinito si no se actualizan límites
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{Consejo de depuración}
+    Usar \texttt{print()} dentro de los bucles para visualizar el proceso paso a paso.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 8: Conclusiones
+% ========================================================================
+\section{Conclusiones}
+
+% ------------------------------------------------------------------------
+% Slide 37: Resumen de la sesión
+% ------------------------------------------------------------------------
+\begin{frame}{Resumen de la Sesión}
+  \begin{itemize}
+    \item \textbf{Aprendimos} el concepto fundamental de recursividad
+      \begin{itemize}
+        \item Caso base y caso recursivo
+        \item Factorial y suma de listas
+      \end{itemize}
+    \item \textbf{Implementamos} Bubble Sort paso a paso
+      \begin{itemize}
+        \item Complejidad $\mathcal{O}(n^2)$
+        \item Comparación con implementaciones optimizadas
+      \end{itemize}
+    \item \textbf{Exploramos} búsqueda lineal y binaria
+      \begin{itemize}
+        \item Eficiencia: $\mathcal{O}(n)$ vs $\mathcal{O}(\log n)$
+        \item Importancia del ordenamiento previo
+      \end{itemize}
+    \item \textbf{Aplicamos} estos conceptos a problemas astronómicos
+  \end{itemize}
+  
+  \begin{block}{Habilidad adquirida}
+    Capacidad de analizar y elegir algoritmos apropiados según el tamaño de los datos.
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 38: Próximos pasos
+% ------------------------------------------------------------------------
+\begin{frame}{Próximos Pasos}
+  \begin{itemize}
+    \item \textbf{Sesión siguiente (P2):} Práctica intensiva con algoritmos más complejos
+      \begin{itemize}
+        \item Merge Sort y Quick Sort
+        \item Análisis comparativo de rendimiento
+        \item Aplicaciones con datos astronómicos reales
+      \end{itemize}
+    \item \textbf{Recomendación de estudio:}
+      \begin{itemize}
+        \item Visualizaciones: \href{https://visualgo.net}{VisuAlgo.net}
+        \item Tutorial: \href{https://www.khanacademy.org/computing/computer-science/algorithms}{Khan Academy - Algoritmos}
+      \end{itemize}
+    \item \textbf{Práctica sugerida:}
+      \begin{itemize}
+        \item Implementar los algoritmos "a mano" con listas pequeñas
+        \item Experimentar con diferentes tamaños de datos
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 39: Despedida
+% ------------------------------------------------------------------------
+\begin{frame}{¡Gracias!}
+  \begin{center}
+    \Large
+    ¿Preguntas o dudas?
+    
+    \vspace{1cm}
+    \normalsize
+    \textbf{Próxima sesión:}\\
+    Semana 12 - Sesión 2 (P2)\\
+    Algoritmos de Ordenamiento Avanzados
+    
+    \vspace{0.5cm}
+    \textit{¡Nos vemos la próxima clase!}
+  \end{center}
 \end{frame}
 
 \end{document}

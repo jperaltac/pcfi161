@@ -1,4 +1,4 @@
-\documentclass[10pt]{beamer}
+\documentclass[9pt]{beamer}
 
 % ------------------------------------------------------------------------
 % Carga de tu preámbulo personalizado (preamble.tex).
@@ -18,15 +18,14 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % Por ejemplo:
-  % \title{Semana 8 - Sesión 1 (Sesión 15): Clases y Análisis de Datos Básico}
+  % \title{Semana 12 - Sesión 2 (Sesión 24): Interpolación y Selección de Modelos}
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 2: Índice / Tabla de Contenidos
 % ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Semana 8, Sesión 2 (Sesión 15)}
+  \frametitle{Resumen - Semana 12, Sesión 2 (Sesión 24)}
   \tableofcontents
 \end{frame}
 
@@ -34,598 +33,453 @@
 % Configuración de bloques
 % ------------------------------------------------------------------------
 \metroset{block=fill}
-% ========================================================================
-% SECCIÓN 1: Introducción y Conexión (MEJORADA)
-% ========================================================================
-\section{Introducción y Repaso}
 
-\begin{frame}{Recapitulación de la Sesión Anterior (P1)}
-  \begin{itemize}
-    \item \textbf{Recursividad:} función que se llama a sí misma
-      \begin{itemize}
-        \item Caso base + caso recursivo
-        \item Ejemplos: factorial, suma de listas
-      \end{itemize}
-    \item \textbf{Bubble Sort:} complejidad $\mathcal{O}(n^2)$
-      \begin{itemize}
-        \item Comparación de elementos adyacentes
-        \item Ineficiente para listas grandes
-      \end{itemize}
-    \item \textbf{Búsqueda:} lineal $\mathcal{O}(n)$ vs binaria $\mathcal{O}(\log n)$
-  \end{itemize}
-  
-  \begin{alertblock}{Conexión}
-    Hoy aplicaremos recursividad para crear algoritmos de ordenamiento más eficientes.
-  \end{alertblock}
-\end{frame}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
+% ----------------------------------------------------------------------------------------
+\section{Introducción y Conexión}
 
-\begin{frame}{Objetivos de la Sesión P2}
-  \begin{itemize}
-    \item \textbf{Implementar} Merge Sort usando recursividad
-    \item \textbf{Comparar} empíricamente algoritmos de ordenamiento
-    \item \textbf{Medir} rendimiento con herramientas reales
-    \item \textbf{Visualizar} escalamiento de complejidad
-    \item \textbf{Aplicar} algoritmos a datasets astronómicos
-  \end{itemize}
-\end{frame}
-
-
-
-% -----------------------------------------------------------------
-\section{Recursividad \& Merge Sort}
-% -----------------------------------------------------------------
-\begin{frame}[fragile]{¿Qué es recursividad?}
-\begin{itemize}
-  \item Una función que se llama a sí misma para resolver un problema más pequeño.
-  \item Necesita: \textit{caso base} + \textit{llamada recursiva}.
-  \item Ejemplo clásico: factorial, Fibonacci… ¡y algoritmos de ordenamiento!
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Merge Sort en Python (\(\mathcal{O}(n\log n)\))}
-\begin{minted}[fontsize=\scriptsize]{python}
-def merge_sort(lst):
-    if len(lst) <= 1:
-        return lst                    # caso base
-    mid = len(lst) // 2
-    left  = merge_sort(lst[:mid])     # divide
-    right = merge_sort(lst[mid:])
-    return merge(left, right)         # conquista
-
-def merge(left, right):
-    out, i, j = [], 0, 0                    # apuntadores
-    while i < len(left) and j < len(right): # mezcla ordenada 
-        if left[i] < right[j]:              # comparar 
-            out.append(left[i])             # agregar menor
-            i += 1                          # avanzar en left
-        else:
-            out.append(right[j])            # agregar menor
-            j += 1                          # avanzar en right
-    return out + left[i:] + right[j:]       # agregar restos
-\end{minted}
-\begin{itemize}
-  \item Dos fases: división recursiva y mezcla ordenada.
-  \item Estable (\alert{preserva orden relativas de iguales}) y predecible.
-\end{itemize}
-\end{frame}
-
-% ========================================================================
-% SECCIÓN 2: Merge Sort - Concepto y Desarrollo
-% ========================================================================
-\section{Merge Sort: Ordenamiento Eficiente}
-
-\begin{frame}{Merge Sort: ¿Por qué es mejor que Bubble Sort?}
-  \begin{block}{Problema con Bubble Sort}
-    Con 10,000 elementos → ~100,000,000 comparaciones \\
-    Tiempo: varios segundos o minutos
-  \end{block}
-  
-  \begin{block}{Ventaja de Merge Sort}
-    Con 10,000 elementos → ~133,000 comparaciones \\
-    Tiempo: milisegundos
-  \end{block}
-  
-  \textbf{Complejidad:} $\mathcal{O}(n \log n)$ vs $\mathcal{O}(n^2)$
-  
-  \begin{alertblock}{Diferencia práctica}
-    Para 100,000 elementos: Bubble Sort tardaría \textbf{horas}, 
-    Merge Sort tardaría \textbf{segundos}.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Merge Sort: Estrategia "Divide y Conquista"}
-  \begin{block}{Idea Principal}
-    \begin{enumerate}
-      \item \textbf{Divide:} Partir la lista en dos mitades
-      \item \textbf{Conquista:} Ordenar recursivamente cada mitad
-      \item \textbf{Combina:} Mezclar las dos mitades ordenadas
-    \end{enumerate}
-  \end{block}
-  
-
-  \textbf{Ejemplo visual con lista original:}
-  \begin{center}
-    \fcolorbox{red}{red!20}{\textbf{5}} \,
-    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
-    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
-    \fcolorbox{green}{green!20}{\textbf{1}} \,
-    \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-  
-
-  \textbf{División recursiva:}
-  \begin{itemize}
-    \item \textbf{Paso 1:} 
-    \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{blue}{blue!20}{\textbf{2}}
-    \quad $|$ \quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
-    
-    \item \textbf{Paso 2:} 
-    \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad
-    \fcolorbox{blue}{blue!20}{\textbf{2}}
-    \quad $|$ \quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}}
-    \quad
-    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
-    
-    \item \textbf{Paso 3:} 
-    \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad
-    \fcolorbox{blue}{blue!20}{\textbf{2}}
-    \quad $|$ \quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}}
-    \quad
-    \fcolorbox{green}{green!20}{\textbf{1}}
-    \quad
-    \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Merge Sort: Visualización con Cajas}
-  \begin{center}
-    \textbf{Lista original}
-  \end{center}
-  
-  \begin{center}
-    \fcolorbox{red}{red!20}{\textbf{5}} \,
-    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
-    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
-    \fcolorbox{green}{green!20}{\textbf{1}} \,
-    \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-  
-  \vspace{0.3cm}
-  \textbf{División:}
-  \begin{center}
-    \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{blue}{blue!20}{\textbf{2}} 
-    \quad$|$\quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-  
-  \begin{center}
-    \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad
-    \fcolorbox{blue}{blue!20}{\textbf{2}} 
-    \quad$|$\quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}} 
-    \quad
-    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-  
-  \vspace{0.3cm}
-  \textbf{Mezcla ordenada:}
-  \begin{center}
-    \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad$|$\quad
-    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-  
-  \begin{center}
-    \fcolorbox{green}{green!20}{\textbf{1}} \,
-    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
-    \fcolorbox{red}{red!20}{\textbf{5}} \,
-    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
-    \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-\end{frame}
-
-\begin{frame}[fragile]{Merge Sort: Función de Mezcla (merge)}
-  \textbf{Paso 1: Entender cómo mezclar dos listas ordenadas}
-  
-\begin{minted}{python}
-def merge(left, right):
-    """
-    Mezcla dos listas ordenadas en una sola lista ordenada.
-    Ejemplo: merge([2, 5], [1, 8]) → [1, 2, 5, 8]
-    """
-    resultado = []
-    i, j = 0, 0
-    
-    # Comparar elementos de ambas listas
-    while i < len(left) and j < len(right):
-        if left[i] < right[j]:
-            resultado.append(left[i])
-            i += 1
-        else:
-            resultado.append(right[j])
-            j += 1
-    
-    # Agregar elementos restantes
-    resultado.extend(left[i:])
-    resultado.extend(right[j:])
-    return resultado
-\end{minted}
-\end{frame}
-
-\begin{frame}[fragile]{Merge Sort: Función Principal (Recursiva)}
-\begin{minted}{python}
-def merge_sort(lista):
-    """
-    Ordena una lista usando el algoritmo Merge Sort.
-    Complejidad: O(n log n)
-    """
-    # Caso base: lista de 0 o 1 elemento ya está ordenada
-    if len(lista) <= 1:
-        return lista
-    
-    # Dividir la lista en dos mitades
-    mid = len(lista) // 2
-    left = lista[:mid]
-    right = lista[mid:]
-    
-    # Ordenar recursivamente cada mitad
-    left_ordenada = merge_sort(left)
-    right_ordenada = merge_sort(right)
-    
-    # Combinar las mitades ordenadas
-    return merge(left_ordenada, right_ordenada)
-\end{minted}
-
-\textbf{Elementos clave:} Caso base, división, recursión, mezcla.
-\end{frame}
-% ========================================================================
-% SECCIÓN 3: Ejercicios Guiados
-% ========================================================================
-\section{Ejercicios Guiados}
-
-% ------------------------------------------------------------------------
-% Slide X: Ejercicio 1 - Implementación básica
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Implementar Merge Sort}
-  \begin{block}{Enunciado}
+\begin{frame}{Repaso de la Sesión Previa (P1)}
+  \begin{block}{Conceptos fundamentales que aprendimos}
     \begin{itemize}
-      \item Implementar las funciones \texttt{merge()} y \texttt{merge\_sort()}
-      \item Probar con la lista: \texttt{[64, 34, 25, 12, 22, 11, 90]}
-      \item Imprimir cada nivel de recursión para visualizar el proceso
-      \item Verificar que la lista final esté ordenada
+      \item \textbf{Ajuste con \texttt{curve\_fit}}: Funciones arbitrarias y no lineales
+      \item \textbf{Matriz de covarianza}: Extracción automática de incertidumbres
+      \item \textbf{Ejemplo físico}: Relación masa-luminosidad (log-log vs no lineal)
     \end{itemize}
   \end{block}
   
-  \textbf{Conceptos:} Recursividad aplicada, caso base, mezcla de listas.
-  \\
-  \textbf{Aplicación:} Base para ordenar cualquier tipo de datos.
+  \begin{alertblock}{Objetivo de hoy (P2)}
+    Aplicar técnicas avanzadas: \textbf{interpolación} de datos faltantes y \textbf{selección de modelos} con criterios estadísticos.
+  \end{alertblock}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide Y: Solución 1 de Referencia
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Implementación Básica}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-def merge(left, right):
-    resultado = []
-    i, j = 0, 0
-    
-    while i < len(left) and j < len(right):
-        if left[i] < right[j]:
-            resultado.append(left[i])
-            i += 1
-        else:
-            resultado.append(right[j])
-            j += 1
-    
-    resultado.extend(left[i:])
-    resultado.extend(right[j:])
-    return resultado
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=14]{python}
-def merge_sort(lista):
-    if len(lista) <= 1:
-        return lista
-    
-    mid = len(lista) // 2
-    left = merge_sort(lista[:mid])
-    right = merge_sort(lista[mid:])
-    
-    return merge(left, right)
-
-# Prueba
-datos = [64, 34, 25, 12, 22, 11, 90]
-ordenado = merge_sort(datos)
-print(f"Original: {datos}")
-print(f"Ordenado: {ordenado}")
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-\textbf{Discusión:} Observa cómo la recursión maneja automáticamente todos los niveles.
+\begin{frame}{Estructura de la Sesión: Dos Grandes Temas}
+  \begin{center}
+  \textbf{Técnicas avanzadas para análisis de datos reales:}
+  \end{center}
+  
+  \begin{enumerate}
+    \item \textbf{Interpolación} (Ejercicio 5):
+      \begin{itemize}
+        \item Reconstruir datos con observaciones incompletas
+        \item Comparar métodos: lineal vs cúbico
+        \item Aplicación: Curvas de luz con gaps
+      \end{itemize}
+    \item \textbf{Selección de modelos} (Ejercicio 6):
+      \begin{itemize}
+        \item Usar AIC para elegir entre modelos competidores
+        \item Comparar distribuciones: Normal vs Lognormal
+        \item Interpretación física de asimetrías
+      \end{itemize}
+  \end{enumerate}
+  
+  \vspace{0.3cm}
+  \textbf{¡Estas técnicas son esenciales en astronomía observacional!}
 \end{frame}
 
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Ejercicios Prácticos
+% ----------------------------------------------------------------------------------------
+\section{Ejercicios Prácticos Avanzados}
+
 % ------------------------------------------------------------------------
-% Slide Z: Ejercicio 2 - Comparación de rendimiento
+% Slide: Ejercicio 5
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Comparación de Algoritmos}
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Curva de luz con datos faltantes}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Crear función \texttt{comparar\_algoritmos(n)} que:
+      \item Estrella variable: \(F(t) = 1.0 + 0.1 \sin(2\pi t / P)\) con \(P = 2.5\) días
+      \item Genere 60 puntos en \(t \in [0, 10]\) días
+      \item \textbf{Simule observación}:  Elimine 20 puntos al azar (nubes, mal clima)
+      \item \textbf{Tareas}:
+        \begin{enumerate}
+          \item Cree interpoladores lineal y cúbico con \texttt{interp1d}
+          \item Evalúe ambos en grilla fina (200 puntos)
+          \item Grafique: curva original + observaciones + interpolaciones
+          \item Compare visualmente: ¿cuál sigue mejor la señal?
+          \item \textbf{Extra}: Calcule error RMS entre interpolación y original
+        \end{enumerate}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos}: Interpolación, comparación lineal vs cúbica
+  \\
+  \textbf{Física}: Reconstruir curvas de luz con observaciones incompletas
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 6
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Selección de modelo: Lognormal vs Normal}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Datos de masas de asteroides (típicamente asimétricos hacia valores altos)
+      \item Genere 1500 valores con distribución Lognormal:
         \begin{itemize}
-          \item Genere lista aleatoria de tamaño \texttt{n}
-          \item Mida tiempo de Bubble Sort y Merge Sort
-          \item Retorne ambos tiempos en segundos
+          \item \(\mu = 0\), \(\sigma = 0.6\)
         \end{itemize}
-      \item Probar con n = 100, 500, 1000, 2000
-      \item Crear tabla comparativa de resultados
+      \item \textbf{Pregunta}: ¿Qué modelo describe mejor los datos: Lognormal o Normal?
+      \item \textbf{Tareas}:
+        \begin{enumerate}
+          \item Ajuste ambas distribuciones con \texttt{scipy.stats}
+          \item Calcule AIC para cada modelo: \(\text{AIC} = 2k - 2\ln(L)\)
+          \item Grafique histograma + PDFs de ambos modelos
+          \item Concluya: ¿cuál modelo es mejor? (menor AIC)
+          \item Interprete: ¿por qué la Normal falla?
+        \end{enumerate}
     \end{itemize}
   \end{block}
   
-  \textbf{Conceptos:} Medición de rendimiento, módulo \texttt{time}.
+  \textbf{Conceptos}: AIC, selección de modelos, log-verosimilitud
   \\
-  \textbf{Aplicación:} Entender complejidad algorítmica prácticamente.
+  \textbf{Aplicación}: Elegir distribución correcta para datos astronómicos
 \end{frame}
 
-% ========================================================================
-% SECCIÓN 4: Medición de Rendimiento
-% ========================================================================
-\section{Medición de Rendimiento}
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Soluciones de Referencia
+% ----------------------------------------------------------------------------------------
+\section{Soluciones de Referencia}
 
-\begin{frame}[fragile]{Introducción al Módulo \texttt{time}}
-  \textbf{¿Cómo medir cuánto tarda un algoritmo?}
-  
-\begin{minted}{python}
-import time
-
-# Iniciar cronómetro
-inicio = time.time()
-
-# Ejecutar código a medir
-resultado = bubble_sort(lista.copy())
-
-# Detener cronómetro
-fin = time.time()
-
-# Calcular tiempo transcurrido
-tiempo_total = fin - inicio
-print(f"Tiempo: {tiempo_total:.4f} segundos")
-\end{minted}
-
-\vspace{0.3cm}
-\textbf{Conceptos clave:}
-\begin{itemize}
-  \item \texttt{time.time()}: retorna tiempo actual en segundos
-  \item Restar inicio de fin da el tiempo transcurrido
-  \item Usar \texttt{.copy()} para no modificar datos originales
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Comparación de Algoritmos}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import time
-import numpy as np
-
-def comparar_algoritmos(n):
-    # Generar datos aleatorios
-    datos = np.random.randint(
-        0, 10000, n
-    ).tolist()
-    
-    # Medir Bubble Sort
-    inicio = time.time()
-    bubble_sort(datos.copy())
-    tiempo_bubble = time.time() - inicio
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=12]{python}
-    # Medir Merge Sort
-    inicio = time.time()
-    merge_sort(datos.copy())
-    tiempo_merge = time.time() - inicio
-    
-    return tiempo_bubble, tiempo_merge
-
-# Crear tabla comparativa
-tamaños = [100, 500, 1000, 2000]
-for n in tamaños:
-    t_b, t_m = comparar_algoritmos(n)
-    print(f"n={n:4d}: Bubble={t_b:.4f}s, "
-          f"Merge={t_m:.6f}s")
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-\textbf{Discusión:} Observa cómo la diferencia crece exponencialmente con n.
-\end{frame}
-
-% ========================================================================
-% SECCIÓN 5: Aplicación Astronómica
-% ========================================================================
-\section{Aplicación: Catálogo Estelar}
-
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Catálogo de Estrellas}
-  \begin{block}{Enunciado}
+\begin{frame}{Introducción a las Soluciones}
+  \begin{block}{Dos técnicas avanzadas}
     \begin{itemize}
-      \item Generar 10,000 magnitudes estelares (distribución normal: media=8, desv=1.5)
-      \item Ordenar usando Merge Sort
-      \item Encontrar las 20 estrellas más brillantes (menor magnitud)
-      \item Encontrar las 20 estrellas más débiles (mayor magnitud)
-      \item Calcular la mediana del catálogo
+      \item \textbf{Ejercicio 5}: Interpolación con \texttt{scipy.interpolate}
+      \item \textbf{Ejercicio 6}: Selección de modelos con AIC
     \end{itemize}
   \end{block}
   
-  \textbf{Conceptos:} Ordenamiento de datos reales, análisis estadístico.
-  \\
-  \textbf{Aplicación astronómica:} Clasificación de estrellas por brillo aparente.
+  \textbf{Estas soluciones muestran técnicas que se usan en investigación real.}
 \end{frame}
 
-\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Catálogo Estelar}
+% ------------------------------------------------------------------------
+% Solución 5
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 5: \hfill \textcolor{green}{$\checkmark$} \\ Interpolación de curva de luz}
 \begin{minted}{python}
-import numpy as np
+from scipy.interpolate import interp1d
+import random, math
+import matplotlib.pyplot as plt
 
-# Generar catálogo simulado
-np.random.seed(42)
-magnitudes = np.random.normal(8, 1.5, size=10_000).round(2).tolist()
+# Generar curva de luz completa
+P = 2.5  # periodo
+t_full = [i*0.05 for i in range(201)]  # 0 a 10 en 201 puntos
+F_full = [1.0 + 0.1*math.sin(2*math.pi*t/P) for t in t_full]
 
-# Ordenar con Merge Sort
-mags_ordenadas = merge_sort(magnitudes)
+# Eliminar 20 puntos al azar
+random.seed(42)
+indices = random.sample(range(len(t_full)), len(t_full) - 20)
+indices.sort()
+t_obs = [t_full[i] for i in indices]
+F_obs = [F_full[i] for i in indices]
 
-# Análisis
-mas_brillantes = mags_ordenadas[:20]
-mas_debiles = mags_ordenadas[-20:]
-n = len(mags_ordenadas)
-mediana = (mags_ordenadas[n//2] + mags_ordenadas[(n-1)//2]) / 2
+# Crear interpoladores
+f_lin = interp1d(t_obs, F_obs, kind='linear')
+f_cub = interp1d(t_obs, F_obs, kind='cubic')
 
-print(f"Estrellas más brillantes (menor mag): {mas_brillantes[:5]}")
-print(f"Estrellas más débiles (mayor mag): {mas_debiles[-5:]}")
-print(f"Mediana del catálogo: {mediana:.2f}")
+# Evaluar en grilla fina
+t_interp = [i*0.025 for i in range(401)]  # más fino para suavidad
+F_lin = [f_lin(t) for t in t_interp]
+F_cub = [f_cub(t) for t in t_interp]
 \end{minted}
-
-\textbf{Discusión:} En catálogos reales (millones de estrellas), algoritmos eficientes son cruciales.
 \end{frame}
 
-% ========================================================================
-% SECCIÓN 6: Actividad Práctica
-% ========================================================================
-\section{Actividad Práctica}
+% ------------------------------------------------------------------------
+% Solución 5 (continuación - gráficos)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 5: \hfill \textcolor{green}{$\checkmark$} \\ Interpolación (gráficos)}
+\begin{minted}[firstnumber=23]{python}
+# Graficar comparación
+plt.figure(figsize=(10, 6))
+plt.plot(t_full, F_full, 'k-', alpha=0.3, linewidth=2, label='Original')
+plt.scatter(t_obs, F_obs, s=20, c='black', zorder=5, label='Observaciones')
+plt.plot(t_interp, F_lin, 'b--', linewidth=1.5, label='Lineal')
+plt.plot(t_interp, F_cub, 'r-', linewidth=1.5, label='Cúbica')
+plt.xlabel('Tiempo')
+plt.ylabel('Flujo F(t)')
+plt.title('Interpolación de Curva de Luz')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
 
-\begin{frame}{Organización para Actividad Práctica}
-  \begin{itemize}
-    \item Formar \textbf{equipos de 2-3 estudiantes}
-    \item Cada estudiante crea su propio notebook
-    \item Tiempo asignado: \textbf{30 minutos}
-    \item \textbf{Objetivo:} Implementar algoritmos y analizar resultados
-  \end{itemize}
+# Comentario: La interpolación cúbica sigue mejor la forma suave
+# de la señal original, mientras que la lineal produce segmentos
+# rectos entre puntos. Ambas son exactas en los puntos observados.
+\end{minted}
+\textbf{Nota:} cúbica captura mejor la variación suave; lineal es más robusta al ruido.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Interpretación Solución 5
+% ------------------------------------------------------------------------
+\begin{frame}{Interpretación Solución 5: Interpolación de Curva de Luz}
+  \begin{block}{Interpolación lineal vs cúbica}
+    \begin{itemize}
+      \item \textbf{Lineal}: Conecta puntos con rectas → simple, robusta, no suave
+      \item \textbf{Cúbica}: Usa splines cúbicos → suave, captura curvaturas, puede oscilar
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{¿Cuándo usar cada una?}
+    \begin{itemize}
+      \item \textbf{Lineal}: Datos ruidosos, pocos puntos, necesita robustez
+      \item \textbf{Cúbica}: Señal suave subyacente, alta densidad de puntos
+      \item \textbf{Nunca extrapolar}: Interpolación solo válida dentro del rango de datos
+    \end{itemize}
+  \end{alertblock}
+  
+  \textbf{Error RMS}: \(\text{RMS} = \sqrt{\frac{1}{N}\sum (F_{\text{interp}} - F_{\text{real}})^2}\)
+  
+  Un RMS bajo indica que la interpolación reconstruye bien la señal original.
   
   \vspace{0.3cm}
-  \begin{alertblock}{Metodología}
-    Trabajen juntos en la lógica, pero cada uno escribe su código.
-    Comparen resultados y discutan diferencias.
+  \textbf{Aplicación en astronomía}: Rellenar huecos en curvas de luz, tránsitos de exoplanetas, variabilidad estelar.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 6
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Lognormal vs Normal}
+\begin{minted}{python}
+from scipy import stats
+import random
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generar datos lognormales
+random.seed(42)
+n = 1500
+mu, sigma = 0.0, 0.6
+x = [random.lognormvariate(mu, sigma) for _ in range(n)]
+
+# Ajustar distribución Lognormal
+s_log, _, scale_log = stats.lognorm.fit(x, floc=0)
+ll_log = sum(stats.lognorm.logpdf(xi, s_log, 0, scale_log) for xi in x)
+k_log = 2  # parámetros: s y scale
+AIC_log = 2*k_log - 2*ll_log
+
+# Ajustar distribución Normal
+mu_norm, sig_norm = stats.norm.fit(x)
+ll_norm = sum(stats.norm.logpdf(xi, mu_norm, sig_norm) for xi in x)
+k_norm = 2  # parámetros: mu y sigma
+AIC_norm = 2*k_norm - 2*ll_norm
+
+print(f"Lognormal: AIC = {AIC_log:.1f}")
+print(f"Normal: AIC = {AIC_norm:.1f}")
+print(f"Mejor modelo: {'Lognormal' if AIC_log < AIC_norm else 'Normal'}")
+\end{minted}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 6 (continuación - gráficos)
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Lognormal vs Normal (gráficos)}
+\begin{minted}[firstnumber=24]{python}
+# Graficar histograma y PDFs ajustadas
+plt.figure(figsize=(10, 6))
+plt.hist(x, bins=40, density=True, alpha=0.5, edgecolor='black', 
+         label='Histograma')
+
+# Generar curvas de densidad
+x_plot = np.linspace(0, max(x), 500)
+pdf_log = stats.lognorm.pdf(x_plot, s_log, 0, scale_log)
+pdf_norm = stats.norm.pdf(x_plot, mu_norm, sig_norm)
+
+plt.plot(x_plot, pdf_log, 'r-', linewidth=2, 
+         label=f'Lognormal (AIC={AIC_log:.1f})')
+plt.plot(x_plot, pdf_norm, 'b--', linewidth=2, 
+         label=f'Normal (AIC={AIC_norm:.1f})')
+
+plt.xlabel('Valor')
+plt.ylabel('Densidad de Probabilidad')
+plt.title('Comparación de Ajustes: Lognormal vs Normal')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\textbf{Conclusión:} Lognormal tiene menor AIC y captura mejor la asimetría positiva.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Interpretación Solución 6
+% ------------------------------------------------------------------------
+\begin{frame}{Interpretación Solución 6: Lognormal vs Normal}
+  \begin{block}{Criterio de Información de Akaike (AIC)}
+    \begin{itemize}
+      \item \(\text{AIC} = 2k - 2\ln(L)\) donde \(k\) = número de parámetros, \(L\) = verosimilitud
+      \item Penaliza modelos complejos (muchos parámetros)
+      \item \textbf{Regla}: El modelo con \textbf{menor AIC} es preferible
+      \item Diferencia \(\Delta\text{AIC} > 10\): Evidencia fuerte a favor del mejor modelo
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{¿Por qué la Normal falla?}
+    \begin{itemize}
+      \item Datos Lognormales son \textbf{asimétricos} (cola larga hacia valores altos)
+      \item La Normal es \textbf{simétrica} → no puede capturar la asimetría
+      \item Forzar una Normal produce residuos sistemáticos
+    \end{itemize}
   \end{alertblock}
+  
+  \textbf{Interpretación física}: Muchas magnitudes astrofísicas son lognormales (masas, luminosidades, tiempos) debido a procesos multiplicativos. Usar Normal lleva a conclusiones erróneas.
+  
+  \vspace{0.3cm}
+  \textbf{Conclusión}: Siempre visualizar datos antes de elegir modelo. El AIC cuantifica lo que el ojo ve.
 \end{frame}
 
-\begin{frame}{Actividad Extra 1: \hfill \textcolor{blue}{$\clubsuit$} \\ Análisis Comparativo Completo}
-  Realizar un análisis exhaustivo de rendimiento de algoritmos.
-  
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Implementar función que compare Bubble Sort, Merge Sort y \texttt{sorted()}
-      \item Probar con tamaños: 100, 500, 1000, 2000, 5000
-      \item Crear tabla con tiempos y factor de mejora
-      \item Responder: ¿A partir de qué tamaño Bubble Sort es inviable?
-      \item \textbf{Extra:} Graficar resultados con matplotlib
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Objetivo:} Cuantificar ventajas de algoritmos eficientes.
-\end{frame}
-
-\begin{frame}{Actividad Extra 2: \hfill \textcolor{blue}{$\clubsuit$} \\ Búsqueda en Catálogo Grande}
-  Aplicar búsqueda binaria en catálogo ordenado.
-  
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Generar 50,000 coordenadas celestes (declinación: -90° a 90°)
-      \item Ordenar con Merge Sort
-      \item Implementar búsqueda de objetos en rango específico
-      \item Ejemplo: encontrar objetos con declinación entre -30° y -20°
-      \item Comparar tiempo de búsqueda lineal vs binaria
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Objetivo:} Integrar ordenamiento y búsqueda en aplicación realista.
-\end{frame}
-
-% ========================================================================
-% SECCIÓN 7: Consolidación y Retroalimentación
-% ========================================================================
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Consolidación y Retroalimentación
+% ----------------------------------------------------------------------------------------
 \section{Consolidación y Retroalimentación}
 
 \begin{frame}{Puesta en Común - ¿Cómo les fue?}
-  \begin{itemize}
-    \item ¿Fue difícil implementar Merge Sort recursivamente?
-    \item ¿La diferencia de rendimiento fue la esperada?
-    \item ¿Encontraron errores comunes? ¿Cómo los solucionaron?
-    \item ¿Qué aplicaciones adicionales ven para estos algoritmos?
-  \end{itemize}
-  
-  \begin{alertblock}{Objetivo}
-    Aprender de las experiencias colectivas y consolidar comprensión.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Errores Comunes con Merge Sort}
-  \begin{block}{Errores frecuentes}
+  \begin{block}{Reflexión sobre técnicas avanzadas}
+    \textbf{Interpolación (Ejercicio 5):}
     \begin{itemize}
-      \item \textbf{Caso base incorrecto:} olvidar \texttt{if len(lista) <= 1}
-      \item \textbf{División incorrecta:} usar \texttt{/} en lugar de \texttt{//}
-      \item \textbf{Índices en merge:} confundir \texttt{i} y \texttt{j}
-      \item \textbf{Olvidar elementos restantes:} no usar \texttt{extend()}
+      \item ¿Cuándo preferirían interpolación lineal vs cúbica?
+      \item ¿Notaron oscilaciones en la cúbica en algunos casos?
+    \end{itemize}
+    
+    \textbf{Selección de modelos (Ejercicio 6):}
+    \begin{itemize}
+      \item ¿El AIC les ayudó a decidir entre modelos objetivamente?
+      \item ¿Lograron visualizar por qué la Normal no captura la asimetría?
     \end{itemize}
   \end{block}
   
-  \begin{block}{En medición de tiempos}
+  \begin{alertblock}{Objetivo}
+    Desarrollar intuición para elegir métodos apropiados según las características de los datos.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Errores Comunes en Técnicas Avanzadas}
+  \begin{block}{Errores frecuentes}
     \begin{itemize}
-      \item \textbf{No usar \texttt{.copy()}:} modifica datos originales
-      \item \textbf{Medir solo una vez:} resultados inconsistentes
-      \item \textbf{No calentar caché:} primera ejecución más lenta
+      \item \textbf{Extrapolar interpolaciones}: Solo válidas dentro del rango de datos
+      \item \textbf{Elegir modelo por "se ve bien"}: El AIC cuantifica objetivamente
+      \item \textbf{Ignorar asimetrías}: Usar Normal para datos claramente asimétricos
+      \item \textbf{Sobre-confiar en interpolación cúbica}: Puede oscilar con ruido
+      \item \textbf{No validar con datos reales}: Siempre comparar con ground truth cuando sea posible
     \end{itemize}
   \end{block}
   
   \begin{alertblock}{Consejo}
-    Prueba con listas pequeñas primero, imprime resultados intermedios.
+    \textbf{Workflow recomendado}: Visualizar → Probar múltiples métodos → Comparar métricas → Elegir con criterio
   \end{alertblock}
 \end{frame}
 
-% ========================================================================
-% SECCIÓN 8: Conclusiones
-% ========================================================================
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Conclusiones
+% ----------------------------------------------------------------------------------------
 \section{Conclusiones}
 
 \begin{frame}{Síntesis de la Sesión}
-  \begin{itemize}
-    \item \textbf{Implementamos} Merge Sort usando recursividad
-      \begin{itemize}
-        \item Complejidad $\mathcal{O}(n \log n)$ vs $\mathcal{O}(n^2)$
-        \item Dramáticamente más eficiente para listas grandes
-      \end{itemize}
-    \item \textbf{Medimos} rendimiento empíricamente
-      \begin{itemize}
-        \item Módulo \texttt{time} para cronometrar
-        \item Comparación cuantitativa de algoritmos
-      \end{itemize}
-    \item \textbf{Aplicamos} a problemas astronómicos
-      \begin{itemize}
-        \item Ordenamiento de catálogos estelares
-        \item Integración con búsqueda binaria
-      \end{itemize}
-  \end{itemize}
+  \begin{block}{Técnicas avanzadas dominadas hoy}
+    \textbf{Interpolación:}
+    \begin{itemize}
+      \item Uso de \texttt{scipy.interpolate.interp1d}
+      \item Comparación lineal vs cúbica
+      \item Evaluación con RMS
+    \end{itemize}
+    
+    \textbf{Selección de modelos:}
+    \begin{itemize}
+      \item Criterio AIC para comparación objetiva
+      \item Ajuste de distribuciones con \texttt{scipy.stats}
+      \item Interpretación física de asimetrías
+    \end{itemize}
+  \end{block}
   
-  \begin{block}{Habilidad adquirida}
-    Capacidad de elegir e implementar algoritmos eficientes según escala de datos.
+  \begin{alertblock}{Habilidad adquirida}
+    Reconstruir datos incompletos y elegir modelos estadísticos apropiados para fenómenos físicos reales.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Recapitulación: Herramientas Clave}
+  \begin{block}{Librerías esenciales}
+    \begin{itemize}
+      \item \texttt{scipy.interpolate.interp1d}: Interpolación 1D (lineal, cúbica, etc.)
+      \item \texttt{scipy.stats}: Distribuciones, ajuste y pruebas estadísticas
+      \item \texttt{numpy}: Operaciones vectoriales y cálculo de métricas
+      \item \texttt{matplotlib}: Visualización comparativa
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Métricas y criterios}
+    \begin{itemize}
+      \item \textbf{RMS}: Error de reconstrucción en interpolación
+      \item \textbf{AIC}: Selección de modelos (menor es mejor)
+      \item \textbf{Visualización}: Histogramas + PDFs para comparar distribuciones
+    \end{itemize}
   \end{block}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Preparación para la Próxima Unidad}
+  \begin{itemize}
+    \item \textbf{Próxima semana:} Integración de todas las técnicas en proyectos completos
+    \item \textbf{Recomendación de estudio:}
+      \begin{itemize}
+        \item Explorar otros tipos de interpolación (nearest, quadratic)
+        \item Leer sobre otros criterios de selección (BIC, validación cruzada)
+      \end{itemize}
+    \item \textbf{Práctica sugerida:}
+      \begin{itemize}
+        \item Aplicar interpolación a datasets reales (Kaggle, astroML)
+        \item Comparar AIC vs BIC en problemas propios
+      \end{itemize}
+  \end{itemize}
+  
   \begin{center}
-    \textbf{¡Nos vemos en la próxima sesión!}
+    \textbf{¡Excelente trabajo en estas dos semanas!}
   \end{center}
 \end{frame}
 
+% ----------------------------------------------------------------------------------------
+% APÉNDICE: Ver también (extras fuera del cuerpo principal)
+% ----------------------------------------------------------------------------------------
+%\appendix
+\section{Apéndice: Ver también}
+
+\begin{frame}[fragile]{Extra: Otros tipos de interpolación}
+\begin{minted}{python}
+from scipy.interpolate import interp1d
+
+# Opciones de kind:
+# 'linear', 'nearest', 'zero', 'slinear', 'quadratic', 'cubic'
+
+f_nearest = interp1d(x, y, kind='nearest')
+f_quadratic = interp1d(x, y, kind='quadratic')
+
+# Para datos 2D: ver scipy.interpolate.interp2d
+# Para datos irregulares: ver scipy.interpolate.griddata
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Extra: BIC (Bayesian Information Criterion)}
+\begin{minted}{python}
+# Similar a AIC pero penaliza más la complejidad
+BIC = k * np.log(n) - 2 * log_likelihood
+
+# Comparar con AIC:
+# BIC penaliza más modelos complejos (útil con muchos datos)
+# AIC es mejor para predicción
+# Ambos: menor es mejor
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Extra: Prueba KS (Kolmogorov-Smirnov)}
+\begin{minted}{python}
+from scipy import stats
+
+# Comparar datos con distribución teórica
+D, p_value = stats.kstest(x, 'norm', args=(mu, sigma))
+
+# D: estadístico KS (distancia máxima entre CDFs)
+# p_value > 0.05: no rechazamos la hipótesis (datos ~ Normal)
+# p_value < 0.05: rechazamos (datos NO son Normal)
+
+print(f"KS: D={D:.3f}, p={p_value:.3f}")
+\end{minted}
+\textbf{Nota:} Complementa al AIC para validación de modelos.
+\end{frame}
 
 \end{document}

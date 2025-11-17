@@ -18,15 +18,15 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % Ejemplo:
-  % \title{Semana 13 - Sesión 2 (Sesión 26): Problema Evaluado (25-30 min) ligado a Temas de la Semana 12}
+  % Por ejemplo:
+  % \title{Semana 8 - Sesión 1 (Sesión 15): Clases y Análisis de Datos Básico}
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 2: Índice / Tabla de Contenidos
 % ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Semana 13, Sesión 2 (Sesión 26)}
+  \frametitle{Resumen - Semana 8, Sesión 2 (Sesión 15)}
   \tableofcontents
 \end{frame}
 
@@ -34,226 +34,547 @@
 % Configuración de bloques
 % ------------------------------------------------------------------------
 \metroset{block=fill}
+% ========================================================================
+% SECCIÓN 1: Introducción y Conexión (MEJORADA)
+% ========================================================================
+\section{Introducción y Repaso}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión con la Semana 12
-% ----------------------------------------------------------------------------------------
-\section{Introducción y Contexto}
-
-% ------------------------------------------------------------------------
-% Slide 3: Repaso de la Semana 12
-% ------------------------------------------------------------------------
-\begin{frame}{Contexto de la Semana 12}
+\begin{frame}{Recapitulación de la Sesión Anterior (P1)}
   \begin{itemize}
-    \item \textbf{Semana 12, Sesión 1 (Sesión 23)}:
+    \item \textbf{Recursividad:} función que se llama a sí misma
       \begin{itemize}
-        \item Lanzamiento formal de proyectos integradores (requisitos, equipos).
-        \item Introducción a \textbf{SciPy} (o Sympy) como herramienta para ecuaciones diferenciales, optimización, etc.
+        \item Caso base + caso recursivo
+        \item Ejemplos: factorial, suma de listas
       \end{itemize}
-    \item \textbf{Semana 12, Sesión 2 (Sesión 24)}:
+    \item \textbf{Bubble Sort:} complejidad $\mathcal{O}(n^2)$
       \begin{itemize}
-        \item \textbf{Problema a Evaluar} sobre POO (composición) y Matplotlib (bar plot), conectando con la Semana 11.
-        \item Práctica de subir a CANVAS en 25-30 minutos.
+        \item Comparación de elementos adyacentes
+        \item Ineficiente para listas grandes
       \end{itemize}
-    \item \textbf{Objetivo de hoy (Semana 13, Sesión 2)}:
-      \begin{itemize}
-        \item Resolver un \textbf{nuevo Problema Evaluado} (25-30 min) relacionado a \textbf{Semana 12}, es decir, la introducción a SciPy/Sympy o el arranque de proyectos.
-        \item Subir la solución a CANVAS y discutir brevemente.
-      \end{itemize}
+    \item \textbf{Búsqueda:} lineal $\mathcal{O}(n)$ vs binaria $\mathcal{O}(\log n)$
   \end{itemize}
+  
+  \begin{alertblock}{Conexión}
+    Hoy aplicaremos recursividad para crear algoritmos de ordenamiento más eficientes.
+  \end{alertblock}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 4: Objetivos de la Sesión 26
-% ------------------------------------------------------------------------
-\begin{frame}{Objetivos de la Sesión 26}
+\begin{frame}{Objetivos de la Sesión P2}
   \begin{itemize}
-    \item \textbf{Aplicar} conceptos o herramientas introducidas en Semana 12 (por ejemplo, \textbf{SciPy} integraciones, ODEs, optimizaciones) o elementos del proyecto (POO + SciPy).
-    \item \textbf{Evaluar} el desempeño en un problema corto (25-30 min), subido a \textbf{CANVAS} en grupo.
-    \item \textbf{Retroalimentar} fallas o dificultades al usar SciPy/Sympy o la integración con NumPy/Matplotlib.
-    \item \textbf{Avanzar} en la consolidación de las herramientas para el proyecto final.
+    \item \textbf{Implementar} Merge Sort usando recursividad
+    \item \textbf{Comparar} empíricamente algoritmos de ordenamiento
+    \item \textbf{Medir} rendimiento con herramientas reales
+    \item \textbf{Visualizar} escalamiento de complejidad
+    \item \textbf{Aplicar} algoritmos a datasets astronómicos
   \end{itemize}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Problema a Evaluar (25-30 min)
-% ----------------------------------------------------------------------------------------
-\section{Problema a Evaluar}
 
-% ------------------------------------------------------------------------
-% Slide 5: Descripción del Problema
-% ------------------------------------------------------------------------
-\begin{frame}{Problema a Evaluar: Uso de SciPy (o Sympy) y POO Básica}
-  \textbf{Contexto (Semana 12):}  
-  \begin{itemize}
-    \item Vimos \textbf{SciPy} para integración, optimización, ODEs o \textbf{Sympy} para resolver expresiones simbólicas, derivadas.
-    \item Se mencionó la posible \textbf{combinación} con POO.
-  \end{itemize}
 
-  \textbf{Tareas}:
-  \begin{enumerate}
-    \item Definir una \textbf{función} (o método de clase) que represente una \textbf{EDO} simple, por ejemplo \(\frac{dy}{dt} = -a \cdot y\) (decaimiento exponencial).
-    \item Usar \textbf{SciPy} (\texttt{odeint} o \texttt{solve\_ivp}) para resolverla en un rango de \(\texttt{t}\).
-    \item Graficar el resultado con \(\textbf{Matplotlib}\) (\texttt{plt.plot(t, solution)}) indicando la forma exponencial.
-    \item (Opcional) Incluir una clase \texttt{DecayModel} con atributo \texttt{a} y método \texttt{solve(t0, y0, t\_range)}, integrando la idea de POO.
-  \end{enumerate}
+% -----------------------------------------------------------------
+\section{Recursividad \& Merge Sort}
+% -----------------------------------------------------------------
+\begin{frame}[fragile]{¿Qué es recursividad?}
+\begin{itemize}
+  \item Una función que se llama a sí misma para resolver un problema más pequeño.
+  \item Necesita: \textit{caso base} + \textit{llamada recursiva}.
+  \item Ejemplo clásico: factorial, Fibonacci… ¡y algoritmos de ordenamiento!
+\end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 6: Instrucciones y Formato de Entrega
-% ------------------------------------------------------------------------
-\begin{frame}{Instrucciones para la Evaluación}
-  \begin{itemize}
-    \item \textbf{Grupos} de 2-3 estudiantes (mismos equipos o asignados).
-    \item Crear un \textbf{notebook} (Colab) o \textbf{script local} llamado \texttt{Eval\_Semana13\_Apellidos.ipynb}.
-    \item \textbf{Desarrollo}:
-      \begin{enumerate}
-        \item Importar \(\texttt{scipy.integrate}\) (ej. \texttt{odeint}).
-        \item Definir la EDO \(\texttt{dy/dt = -a*y}\) en una función Python.
-        \item Resolver para un \(\texttt{a}\) dado, \(\texttt{y0}\) inicial, y rango de \(\texttt{t}\).
-        \item Graficar la \textbf{solución} con \(\texttt{matplotlib}\).
-        \item (Opcional) \textbf{Clase DecayModel} que encapsule \(\texttt{a}\) y la función EDO, con un método \texttt{solve}.
-      \end{enumerate}
-    \item \textbf{Subir} el archivo a \textbf{CANVAS} en \textbf{25-30 min}.
-  \end{itemize}
+\begin{frame}[fragile]{Merge Sort en Python (\(\mathcal{O}(n\log n)\))}
+\begin{minted}[fontsize=\scriptsize]{python}
+def merge_sort(lst):
+    if len(lst) <= 1:
+        return lst                    # caso base
+    mid = len(lst) // 2
+    left  = merge_sort(lst[:mid])     # divide
+    right = merge_sort(lst[mid:])
+    return merge(left, right)         # conquista
+
+def merge(left, right):
+    out, i, j = [], 0, 0                    # apuntadores
+    while i < len(left) and j < len(right): # mezcla ordenada 
+        if left[i] < right[j]:              # comparar 
+            out.append(left[i])             # agregar menor
+            i += 1                          # avanzar en left
+        else:
+            out.append(right[j])            # agregar menor
+            j += 1                          # avanzar en right
+    return out + left[i:] + right[j:]       # agregar restos
+\end{minted}
+\begin{itemize}
+  \item Dos fases: división recursiva y mezcla ordenada.
+  \item Estable (\alert{preserva orden relativas de iguales}) y predecible.
+\end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 7: Pautas de Evaluación
-% ------------------------------------------------------------------------
-\begin{frame}{Pautas de Evaluación}
-  \textbf{Criterios}:
-  \begin{itemize}
-    \item \textbf{Funcionalidad} (40\%): la EDO se resuelve sin errores y se grafica el resultado.
-    \item \textbf{Uso apropiado de SciPy} (20\%): \(\texttt{odeint}\) o \(\texttt{solve\_ivp}\) con parámetros correctos, \(\texttt{(t, y)}\) coherentes.
-    \item \textbf{Visualización} (20\%): \(\texttt{plt.plot}\) con eje X de \textbf{tiempo} y eje Y de \textbf{solución}, con título y ejes rotulados.
-    \item \textbf{Organización / Clase opcional} (20\%): si implementan \textbf{DecayModel}, \_\_init\_\_, \texttt{solve}, etc. O al menos un código ordenado, con comentarios.
-  \end{itemize}
-\end{frame}
+% ========================================================================
+% SECCIÓN 2: Merge Sort - Concepto y Desarrollo
+% ========================================================================
+\section{Merge Sort: Ordenamiento Eficiente}
 
-% ------------------------------------------------------------------------
-% Slide 8: Tiempo de Desarrollo (25-30 min)
-% ------------------------------------------------------------------------
-\begin{frame}{Tiempo de Desarrollo}
-  \begin{block}{}
-    \huge{\textbf{Tienen 25-30 minutos para resolver y subir a CANVAS.}}
+\begin{frame}{Merge Sort: ¿Por qué es mejor que Bubble Sort?}
+  \begin{block}{Problema con Bubble Sort}
+    Con 10,000 elementos → ~100,000,000 comparaciones \\
+    Tiempo: varios segundos o minutos
   \end{block}
+  
+  \begin{block}{Ventaja de Merge Sort}
+    Con 10,000 elementos → ~133,000 comparaciones \\
+    Tiempo: milisegundos
+  \end{block}
+  
+  \textbf{Complejidad:} $\mathcal{O}(n \log n)$ vs $\mathcal{O}(n^2)$
+  
+  \begin{alertblock}{Diferencia práctica}
+    Para 100,000 elementos: Bubble Sort tardaría \textbf{horas}, 
+    Merge Sort tardaría \textbf{segundos}.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Merge Sort: Estrategia "Divide y Conquista"}
+  \begin{block}{Idea Principal}
+    \begin{enumerate}
+      \item \textbf{Divide:} Partir la lista en dos mitades
+      \item \textbf{Conquista:} Ordenar recursivamente cada mitad
+      \item \textbf{Combina:} Mezclar las dos mitades ordenadas
+    \end{enumerate}
+  \end{block}
+  
+
+  \textbf{Ejemplo visual con lista original:}
+  \begin{center}
+    \fcolorbox{red}{red!20}{\textbf{5}} \,
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
+    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
+    \fcolorbox{green}{green!20}{\textbf{1}} \,
+    \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
+  
+
+  \textbf{División recursiva:}
+  \begin{itemize}
+    \item \textbf{Paso 1:} 
+    \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{blue}{blue!20}{\textbf{2}}
+    \quad $|$ \quad
+    \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+    
+    \item \textbf{Paso 2:} 
+    \fcolorbox{red}{red!20}{\textbf{5}} 
+    \quad
+    \fcolorbox{blue}{blue!20}{\textbf{2}}
+    \quad $|$ \quad
+    \fcolorbox{orange}{orange!20}{\textbf{8}}
+    \quad
+    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+    
+    \item \textbf{Paso 3:} 
+    \fcolorbox{red}{red!20}{\textbf{5}} 
+    \quad
+    \fcolorbox{blue}{blue!20}{\textbf{2}}
+    \quad $|$ \quad
+    \fcolorbox{orange}{orange!20}{\textbf{8}}
+    \quad
+    \fcolorbox{green}{green!20}{\textbf{1}}
+    \quad
+    \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Merge Sort: Visualización con Cajas}
+  \begin{center}
+    \textbf{Lista original}
+  \end{center}
+  
+  \begin{center}
+    \fcolorbox{red}{red!20}{\textbf{5}} \,
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
+    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
+    \fcolorbox{green}{green!20}{\textbf{1}} \,
+    \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
+  
   \vspace{0.3cm}
-  \textbf{Sugerencias}:
-  \begin{itemize}
-    \item Revisar ejemplo de \textbf{odeint} con \texttt{def model(y, t, a): return -a*y}.
-    \item Asegurarse de \textbf{importar} \(\texttt{matplotlib.pyplot as plt}\) y \(\texttt{from scipy.integrate import odeint}\).
-    \item Probar distintos valores de \textbf{a} y \textbf{y0} para ver la curva.
-    \item (Opcional) Crear la clase \texttt{DecayModel(a)}, con \texttt{def solve(self, y0, t\_span): ...}.
-  \end{itemize}
+  \textbf{División:}
+  \begin{center}
+    \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{blue}{blue!20}{\textbf{2}} 
+    \quad$|$\quad
+    \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
+  
+  \begin{center}
+    \fcolorbox{red}{red!20}{\textbf{5}} 
+    \quad
+    \fcolorbox{blue}{blue!20}{\textbf{2}} 
+    \quad$|$\quad
+    \fcolorbox{orange}{orange!20}{\textbf{8}} 
+    \quad
+    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
+  
+  \vspace{0.3cm}
+  \textbf{Mezcla ordenada:}
+  \begin{center}
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} 
+    \quad$|$\quad
+    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
+  
+  \begin{center}
+    \fcolorbox{green}{green!20}{\textbf{1}} \,
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
+    \fcolorbox{red}{red!20}{\textbf{5}} \,
+    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
+    \fcolorbox{purple}{purple!20}{\textbf{9}}
+  \end{center}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Trabajo y Discusión
-% ----------------------------------------------------------------------------------------
-\section{Trabajo y Discusión}
-
-% ------------------------------------------------------------------------
-% Slide 9: Espacio de Resolución y Entrega
-% ------------------------------------------------------------------------
-\begin{frame}{Espacio de Resolución}
-  \begin{itemize}
-    \item \textbf{Trabajen en voz baja}, cada grupo crea su notebook o script.
-    \item Preguntas puntuales a mí si hay bloqueo total.
-    \item Subir a CANVAS antes de que finalice el tiempo (25-30 min).
-  \end{itemize}
+\begin{frame}[fragile]{Merge Sort: Función de Mezcla (merge)}
+  \textbf{Paso 1: Entender cómo mezclar dos listas ordenadas}
+  
+\begin{minted}{python}
+def merge(left, right):
+    """
+    Mezcla dos listas ordenadas en una sola lista ordenada.
+    Ejemplo: merge([2, 5], [1, 8]) → [1, 2, 5, 8]
+    """
+    resultado = []
+    i, j = 0, 0
+    
+    # Comparar elementos de ambas listas
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            resultado.append(left[i])
+            i += 1
+        else:
+            resultado.append(right[j])
+            j += 1
+    
+    # Agregar elementos restantes
+    resultado.extend(left[i:])
+    resultado.extend(right[j:])
+    return resultado
+\end{minted}
 \end{frame}
 
+\begin{frame}[fragile]{Merge Sort: Función Principal (Recursiva)}
+\begin{minted}{python}
+def merge_sort(lista):
+    """
+    Ordena una lista usando el algoritmo Merge Sort.
+    Complejidad: O(n log n)
+    """
+    # Caso base: lista de 0 o 1 elemento ya está ordenada
+    if len(lista) <= 1:
+        return lista
+    
+    # Dividir la lista en dos mitades
+    mid = len(lista) // 2
+    left = lista[:mid]
+    right = lista[mid:]
+    
+    # Ordenar recursivamente cada mitad
+    left_ordenada = merge_sort(left)
+    right_ordenada = merge_sort(right)
+    
+    # Combinar las mitades ordenadas
+    return merge(left_ordenada, right_ordenada)
+\end{minted}
+
+\textbf{Elementos clave:} Caso base, división, recursión, mezcla.
+\end{frame}
+% ========================================================================
+% SECCIÓN 3: Ejercicios Guiados
+% ========================================================================
+\section{Ejercicios Guiados}
+
 % ------------------------------------------------------------------------
-% Slide 10: Cierre de la Evaluación
+% Slide X: Ejercicio 1 - Implementación básica
 % ------------------------------------------------------------------------
-\begin{frame}{Entrega Final}
-  \begin{block}{Subir a CANVAS}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Implementar Merge Sort}
+  \begin{block}{Enunciado}
     \begin{itemize}
-      \item Un integrante sube el \textbf{notebook .ipynb} o \textbf{.py} dentro del tiempo establecido.
-      \item Revisen que el \textbf{gráfico} y la \textbf{solución} estén mostrados correctamente.
-      \item Comenten brevemente el código, param. de \texttt{a}, \texttt{y0}, etc.
+      \item Implementar las funciones \texttt{merge()} y \texttt{merge\_sort()}
+      \item Probar con la lista: \texttt{[64, 34, 25, 12, 22, 11, 90]}
+      \item Imprimir cada nivel de recursión para visualizar el proceso
+      \item Verificar que la lista final esté ordenada
     \end{itemize}
   \end{block}
-  \vspace{0.3cm}
-  \textbf{Al final}, haremos una breve \textbf{discusión} sobre resultados y dificultades.
+  
+  \textbf{Conceptos:} Recursividad aplicada, caso base, mezcla de listas.
+  \\
+  \textbf{Aplicación:} Base para ordenar cualquier tipo de datos.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 11: Discusión de Resultados
+% Slide Y: Solución 1 de Referencia
 % ------------------------------------------------------------------------
-\begin{frame}{Discusión Posterior}
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Implementación Básica}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+def merge(left, right):
+    resultado = []
+    i, j = 0, 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            resultado.append(left[i])
+            i += 1
+        else:
+            resultado.append(right[j])
+            j += 1
+    
+    resultado.extend(left[i:])
+    resultado.extend(right[j:])
+    return resultado
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=14]{python}
+def merge_sort(lista):
+    if len(lista) <= 1:
+        return lista
+    
+    mid = len(lista) // 2
+    left = merge_sort(lista[:mid])
+    right = merge_sort(lista[mid:])
+    
+    return merge(left, right)
+
+# Prueba
+datos = [64, 34, 25, 12, 22, 11, 90]
+ordenado = merge_sort(datos)
+print(f"Original: {datos}")
+print(f"Ordenado: {ordenado}")
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Discusión:} Observa cómo la recursión maneja automáticamente todos los niveles.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide Z: Ejercicio 2 - Comparación de rendimiento
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Comparación de Algoritmos}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear función \texttt{comparar\_algoritmos(n)} que:
+        \begin{itemize}
+          \item Genere lista aleatoria de tamaño \texttt{n}
+          \item Mida tiempo de Bubble Sort y Merge Sort
+          \item Retorne ambos tiempos en segundos
+        \end{itemize}
+      \item Probar con n = 100, 500, 1000, 2000
+      \item Crear tabla comparativa de resultados
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Medición de rendimiento, módulo \texttt{time}.
+  \\
+  \textbf{Aplicación:} Entender complejidad algorítmica prácticamente.
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 4: Medición de Rendimiento
+% ========================================================================
+\section{Medición de Rendimiento}
+
+\begin{frame}[fragile]{Introducción al Módulo \texttt{time}}
+  \textbf{¿Cómo medir cuánto tarda un algoritmo?}
+  
+\begin{minted}{python}
+import time
+
+# Iniciar cronómetro
+inicio = time.time()
+
+# Ejecutar código a medir
+resultado = bubble_sort(lista.copy())
+
+# Detener cronómetro
+fin = time.time()
+
+# Calcular tiempo transcurrido
+tiempo_total = fin - inicio
+print(f"Tiempo: {tiempo_total:.4f} segundos")
+\end{minted}
+
+\vspace{0.3cm}
+\textbf{Conceptos clave:}
+\begin{itemize}
+  \item \texttt{time.time()}: retorna tiempo actual en segundos
+  \item Restar inicio de fin da el tiempo transcurrido
+  \item Usar \texttt{.copy()} para no modificar datos originales
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Comparación de Algoritmos}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+import time
+import numpy as np
+
+def comparar_algoritmos(n):
+    # Generar datos aleatorios
+    datos = np.random.randint(
+        0, 10000, n
+    ).tolist()
+    
+    # Medir Bubble Sort
+    inicio = time.time()
+    bubble_sort(datos.copy())
+    tiempo_bubble = time.time() - inicio
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=12]{python}
+    # Medir Merge Sort
+    inicio = time.time()
+    merge_sort(datos.copy())
+    tiempo_merge = time.time() - inicio
+    
+    return tiempo_bubble, tiempo_merge
+
+# Crear tabla comparativa
+tamaños = [100, 500, 1000, 2000]
+for n in tamaños:
+    t_b, t_m = comparar_algoritmos(n)
+    print(f"n={n:4d}: Bubble={t_b:.4f}s, "
+          f"Merge={t_m:.6f}s")
+\end{minted}
+\end{column}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Discusión:} Observa cómo la diferencia crece exponencialmente con n.
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 5: Aplicación Astronómica
+% ========================================================================
+\section{Aplicación: Catálogo Estelar}
+
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Catálogo de Estrellas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Generar 10,000 magnitudes estelares (distribución normal: media=8, desv=1.5)
+      \item Ordenar usando Merge Sort
+      \item Encontrar las 20 estrellas más brillantes (menor magnitud)
+      \item Encontrar las 20 estrellas más débiles (mayor magnitud)
+      \item Calcular la mediana del catálogo
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos:} Ordenamiento de datos reales, análisis estadístico.
+  \\
+  \textbf{Aplicación astronómica:} Clasificación de estrellas por brillo aparente.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Catálogo Estelar}
+\begin{minted}{python}
+import numpy as np
+
+# Generar catálogo simulado
+np.random.seed(42)
+magnitudes = np.random.normal(8, 1.5, size=10_000).round(2).tolist()
+
+# Ordenar con Merge Sort
+mags_ordenadas = merge_sort(magnitudes)
+
+# Análisis
+mas_brillantes = mags_ordenadas[:20]
+mas_debiles = mags_ordenadas[-20:]
+n = len(mags_ordenadas)
+mediana = (mags_ordenadas[n//2] + mags_ordenadas[(n-1)//2]) / 2
+
+print(f"Estrellas más brillantes (menor mag): {mas_brillantes[:5]}")
+print(f"Estrellas más débiles (mayor mag): {mas_debiles[-5:]}")
+print(f"Mediana del catálogo: {mediana:.2f}")
+\end{minted}
+
+\textbf{Discusión:} En catálogos reales (millones de estrellas), algoritmos eficientes son cruciales.
+\end{frame}
+
+
+% ========================================================================
+% SECCIÓN 7: Consolidación y Retroalimentación
+% ========================================================================
+\section{Consolidación y Retroalimentación}
+
+\begin{frame}{Puesta en Común - ¿Cómo les fue?}
   \begin{itemize}
-    \item ¿Alguien tuvo problemas con \(\texttt{odeint}\) o \(\texttt{solve\_ivp}\)?
-    \item ¿Cómo rotularon o personalizaron la gráfica?
-    \item ¿Implementaron la \textbf{clase opcional}? ¿Cómo lo hicieron?
-    \item ¿Dudas sobre integraciones más complejas?
+    \item ¿Fue difícil implementar Merge Sort recursivamente?
+    \item ¿La diferencia de rendimiento fue la esperada?
+    \item ¿Encontraron errores comunes? ¿Cómo los solucionaron?
+    \item ¿Qué aplicaciones adicionales ven para estos algoritmos?
   \end{itemize}
+  
+  \begin{alertblock}{Objetivo}
+    Aprender de las experiencias colectivas y consolidar comprensión.
+  \end{alertblock}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 12: Resumen de la Evaluación
-% ------------------------------------------------------------------------
-\begin{frame}{Resumen de la Evaluación}
+\begin{frame}{Errores Comunes con Merge Sort}
+  \begin{block}{Errores frecuentes}
+    \begin{itemize}
+      \item \textbf{Caso base incorrecto:} olvidar \texttt{if len(lista) <= 1}
+      \item \textbf{División incorrecta:} usar \texttt{/} en lugar de \texttt{//}
+      \item \textbf{Índices en merge:} confundir \texttt{i} y \texttt{j}
+      \item \textbf{Olvidar elementos restantes:} no usar \texttt{extend()}
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{En medición de tiempos}
+    \begin{itemize}
+      \item \textbf{No usar \texttt{.copy()}:} modifica datos originales
+      \item \textbf{Medir solo una vez:} resultados inconsistentes
+      \item \textbf{No calentar caché:} primera ejecución más lenta
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{Consejo}
+    Prueba con listas pequeñas primero, imprime resultados intermedios.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 8: Conclusiones
+% ========================================================================
+\section{Conclusiones}
+
+\begin{frame}{Síntesis de la Sesión}
   \begin{itemize}
-    \item Actividad integró \textbf{SciPy} (odeint / solve\_ivp) de la Semana 12 y la idea de POO.
-    \item Refuerza la metodología de \textbf{mini-evaluaciones} con entrega en CANVAS.
-    \item Retroalimentación detallada se compartirá tras la corrección.
+    \item \textbf{Implementamos} Merge Sort usando recursividad
+      \begin{itemize}
+        \item Complejidad $\mathcal{O}(n \log n)$ vs $\mathcal{O}(n^2)$
+        \item Dramáticamente más eficiente para listas grandes
+      \end{itemize}
+    \item \textbf{Medimos} rendimiento empíricamente
+      \begin{itemize}
+        \item Módulo \texttt{time} para cronometrar
+        \item Comparación cuantitativa de algoritmos
+      \end{itemize}
+    \item \textbf{Aplicamos} a problemas astronómicos
+      \begin{itemize}
+        \item Ordenamiento de catálogos estelares
+        \item Integración con búsqueda binaria
+      \end{itemize}
   \end{itemize}
+  
+  \begin{block}{Habilidad adquirida}
+    Capacidad de elegir e implementar algoritmos eficientes según escala de datos.
+  \end{block}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Cierre de la Sesión y Próximos Pasos
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones y Próximos Pasos}
-
-% ------------------------------------------------------------------------
-% Slide 13: Conclusiones de la Sesión 26
-% ------------------------------------------------------------------------
-\begin{frame}{Conclusiones de la Sesión 26}
-  \begin{itemize}
-    \item Realizamos un \textbf{Problema a Evaluar} usando \textbf{SciPy} (tema Semana 12).
-    \item Vimos la importancia de la \textbf{visualización} de la solución numérica.
-    \item Quien implementó POO (clase \texttt{DecayModel}) reforzó el diseño modular.
-    \item Esto se vincula a proyectos que incluyan \textbf{cálculos diferenciales}, simulaciones, etc.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 14: Próxima Sesión (Semana 14)
-% ------------------------------------------------------------------------
-\begin{frame}{Próximos Temas}
-  \begin{itemize}
-    \item \textbf{Semana 14}: Continuar revisando avances de proyectos, entregar avance 2 (si ese es el cronograma).
-    \item Analizar dudas más profundas de \textbf{ODEs} en SciPy, \textbf{Sympy} simbólico, etc.
-    \item Podríamos explorar \textbf{optimización} (\texttt{scipy.optimize}), \textbf{fft} (\texttt{scipy.fft}), etc.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 15: Recursos Adicionales
-% ------------------------------------------------------------------------
-\begin{frame}{Recursos Adicionales}
-  \begin{itemize}
-    \item \href{https://docs.scipy.org/doc/scipy/reference/integrate.html}{\textbf{scipy.integrate}} - doc oficial.
-    \item \href{https://matplotlib.org/3.3.0/tutorials/introductory/lifecycle.html}{\textbf{Matplotlib}} - explicación de la parte de figuras, ejes.
-    \item \href{https://docs.python.org/3/tutorial/classes.html}{\textbf{POO}} - Repaso de \_\_init\_\_, etc.
-    \item \textbf{CANVAS y Foros} - compartir repos y pedir apoyo.
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 16: Cierre de la Sesión
-% ------------------------------------------------------------------------
 \begin{frame}
-  \Huge{\centerline{¡Excelente trabajo y hasta la próxima sesión!}}
-  \vspace{0.5cm}
-  \normalsize
-  \begin{itemize}
-    \item Revisen \textbf{Canvas} para feedback e información de sus proyectos.
-    \item ¡Nos vemos en la Semana 14 con más desarrollo!
-  \end{itemize}
+  \begin{center}
+    \textbf{¡Nos vemos en la próxima sesión!}
+  \end{center}
 \end{frame}
+
 
 \end{document}
-

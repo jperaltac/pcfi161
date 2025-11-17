@@ -1,0 +1,100 @@
+<h1>Evaluación de m.peagonzlez@uandresbello.edu</h1>
+<h2>Cálculo de la nota final</h2>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th style="text-align: right;">Puntaje obtenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td style="text-align: right;">0.63</td>
+</tr>
+<tr>
+<td>P2</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr>
+<td>P3</td>
+<td style="text-align: right;">0.36</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Problemas considerados: <strong>3</strong> (P1, P2, P3).</li>
+<li>Puntaje total obtenido: <strong>1.41</strong> puntos.</li>
+<li>Puntaje máximo posible: <strong>4.50</strong> puntos.</li>
+<li>Resultado de la fórmula: <strong>2.88</strong> → registrado como <strong>2.9</strong> en escala 1.0–7.0.</li>
+</ul>
+<p>Fórmula aplicada: <code>1.0 + 6.0*(puntos)/(max_points)</code></p>
+<pre><code class="language-python">scores = {'p1': 0.6300, 'p2': 0.4200, 'p3': 0.3600}
+puntos = 1.4100
+max_points = 4.5000
+max = 4.5000
+nota = 1.0 + 6.0*(puntos)/(max_points)
+</code></pre>
+<h2>Resumen</h2>
+<ul>
+<li>Valor por item: 0.3</li>
+<li>Total ítems: 5</li>
+<li><strong>P1</strong>: 0.63 ptos</li>
+<li><strong>P2</strong>: 0.42 ptos</li>
+<li><strong>P3</strong>: 0.36 ptos</li>
+</ul>
+<p><strong>Nota final:</strong> 2.9</p>
+<h2>Detalle P1</h2>
+<pre><code class="language-python">import numpy as np 
+import matplotlib.pyplot as plt
+a = 1.0 #UA 
+e = 0.40
+t = np.linspace(0,2*np.pi,720)
+r = a * (1 - e**2) / [1 + e*np.cos(t)]
+x = [r * np.cos(t)]
+y = [r * np.sin(t)]
+plt.axis(&quot;equal&quot;)
+</code></pre>
+<ul>
+<li>item 1: 0.27</li>
+<li>item 2: 0.18</li>
+<li>item 3: 0.12</li>
+<li>item 4: 0.06</li>
+<li>item 5: 0.00</li>
+</ul>
+<p><strong>Total:</strong> 0.63
+<strong>Comentarios:</strong> Se crea el arreglo con 720 puntos (endpoint incluido, pequeño desvío). Ecuación de r y coordenadas intentan ser vectorizadas, pero al usar corchetes se genera una lista y el código falla; se reconoce la intención. Solo se ajusta el aspecto del gráfico, pero no se dibuja la curva. No se calculan los valores medios.</p>
+<hr />
+<h2>Detalle P2</h2>
+<pre><code class="language-python">import numpy as np 
+import pandas as pd 
+df = pd.read_csv(&quot;stars_brightness.csv&quot;)
+resultado = df.groupby
+</code></pre>
+<ul>
+<li>item 1: 0.30</li>
+<li>item 2: 0.12</li>
+<li>item 3: 0.00</li>
+<li>item 4: 0.00</li>
+<li>item 5: 0.00</li>
+</ul>
+<p><strong>Total:</strong> 0.42
+<strong>Comentarios:</strong> El código sólo carga el archivo correctamente (item 1). Item 2 muestra un intento muy básico (‘df.groupby’) sin cálculos, por lo que se otorgan 0.12. No se implementan ni el ordenamiento, ni el gráfico, ni la interpretación, así que esos ítems reciben 0.</p>
+<hr />
+<h2>Detalle P3</h2>
+<pre><code class="language-python">import numpy as np 
+import matplotlib.pyplot as plt 
+a = np.array([0.39, 0.72, 1.00, 1.52])
+t = np.array([0.24, 0.61, 1.00, 1.88])
+plt.scatter(a, t)
+</code></pre>
+<ul>
+<li>item 1: 0.30</li>
+<li>item 2: 0.03</li>
+<li>item 3: 0.03</li>
+<li>item 4: 0.00</li>
+<li>item 5: 0.00</li>
+</ul>
+<p><strong>Total:</strong> 0.36
+<strong>Comentarios:</strong> Se genera correctamente el gráfico solicitado. No se calculan ni se muestran los cocientes R_i, tampoco se obtiene el promedio ni la desviación estándar. Los ítems 4 y 5 no están presentes.</p>
+<hr />

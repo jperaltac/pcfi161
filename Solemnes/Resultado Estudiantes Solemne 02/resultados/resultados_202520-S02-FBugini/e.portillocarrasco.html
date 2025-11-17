@@ -1,0 +1,103 @@
+<h1>Evaluación de e.portillocarrasco@uandresbello.edu</h1>
+<h2>Cálculo de la nota final</h2>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th style="text-align: right;">Puntaje obtenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td style="text-align: right;">1.02</td>
+</tr>
+<tr>
+<td>P2</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr>
+<td>P3</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Problemas considerados: <strong>3</strong> (P1, P2, P3).</li>
+<li>Puntaje total obtenido: <strong>1.44</strong> puntos.</li>
+<li>Puntaje máximo posible: <strong>4.50</strong> puntos.</li>
+<li>Resultado de la fórmula: <strong>2.92</strong> → registrado como <strong>2.9</strong> en escala 1.0–7.0.</li>
+</ul>
+<p>Fórmula aplicada: <code>1.0 + 6.0*(puntos)/(max_points)</code></p>
+<pre><code class="language-python">scores = {'p1': 1.0200, 'p2': 0.4200, 'p3': 0.0000}
+puntos = 1.4400
+max_points = 4.5000
+max = 4.5000
+nota = 1.0 + 6.0*(puntos)/(max_points)
+</code></pre>
+<h2>Resumen</h2>
+<ul>
+<li>Valor por item: 0.3</li>
+<li>Total ítems: 5</li>
+<li><strong>P1</strong>: 1.02 ptos</li>
+<li><strong>P2</strong>: 0.42 ptos</li>
+<li><strong>P3</strong>: 0.00 ptos</li>
+</ul>
+<p><strong>Nota final:</strong> 2.9</p>
+<h2>Detalle P1</h2>
+<pre><code class="language-python">import matplotlib.pyplot as plt 
+x=np.linspace(0, 2*np.pi, 720)
+r = 1.0 * (1- 0.40**2) / (1 + 0.40 * np.cos(x))
+X = r * np.cos(x)
+y = r * np.sin(x)
+plt.plot(x, y, linewidth=4, label=&quot;X&quot;, color=&quot;blue&quot;)
+plt.scatter(x=&quot;x&quot;, y=&quot;y&quot;)
+plt.xlabel(&quot;x&quot;, fontsize=0.2)
+plt.ylabel(&quot;y&quot;, fontsize=0.5)
+plt.axis(&quot;equal&quot;)
+plt.grid(True, alpha=0.6)
+plt.legend()
+plt.show()
+print(f&quot;La media de x es: {np.mean(x)}&quot;)
+print(f&quot;la media de y es: {np.mean(y)}&quot;)
+print(f&quot;Datos de las orbitas: {r}&quot;)
+print(f&quot;Coordenadas seno: {x}&quot;)
+print(f&quot;Coordenadas cos: {y}&quot;)
+</code></pre>
+<ul>
+<li>item 1: 0.27</li>
+<li>item 2: 0.30</li>
+<li>item 3: 0.27</li>
+<li>item 4: 0.12</li>
+<li>item 5: 0.06</li>
+</ul>
+<p><strong>Total:</strong> 1.02
+<strong>Comentarios:</strong> Se crea el arreglo θ con 720 puntos y el radio de forma vectorizada. Las coordenadas cartesianas se calculan, aunque con nombres confusos. Al graficar se usa θ en vez de X, el scatter es erróneo y falta la importación de NumPy, por lo que la figura no es la órbita esperada. La comprobación de medias usa θ en lugar de x_cartesiano, así <x> no resulta ≈0.</p>
+<hr />
+<h2>Detalle P2</h2>
+<pre><code class="language-python">import numpy as np 
+import pandas as pd 
+df = pd.read_csv(&quot;stars_brightness.csv&quot;)
+print(df.describe())
+print(df.head())
+print(df.info())
+print(df['temperature_K'].np.mean())
+print(df['temperature_K'].np.std())
+print(df.['magnitude_app'].np.min())
+</code></pre>
+<ul>
+<li>item 1: 0.30</li>
+<li>item 2: 0.12</li>
+<li>item 3: 0.00</li>
+<li>item 4: 0.00</li>
+<li>item 5: 0.00</li>
+</ul>
+<p><strong>Total:</strong> 0.42
+<strong>Comentarios:</strong> Se lee correctamente el CSV en un DataFrame. Se intenta calcular estadísticas, pero no se agrupa por spectral_class y además contiene errores de sintaxis; por eso se otorga un puntaje bajo. No hay intento de ordenar la tabla, crear el scatter o interpretar resultados.</p>
+<hr />
+<h2>Detalle P3</h2>
+<pre><code class="language-python"># Sin código
+</code></pre>
+<p><strong>Total:</strong> 0.00
+<strong>Comentarios:</strong> Este ejercicio no tuvo respuesta</p>
+<hr />

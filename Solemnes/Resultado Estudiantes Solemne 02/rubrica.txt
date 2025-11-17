@@ -1,0 +1,57 @@
+===============================================================================
+                  RÚBRICA DE CORRECCIÓN – SOLEMNE 02 PCFI161
+           Curso: Programación para la Física y Astronomía - 2do Sem 2025
+===============================================================================
+Ítems: 5
+Valor por item: 0.3
+Nota: 1.0 + 6.0*(puntos)/(max_points)
+A resolver: 3/3
+===============================================================================
+
+PROBLEMA 1: Órbita elíptica parametrizada
+-----------------------------------------------------------------------------
+1. Crear arreglo theta con 720 valores igualmente espaciados 
+   en [0, 2π) usando np.linspace                             .......... 0.3 pts.
+
+2. Calcular radio r para cada valor de θ aplicando ecuación 
+   r(θ) sin bucles, usando operaciones vectorizadas          .......... 0.3 pts.
+
+3. Obtener coordenadas cartesianas x = r·cos(θ), 
+   y = r·sin(θ)                                              .......... 0.3 pts.
+
+4. Graficar todos los puntos (x,y) en ventana cuadrada con 
+   plt.axis('equal') para visualizar órbita elíptica         .......... 0.3 pts.
+
+5. Calcular valores medios <x> y <y> con NumPy y verificar 
+   que son ≈ 0 (simetría de órbita)                          .......... 0.3 pts.
+
+PROBLEMA 2: Mini-catálogo HIPPARCOS
+-----------------------------------------------------------------------------
+1. Leer archivo en DataFrame de pandas                       .......... 0.3 pts.
+
+2. Para cada clase espectral (spectral_class), calcular:
+   a) Temperatura promedio <temperature_K>
+   b) Desviación estándar de temperature_K
+   c) Magnitud aparente mínima (estrella más brillante)     .......... 0.3 pts.
+
+3. Ordenar tabla resultante por <temperature_K> de mayor 
+   a menor                                                   .......... 0.3 pts.
+
+4. Crear gráfico scatter con temperature_K (eje x) y 
+   magnitude_app (eje y)                                     .......... 0.3 pts.
+
+5. Interpretar brevemente (que exista respuesta):
+   - ¿Estrellas más calientes tienden a ser más brillantes?
+   - ¿Hay tendencia según clase espectral?                  .......... 0.3 pts.
+
+PROBLEMA 3: Verificación directa de la ley de Kepler
+-----------------------------------------------------------------------------
+1. Crear gráfico scatter con a (eje x) y T (eje y)           .......... 0.3 pts.
+
+2. Para cada planeta calcular cociente R_i = T_i/(a_i)^(3/2) 
+   y mostrar cuatro valores con 3 decimales                  .......... 0.3 pts.
+
+3. Calcular promedio R_prom y desviación estándar σ_R de los R_i.......... 0.3 pts.
+===============================================================================
+                              FIN DE LA RÚBRICA
+===============================================================================
