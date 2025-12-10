@@ -1,0 +1,260 @@
+\documentclass[10pt]{article}
+
+% Compilar con LuaLaTeX o XeLaTeX
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella} % si no está, cámbiala
+\setsansfont{Fira Sans}       % instalar o cambiar
+\setmonofont{DejaVu Sans Mono}       % instalar o cambiar
+
+\usepackage[spanish]{babel}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{xcolor}
+\definecolor{unabblue}{HTML}{003366}
+\definecolor{unabgold}{HTML}{C69214}
+\definecolor{lightblue}{HTML}{E6F0FF}
+
+\usepackage[most]{tcolorbox}
+\tcbset{enhanced,
+  colback=lightblue!30,
+  colframe=unabblue,
+  fonttitle=\sffamily\bfseries\large,
+  boxrule=1pt,arc=3mm,
+  left=2mm,right=2mm,top=1mm,bottom=1mm,
+  before skip=8pt,after skip=12pt
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\sffamily\bfseries\textcolor{unabblue}{Prueba de Programación}}
+\rhead{\sffamily\textcolor{unabblue}{PCFI161}}
+\cfoot{\thepage}
+
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=unabblue,urlcolor=unabblue}
+
+
+% ------------------------------------------------------------------------------- 
+% ---------------------------------- Documento ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{document}
+\begin{center}
+  {\huge\bfseries\textcolor{unabblue}{Prueba de Programación}}\\[4pt]
+  {\Large\sffamily\textcolor{unabgold}{Física y Astronomía}}\\[6pt]
+  %{\large\sffamily Versión A}\\[10pt]
+  %\today
+\end{center}
+
+%\noindent\textbf{Instrucciones}: Responda cada pregunta escribiendo un programa en \texttt{Python 3}. Use solo módulos de la biblioteca estándar. Comente brevemente su código.
+
+
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 1 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 1 – Ley de Enfriamiento de Newton (np.polyfit)}]
+
+\noindent\textbf{Contexto físico:}\\
+Un objeto caliente se enfría siguiendo aproximadamente una relación lineal entre su temperatura $T$ y el tiempo $t$ durante intervalos cortos. Un experimento registra la temperatura de una taza de café a lo largo del tiempo.
+
+\noindent\textbf{Modelo matemático:}
+\[
+T(t) = T_0 - \alpha t
+\]
+donde: $T_0$°C (temperatura inicial), $\alpha$ °C/min (tasa de enfriamiento) y $\sigma_T$°C (incertidumbre constante en las mediciones).
+
+\noindent\textbf{Datos experimentales:}\\
+Se tomaron mediciones cada 5 minutos durante 50 minutos:
+\[
+ t = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50] \text{ minutos}
+\]
+
+
+\noindent\textbf{Datos sintéticos proporcionados:}\\[0.3em] 
+Los datos experimentales (con ruido) ya han sido generados y están disponibles en las variables \textbf{t\_enfriamiento} y \textbf{T\_obs} ({T\_observable}).
+
+\noindent\textbf{Recomendacion}: Primero que todo use \texttt{plt.scatter($t_{\text{enfriamiento}}$, $T_{\text{obs}}$)} para observar los datos.
+
+\noindent\textbf{Tareas a realizar (paso a paso):}
+
+\begin{enumerate}
+  \item \textbf{Ajuste lineal con np.polyfit:}
+  \begin{itemize}
+    \item Utilice \texttt{np.polyfit(t, T\_obs, deg=1)} para obtener los coeficientes del ajuste
+    \item Extraiga la pendiente ($-\alpha_{\text{estimado}}$) y el intercepto ($T_{0,\text{estimado}}$)
+    \item Calcule las temperaturas ajustadas: $T_{\text{estimado}} = T_{0,\text{estimado}} - \alpha_{\text{estimado}} \cdot t$
+  \end{itemize}
+  
+  \item \textbf{Cálculo del coeficiente de determinación $R^2$:}
+  \begin{itemize}
+    \item Calcule la suma de cuadrados de residuos: $SS_{\text{res}} = \sum (T_{\text{obs}} - T_{\text{estimado}})^2$
+    \item Calcule la suma total de cuadrados: $SS_{\text{tot}} = \sum (T_{\text{obs}} - \overline{T}_{\text{obs}})^2$
+    \item Compute $R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}$
+    \item Imprima el valor de $R^2$ con 4 decimales
+  \end{itemize}
+  
+  \item \textbf{Visualización de resultados:}
+  \begin{itemize}
+    \item Grafique los datos observados (T\_obs) como \texttt{scatter} points.
+    \item Grafique la línea de ajuste $T_{\text{estimado}}$ como línea continua.
+  \end{itemize}
+  
+  \item \textbf{Reporte de resultados:}
+  \begin{itemize}
+    \item Imprima los parámetros estimados: $T_0$ y $\alpha$ con 3 decimales.
+    \item Imprima una conclusión sobre la calidad del ajuste basándose en $R^2$ (bueno si $R^2 > 0.95$)
+  \end{itemize}
+\end{enumerate}
+
+\end{tcolorbox}
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 2 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 2 – Decaimiento Radiactivo (scipy.optimize.curve\_fit)}]
+
+\noindent\textbf{Contexto físico:}
+
+Una muestra radiactiva decae exponencialmente con el tiempo. Se desea estimar la cantidad inicial de material y la constante de decaimiento a partir de mediciones experimentales.
+
+\noindent\textbf{Modelo matemático:}
+\[
+N(t) = N_0 e^{-\lambda t}
+\]
+donde: $N_0$ es el número inicial de átomos radiactivos, $\lambda$ es la constante de decaimiento, y $N(t)$ es el número de átomos restantes en el tiempo $t$.
+$\lambda = 0.15$ min$^{-1}$ (constante de decaimiento)
+
+Incertidumbre en las mediciones: $\sigma_N(t) = 20 + 0.02 \cdot N(t)$ (variable, combina error instrumental y estadístico)
+
+
+\noindent\textbf{Datos experimentales:}\\
+Se realizaron 12 mediciones en los siguientes tiempos:
+\[
+ t = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22] \text{ minutos}
+\]
+
+\noindent\textbf{Datos sintéticos proporcionados:}\\[0.3em]
+Los datos experimentales (con ruido) y sus incertidumbres ya han sido generados y están disponibles en las variables \textbf{t\_decaimiento}, \textbf{N\_obs} y \texttt{sigma\_N}.
+
+\noindent\textbf{Recomendacion}: Primero que todo use \texttt{plt.scatter($t_{\text{decaimiento}}$, $N_{\text{obs}}$)} para observar los datos.
+
+\noindent\textbf{Tareas a realizar (paso a paso):}
+
+\begin{enumerate}
+  \item \textbf{Definición del modelo para curve\_fit:}
+  \begin{itemize}
+    \item Defina una función Python \texttt{def modelo\_decaimiento(t, N0, lambd)} que implemente la fórmula $N(t) = N_0 e^{-\lambda t}$ use \texttt{np.exp()}.
+  \end{itemize}
+  
+  \item \textbf{Ajuste no lineal con curve\_fit:}
+  \begin{itemize}
+    \item Proporcione valores iniciales razonables: \texttt{p0 = [4500, 0.1]} (subestimados intencionalmente)
+    \item Realice el ajuste con ponderación: \texttt{curve\_fit(modelo\_decaimiento, t, N\_obs, p0=p0, sigma=sigma\_N, absolute\_sigma=True)}
+    \item Extraiga los parámetros óptimos \texttt{popt} y la matriz de covarianza \texttt{pcov}
+    \item Calcule \texttt{N\_fit} usando los parámetros ajustados
+  \end{itemize}
+  
+  \item \textbf{Extracción de incertidumbres:}
+  \begin{itemize}
+    \item Calcule las incertidumbres de los parámetros: \texttt{perr = np.sqrt(np.diag(pcov))}
+    \item Extraiga individualmente: \texttt{sigma\_N0 = perr[0]} y \texttt{sigma\_lambda = perr[1]}
+  \end{itemize}
+  
+  \item \textbf{Cálculo de $\chi^2$ reducido:}
+  \begin{itemize}
+    \item Calcule los residuos ponderados: $r_i = \frac{N_{\text{obs},i} - N_{\text{fit},i}}{\sigma_{N,i}}$
+    \item Compute $\chi^2 = \sum r_i^2$
+    \item Calcule grados de libertad: $\nu = n_{\text{datos}} - n_{\text{parámetros}} = 12 - 2 = 10$
+    \item Obtenga $\chi^2_{\text{red}} = \frac{\chi^2}{\nu}$
+    \item Imprima $\chi^2$, $\nu$ y $\chi^2_{\text{red}}$ con 4 decimales
+  \end{itemize}
+  
+  \item \textbf{Visualización con barras de error:}
+  \begin{itemize}
+    \item Use \texttt{plt.errorbar(t, N\_obs, yerr=sigma\_N, fmt='o')} para los datos con barras de error
+    \item Genere una curva suave: cree \texttt{t\_fino = np.linspace(0, 22, 200)} y calcule \texttt{N\_fino}
+    \item Incluya leyenda con los parámetros ajustados (formato: $N_0 = \text{valor} \pm \text{error}$)
+  \end{itemize}
+  
+\end{enumerate}
+
+
+\end{tcolorbox}
+
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 3 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 3 – Análisis de Complejidad del Algoritmo Bubble Sort}]
+
+\noindent\textbf{Contexto computacional:}\\
+El algoritmo Bubble Sort es uno de los algoritmos de ordenamiento más simples, pero también uno de los menos eficientes para listas grandes. Su complejidad teórica es $O(n^2)$, lo que significa que el número de operaciones crece cuadráticamente con el tamaño de la lista.
+
+
+\noindent\textbf{Algoritmo proporcionado:}
+\begin{verbatim}
+def bubble_sort(lst):
+    n = len(lst)
+    for i in range(n-1):
+        for j in range(n-1-i):
+            if lst[j] > lst[j+1]:
+                lst[j], lst[j+1] = lst[j+1], lst[j]
+    return lst
+\end{verbatim}
+
+
+\noindent\textbf{Datos experimentales proporcionados:}\\
+Se han generado 10 listas desordenadas aleatoriamente:
+\begin{itemize}
+  \item \texttt{Lista\_1} con $2^1 = 2$ elementos
+  \item \texttt{Lista\_2} con $2^2 = 4$ elementos
+  \item \texttt{Lista\_3} con $2^3 = 8$ elementos
+  \item $\vdots$
+  \item \texttt{Lista\_10} con $2^{10} = 1024$ elementos
+\end{itemize}
+
+
+\noindent\textbf{Nota:} Las listas ya están definidas en el código inicial proporcionado, no es necesario usar \texttt{.copy()} ya que las listas siempre vuelven a su estado al volver a correr el codigo.
+
+\noindent\textbf{Tareas a realizar (paso a paso):}
+
+\begin{enumerate}
+  \item \textbf{Modificación del algoritmo para instrumentación:}
+  \begin{itemize}
+    \item Cree una nueva función \texttt{bubble\_sort\_instrumentado(lst)} basada en el algoritmo original
+    \item Agregue dos contadores: \texttt{comparaciones = 0} e \texttt{intercambios = 0}
+    \item Incremente \texttt{comparaciones} cada vez que se evalúe \texttt{if lst[j] > lst[j+1]}
+    \item Incremente \texttt{intercambios} cada vez que se realice un intercambio
+    \item Que retorne: \texttt{(lista\_ordenada, comparaciones, intercambios)}
+  \end{itemize}
+  
+  \item \textbf{Análisis experimental de las 10 listas:}
+  \begin{itemize}
+    \item Cree tres listas vacías para almacenar resultados: \texttt{longitud\_lista = []}, \texttt{num\_comparaciones = []}, \texttt{num\_intercambios = []}
+    \item Use un bucle \texttt{for i in range(1, 11)} para procesar cada lista \texttt{Lista\_i} (recuerda el \texttt{.append()}).
+  \end{itemize}
+    
+  \item \textbf{Visualización de resultados gráfico:}
+  \begin{itemize}
+    \item Graficar con \texttt{plt.plot(longitud\_lista, num\_comparaciones, 'o-', label='Comparaciones')}
+    \item Graficar con \texttt{plt.plot(longitud\_lista, num\_intercambios, 's--', label='Intercambios')}
+    \item Agregar etiquetas, leyenda y título
+  \end{itemize}
+  
+\end{enumerate}
+
+
+
+\end{tcolorbox}
+
+\end{document}
+

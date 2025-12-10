@@ -21,6 +21,25 @@ unidades = {
     "UNIDAD VI: ALGORITMOS, & PERFORMANCE": [13, 14, 15]
 }
 
+semanas_por_unidad = {
+    1: "Semana 01",
+    2: "Semana 02",
+    3: "Semana 03",
+    4: "Semana 04",
+    5: "Semana 05",
+    6: "Semana 06",
+    7: "Semana 07",
+    8: "Semana 08",
+    9: "Semana 09",
+    10: "Semana 10",
+    11: "Semana 11 | np.polyfit y análisis de residuos",
+    12: "Semana 12 | scipy.optimize.curve_fit y estadísticas",
+    13: "Semana 13 | Algoritmos",
+    14: "Semana 14 | Repaso Final",
+    15: "Semana 15 | Repaso pre-solemnes"
+}
+
+
 # Diccionario base con estructura completa y posiciones
 def _generar_estructura_base():
     """
@@ -40,7 +59,8 @@ def _generar_estructura_base():
         
         for num_semana in semanas_nums:
             semana_str = f"{num_semana:02d}"
-            semana_titulo = f"Semana {semana_str}"
+            # Usar el nombre descriptivo del diccionario semanas_por_unidad
+            semana_titulo = semanas_por_unidad.get(num_semana, f"Semana {semana_str}")
             
             estructura[unidad_titulo]['semanas'][num_semana] = {
                 'titulo': semana_titulo,
@@ -322,14 +342,28 @@ def _reordenar_unidades(main_module, unidades_dict):
             
             # Verificar semanas de esta unidad
             for num_semana, semana_data in unidad_data['semanas'].items():
-                key_semana = ('semana', semana_data['titulo'])
-                if key_semana in items_mapa:
-                    item_semana = items_mapa[key_semana]
+                # Buscar la semana por cualquier versión del nombre
+                semana_str = f"{num_semana:02d}"
+                semana_patron_simple = f"Semana {semana_str}"  # "Semana 01", "Semana 02"
+                semana_patron_sin_cero = f"Semana {num_semana}"  # "Semana 1", "Semana 2"
+                semana_titulo_completo = semana_data['titulo']  # Nombre descriptivo completo
+                
+                item_semana = None
+                for key, item in items_mapa.items():
+                    if key[0] == 'semana':
+                        # Detectar si es esta semana con cualquier versión del nombre
+                        if (item.title.startswith(semana_patron_simple) or 
+                            item.title.startswith(semana_patron_sin_cero) or
+                            item.title == semana_titulo_completo):
+                            item_semana = item
+                            break
+                
+                if item_semana:
                     posicion_esperada_semana = semana_data['position']
                     
                     if item_semana.position != posicion_esperada_semana:
                         cambios_necesarios = True
-                        items_a_reposicionar.append((item_semana, posicion_esperada_semana, f"  Semana: {semana_data['titulo']}"))
+                        items_a_reposicionar.append((item_semana, posicion_esperada_semana, f"  Semana: {item_semana.title}"))
                     
                     # Verificar archivos de esta semana
                     for archivo_nombre, archivo_data in semana_data['archivos'].items():
@@ -363,6 +397,7 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     """
     Sube contenido de una semana al curso de Canvas organizándolo por unidades
     Mantiene el orden correcto: Unidades → Semanas → Archivos
+    Usa los nombres descriptivos del diccionario semanas_por_unidad
     
     Args:
         numero_semana: Número de la semana (1-15)
@@ -371,6 +406,10 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     
     Returns:
         El módulo creado o actualizado
+        
+    Ejemplo:
+        Canvas_Key.subir_contenido(11)  # Sube "Semana 11 | np.polyfit"
+        Canvas_Key.subir_contenido(12)  # Sube "Semana 12 | scipy.optimize.curve_fit"
     """
     if canvas is None:
         print("❌ Error: No hay conexión activa con Canvas")
@@ -385,11 +424,17 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
             return None
         course_id = current_course_id
         print(f"📌 Usando course_id del usuario: {course_id}")
+    
+    # Validar que el número de semana existe en el diccionario
+    if numero_semana not in semanas_por_unidad:
+        print(f"❌ Error: La semana {numero_semana} no está definida en semanas_por_unidad")
+        print(f"💡 Semanas válidas: {list(semanas_por_unidad.keys())}")
+        return None
         
     # Encontrar a qué unidad pertenece la semana
     nombre_unidad = None
-    for unidad, semanas in unidades.items():
-        if numero_semana in semanas:
+    for unidad, semanas_lista in unidades.items():
+        if numero_semana in semanas_lista:
             nombre_unidad = unidad
             break
     
@@ -397,7 +442,10 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
         print(f"❌ Error: La semana {numero_semana} no está asignada a ninguna unidad")
         return None
     
-    # Formatear número de semana con ceros a la izquierda
+    # Obtener el nombre descriptivo de la semana desde el diccionario
+    semana_titulo = semanas_por_unidad[numero_semana]
+    
+    # Formatear número de semana con ceros a la izquierda (para archivos)
     semana_str = f"{numero_semana:02d}"
     
     # Nombre del módulo principal
@@ -408,10 +456,12 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     # Obtener el curso
     course = canvas.get_course(course_id)
     
-    print("=" * 60)
-    print(f"Procesando: Semana {semana_str}")
+    print("=" * 80)
+    print(f"📤 SUBIENDO CONTENIDO A CANVAS")
+    print(f"Semana: {semana_titulo}")
     print(f"Unidad: {nombre_unidad}")
-    print("=" * 60)
+    print(f"Archivos: Semana{semana_str}-P1.pdf y Semana{semana_str}-P2.pdf")
+    print("=" * 80)
     
     # Buscar si existe el módulo "Material del curso"
     print("\n1. Verificando módulo principal...")
@@ -490,36 +540,48 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
         items = list(main_module.get_module_items())
         unidad_position = insert_position
     
-    # Procesar la semana
-    print(f"\n3. Procesando Semana {semana_str}...")
-    semana_titulo = f'Semana {semana_str}'
+    # Procesar la semana con su nombre descriptivo
+    print(f"\n3. Procesando '{semana_titulo}'...")
     
-    # Verificar si la semana ya existe y eliminarla junto con sus archivos
+    # Verificar si la semana ya existe (cualquier versión) y eliminarla junto con sus archivos
     items = list(main_module.get_module_items())
     items_to_delete = []
     
-    for idx, item in enumerate(items):
-        if item.type == 'SubHeader' and item.title == semana_titulo and item.indent == 1:
-            print(f"  ⚠ Semana '{semana_titulo}' ya existe. Eliminando versión anterior...")
-            items_to_delete.append(item)
-            
-            # Eliminar archivos asociados (los que tienen indent=2 después de esta semana)
-            for j in range(idx + 1, len(items)):
-                if items[j].indent == 2:
-                    items_to_delete.append(items[j])
-                elif items[j].type == 'SubHeader':
-                    break
+    # Patrón para detectar cualquier versión de esta semana:
+    # "Semana 01", "Semana 01 | algo", "Semana 1", etc.
+    semana_patron_simple = f"Semana {semana_str}"  # "Semana 01", "Semana 02", etc.
+    semana_patron_sin_cero = f"Semana {numero_semana}"  # "Semana 1", "Semana 2", etc.
     
-    # Eliminar items marcados
-    for item in items_to_delete:
-        item.delete()
-        print(f"    ✓ Eliminado: {item.title}")
+    for idx, item in enumerate(items):
+        # Verificar si es cualquier versión de esta semana
+        if item.type == 'SubHeader' and item.indent == 1:
+            # Detectar si el título comienza con "Semana XX" (con o sin ceros, con o sin descriptor)
+            if (item.title.startswith(semana_patron_simple) or 
+                item.title.startswith(semana_patron_sin_cero) or
+                item.title == semana_titulo):
+                print(f"  ⚠ '{item.title}' detectada. Eliminando versión anterior...")
+                items_to_delete.append(item)
+                
+                # Eliminar archivos asociados (los que tienen indent=2 después de esta semana)
+                for j in range(idx + 1, len(items)):
+                    if items[j].indent == 2:
+                        items_to_delete.append(items[j])
+                    elif items[j].type == 'SubHeader':
+                        break
+    
+    # Eliminar items marcados para evitar duplicados
+    if items_to_delete:
+        print(f"  🗑️ Eliminando {len(items_to_delete)} items antiguos...")
+        for item in items_to_delete:
+            item.delete()
+            print(f"    ✓ Eliminado: {item.title}")
     
     # Actualizar lista de items después de eliminaciones
     items = list(main_module.get_module_items())
     
     # Encontrar la posición correcta para insertar la semana
     # Debe estar después de la unidad y antes de la siguiente unidad o semana mayor
+    print(f"  📍 Calculando posición correcta para '{semana_titulo}'...")
     insert_position = len(items)  # Por defecto al final
     
     for idx, item in enumerate(items):
@@ -560,64 +622,69 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
             'published': not test_mode
         }
     )
-    print(f"  ✓ Semana agregada en posición {insert_position + 1}")
+    print(f"  ✓ '{semana_titulo}' agregada en posición {insert_position + 1}")
     
-    # Archivos a subir
+    # Definir archivos a subir (P1 y P2)
     base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\lectures"
     files_to_upload = [
         os.path.join(base_path, f"Semana{semana_str}", f"Semana{semana_str}-P1.pdf"),
         os.path.join(base_path, f"Semana{semana_str}", f"Semana{semana_str}-P2.pdf")
     ]
     
-    # Subir y agregar archivos
-    print("\n4. Subiendo archivos...")
+    # Subir y agregar archivos al módulo
+    print("\n4. Subiendo archivos PDF...")
     uploaded_count = 0
     
     for file_path in files_to_upload:
         if os.path.exists(file_path):
             file_name = os.path.basename(file_path)
-            print(f"  📄 Subiendo: {file_name}...")
+            print(f"  📄 {file_name}...")
             
-            # Verificar si el archivo ya existe y eliminarlo
+            # Verificar si el archivo ya existe en Canvas y eliminarlo para evitar duplicados
             existing_files = course.get_files()
             for existing_file in existing_files:
                 if existing_file.display_name == file_name:
-                    print(f"    ⚠ Archivo '{file_name}' ya existe. Eliminando...")
+                    print(f"    ⚠ Eliminando versión anterior...")
                     existing_file.delete()
             
             # Subir el archivo al curso
             uploaded_file = course.upload(file_path)
-            print(f"    ✓ Archivo subido (ID: {uploaded_file[1]['id']})")
+            file_id = uploaded_file[1]['id']
+            print(f"    ✓ Subido a Canvas (ID: {file_id})")
             
             # Agregar el archivo como item del módulo con indentación 2
-            # Insertar después del título de la semana
+            # Posición: después del título de la semana
             module_item = main_module.create_module_item(
                 module_item={
                     'type': 'File',
-                    'content_id': uploaded_file[1]['id'],
+                    'content_id': file_id,
                     'title': file_name,
                     'indent': 2,
                     'position': insert_position + 2 + uploaded_count,
                     'published': not test_mode
                 }
             )
-            print(f"    ✓ Agregado al módulo: {module_item.title}")
+            print(f"    ✓ Agregado al módulo en posición {insert_position + 2 + uploaded_count}")
             uploaded_count += 1
         else:
-            print(f"  ✗ Archivo no encontrado: {file_path}")
+            print(f"  ❌ Archivo no encontrado: {file_path}")
     
     # Publicar el módulo si no es modo test
     if not test_mode:
         print("\n5. Publicando módulo...")
         main_module.edit(module={'published': True})
         print("  ✓ Módulo publicado")
+    else:
+        print("\n5. Modo TEST - módulo NO publicado")
     
-    print("\n" + "=" * 60)
-    print(f"✅ Proceso completado para Semana {semana_str}")
+    # Resumen final
+    print("\n" + "=" * 80)
+    print("✅ PROCESO COMPLETADO")
+    print(f"   Semana: {semana_titulo}")
     print(f"   Unidad: {nombre_unidad}")
     print(f"   Archivos subidos: {uploaded_count}/{len(files_to_upload)}")
-    print(f"   Estado: {'PUBLICADO' if not test_mode else 'NO PUBLICADO (TEST)'}")
-    print("=" * 60)
+    print(f"   Estado: {'✅ PUBLICADO' if not test_mode else '🔒 NO PUBLICADO (TEST)'}")
+    print("=" * 80)
     
     return main_module
 
@@ -655,8 +722,8 @@ def crear_modulo_solemne(numero_solemne, html_path=None, course_id=None,
     
     # Ruta por defecto del archivo HTML
     if html_path is None:
-        base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\Solemnes"
-        html_path = os.path.join(base_path, f"Solemne {numero_solemne}.html")
+        base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\solemnes"
+        html_path = os.path.join(base_path, f"S{numero_solemne}", f"Solemne {numero_solemne}.html")
     
     # Verificar que el archivo HTML existe
     if not os.path.exists(html_path):
@@ -777,7 +844,7 @@ def crear_modulo_solemne(numero_solemne, html_path=None, course_id=None,
     
     # Buscar y subir el archivo PDF del solemne si existe
     print(f"\n4. Buscando archivo PDF del Solemne {numero_solemne}...")
-    pdf_path = os.path.join(base_path, f"Solemne {numero_solemne}.pdf")
+    pdf_path = os.path.join(base_path, f"S{numero_solemne}", f"Solemne {numero_solemne}.pdf")
     
     if os.path.exists(pdf_path):
         print(f"  ✓ Archivo PDF encontrado: {os.path.basename(pdf_path)}")
@@ -975,8 +1042,8 @@ def actualizar_fechas_solemne(numero_solemne, course_id=None,
     print("💡 NOTA: Las fechas se aplican recreando el solemne con las nuevas fechas")
     
     # Buscar el archivo HTML del solemne
-    base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\Solemnes"
-    html_path = os.path.join(base_path, f"Solemne {numero_solemne}.html")
+    base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\solemnes"
+    html_path = os.path.join(base_path, f"S{numero_solemne}", f"Solemne {numero_solemne}.html")
     
     if not os.path.exists(html_path):
         print(f"❌ Archivo HTML no encontrado: {html_path}")
@@ -1003,6 +1070,315 @@ def actualizar_fechas_solemne(numero_solemne, course_id=None,
     except Exception as e:
         print(f"❌ Error al actualizar fechas: {e}")
         return False
+
+def crear_modulo_examen(html_path=None, course_id=None, 
+                        fecha_inicio=None, fecha_hasta=None, test_mode=False):
+    """
+    Crea o actualiza el Examen Final como Assignment dentro del módulo "Solemnes"
+    Organización: Solemnes -> Solemne 1, Solemne 2, Solemne 3, Examen
+    El examen se crea en el grupo de calificaciones "Nota de presentación"
+    
+    Args:
+        html_path: Ruta al archivo HTML (si es None, busca en Solemnes/Examen/Examen.html)
+        course_id: ID del curso en Canvas (si es None, usa el ID del usuario seleccionado)
+        fecha_inicio: Fecha de disponibilidad en formato "DD-MM-YYYY HH:MM" (ej: "09-12-2025 13:00")
+        fecha_hasta: Fecha de entrega en formato "DD-MM-YYYY HH:MM" (ej: "09-12-2025 14:40")
+        test_mode: Si es True, no publica el módulo ni el examen
+    
+    Returns:
+        El módulo principal "Solemnes"
+    
+    Ejemplo:
+        Canvas_Key.crear_modulo_examen(
+            fecha_inicio="09-12-2025 13:00",
+            fecha_hasta="09-12-2025 14:40",
+        )
+    """
+    if canvas is None:
+        print("❌ Error: No hay conexión activa con Canvas")
+        print("💡 Primero ejecuta: Canvas_Key.select_user('TuNombre')")
+        return None
+    
+    # Usar el course_id del usuario si no se especifica uno
+    if course_id is None:
+        if current_course_id is None:
+            print("❌ Error: No hay un course_id asignado al usuario")
+            print("💡 Especifica el course_id: Canvas_Key.crear_modulo_examen(course_id=123456)")
+            return None
+        course_id = current_course_id
+        print(f"📌 Usando course_id del usuario: {course_id}")
+    
+    # Ruta por defecto del archivo HTML
+    base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\solemnes"
+    if html_path is None:
+        html_path = os.path.join(base_path, "Examen", "Examen.html")
+    
+    # Verificar que el archivo HTML existe
+    if not os.path.exists(html_path):
+        print(f"❌ Error: Archivo HTML no encontrado: {html_path}")
+        return None
+    
+    # Leer el contenido HTML
+    with open(html_path, 'r', encoding='utf-8') as f:
+        html_content = f.read()
+    
+    # Obtener el curso
+    course = canvas.get_course(course_id)
+    
+    print("=" * 60)
+    print(f"📋 Creando/Actualizando Examen Final")
+    print(f"Curso ID: {course_id}")
+    if fecha_inicio:
+        print(f"📅 Disponible desde: {fecha_inicio}")
+    if fecha_hasta:
+        print(f"📅 Disponible hasta: {fecha_hasta}")
+    print("=" * 60)
+    
+    # Buscar o crear el módulo principal "Solemnes"
+    print("\n1. Verificando módulo principal 'Solemnes'...")
+    solemnes_module = None
+    modules = course.get_modules()
+    
+    for module in modules:
+        if module.name == "Solemnes":
+            print(f"  ✓ Módulo 'Solemnes' encontrado (ID: {module.id})")
+            solemnes_module = module
+            break
+    
+    # Parámetros básicos del módulo (sin fechas)
+    module_params = {
+        'name': 'Solemnes',
+        'published': not test_mode
+    }
+    
+    # Si no existe el módulo "Solemnes", crearlo
+    if not solemnes_module:
+        print("  ⚠ Módulo 'Solemnes' no existe. Creando...")
+        solemnes_module = course.create_module(module=module_params)
+        print(f"  ✓ Módulo 'Solemnes' creado (ID: {solemnes_module.id})")
+    
+    # Buscar o crear el grupo de calificaciones "Nota de presentación"
+    print("\n2. Verificando grupo de calificaciones 'Nota de presentación'...")
+    assignment_group = None
+    assignment_groups = course.get_assignment_groups()
+    
+    for group in assignment_groups:
+        if group.name == "Nota de presentación":
+            print(f"  ✓ Grupo de calificaciones encontrado (ID: {group.id})")
+            assignment_group = group
+            break
+    
+    # Si no existe el grupo, crearlo
+    if not assignment_group:
+        print("  ⚠ Grupo 'Nota de presentación' no existe. Creando...")
+        assignment_group = course.create_assignment_group(
+            name="Nota de presentación",
+            group_weight=0
+        )
+        print(f"  ✓ Grupo de calificaciones creado (ID: {assignment_group.id})")
+    
+    # Crear el examen (Assignment)
+    print(f"\n3. Creando examen 'Examen'...")
+    assignment_title = "Examen"
+    
+    # Preparar parámetros del examen
+    from datetime import datetime
+    assignment_params = {
+        'name': assignment_title,
+        'description': html_content,
+        'assignment_group_id': assignment_group.id,
+        'submission_types': ['online_upload', 'online_text_entry'],
+        'points_possible': 100,
+        'grading_type': 'points',
+        'published': not test_mode
+    }
+    
+    # Agregar fechas si se especificaron
+    if fecha_inicio:
+        try:
+            unlock_at = datetime.strptime(fecha_inicio, "%d-%m-%Y %H:%M")
+            assignment_params['unlock_at'] = unlock_at.isoformat()
+            print(f"  📅 Fecha de disponibilidad: {fecha_inicio}")
+        except ValueError:
+            print("  ⚠ Formato de fecha_inicio incorrecto. Use: DD-MM-YYYY HH:MM")
+    
+    if fecha_hasta:
+        try:
+            due_at = datetime.strptime(fecha_hasta, "%d-%m-%Y %H:%M")
+            assignment_params['due_at'] = due_at.isoformat()
+            print(f"  📅 Fecha de entrega: {fecha_hasta}")
+        except ValueError:
+            print("  ⚠ Formato de fecha_hasta incorrecto. Use: DD-MM-YYYY HH:MM")
+    
+    # Verificar si el examen ya existe y eliminarlo
+    try:
+        existing_assignments = course.get_assignments()
+        for assignment in existing_assignments:
+            if assignment.name == assignment_title:
+                print(f"  ⚠ Examen '{assignment_title}' ya existe. Eliminando...")
+                assignment.delete()
+                print("    ✓ Examen eliminado")
+                break
+    except Exception as e:
+        print(f"  ℹ No se pudo verificar exámenes existentes: {e}")
+    
+    # Crear el nuevo examen
+    try:
+        assignment = course.create_assignment(assignment=assignment_params)
+        print(f"  ✓ Examen creado: {assignment.name} (ID: {assignment.id})")
+    except Exception as e:
+        print(f"  ❌ Error al crear el examen: {e}")
+        return None
+    
+    # Buscar y subir el archivo PDF del examen si existe
+    print(f"\n4. Buscando archivo PDF del Examen...")
+    pdf_path = os.path.join(base_path, "Examen", "Examen.pdf")
+    
+    if os.path.exists(pdf_path):
+        print(f"  ✓ Archivo PDF encontrado: {os.path.basename(pdf_path)}")
+        
+        # Verificar si el archivo ya existe en Canvas y eliminarlo
+        try:
+            existing_files = course.get_files()
+            pdf_filename = "Examen.pdf"
+            for existing_file in existing_files:
+                if existing_file.display_name == pdf_filename:
+                    print(f"  ⚠ Archivo '{pdf_filename}' ya existe en Canvas. Eliminando...")
+                    existing_file.delete()
+                    print(f"    ✓ Archivo eliminado")
+                    break
+        except Exception as e:
+            print(f"  ℹ No se pudo verificar archivos existentes: {e}")
+        
+        # Subir el archivo PDF a Canvas
+        try:
+            print(f"  📤 Subiendo PDF a Canvas...")
+            uploaded_file = course.upload(pdf_path)
+            file_id = uploaded_file[1]['id']
+            print(f"  ✓ PDF subido exitosamente (ID: {file_id})")
+            
+            # Aplicar restricciones al archivo PDF
+            try:
+                file_update_params = {
+                    'hidden': True,
+                    'locked': True,
+                }
+                
+                if fecha_inicio:
+                    file_update_params['unlock_at'] = assignment_params.get('unlock_at')
+                    print(f"  📅 Aplicando fecha de disponibilidad al PDF: {fecha_inicio}")
+                
+                if fecha_hasta:
+                    file_update_params['lock_at'] = assignment_params.get('due_at')
+                    print(f"  📅 Aplicando fecha de bloqueo al PDF: {fecha_hasta}")
+                
+                import requests
+                headers = {
+                    'Authorization': f'Bearer {canvas._Canvas__requester.access_token}'
+                }
+                file_url = f"{CANVAS_URL}api/v1/files/{file_id}"
+                
+                response = requests.put(file_url, headers=headers, json=file_update_params)
+                
+                if response.status_code == 200:
+                    print(f"  ✓ Archivo PDF configurado como oculto con fechas de disponibilidad")
+                    file_data = response.json()
+                    print(f"  ℹ Verificación - Hidden: {file_data.get('hidden')}, Locked: {file_data.get('locked')}")
+                    if file_data.get('unlock_at'):
+                        print(f"  ℹ Disponible desde: {file_data.get('unlock_at')}")
+                    if file_data.get('lock_at'):
+                        print(f"  ℹ Se bloquea el: {file_data.get('lock_at')}")
+                else:
+                    print(f"  ⚠ Error al actualizar archivo (código {response.status_code}): {response.text}")
+                
+            except Exception as e:
+                print(f"  ⚠ Error al aplicar restricciones al PDF: {e}")
+                import traceback
+                print(f"  Detalles: {traceback.format_exc()}")
+            
+            # Actualizar el HTML para incluir un enlace al PDF
+            file_url = f"/courses/{course_id}/files/{file_id}/download"
+            html_with_pdf = html_content + f"""
+<hr style="margin:2rem 0;">
+<div style="background:#f5f5f5;padding:1rem;border-radius:4px;text-align:center;">
+    <p style="margin-bottom:0.5rem;font-weight:600;">📄 Documento del Examen</p>
+    <a href="{file_url}" class="Button Button--primary" download>
+        <i class="icon-download"></i> Descargar PDF del Examen
+    </a>
+</div>
+"""
+            
+            try:
+                assignment.edit(assignment={'description': html_with_pdf})
+                print(f"  ✓ Enlace al PDF agregado a la descripción del examen")
+            except Exception as e:
+                print(f"  ⚠ No se pudo actualizar la descripción: {e}")
+            
+        except Exception as e:
+            print(f"  ❌ Error al subir el PDF: {e}")
+    else:
+        print(f"  ⚠ Archivo PDF no encontrado: {pdf_path}")
+        print(f"  ℹ El examen se creará sin el archivo PDF adjunto")
+    
+    # Buscar si el examen ya existe como item del módulo y eliminarlo
+    print("\n5. Verificando items existentes del módulo...")
+    items = list(solemnes_module.get_module_items())
+    
+    for item in items:
+        if item.type == 'Assignment' and item.title == assignment_title:
+            print(f"  ⚠ Item '{assignment_title}' ya existe en el módulo. Eliminando...")
+            item.delete()
+            print("    ✓ Item eliminado")
+            break
+    
+    # Actualizar lista después de eliminaciones
+    items = list(solemnes_module.get_module_items())
+    
+    # El examen va al final del módulo (después de todos los solemnes)
+    insert_position = len(items)
+    
+    # Determinar indentación: Examen sin indent (0)
+    indent_value = 0 
+    
+    # Preparar parámetros del item
+    module_item_params = {
+        'type': 'Assignment',
+        'content_id': assignment.id,
+        'title': assignment_title,
+        'indent': indent_value,
+        'position': insert_position + 1,
+        'published': not test_mode
+    }
+    
+    # Agregar el examen al módulo
+    print(f"\n6. Agregando examen al módulo en posición {insert_position + 1} (indent={indent_value})...")
+    try:
+        module_item = solemnes_module.create_module_item(module_item=module_item_params)
+        print(f"  ✓ Examen agregado al módulo: {module_item.title}")
+            
+    except Exception as e:
+        print(f"  ❌ Error al agregar examen al módulo: {e}")
+        return None
+    
+    # Publicar el módulo si no es modo test
+    if not test_mode:
+        print("\n7. Publicando módulo...")
+        solemnes_module.edit(module={'published': True})
+        print("  ✓ Módulo publicado")
+    
+    print("\n" + "=" * 60)
+    print(f"✅ Examen Final creado/actualizado exitosamente")
+    print(f"   Tipo: Examen (Assignment)")
+    print(f"   Grupo de calificaciones: Nota de presentación")
+    print(f"   Puntos posibles: 100")
+    print(f"   Estado: {'PUBLICADO' if not test_mode else 'NO PUBLICADO (TEST)'}")
+    if fecha_inicio:
+        print(f"   Disponible desde: {fecha_inicio}")
+    if fecha_hasta:
+        print(f"   Fecha de entrega: {fecha_hasta}")
+    print("=" * 60)
+    
+    return solemnes_module
 
 def estado_solemnes(course_id=None):
     """

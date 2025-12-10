@@ -2,7 +2,6 @@
 
 % ------------------------------------------------------------------------
 % Carga de tu preámbulo personalizado (preamble.tex).
-% Asegúrate de tenerlo en la misma carpeta para que \input funcione.
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
 
@@ -18,14 +17,13 @@
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % \title{Semana 12 - Sesión 2 (Sesión 24): Interpolación y Selección de Modelos}
 \end{frame}
 
 % ------------------------------------------------------------------------
 % Slide 2: Índice / Tabla de Contenidos
 % ------------------------------------------------------------------------
 \begin{frame}
-  \frametitle{Resumen - Semana 12, Sesión 2 (Sesión 24)}
+  %\frametitle{Resumen - Semana 12, Sesión 2 (Sesión 24)}
   \tableofcontents
 \end{frame}
 
@@ -35,104 +33,151 @@
 \metroset{block=fill}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
+% SECCIÓN 1: Introducción y Conexión
 % ----------------------------------------------------------------------------------------
 \section{Introducción y Conexión}
 
 \begin{frame}{Repaso de la Sesión Previa (P1)}
-  \begin{block}{Conceptos fundamentales que aprendimos}
+  \begin{block}{Conceptos fundamentales que dominamos}
     \begin{itemize}
-      \item \textbf{Ajuste con \texttt{curve\_fit}}: Funciones arbitrarias y no lineales
-      \item \textbf{Matriz de covarianza}: Extracción automática de incertidumbres
-      \item \textbf{Ejemplo físico}: Relación masa-luminosidad (log-log vs no lineal)
+      \item \textbf{`curve\_fit`}: Ajustar funciones arbitrarias (exponenciales, potencias, etc.)
+      \item \textbf{Matriz de covarianza}: Extracción automática de incertidumbres con `pcov`
+      \item \textbf{Ponderación con `sigma`}: Dar mayor peso a mediciones precisas
+      \item \textbf{Ejemplo físico}: Relación masa-luminosidad (log-log vs ajuste directo)
     \end{itemize}
   \end{block}
   
   \begin{alertblock}{Objetivo de hoy (P2)}
-    Aplicar técnicas avanzadas: \textbf{interpolación} de datos faltantes y \textbf{selección de modelos} con criterios estadísticos.
+    Consolidar `curve\_fit` aplicándolo a \textbf{4 problemas físicos reales} con diferentes modelos matemáticos.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Estructura de la Sesión: Dos Grandes Temas}
-  \begin{center}
-  \textbf{Técnicas avanzadas para análisis de datos reales:}
-  \end{center}
-  
-  \begin{enumerate}
-    \item \textbf{Interpolación} (Ejercicio 5):
-      \begin{itemize}
-        \item Reconstruir datos con observaciones incompletas
-        \item Comparar métodos: lineal vs cúbico
-        \item Aplicación: Curvas de luz con gaps
-      \end{itemize}
-    \item \textbf{Selección de modelos} (Ejercicio 6):
-      \begin{itemize}
-        \item Usar AIC para elegir entre modelos competidores
-        \item Comparar distribuciones: Normal vs Lognormal
-        \item Interpretación física de asimetrías
-      \end{itemize}
-  \end{enumerate}
-  
-  \vspace{0.3cm}
-  \textbf{¡Estas técnicas son esenciales en astronomía observacional!}
+\begin{frame}{Objetivos de la Sesión P2}
+  \begin{itemize}
+    \item \textbf{Consolidar} el uso de `curve\_fit` en contextos variados
+    \item \textbf{Aplicar} modelos exponenciales, oscilatorios y saturación
+    \item \textbf{Desarrollar} habilidades para extraer e interpretar incertidumbres
+    \item \textbf{Integrar} visualización con barras de error y bandas de confianza
+  \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ejercicios Prácticos
+% SECCIÓN 2: Ejercicios Prácticos Integrados
 % ----------------------------------------------------------------------------------------
-\section{Ejercicios Prácticos Avanzados}
+\section{Ejercicios Prácticos Integrados}
+
+\begin{frame}{Enfoque de la Sesión: Aplicación Práctica}
+  \begin{itemize}
+    \item \textbf{Enfoque 100\% práctico}: Resolver 4 problemas con `curve\_fit`
+    \item \textbf{Integración de conceptos}: Combinar ajuste + incertidumbres + visualización
+    \item \textbf{Contextos físicos}: Decaimiento radiactivo, oscilaciones, crecimiento de poblaciones, ley de enfriamiento
+  \end{itemize}
+  
+  \begin{block}{Meta de la Sesión}
+    Lograr que cada estudiante se sienta cómodo eligiendo y ajustando el modelo físico apropiado para sus datos.
+  \end{block}
+\end{frame}
 
 % ------------------------------------------------------------------------
-% Slide: Ejercicio 5
+% Slide: Ejercicio 1 - Decaimiento Radiactivo
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Curva de luz con datos faltantes}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Decaimiento Radiactivo de C-14}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Estrella variable: \(F(t) = 1.0 + 0.1 \sin(2\pi t / P)\) con \(P = 2.5\) días
-      \item Genere 60 puntos en \(t \in [0, 10]\) días
-      \item \textbf{Simule observación}:  Elimine 20 puntos al azar (nubes, mal clima)
+      \item Modelo: \(N(t) = N_0 e^{-\lambda t}\) donde \(\lambda = \ln(2)/T_{1/2}\)
+      \item Datos simulados: 15 mediciones de actividad (\(N\)) vs tiempo (\(t\)) en años
+      \item Valores reales: \(N_0 = 1000\) Bq, \(T_{1/2} = 5730\) años
+      \item Ruido Gaussiano: \(\sigma = 5\%\) de la señal
       \item \textbf{Tareas}:
         \begin{enumerate}
-          \item Cree interpoladores lineal y cúbico con \texttt{interp1d}
-          \item Evalúe ambos en grilla fina (200 puntos)
-          \item Grafique: curva original + observaciones + interpolaciones
-          \item Compare visualmente: ¿cuál sigue mejor la señal?
-          \item \textbf{Extra}: Calcule error RMS entre interpolación y original
+          \item Defina función `exponencial_decay(t, N0, lambda_val)`
+          \item Use `curve\_fit` para ajustar los parámetros
+          \item Extraiga incertidumbres desde `pcov`
+          \item Grafique datos con barras de error + curva ajustada
+          \item Calcule \(T_{1/2}\) ajustado y compare con el real
         \end{enumerate}
     \end{itemize}
   \end{block}
   
-  \textbf{Conceptos}: Interpolación, comparación lineal vs cúbica
+  \textbf{Conceptos}: Decaimiento exponencial, vida media
   \\
-  \textbf{Física}: Reconstruir curvas de luz con observaciones incompletas
+  \textbf{Física}: Datación por radiocarbono
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide: Ejercicio 6
+% Slide: Ejercicio 2 - Oscilador Amortiguado
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Selección de modelo: Lognormal vs Normal}
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Péndulo con Amortiguamiento}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Datos de masas de asteroides (típicamente asimétricos hacia valores altos)
-      \item Genere 1500 valores con distribución Lognormal:
-        \begin{itemize}
-          \item \(\mu = 0\), \(\sigma = 0.6\)
-        \end{itemize}
-      \item \textbf{Pregunta}: ¿Qué modelo describe mejor los datos: Lognormal o Normal?
+      \item Modelo: \(x(t) = A e^{-\gamma t} \cos(\omega t + \phi)\)
+      \item Parámetros reales: \(A = 10\) cm, \(\gamma = 0.1\) s\(^{-1}\), \(\omega = 2\pi\) rad/s, \(\phi = 0\)
+      \item Genere 50 puntos en \(t \in [0, 20]\) s con ruido \(\sigma = 0.3\) cm
       \item \textbf{Tareas}:
         \begin{enumerate}
-          \item Ajuste ambas distribuciones con \texttt{scipy.stats}
-          \item Calcule AIC para cada modelo: \(\text{AIC} = 2k - 2\ln(L)\)
-          \item Grafique histograma + PDFs de ambos modelos
-          \item Concluya: ¿cuál modelo es mejor? (menor AIC)
-          \item Interprete: ¿por qué la Normal falla?
+          \item Defina función `oscilador_amortiguado(t, A, gamma, omega, phi)`
+          \item Ajuste con `curve\_fit` usando `p0=[8, 0.05, 6, 0]` (valores iniciales)
+          \item Calcule periodo \(T = 2\pi/\omega\) y tiempo de decaimiento \(\tau = 1/\gamma\)
+          \item Grafique con banda de incertidumbre (use `fill_between`)
+          \item Reporte parámetros con formato: \(A = X \pm \sigma_A\)
         \end{enumerate}
     \end{itemize}
   \end{block}
   
-  \textbf{Conceptos}: AIC, selección de modelos, log-verosimilitud
+  \textbf{Conceptos}: Oscilaciones amortiguadas, valores iniciales
   \\
-  \textbf{Aplicación}: Elegir distribución correcta para datos astronómicos
+  \textbf{Aplicación}: Análisis de sistemas mecánicos disipativos
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 3 - Saturación Logística
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Crecimiento de Población Estelar}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Modelo logístico: \(N(t) = \frac{K}{1 + e^{-r(t - t_0)}}\)
+      \item Contexto: Formación estelar en un cúmulo con capacidad limitada
+      \item Parámetros reales: \(K = 500\) estrellas, \(r = 0.3\) Myr\(^{-1}\), \(t_0 = 5\) Myr
+      \item Genere 25 mediciones en \(t \in [0, 20]\) Myr con ruido \(\sigma = 10\) estrellas
+      \item \textbf{Tareas}:
+        \begin{enumerate}
+          \item Defina función `logistica(t, K, r, t0)`
+          \item Ajuste con `curve\_fit` (use `p0=[400, 0.2, 4]`)
+          \item Extraiga incertidumbres y calcule intervalos del 68\% de confianza
+          \item Grafique datos + curva ajustada + zona de confianza
+          \item Interprete: ¿A qué tiempo se alcanza el 90\% de la capacidad?
+        \end{enumerate}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos}: Crecimiento saturado, asíntotas
+  \\
+  \textbf{Física}: Formación estelar en entornos densos
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide: Ejercicio 4 - Ley de Enfriamiento de Newton
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Enfriamiento de Enana Blanca}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Modelo: \(T(t) = T_{\text{amb}} + (T_0 - T_{\text{amb}}) e^{-kt}\)
+      \item Parámetros reales: \(T_0 = 25000\) K, \(T_{\text{amb}} = 2.7\) K (CMB), \(k = 0.05\) Gyr\(^{-1}\)
+      \item Genere 20 mediciones en \(t \in [0, 50]\) Gyr con ruido \(\sigma = 200\) K
+      \item \textbf{Tareas}:
+        \begin{enumerate}
+          \item Defina función `enfriamiento(t, T_amb, T0, k)`
+          \item Ajuste con `curve\_fit` y extraiga incertidumbres
+          \item Calcule tiempo de semi-enfriamiento: \(t_{1/2} = \frac{\ln 2}{k}\)
+          \item Grafique en escala semi-log (\texttt{plt.semilogy})
+          \item Compare ajuste con valores reales usando \(\chi^2_{\text{red}}\)
+        \end{enumerate}
+    \end{itemize}
+  \end{block}
+  
+  \textbf{Conceptos}: Enfriamiento exponencial, escalas temporales largas
+  \\
+  \textbf{Aplicación}: Evolución térmica de objetos compactos
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
@@ -141,189 +186,341 @@
 \section{Soluciones de Referencia}
 
 \begin{frame}{Introducción a las Soluciones}
-  \begin{block}{Dos técnicas avanzadas}
-    \begin{itemize}
-      \item \textbf{Ejercicio 5}: Interpolación con \texttt{scipy.interpolate}
-      \item \textbf{Ejercicio 6}: Selección de modelos con AIC
-    \end{itemize}
+  \begin{block}{Estructura común de todas las soluciones}
+    \begin{enumerate}
+      \item Definir función del modelo físico
+      \item Generar datos simulados con ruido realista
+      \item Ajustar con `curve\_fit` y proporcionar `p0` si es necesario
+      \item Extraer parámetros óptimos y sus incertidumbres
+      \item Visualizar datos + ajuste + bandas de confianza
+      \item Calcular magnitudes físicas derivadas
+    \end{enumerate}
   \end{block}
   
-  \textbf{Estas soluciones muestran técnicas que se usan en investigación real.}
+  \textbf{Estas soluciones son plantillas reutilizables para análisis de datos reales.}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Solución 5
+% Solución 1: Decaimiento Radiactivo
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 5: \hfill \textcolor{green}{$\checkmark$} \\ Interpolación de curva de luz}
+\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Decaimiento Radiactivo}
+\begin{columns}
+\begin{column}{0.5\textwidth}
 \begin{minted}{python}
-from scipy.interpolate import interp1d
-import random, math
-import matplotlib.pyplot as plt
-
-# Generar curva de luz completa
-P = 2.5  # periodo
-t_full = [i*0.05 for i in range(201)]  # 0 a 10 en 201 puntos
-F_full = [1.0 + 0.1*math.sin(2*math.pi*t/P) for t in t_full]
-
-# Eliminar 20 puntos al azar
-random.seed(42)
-indices = random.sample(range(len(t_full)), len(t_full) - 20)
-indices.sort()
-t_obs = [t_full[i] for i in indices]
-F_obs = [F_full[i] for i in indices]
-
-# Crear interpoladores
-f_lin = interp1d(t_obs, F_obs, kind='linear')
-f_cub = interp1d(t_obs, F_obs, kind='cubic')
-
-# Evaluar en grilla fina
-t_interp = [i*0.025 for i in range(401)]  # más fino para suavidad
-F_lin = [f_lin(t) for t in t_interp]
-F_cub = [f_cub(t) for t in t_interp]
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 5 (continuación - gráficos)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 5: \hfill \textcolor{green}{$\checkmark$} \\ Interpolación (gráficos)}
-\begin{minted}[firstnumber=23]{python}
-# Graficar comparación
-plt.figure(figsize=(10, 6))
-plt.plot(t_full, F_full, 'k-', alpha=0.3, linewidth=2, label='Original')
-plt.scatter(t_obs, F_obs, s=20, c='black', zorder=5, label='Observaciones')
-plt.plot(t_interp, F_lin, 'b--', linewidth=1.5, label='Lineal')
-plt.plot(t_interp, F_cub, 'r-', linewidth=1.5, label='Cúbica')
-plt.xlabel('Tiempo')
-plt.ylabel('Flujo F(t)')
-plt.title('Interpolación de Curva de Luz')
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.show()
-
-# Comentario: La interpolación cúbica sigue mejor la forma suave
-# de la señal original, mientras que la lineal produce segmentos
-# rectos entre puntos. Ambas son exactas en los puntos observados.
-\end{minted}
-\textbf{Nota:} cúbica captura mejor la variación suave; lineal es más robusta al ruido.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Interpretación Solución 5
-% ------------------------------------------------------------------------
-\begin{frame}{Interpretación Solución 5: Interpolación de Curva de Luz}
-  \begin{block}{Interpolación lineal vs cúbica}
-    \begin{itemize}
-      \item \textbf{Lineal}: Conecta puntos con rectas → simple, robusta, no suave
-      \item \textbf{Cúbica}: Usa splines cúbicos → suave, captura curvaturas, puede oscilar
-    \end{itemize}
-  \end{block}
-  
-  \begin{alertblock}{¿Cuándo usar cada una?}
-    \begin{itemize}
-      \item \textbf{Lineal}: Datos ruidosos, pocos puntos, necesita robustez
-      \item \textbf{Cúbica}: Señal suave subyacente, alta densidad de puntos
-      \item \textbf{Nunca extrapolar}: Interpolación solo válida dentro del rango de datos
-    \end{itemize}
-  \end{alertblock}
-  
-  \textbf{Error RMS}: \(\text{RMS} = \sqrt{\frac{1}{N}\sum (F_{\text{interp}} - F_{\text{real}})^2}\)
-  
-  Un RMS bajo indica que la interpolación reconstruye bien la señal original.
-  
-  \vspace{0.3cm}
-  \textbf{Aplicación en astronomía}: Rellenar huecos en curvas de luz, tránsitos de exoplanetas, variabilidad estelar.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 6
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Lognormal vs Normal}
-\begin{minted}{python}
-from scipy import stats
-import random
-import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
 import numpy as np
+import matplotlib.pyplot as plt
 
-# Generar datos lognormales
-random.seed(42)
-n = 1500
-mu, sigma = 0.0, 0.6
-x = [random.lognormvariate(mu, sigma) for _ in range(n)]
+# Modelo de decaimiento exponencial
+def exponencial_decay(t, N0, lambda_val):
+    return N0 * np.exp(-lambda_val * t)
 
-# Ajustar distribución Lognormal
-s_log, _, scale_log = stats.lognorm.fit(x, floc=0)
-ll_log = sum(stats.lognorm.logpdf(xi, s_log, 0, scale_log) for xi in x)
-k_log = 2  # parámetros: s y scale
-AIC_log = 2*k_log - 2*ll_log
+# Parámetros reales
+T_half_real = 5730  # años
+lambda_real = np.log(2) / T_half_real
+N0_real = 1000  # Bq
 
-# Ajustar distribución Normal
-mu_norm, sig_norm = stats.norm.fit(x)
-ll_norm = sum(stats.norm.logpdf(xi, mu_norm, sig_norm) for xi in x)
-k_norm = 2  # parámetros: mu y sigma
-AIC_norm = 2*k_norm - 2*ll_norm
-
-print(f"Lognormal: AIC = {AIC_log:.1f}")
-print(f"Normal: AIC = {AIC_norm:.1f}")
-print(f"Mejor modelo: {'Lognormal' if AIC_log < AIC_norm else 'Normal'}")
+# Generar datos
+np.random.seed(42)
+t = np.linspace(0, 15000, 15)
+N_real = exponencial_decay(t, N0_real, lambda_real)
+sigma_N = 0.05 * N_real  # 5% de ruido
+N_obs = N_real + np.random.normal(0, sigma_N)
 \end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=18]{python}
+# Ajustar con curve_fit
+popt, pcov = curve_fit(
+    exponencial_decay, t, N_obs, 
+    sigma=sigma_N, absolute_sigma=True
+)
+N0_fit, lambda_fit = popt
+perr = np.sqrt(np.diag(pcov))
+
+# Calcular T_1/2 ajustado
+T_half_fit = np.log(2) / lambda_fit
+sigma_T_half = T_half_fit * (perr[1]/lambda_fit)
+
+print(f"N0 = {N0_fit:.1f} ± {perr[0]:.1f} Bq")
+print(f"T_1/2 = {T_half_fit:.0f} ± {sigma_T_half:.0f} años")
+print(f"Real: {T_half_real} años")
+print(f"Error relativo: {abs(T_half_fit-T_half_real)/T_half_real*100:.1f}%")
+\end{minted}
+\end{column}
+\end{columns}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Solución 6 (continuación - gráficos)
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Lognormal vs Normal (gráficos)}
-\begin{minted}[firstnumber=24]{python}
-# Graficar histograma y PDFs ajustadas
+\begin{frame}[fragile]{Solución 1 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Visualización}
+\begin{minted}{python}
+# Graficar resultados
+t_fit = np.linspace(0, 15000, 200)
+N_fit = exponencial_decay(t_fit, *popt)
+
 plt.figure(figsize=(10, 6))
-plt.hist(x, bins=40, density=True, alpha=0.5, edgecolor='black', 
-         label='Histograma')
-
-# Generar curvas de densidad
-x_plot = np.linspace(0, max(x), 500)
-pdf_log = stats.lognorm.pdf(x_plot, s_log, 0, scale_log)
-pdf_norm = stats.norm.pdf(x_plot, mu_norm, sig_norm)
-
-plt.plot(x_plot, pdf_log, 'r-', linewidth=2, 
-         label=f'Lognormal (AIC={AIC_log:.1f})')
-plt.plot(x_plot, pdf_norm, 'b--', linewidth=2, 
-         label=f'Normal (AIC={AIC_norm:.1f})')
-
-plt.xlabel('Valor')
-plt.ylabel('Densidad de Probabilidad')
-plt.title('Comparación de Ajustes: Lognormal vs Normal')
+plt.errorbar(t, N_obs, yerr=sigma_N, fmt='o', capsize=3, 
+             label='Mediciones', alpha=0.7)
+plt.plot(t_fit, N_fit, 'r-', lw=2, 
+         label=f'Ajuste: T₁/₂={T_half_fit:.0f}±{sigma_T_half:.0f} años')
+plt.axhline(N0_real/2, color='gray', linestyle='--', alpha=0.5, 
+            label=f'N₀/2 (t={T_half_real} años)')
+plt.xlabel('Tiempo (años)')
+plt.ylabel('Actividad N (Bq)')
+plt.title('Decaimiento Radiactivo de C-14')
 plt.legend()
-plt.grid(True, alpha=0.3)
+plt.grid(alpha=0.3)
 plt.show()
 \end{minted}
-\textbf{Conclusión:} Lognormal tiene menor AIC y captura mejor la asimetría positiva.
+\textbf{Discusión}: La incertidumbre en \(\lambda\) se propaga a \(T_{1/2}\) mediante \(\sigma_{T_{1/2}} = T_{1/2} \cdot (\sigma_\lambda / \lambda)\).
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Interpretación Solución 6
+% Solución 2: Oscilador Amortiguado
 % ------------------------------------------------------------------------
-\begin{frame}{Interpretación Solución 6: Lognormal vs Normal}
-  \begin{block}{Criterio de Información de Akaike (AIC)}
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Oscilador Amortiguado}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+# Modelo oscilador amortiguado
+def oscilador(t, A, gamma, omega, phi):
+    return A * np.exp(-gamma*t) * np.cos(omega*t + phi)
+
+# Parámetros reales
+A_real, gamma_real = 10, 0.1  # cm, s^-1
+omega_real, phi_real = 2*np.pi, 0  # rad/s
+
+# Generar datos
+np.random.seed(42)
+t = np.linspace(0, 20, 50)
+x_real = oscilador(t, A_real, gamma_real, omega_real, phi_real)
+sigma_x = np.full_like(x_real, 0.3)  # 0.3 cm
+x_obs = x_real + np.random.normal(0, sigma_x)
+
+# Ajustar (necesitamos valores iniciales)
+p0 = [8, 0.05, 6, 0]  # estimaciones
+popt, pcov = curve_fit(
+    oscilador, t, x_obs, p0=p0,
+    sigma=sigma_x, absolute_sigma=True
+)
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=20]{python}
+A_fit, gamma_fit, omega_fit, phi_fit = popt
+perr = np.sqrt(np.diag(pcov))
+
+# Magnitudes derivadas
+T_periodo = 2*np.pi / omega_fit
+tau_decay = 1 / gamma_fit
+
+print(f"Amplitud A = {A_fit:.2f} ± {perr[0]:.2f} cm")
+print(f"Amortiguamiento γ = {gamma_fit:.3f} ± {perr[1]:.3f} s⁻¹")
+print(f"Frecuencia ω = {omega_fit:.2f} ± {perr[2]:.2f} rad/s")
+print(f"Fase φ = {phi_fit:.2f} ± {perr[3]:.2f} rad")
+print(f"\nPeriodo T = {T_periodo:.2f} s")
+print(f"Tiempo de decaimiento τ = {tau_decay:.1f} s")
+\end{minted}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 2 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Banda de Confianza}
+\begin{minted}{python}
+# Graficar con banda de confianza
+t_fit = np.linspace(0, 20, 300)
+x_fit = oscilador(t_fit, *popt)
+
+# Banda de confianza (simplificada: ±1 sigma en amplitud)
+x_upper = oscilador(t_fit, A_fit+perr[0], gamma_fit, omega_fit, phi_fit)
+x_lower = oscilador(t_fit, A_fit-perr[0], gamma_fit, omega_fit, phi_fit)
+
+plt.figure(figsize=(12, 6))
+plt.errorbar(t, x_obs, yerr=sigma_x, fmt='o', capsize=2, 
+             label='Mediciones', alpha=0.6)
+plt.plot(t_fit, x_fit, 'r-', lw=2, label='Ajuste')
+plt.fill_between(t_fit, x_lower, x_upper, color='red', alpha=0.2, 
+                 label='Banda ±1σ')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Posición x (cm)')
+plt.title('Oscilador Amortiguado')
+plt.legend()
+plt.grid(alpha=0.3)
+plt.show()
+\end{minted}
+\textbf{Nota}: Para banda completa, propagar todas las incertidumbres con Monte Carlo.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 3: Crecimiento Logístico
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Crecimiento Logístico}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+# Modelo logístico
+def logistica(t, K, r, t0):
+    return K / (1 + np.exp(-r*(t - t0)))
+
+# Parámetros reales
+K_real, r_real, t0_real = 500, 0.3, 5  # estrellas, Myr^-1, Myr
+
+# Generar datos
+np.random.seed(42)
+t = np.linspace(0, 20, 25)
+N_real = logistica(t, K_real, r_real, t0_real)
+sigma_N = np.full_like(N_real, 10)  # 10 estrellas
+N_obs = N_real + np.random.normal(0, sigma_N)
+
+# Ajustar
+p0 = [400, 0.2, 4]
+popt, pcov = curve_fit(
+    logistica, t, N_obs, p0=p0,
+    sigma=sigma_N, absolute_sigma=True
+)
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=18]{python}
+K_fit, r_fit, t0_fit = popt
+perr = np.sqrt(np.diag(pcov))
+
+print(f"Capacidad K = {K_fit:.0f} ± {perr[0]:.0f} estrellas")
+print(f"Tasa r = {r_fit:.3f} ± {perr[1]:.3f} Myr⁻¹")
+print(f"Punto medio t₀ = {t0_fit:.1f} ± {perr[2]:.1f} Myr")
+
+# Tiempo al 90% de K
+def t_90(K, r, t0):
+    return t0 + np.log(9) / r  # de 0.9K = K/(1+exp(-r(t-t0)))
+
+t_90_val = t_90(K_fit, r_fit, t0_fit)
+print(f"\nTiempo al 90% de K: {t_90_val:.1f} Myr")
+\end{minted}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 3 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Visualización}
+\begin{minted}{python}
+# Graficar
+t_fit = np.linspace(0, 20, 200)
+N_fit = logistica(t_fit, *popt)
+
+plt.figure(figsize=(10, 6))
+plt.errorbar(t, N_obs, yerr=sigma_N, fmt='o', capsize=3, 
+             label='Observaciones', alpha=0.7)
+plt.plot(t_fit, N_fit, 'r-', lw=2, label='Ajuste logístico')
+plt.axhline(K_fit, color='gray', linestyle='--', alpha=0.5, label=f'K={K_fit:.0f}')
+plt.axhline(0.9*K_fit, color='orange', linestyle=':', alpha=0.5, label='90% de K')
+plt.axvline(t_90_val, color='orange', linestyle=':', alpha=0.5)
+plt.xlabel('Tiempo (Myr)')
+plt.ylabel('Número de Estrellas N')
+plt.title('Formación Estelar en Cúmulo')
+plt.legend()
+plt.grid(alpha=0.3)
+plt.show()
+\end{minted}
+\textbf{Interpretación}: El modelo captura bien la saturación de la formación estelar debido a agotamiento de gas.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Solución 4: Ley de Enfriamiento
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Ley de Enfriamiento}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{minted}{python}
+# Modelo de enfriamiento
+def enfriamiento(t, T_amb, T0, k):
+    return T_amb + (T0 - T_amb) * np.exp(-k*t)
+
+# Parámetros reales
+T0_real, T_amb_real = 25000, 2.7  # K
+k_real = 0.05  # Gyr^-1
+
+# Generar datos
+np.random.seed(42)
+t = np.linspace(0, 50, 20)
+T_real = enfriamiento(t, T_amb_real, T0_real, k_real)
+sigma_T = np.full_like(T_real, 200)  # 200 K
+T_obs = T_real + np.random.normal(0, sigma_T)
+
+# Ajustar
+popt, pcov = curve_fit(
+    enfriamiento, t, T_obs,
+    sigma=sigma_T, absolute_sigma=True
+)
+\end{minted}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=18]{python}
+T_amb_fit, T0_fit, k_fit = popt
+perr = np.sqrt(np.diag(pcov))
+
+# Tiempo de semi-enfriamiento
+t_half = np.log(2) / k_fit
+sigma_t_half = t_half * (perr[2]/k_fit)
+
+print(f"T_amb = {T_amb_fit:.1f} ± {perr[0]:.1f} K")
+print(f"T₀ = {T0_fit:.0f} ± {perr[1]:.0f} K")
+print(f"k = {k_fit:.4f} ± {perr[2]:.4f} Gyr⁻¹")
+print(f"\nt_1/2 = {t_half:.1f} ± {sigma_t_half:.1f} Gyr")
+
+# Calcular chi^2 reducido
+residuos = T_obs - enfriamiento(t, *popt)
+chi2_red = np.sum((residuos/sigma_T)**2) / (len(t) - 3)
+print(f"χ²_red = {chi2_red:.2f}")
+\end{minted}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 4 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Gráfico Semi-Log}
+\begin{minted}{python}
+# Graficar en escala semi-log
+t_fit = np.linspace(0, 50, 200)
+T_fit = enfriamiento(t_fit, *popt)
+
+plt.figure(figsize=(10, 6))
+plt.errorbar(t, T_obs, yerr=sigma_T, fmt='o', capsize=3, 
+             label='Mediciones', alpha=0.7)
+plt.plot(t_fit, T_fit, 'r-', lw=2, 
+         label=f'Ajuste: t₁/₂={t_half:.1f}±{sigma_t_half:.1f} Gyr')
+plt.axhline(T_amb_real, color='blue', linestyle='--', alpha=0.5, 
+            label=f'T_CMB = {T_amb_real} K')
+plt.yscale('log')
+plt.xlabel('Tiempo (Gyr)')
+plt.ylabel('Temperatura (K) [escala log]')
+plt.title('Enfriamiento de Enana Blanca')
+plt.legend()
+plt.grid(alpha=0.3, which='both')
+plt.show()
+\end{minted}
+\textbf{Nota}: \(\chi^2_{\text{red}} \approx 1\) indica buen ajuste; \(>2\) sugiere modelo inadecuado o errores subestimados.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Análisis Comparativo
+% ------------------------------------------------------------------------
+\begin{frame}{Análisis de las Soluciones}
+  \begin{block}{Estructuras y conceptos integrados}
+    \textbf{Todos los ejercicios comparten:}
     \begin{itemize}
-      \item \(\text{AIC} = 2k - 2\ln(L)\) donde \(k\) = número de parámetros, \(L\) = verosimilitud
-      \item Penaliza modelos complejos (muchos parámetros)
-      \item \textbf{Regla}: El modelo con \textbf{menor AIC} es preferible
-      \item Diferencia \(\Delta\text{AIC} > 10\): Evidencia fuerte a favor del mejor modelo
+      \item Definición de función del modelo físico
+      \item Generación de datos simulados con ruido Gaussiano
+      \item Uso de `curve\_fit` con ponderación por `sigma`
+      \item Extracción de incertidumbres desde `pcov`
+      \item Cálculo de magnitudes físicas derivadas
+      \item Visualización con barras de error
     \end{itemize}
   \end{block}
   
-  \begin{alertblock}{¿Por qué la Normal falla?}
+  \begin{alertblock}{Diferencias clave}
     \begin{itemize}
-      \item Datos Lognormales son \textbf{asimétricos} (cola larga hacia valores altos)
-      \item La Normal es \textbf{simétrica} → no puede capturar la asimetría
-      \item Forzar una Normal produce residuos sistemáticos
+      \item \textbf{Ejercicio 2 y 3}: Requieren valores iniciales `p0` (modelos no lineales complejos)
+      \item \textbf{Ejercicio 4}: Uso de escala logarítmica para visualizar decaimientos largos
+      \item \textbf{Ejercicio 1}: Propagación de errores explícita (\(T_{1/2}\) desde \(\lambda\))
     \end{itemize}
   \end{alertblock}
-  
-  \textbf{Interpretación física}: Muchas magnitudes astrofísicas son lognormales (masas, luminosidades, tiempos) debido a procesos multiplicativos. Usar Normal lleva a conclusiones erróneas.
-  
-  \vspace{0.3cm}
-  \textbf{Conclusión}: Siempre visualizar datos antes de elegir modelo. El AIC cuantifica lo que el ojo ve.
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
@@ -332,38 +529,33 @@ plt.show()
 \section{Consolidación y Retroalimentación}
 
 \begin{frame}{Puesta en Común - ¿Cómo les fue?}
-  \begin{block}{Reflexión sobre técnicas avanzadas}
-    \textbf{Interpolación (Ejercicio 5):}
+  \begin{block}{Reflexión sobre los ejercicios}
     \begin{itemize}
-      \item ¿Cuándo preferirían interpolación lineal vs cúbica?
-      \item ¿Notaron oscilaciones en la cúbica en algunos casos?
-    \end{itemize}
-    
-    \textbf{Selección de modelos (Ejercicio 6):}
-    \begin{itemize}
-      \item ¿El AIC les ayudó a decidir entre modelos objetivamente?
-      \item ¿Lograron visualizar por qué la Normal no captura la asimetría?
+      \item ¿Qué modelo resultó más difícil de ajustar? ¿Por qué?
+      \item ¿Encontraron problemas con valores iniciales en oscilador/logística?
+      \item ¿Cómo interpretaron las incertidumbres en el contexto físico?
+      \item ¿Lograron calcular magnitudes derivadas (T_{1/2}, periodo, etc.)?
     \end{itemize}
   \end{block}
   
   \begin{alertblock}{Objetivo}
-    Desarrollar intuición para elegir métodos apropiados según las características de los datos.
+    Desarrollar intuición para elegir modelos apropiados y validar ajustes con métricas como \(\chi^2_{\text{red}}\).
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Errores Comunes en Técnicas Avanzadas}
+\begin{frame}{Errores Comunes con \texttt{curve\_fit}}
   \begin{block}{Errores frecuentes}
     \begin{itemize}
-      \item \textbf{Extrapolar interpolaciones}: Solo válidas dentro del rango de datos
-      \item \textbf{Elegir modelo por "se ve bien"}: El AIC cuantifica objetivamente
-      \item \textbf{Ignorar asimetrías}: Usar Normal para datos claramente asimétricos
-      \item \textbf{Sobre-confiar en interpolación cúbica}: Puede oscilar con ruido
-      \item \textbf{No validar con datos reales}: Siempre comparar con ground truth cuando sea posible
+      \item \textbf{Olvidar valores iniciales `p0`}: Modelos no lineales necesitan buenas estimaciones
+      \item \textbf{No usar `absolute\_sigma=True`}: Las incertidumbres quedan en escala relativa
+      \item \textbf{Extrapolar fuera del rango de datos}: `curve\_fit` ajusta, no predice
+      \item \textbf{Ignorar $(\chi^2_{\text{red}})$}: Un valor lejano de 1 indica problemas
+      \item \textbf{No propagar errores correctamente}: Usar fórmulas de propagación para magnitudes derivadas
     \end{itemize}
   \end{block}
   
   \begin{alertblock}{Consejo}
-    \textbf{Workflow recomendado}: Visualizar → Probar múltiples métodos → Comparar métricas → Elegir con criterio
+    \textbf{Siempre visualiza residuos}: `plt.plot(t, T\_obs - T\_fit)` revela patrones sistemáticos.
   \end{alertblock}
 \end{frame}
 
@@ -373,113 +565,136 @@ plt.show()
 \section{Conclusiones}
 
 \begin{frame}{Síntesis de la Sesión}
-  \begin{block}{Técnicas avanzadas dominadas hoy}
-    \textbf{Interpolación:}
+  \begin{block}{Técnicas consolidadas hoy}
+    \textbf{Ajuste con `curve\_fit`:}
     \begin{itemize}
-      \item Uso de \texttt{scipy.interpolate.interp1d}
-      \item Comparación lineal vs cúbica
-      \item Evaluación con RMS
+      \item Decaimiento exponencial (radiactividad)
+      \item Oscilaciones amortiguadas (sistemas disipativos)
+      \item Crecimiento saturado (poblaciones)
+      \item Enfriamiento (ley de Newton)
     \end{itemize}
     
-    \textbf{Selección de modelos:}
+    \textbf{Habilidades desarrolladas:}
     \begin{itemize}
-      \item Criterio AIC para comparación objetiva
-      \item Ajuste de distribuciones con \texttt{scipy.stats}
-      \item Interpretación física de asimetrías
+      \item Extracción e interpretación de incertidumbres
+      \item Propagación de errores a magnitudes derivadas
+      \item Visualización con bandas de confianza
+      \item Validación con $(\chi^2_{\text{red}})$
     \end{itemize}
   \end{block}
   
   \begin{alertblock}{Habilidad adquirida}
-    Reconstruir datos incompletos y elegir modelos estadísticos apropiados para fenómenos físicos reales.
+    Ajustar modelos físicos arbitrarios a datos reales con evaluación rigurosa de incertidumbres.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Recapitulación: Herramientas Clave}
-  \begin{block}{Librerías esenciales}
-    \begin{itemize}
-      \item \texttt{scipy.interpolate.interp1d}: Interpolación 1D (lineal, cúbica, etc.)
-      \item \texttt{scipy.stats}: Distribuciones, ajuste y pruebas estadísticas
-      \item \texttt{numpy}: Operaciones vectoriales y cálculo de métricas
-      \item \texttt{matplotlib}: Visualización comparativa
-    \end{itemize}
+\begin{frame}{Recapitulación: Workflow Completo}
+  \begin{block}{Pasos estándar para análisis con `curve\_fit`}
+    \begin{enumerate}
+      \item \textbf{Definir} función del modelo físico
+      \item \textbf{Estimar} valores iniciales `p0` (si es necesario)
+      \item \textbf{Ajustar} con `curve\_fit` y `sigma`
+      \item \textbf{Extraer} parámetros y `pcov`
+      \item \textbf{Calcular} incertidumbres con `np.sqrt(np.diag(pcov))`
+      \item \textbf{Derivar} magnitudes físicas con propagación de errores
+      \item \textbf{Validar} con $(\chi^2_{\text{red}})$ y gráficos de residuos
+      \item \textbf{Visualizar} datos + ajuste + banda de confianza
+    \end{enumerate}
   \end{block}
   
-  \begin{block}{Métricas y criterios}
-    \begin{itemize}
-      \item \textbf{RMS}: Error de reconstrucción en interpolación
-      \item \textbf{AIC}: Selección de modelos (menor es mejor)
-      \item \textbf{Visualización}: Histogramas + PDFs para comparar distribuciones
-    \end{itemize}
-  \end{block}
+  \textbf{Este workflow es aplicable a cualquier problema de ajuste en física/astronomía.}
 \end{frame}
 
 \begin{frame}{Preparación para la Próxima Unidad}
   \begin{itemize}
-    \item \textbf{Próxima semana:} Integración de todas las técnicas en proyectos completos
+    \item \textbf{Próxima semana}: Técnicas avanzadas (interpolación, bootstrapping, selección de modelos)
     \item \textbf{Recomendación de estudio:}
       \begin{itemize}
-        \item Explorar otros tipos de interpolación (nearest, quadratic)
-        \item Leer sobre otros criterios de selección (BIC, validación cruzada)
+        \item Practicar con datasets propios (Kaggle, repositorios astronómicos)
+        \item Explorar `lmfit` (alternativa a `curve\_fit` con más funcionalidades)
       \end{itemize}
     \item \textbf{Práctica sugerida:}
       \begin{itemize}
-        \item Aplicar interpolación a datasets reales (Kaggle, astroML)
-        \item Comparar AIC vs BIC en problemas propios
+        \item Aplicar `curve\_fit` a curvas de luz reales (TESS, Kepler)
+        \item Experimentar con modelos físicos de su área de interés
       \end{itemize}
   \end{itemize}
   
   \begin{center}
-    \textbf{¡Excelente trabajo en estas dos semanas!}
+    \textbf{¡Excelente trabajo consolidando `curve\_fit`!}
   \end{center}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% APÉNDICE: Ver también (extras fuera del cuerpo principal)
+% APÉNDICE: Extras
 % ----------------------------------------------------------------------------------------
-%\appendix
 \section{Apéndice: Ver también}
 
-\begin{frame}[fragile]{Extra: Otros tipos de interpolación}
+\begin{frame}[fragile]{Extra: Propagación de Errores con Covarianza Completa}
 \begin{minted}{python}
-from scipy.interpolate import interp1d
+# Ejemplo: Si z = f(a, b) con incertidumbres correlacionadas
+# Usar fórmula general de propagación:
+# σ_z² = (∂f/∂a)² σ_a² + (∂f/∂b)² σ_b² + 2(∂f/∂a)(∂f/∂b)cov(a,b)
 
-# Opciones de kind:
-# 'linear', 'nearest', 'zero', 'slinear', 'quadratic', 'cubic'
+# Para T_1/2 = ln(2) / lambda:
+def prop_error_T_half(lambda_fit, pcov_lambda):
+    deriv = -np.log(2) / lambda_fit**2
+    var_T = deriv**2 * pcov_lambda
+    return np.sqrt(var_T)
 
-f_nearest = interp1d(x, y, kind='nearest')
-f_quadratic = interp1d(x, y, kind='quadratic')
+# pcov[1,1] es la varianza de lambda
+sigma_T_half = prop_error_T_half(lambda_fit, pcov[1,1])
+\end{minted}
+\textbf{Nota}: Para funciones de múltiples variables, usar la matriz completa `pcov`.
+\end{frame}
 
-# Para datos 2D: ver scipy.interpolate.interp2d
-# Para datos irregulares: ver scipy.interpolate.griddata
+\begin{frame}[fragile]{Extra: Validación Cruzada para Valores Iniciales}
+\begin{minted}{python}
+# Si no sabes qué p0 usar, prueba múltiples:
+from scipy.optimize import curve_fit
+
+p0_candidates = [
+    [8, 0.05, 6, 0],    # conservador
+    [12, 0.15, 7, 0.5], # agresivo
+    [10, 0.1, 2*np.pi, 0]  # basado en física
+]
+
+results = []
+for p0 in p0_candidates:
+    try:
+        popt, pcov = curve_fit(oscilador, t, x_obs, p0=p0, sigma=sigma_x)
+        chi2_red = calcular_chi2_red(t, x_obs, sigma_x, popt)
+        results.append((chi2_red, popt))
+    except RuntimeError:
+        continue
+
+# Elegir el de menor chi2_red
+best = min(results, key=lambda x: x[0])
+print(f"Mejor ajuste: chi2_red={best[0]:.2f}")
 \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Extra: BIC (Bayesian Information Criterion)}
+\begin{frame}[fragile]{Extra: Comparar Modelos con AIC}
 \begin{minted}{python}
-# Similar a AIC pero penaliza más la complejidad
-BIC = k * np.log(n) - 2 * log_likelihood
+# Criterio de Información de Akaike (introducción simple)
+def calcular_AIC(residuos, sigma, n_params):
+    chi2 = np.sum((residuos/sigma)**2)
+    log_likelihood = -0.5 * chi2
+    AIC = 2*n_params - 2*log_likelihood
+    return AIC
 
-# Comparar con AIC:
-# BIC penaliza más modelos complejos (útil con muchos datos)
-# AIC es mejor para predicción
-# Ambos: menor es mejor
+# Ejemplo: comparar modelo lineal vs cuadrático
+residuos_lin = y_obs - modelo_lineal(x, *popt_lin)
+residuos_quad = y_obs - modelo_cuadratico(x, *popt_quad)
+
+AIC_lin = calcular_AIC(residuos_lin, sigma, 2)   # 2 parámetros
+AIC_quad = calcular_AIC(residuos_quad, sigma, 3) # 3 parámetros
+
+print(f"AIC lineal: {AIC_lin:.1f}")
+print(f"AIC cuadrático: {AIC_quad:.1f}")
+print("Mejor modelo:", "lineal" if AIC_lin < AIC_quad else "cuadrático")
 \end{minted}
-\end{frame}
-
-\begin{frame}[fragile]{Extra: Prueba KS (Kolmogorov-Smirnov)}
-\begin{minted}{python}
-from scipy import stats
-
-# Comparar datos con distribución teórica
-D, p_value = stats.kstest(x, 'norm', args=(mu, sigma))
-
-# D: estadístico KS (distancia máxima entre CDFs)
-# p_value > 0.05: no rechazamos la hipótesis (datos ~ Normal)
-# p_value < 0.05: rechazamos (datos NO son Normal)
-
-print(f"KS: D={D:.3f}, p={p_value:.3f}")
-\end{minted}
-\textbf{Nota:} Complementa al AIC para validación de modelos.
+\textbf{Nota}: AIC menor indica mejor balance entre ajuste y complejidad.
 \end{frame}
 
 \end{document}

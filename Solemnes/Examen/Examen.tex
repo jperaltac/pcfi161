@@ -1,0 +1,251 @@
+\documentclass[10pt]{article}
+
+% Compilar con LuaLaTeX o XeLaTeX
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella} % si no está, cámbiala
+\setsansfont{Fira Sans}       % instalar o cambiar
+\setmonofont{DejaVu Sans Mono}       % instalar o cambiar
+
+\usepackage[spanish]{babel}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{xcolor}
+\definecolor{unabblue}{HTML}{003366}
+\definecolor{unabgold}{HTML}{C69214}
+\definecolor{lightblue}{HTML}{E6F0FF}
+
+\usepackage[most]{tcolorbox}
+\tcbset{enhanced,
+  colback=lightblue!30,
+  colframe=unabblue,
+  fonttitle=\sffamily\bfseries\large,
+  boxrule=1pt,arc=3mm,
+  left=2mm,right=2mm,top=1mm,bottom=1mm,
+  before skip=8pt,after skip=12pt
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\sffamily\bfseries\textcolor{unabblue}{Prueba de Programación}}
+\rhead{\sffamily\textcolor{unabblue}{PCFI161}}
+\cfoot{\thepage}
+
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=unabblue,urlcolor=unabblue}
+
+
+% ------------------------------------------------------------------------------- 
+% ---------------------------------- Documento ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{document}
+\begin{center}
+  {\huge\bfseries\textcolor{unabblue}{Prueba de Programación}}\\[4pt]
+  {\Large\sffamily\textcolor{unabgold}{Física y Astronomía}}\\[6pt]
+  %{\large\sffamily Versión A}\\[10pt]
+  %\today
+\end{center}
+
+%\noindent\textbf{Instrucciones}: Responda cada pregunta escribiendo un programa en \texttt{Python 3}. Use solo módulos de la biblioteca estándar. Comente brevemente su código.
+
+
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 1 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 1 – Ecuación Cúbica}]
+
+\noindent\textbf{Contexto matemático:}
+
+Las ecuaciones polinomiales de grado 3 (cúbicas) pueden tener hasta 3 raíces, que pueden ser reales o complejas. Estas ecuaciones aparecen frecuentemente en física al resolver problemas de movimiento, optimización, y dinámica de sistemas.
+
+\noindent\textbf{Modelo matemático:}
+\[
+ax^{3}+bx^{2}+cx+d=0
+\]
+donde: $a, b, c$ son coeficientes proporcionados por el usuario, y $d$ es un coeficiente generado aleatoriamente entre $-20$ y $20$.
+
+\noindent\textbf{Tareas a realizar (paso a paso):}
+
+\begin{enumerate}
+  \item \textbf{Entrada de datos:}
+  \begin{itemize}
+    \item Solicite al usuario los coeficientes $a$, $b$, $c$ usando \texttt{input()} y conviértalos a \texttt{float}
+    \item Genere el coeficiente entero $d$ al azar entre $-20$ y $20$ usando \texttt{np.random.randint(-20, 21)}
+    \item Imprima el valor de $d$ generado con un mensaje claro
+  \end{itemize}
+  
+  \item \textbf{Cálculo de las raíces:}
+  \begin{itemize}
+    \item Cree una lista con los coeficientes: \texttt{coeficientes = [a, b, c, d]}
+    \item Use \texttt{raices = np.roots(coeficientes)} para calcular todas las raíces
+    \item Cree una lista vacía \texttt{raices\_reales = []} para almacenar las raíces reales
+    \item Use un bucle \texttt{for} para recorrer cada raíz y verificar si es real: \texttt{if abs(raiz.imag) < 1e-10}
+    \item Si es real, agregue \texttt{raiz.real} a la lista \texttt{raices\_reales}
+  \end{itemize}
+  
+  \item \textbf{Clasificación y presentación:}
+  \begin{itemize}
+    \item Calcule el número de raíces reales: \texttt{num\_raices = len(raices\_reales)}
+    \item Use \texttt{if-elif-else} para imprimir el número de raíces encontradas
+    \item Si hay raíces reales, use un bucle \texttt{for} para imprimir cada una con 4 decimales
+  \end{itemize}
+\end{enumerate}
+
+\end{tcolorbox}
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 2 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 2 – Espiral de Arquímedes parametrizada}]
+
+\noindent\textbf{Contexto geométrico:}
+
+La espiral de Arquímedes es una curva histórica descubierta por el matemático griego Arquímedes. Se caracteriza porque la distancia entre sus vueltas sucesivas es constante. Esta curva aparece en la naturaleza (conchas de moluscos) y en aplicaciones tecnológicas (antenas espirales, resortes).
+
+\noindent\textbf{Modelo matemático:}
+
+El radio vector en función del ángulo polar $\theta$ está dado por:
+\[
+r(\theta) = a + b \theta
+\]
+donde: $a = 0.5$ (radio inicial cuando $\theta = 0$), $b = 0.3$ (tasa de crecimiento radial por radián), y $\theta \in [0, 6\pi]$ (ángulo polar en radianes, equivalente a 3 vueltas completas).
+
+\noindent\textbf{Transformación a coordenadas cartesianas:}
+\[
+x = r \cos(\theta), \quad y = r \sin(\theta)
+\]
+
+\vspace{2mm}
+\noindent\textbf{Tareas a realizar (paso a paso):}
+
+\begin{enumerate}
+  \item \textbf{Generación del arreglo angular:}
+  \begin{itemize}
+    \item Cree un arreglo \texttt{theta} con 1000 valores igualmente espaciados en el intervalo $[0, 6\pi]$ 
+    \item Use \texttt{theta = np.linspace(0, 6*np.pi, 1000)}
+    \item Este arreglo representa el ángulo polar desde 0 hasta $6\pi$ radianes (3 revoluciones completas)
+  \end{itemize}
+  
+  \item \textbf{Cálculo del radio vectorizado:}
+  \begin{itemize}
+    \item Defina los parámetros: \texttt{a = 0.5} y \texttt{b = 0.3}
+    \item Calcule el radio para cada ángulo usando operaciones vectorizadas (sin bucles): \texttt{r = a + b * theta}
+    \item NumPy automáticamente aplica la operación a todos los elementos del arreglo
+  \end{itemize}
+  
+  \item \textbf{Transformación a coordenadas cartesianas:}
+  \begin{itemize}
+    \item Calcule la coordenada $x$: \texttt{x = r * np.cos(theta)}
+    \item Calcule la coordenada $y$: \texttt{y = r * np.sin(theta)}
+    \item Estas operaciones también son vectorizadas y se aplican elemento por elemento
+  \end{itemize}
+  
+  \item \textbf{Visualización de la espiral:}
+  \begin{itemize}
+    \item Cree una figura cuadrada: \texttt{plt.figure(figsize=(8, 8))}
+    \item Grafique la espiral: \texttt{plt.plot(x, y, 'b-', linewidth=1)}
+    \item Use \texttt{plt.axis('equal')} para mantener proporciones iguales en ambos ejes
+    \item Añada etiquetas: \texttt{plt.xlabel('x')} y \texttt{plt.ylabel('y')}
+    \item Título: \texttt{plt.title('Espiral de Arquímedes')}
+    \item Muestre el gráfico: \texttt{plt.show()}
+  \end{itemize}
+  
+  \item \textbf{Análisis estadístico del radio:}
+  \begin{itemize}
+    \item Calcule el radio mínimo: \texttt{r\_min = np.min(r)}
+    \item Calcule el radio máximo: \texttt{r\_max = np.max(r)}
+    \item Imprima ambos valores con 4 decimales usando formato f-string
+    \item Verifique que $r_{\text{min}} = a = 0.5$ y $r_{\text{max}} = a + 6\pi b \approx 6.1549$
+  \end{itemize}
+\end{enumerate}
+
+\end{tcolorbox}
+
+
+% ------------------------------------------------------------------------------- 
+% --------------------------------- Pregunta 3 ----------------------------------
+% ------------------------------------------------------------------------------- 
+
+\begin{tcolorbox}[title={Pregunta 3 – Crecimiento Bacteriano (scipy.optimize.curve\_fit)}]
+
+\noindent\textbf{Contexto biológico:}
+
+Una colonia de bacterias crece exponencialmente en condiciones ideales. Se desea estimar la población inicial y la tasa de crecimiento a partir de mediciones experimentales.
+
+\noindent\textbf{Modelo matemático:}
+\[
+P(t) = P_0 e^{kt}
+\]
+donde: $P_0$ es la población inicial de bacterias, $k$ es la constante de crecimiento (h$^{-1}$), y $P(t)$ es la población en el tiempo $t$.
+$k = 0.25$ h$^{-1}$ (constante de crecimiento)
+
+Incertidumbre en las mediciones: $\sigma_P(t) = 50 + 0.03 \cdot P(t)$ (variable, combina error de conteo y estadístico)
+
+
+\noindent\textbf{Datos experimentales:}\\
+Se realizaron 10 mediciones en los siguientes tiempos:
+\[
+ t = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] \text{ horas}
+\]
+
+\noindent\textbf{Datos sintéticos proporcionados:}\\[0.3em]
+Los datos experimentales (con ruido) y sus incertidumbres ya han sido generados y están disponibles en las variables \textbf{t\_crecimiento}, \textbf{P\_obs} y \texttt{sigma\_P}.
+
+\noindent\textbf{Recomendacion}: Primero que todo use \texttt{plt.scatter($t_{\text{crecimiento}}$, $P_{\text{obs}}$)} para observar los datos.
+
+\noindent\textbf{Tareas a realizar (paso a paso):}
+
+\begin{enumerate}
+  \item \textbf{Definición del modelo para curve\_fit:}
+  \begin{itemize}
+    \item Defina una función Python \texttt{def modelo\_crecimiento(t, P0, k)} que implemente la fórmula $P(t) = P_0 e^{kt}$ use \texttt{np.exp()}.
+  \end{itemize}
+  
+  \item \textbf{Ajuste no lineal con curve\_fit:}
+  \begin{itemize}
+    \item Proporcione valores iniciales razonables: \texttt{p0 = [800, 0.2]} (subestimados intencionalmente)
+    \item Realice el ajuste con ponderación: \texttt{curve\_fit(modelo\_crecimiento, t, P\_obs, p0=p0, sigma=sigma\_P, absolute\_sigma=True)}
+    \item Extraiga los parámetros óptimos \texttt{popt} y la matriz de covarianza \texttt{pcov}
+    \item Calcule \texttt{P\_fit} usando los parámetros ajustados
+  \end{itemize}
+  
+  \item \textbf{Extracción de incertidumbres:}
+  \begin{itemize}
+    \item Calcule las incertidumbres de los parámetros: \texttt{perr = np.sqrt(np.diag(pcov))}
+    \item Extraiga individualmente: \texttt{sigma\_P0 = perr[0]} y \texttt{sigma\_k = perr[1]}
+  \end{itemize}
+  
+  \item \textbf{Cálculo de $\chi^2$ reducido:}
+  \begin{itemize}
+    \item Calcule los residuos ponderados: $r_i = \frac{P_{\text{obs},i} - P_{\text{fit},i}}{\sigma_{P,i}}$
+    \item Compute $\chi^2 = \sum r_i^2$
+    \item Calcule grados de libertad: $\nu = n_{\text{datos}} - n_{\text{parámetros}} = 10 - 2 = 8$
+    \item Obtenga $\chi^2_{\text{red}} = \frac{\chi^2}{\nu}$
+    \item Imprima $\chi^2$, $\nu$ y $\chi^2_{\text{red}}$ con 4 decimales
+  \end{itemize}
+  
+  \item \textbf{Visualización con barras de error:}
+  \begin{itemize}
+    \item Use \texttt{plt.errorbar(t, P\_obs, yerr=sigma\_P, fmt='o')} para los datos con barras de error
+    \item Genere una curva suave: cree \texttt{t\_fino = np.linspace(0, 9, 200)} y calcule \texttt{P\_fino}
+    \item Incluya leyenda con los parámetros ajustados (formato: $P_0 = \text{valor} \pm \text{error}$)
+  \end{itemize}
+  
+\end{enumerate}
+
+
+\end{tcolorbox}
+
+% ------------------------------------------------------------------------------- 
+
+
+\end{document}
+
