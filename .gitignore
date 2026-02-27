@@ -36,3 +36,6 @@ _*.minted
 # Si no quieres subir PDFs generados por LaTeX, ignora el PDF
 # (descomenta la línea si no deseas subirlos)
 # *.pdf
+
+# Configuración local de Canvas
+lectures/Key.txt
