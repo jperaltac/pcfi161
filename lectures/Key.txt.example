@@ -1,0 +1,9 @@
+# Formato: Profesor|TokenCanvas|CourseID(opcional)
+# Ejemplos:
+David|pon_aqui_tu_token_canvas|177387
+Fabrizzio|pon_aqui_otro_token|177370
+
+# Notas:
+# - Puedes omitir CourseID si no quieres fijarlo por profesor.
+# - Para usar un archivo en otra ubicación, define la variable de entorno:
+#   CANVAS_KEY_FILE=/ruta/a/tu/Key.txt

@@ -1,10 +1,79 @@
 # Canvas API Configuration
 import os
+from pathlib import Path
 from canvasapi import Canvas
-from Key import USERS
 
 # URL base de tu instancia de Canvas
 CANVAS_URL = "https://canvas.unab.cl/"
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_LECTURES_DIR = Path(__file__).resolve().parent
+
+
+def _resolver_directorio(*nombres, fallback=None):
+    """
+    Busca un directorio dentro del repositorio usando varias alternativas de nombre.
+    """
+    for nombre in nombres:
+        candidato = REPO_ROOT / nombre
+        if candidato.exists() and candidato.is_dir():
+            return candidato
+    return fallback
+
+
+def _cargar_usuarios_desde_texto(config_path=None):
+    """
+    Carga usuarios desde un archivo de texto plano con este formato:
+    profesor|token|course_id
+
+    Reglas:
+      - Líneas vacías o que inician con # se ignoran.
+      - course_id es opcional.
+      - Si hay duplicados, prevalece la última definición.
+    """
+    default_path = Path(__file__).with_name("Key.txt")
+    path = Path(config_path or os.getenv("CANVAS_KEY_FILE", default_path))
+
+    if not path.exists():
+        print(f"⚠ Archivo de configuración no encontrado: {path}")
+        print("💡 Crea 'lectures/Key.txt' con formato: profesor|token|course_id")
+        return {}
+
+    users = {}
+    with open(path, "r", encoding="utf-8") as fh:
+        for line_number, raw in enumerate(fh, start=1):
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+
+            parts = [p.strip() for p in line.split("|")]
+            if len(parts) < 2:
+                print(f"⚠ Línea {line_number} inválida en {path}: '{line}'")
+                continue
+
+            nombre, token = parts[0], parts[1]
+            if not nombre or not token:
+                print(f"⚠ Línea {line_number} incompleta en {path}: '{line}'")
+                continue
+
+            users[nombre] = token
+            if len(parts) >= 3 and parts[2]:
+                try:
+                    users[f"{nombre}_id"] = int(parts[2])
+                except ValueError:
+                    print(f"⚠ course_id inválido en línea {line_number}: '{parts[2]}'")
+
+    return users
+
+
+USERS = _cargar_usuarios_desde_texto()
+LECTURES_BASE_PATH = Path(os.getenv("CANVAS_LECTURES_DIR", DEFAULT_LECTURES_DIR))
+EVALUACIONES_BASE_PATH = Path(
+    os.getenv(
+        "CANVAS_SOLEMNES_DIR",
+        _resolver_directorio("Solemnes", "solemnes", fallback=REPO_ROOT / "Solemnes")
+    )
+)
 
 # Variables globales
 canvas = None
@@ -625,10 +694,10 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     print(f"  ✓ '{semana_titulo}' agregada en posición {insert_position + 1}")
     
     # Definir archivos a subir (P1 y P2)
-    base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\lectures"
+    semana_dir = LECTURES_BASE_PATH / f"Semana{semana_str}"
     files_to_upload = [
-        os.path.join(base_path, f"Semana{semana_str}", f"Semana{semana_str}-P1.pdf"),
-        os.path.join(base_path, f"Semana{semana_str}", f"Semana{semana_str}-P2.pdf")
+        semana_dir / f"Semana{semana_str}-P1.pdf",
+        semana_dir / f"Semana{semana_str}-P2.pdf"
     ]
     
     # Subir y agregar archivos al módulo
@@ -636,8 +705,8 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     uploaded_count = 0
     
     for file_path in files_to_upload:
-        if os.path.exists(file_path):
-            file_name = os.path.basename(file_path)
+        if file_path.exists():
+            file_name = file_path.name
             print(f"  📄 {file_name}...")
             
             # Verificar si el archivo ya existe en Canvas y eliminarlo para evitar duplicados
@@ -648,7 +717,7 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
                     existing_file.delete()
             
             # Subir el archivo al curso
-            uploaded_file = course.upload(file_path)
+            uploaded_file = course.upload(str(file_path))
             file_id = uploaded_file[1]['id']
             print(f"    ✓ Subido a Canvas (ID: {file_id})")
             
@@ -722,11 +791,11 @@ def crear_modulo_solemne(numero_solemne, html_path=None, course_id=None,
     
     # Ruta por defecto del archivo HTML
     if html_path is None:
-        base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\solemnes"
-        html_path = os.path.join(base_path, f"S{numero_solemne}", f"Solemne {numero_solemne}.html")
+        html_path = EVALUACIONES_BASE_PATH / f"S{numero_solemne}" / f"Solemne {numero_solemne}.html"
     
     # Verificar que el archivo HTML existe
-    if not os.path.exists(html_path):
+    html_path = Path(html_path)
+    if not html_path.exists():
         print(f"❌ Error: Archivo HTML no encontrado: {html_path}")
         return None
     
@@ -844,10 +913,10 @@ def crear_modulo_solemne(numero_solemne, html_path=None, course_id=None,
     
     # Buscar y subir el archivo PDF del solemne si existe
     print(f"\n4. Buscando archivo PDF del Solemne {numero_solemne}...")
-    pdf_path = os.path.join(base_path, f"S{numero_solemne}", f"Solemne {numero_solemne}.pdf")
+    pdf_path = EVALUACIONES_BASE_PATH / f"S{numero_solemne}" / f"Solemne {numero_solemne}.pdf"
     
-    if os.path.exists(pdf_path):
-        print(f"  ✓ Archivo PDF encontrado: {os.path.basename(pdf_path)}")
+    if pdf_path.exists():
+        print(f"  ✓ Archivo PDF encontrado: {pdf_path.name}")
         
         # Verificar si el archivo ya existe en Canvas y eliminarlo
         try:
@@ -865,7 +934,7 @@ def crear_modulo_solemne(numero_solemne, html_path=None, course_id=None,
         # Subir el archivo PDF a Canvas
         try:
             print(f"  📤 Subiendo PDF a Canvas...")
-            uploaded_file = course.upload(pdf_path)
+            uploaded_file = course.upload(str(pdf_path))
             file_id = uploaded_file[1]['id']
             print(f"  ✓ PDF subido exitosamente (ID: {file_id})")
             
@@ -1042,10 +1111,9 @@ def actualizar_fechas_solemne(numero_solemne, course_id=None,
     print("💡 NOTA: Las fechas se aplican recreando el solemne con las nuevas fechas")
     
     # Buscar el archivo HTML del solemne
-    base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\solemnes"
-    html_path = os.path.join(base_path, f"S{numero_solemne}", f"Solemne {numero_solemne}.html")
+    html_path = EVALUACIONES_BASE_PATH / f"S{numero_solemne}" / f"Solemne {numero_solemne}.html"
     
-    if not os.path.exists(html_path):
+    if not html_path.exists():
         print(f"❌ Archivo HTML no encontrado: {html_path}")
         return False
     
@@ -1109,12 +1177,12 @@ def crear_modulo_examen(html_path=None, course_id=None,
         print(f"📌 Usando course_id del usuario: {course_id}")
     
     # Ruta por defecto del archivo HTML
-    base_path = r"d:\5) Clases Programacion 1\Clase PCFI 161\pcfi161\solemnes"
     if html_path is None:
-        html_path = os.path.join(base_path, "Examen", "Examen.html")
+        html_path = EVALUACIONES_BASE_PATH / "Examen" / "Examen.html"
     
     # Verificar que el archivo HTML existe
-    if not os.path.exists(html_path):
+    html_path = Path(html_path)
+    if not html_path.exists():
         print(f"❌ Error: Archivo HTML no encontrado: {html_path}")
         return None
     
@@ -1232,10 +1300,10 @@ def crear_modulo_examen(html_path=None, course_id=None,
     
     # Buscar y subir el archivo PDF del examen si existe
     print(f"\n4. Buscando archivo PDF del Examen...")
-    pdf_path = os.path.join(base_path, "Examen", "Examen.pdf")
+    pdf_path = EVALUACIONES_BASE_PATH / "Examen" / "Examen.pdf"
     
-    if os.path.exists(pdf_path):
-        print(f"  ✓ Archivo PDF encontrado: {os.path.basename(pdf_path)}")
+    if pdf_path.exists():
+        print(f"  ✓ Archivo PDF encontrado: {pdf_path.name}")
         
         # Verificar si el archivo ya existe en Canvas y eliminarlo
         try:
@@ -1253,7 +1321,7 @@ def crear_modulo_examen(html_path=None, course_id=None,
         # Subir el archivo PDF a Canvas
         try:
             print(f"  📤 Subiendo PDF a Canvas...")
-            uploaded_file = course.upload(pdf_path)
+            uploaded_file = course.upload(str(pdf_path))
             file_id = uploaded_file[1]['id']
             print(f"  ✓ PDF subido exitosamente (ID: {file_id})")
             
@@ -2120,8 +2188,6 @@ def ver_modulos(course_id=None, mostrar_items=True):
     except Exception as e:
         print(f"❌ Error al obtener módulos: {e}")
         return None
-
-
 
 
 
