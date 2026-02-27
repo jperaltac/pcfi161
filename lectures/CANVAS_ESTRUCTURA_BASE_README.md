@@ -159,3 +159,27 @@ UNIDAD VI: ALGORITMOS, & PERFORMANCE
 - Asume 2 PDFs por semana (P1 y P2)
 - Semana 10 y 15 pueden tener solo 1 archivo
 - Las posiciones se calculan automáticamente
+
+
+## 🔐 Configuración de usuarios y rutas (multiplataforma)
+
+Ahora `Canvas_Key.py` lee usuarios desde `lectures/Key.txt` (texto plano) con formato:
+
+```txt
+Profesor|TokenCanvas|CourseID(opcional)
+```
+
+Ejemplo:
+
+```txt
+David|tu_token_aqui|177387
+Fabrizzio|otro_token|177370
+```
+
+Además, las rutas locales ya no están hardcodeadas a `D:`. Se usan estos valores:
+
+- `CANVAS_LECTURES_DIR` para materiales semanales (por defecto `lectures/`).
+- `CANVAS_SOLEMNES_DIR` para solemnes/examen (por defecto `Solemnes/`).
+- `CANVAS_KEY_FILE` para usar un archivo de usuarios fuera del repo.
+
+> Recomendación: mantener `Key.txt` fuera de control de versiones o en `.gitignore`.
