@@ -146,7 +146,7 @@
 \setbeamercolor{progress bar}{fg=DarkPythonBlue,bg=LightPythonBlue}
 \setbeamercolor{title separator}{fg=DarkPythonBlue,bg=white!50!black}
 \setbeamercolor{frametitle}{fg=white,bg=PythonBlue}
-\title[PCFI161]{Programaci\'on para F\'isica y Astronom\'ia}
+\title[PCFI161]{Programaci\'on para F\'isica y Astronom\'ia}  
 \subtitle{Departamento de Física.}
 
 \newcommand{\myfront}{
@@ -189,7 +189,7 @@
       rightskip=\@ifundefined{metropolis@frametitle@padding}{12pt}{\metropolis@frametitle@padding},%
     ]{frametitle}%
   \@ifundefined{metropolis@frametitlestrut@start}{}{\metropolis@frametitlestrut@start}%
-  {\textcolor{LightPythonBlue}{\insertsectionhead}\ifx\insertsectionhead\@empty\else\ $\ni$  \fi}\insertframetitle%
+  {\textcolor{LightPythonBlue}{\insertsectionhead}\par}\textit{\insertframetitle}%
   \nolinebreak%
   \@ifundefined{metropolis@frametitlestrut@end}{}{\metropolis@frametitlestrut@end}%
   \end{beamercolorbox}%
