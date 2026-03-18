@@ -1,16 +1,27 @@
 # Variables
 LATEX = lualatex -shell-escape -interaction=nonstopmode -halt-on-error
 OUTPUT = > /dev/null 2>&1
+export TEXMFCACHE := $(CURDIR)/.tex-cache
+SHOWSOLUTIONS ?= 0
 
 # Archivos fuente
-PDFS = Semana03-P1.pdf Semana03-P2.pdf
+TEXS = Semana03-P1.tex Semana03-P2.tex
+PDFS = $(TEXS:.tex=.pdf)
 
 all: $(PDFS)
+pdf-with-answers: SHOWSOLUTIONS=1
+pdf-with-answers: $(PDFS)
 
 # Regla genérica para compilar cualquier archivo .tex a .pdf
 %.pdf: %.tex
-	$(LATEX) $< $(OUTPUT)
-	$(LATEX) $< $(OUTPUT)
+	@mkdir -p $(TEXMFCACHE)
+	@if [ "$(SHOWSOLUTIONS)" = "1" ]; then \
+		$(LATEX) -jobname=$(basename $<) "\\def\\SHOWSOLUTIONS{1}\\input{$<}" $(OUTPUT); \
+		$(LATEX) -jobname=$(basename $<) "\\def\\SHOWSOLUTIONS{1}\\input{$<}" $(OUTPUT); \
+	else \
+		$(LATEX) $< $(OUTPUT); \
+		$(LATEX) $< $(OUTPUT); \
+	fi
 
 clean:
 	rm -f *.aux *.log *.nav *.out *.snm *.toc *.vrb *.fdb_latexmk *.fls *.synctex.gz
