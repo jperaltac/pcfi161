@@ -757,6 +757,312 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     
     return main_module
 
+def subir_syllabus(pdf_path, course_id=None, module_name="Material del curso", test_mode=False):
+    """
+    Sube un archivo de syllabus (u otro PDF) al módulo principal del curso.
+
+    Args:
+        pdf_path: Ruta al archivo PDF a subir.
+        course_id: ID del curso en Canvas (si es None, usa el ID del usuario seleccionado)
+        module_name: Nombre del módulo donde se agregará el archivo.
+        test_mode: Si es True, usa "<module_name> TEST" y no publica.
+
+    Returns:
+        El módulo actualizado o None en caso de error.
+    """
+    if canvas is None:
+        print("❌ Error: No hay conexión activa con Canvas")
+        print("💡 Primero ejecuta: Canvas_Key.select_user('TuNombre')")
+        return None
+
+    # Usar el course_id del usuario si no se especifica uno
+    if course_id is None:
+        if current_course_id is None:
+            print("❌ Error: No hay un course_id asignado al usuario")
+            print("💡 Especifica el course_id: Canvas_Key.subir_syllabus('ruta.pdf', course_id=123456)")
+            return None
+        course_id = current_course_id
+        print(f"📌 Usando course_id del usuario: {course_id}")
+
+    file_path = Path(pdf_path).expanduser().resolve()
+    if not file_path.exists() or not file_path.is_file():
+        print(f"❌ Archivo no encontrado: {file_path}")
+        return None
+
+    if file_path.suffix.lower() != ".pdf":
+        print(f"⚠ Archivo no es PDF: {file_path.name}")
+
+    target_module_name = module_name
+    if test_mode:
+        target_module_name += " TEST"
+
+    # Obtener el curso
+    course = canvas.get_course(course_id)
+
+    print("=" * 80)
+    print("📤 SUBIENDO SYLLABUS A CANVAS")
+    print(f"Archivo: {file_path.name}")
+    print(f"Módulo: {target_module_name}")
+    print(f"Modo: {'TEST (no publica)' if test_mode else 'PRODUCCIÓN (publica)'}")
+    print("=" * 80)
+
+    # Buscar si existe el módulo destino
+    print("\n1. Verificando módulo destino...")
+    target_module = None
+    modules = course.get_modules()
+
+    for module in modules:
+        if module.name == target_module_name:
+            target_module = module
+            print(f"  ✓ Módulo '{module.name}' encontrado (ID: {module.id})")
+            break
+
+    # Si no existe, crear el módulo
+    if not target_module:
+        print(f"  ⚠ Módulo '{target_module_name}' no existe. Creando...")
+        target_module = course.create_module(
+            module={
+                'name': target_module_name,
+                'position': 1,
+                'published': not test_mode
+            }
+        )
+        print(f"  ✓ Módulo creado: {target_module.name} (ID: {target_module.id})")
+
+    # Eliminar item de módulo previo con mismo título para evitar duplicados
+    print("\n2. Limpiando versiones anteriores...")
+    existing_items = list(target_module.get_module_items())
+    for item in existing_items:
+        if item.type == 'File' and item.title == file_path.name:
+            item.delete()
+            print(f"  ✓ Item de módulo eliminado: {item.title}")
+
+    # Eliminar archivo previo en Files del curso (mismo display_name)
+    for existing_file in course.get_files():
+        if existing_file.display_name == file_path.name:
+            existing_file.delete()
+            print(f"  ✓ Archivo anterior eliminado en Canvas Files: {existing_file.display_name}")
+
+    # Subir archivo
+    print("\n3. Subiendo archivo...")
+    uploaded_file = course.upload(str(file_path))
+    file_id = uploaded_file[1]['id']
+    print(f"  ✓ Archivo subido (ID: {file_id})")
+
+    # Agregar al módulo
+    print("\n4. Agregando archivo al módulo...")
+    target_module.create_module_item(
+        module_item={
+            'type': 'File',
+            'content_id': file_id,
+            'title': file_path.name,
+            'position': 1,
+            'indent': 0,
+            'published': not test_mode
+        }
+    )
+    print(f"  ✓ Item creado: {file_path.name}")
+
+    # Publicar módulo si corresponde
+    if not test_mode:
+        print("\n5. Publicando módulo...")
+        target_module.edit(module={'published': True})
+        print("  ✓ Módulo publicado")
+    else:
+        print("\n5. Modo TEST - módulo NO publicado")
+
+    print("\n" + "=" * 80)
+    print("✅ SYLLABUS SUBIDO")
+    print(f"   Archivo: {file_path.name}")
+    print(f"   Módulo: {target_module_name}")
+    print(f"   Estado: {'✅ PUBLICADO' if not test_mode else '🔒 NO PUBLICADO (TEST)'}")
+    print("=" * 80)
+
+    return target_module
+
+def subir_pdf_bajo_item(pdf_path, module_id=None, debajo_item_id=None, course_id=None,
+                        nuevo_titulo=None, indent=None, publicado=True,
+                        reemplazar_item_titulo=True, reemplazar_archivo_files=True,
+                        module_name="Material del curso", debajo_titulo=None):
+    """
+    Sube un PDF al curso y lo agrega en un módulo justo debajo de un item específico.
+
+    Caso de uso típico:
+      dejar "sol_Semana02-PX.pdf" inmediatamente debajo de "Semana02-PX.pdf".
+
+    Args:
+        pdf_path: Ruta al PDF local.
+        module_id: ID del módulo de destino (opcional si se usa module_name).
+        debajo_item_id: ID del item debajo del cual se insertará el nuevo PDF
+                        (opcional si se usa debajo_titulo).
+        course_id: ID del curso (si es None, usa current_course_id del usuario seleccionado).
+        nuevo_titulo: Título visible del item en Canvas (si es None, usa el nombre del archivo).
+        indent: Sangría del item (si es None, hereda la del item de referencia).
+        publicado: Estado de publicación del nuevo item.
+        reemplazar_item_titulo: Si True, elimina items File del módulo con el mismo título visible.
+        reemplazar_archivo_files: Si True, elimina archivos previos en Files con el mismo display_name.
+        module_name: Nombre del módulo de destino si no se entrega module_id.
+        debajo_titulo: Título exacto del item de referencia si no se entrega debajo_item_id.
+
+    Returns:
+        El item creado del módulo, o None si falla.
+    """
+    if canvas is None:
+        print("❌ Error: No hay conexión activa con Canvas")
+        print("💡 Primero ejecuta: Canvas_Key.select_user('TuNombre')")
+        return None
+
+    if course_id is None:
+        if current_course_id is None:
+            print("❌ Error: No hay un course_id asignado al usuario")
+            print("💡 Especifica el course_id: Canvas_Key.subir_pdf_bajo_item(..., course_id=123456)")
+            return None
+        course_id = current_course_id
+        print(f"📌 Usando course_id del usuario: {course_id}")
+
+    file_path = Path(pdf_path).expanduser().resolve()
+    if not file_path.exists() or not file_path.is_file():
+        print(f"❌ Archivo no encontrado: {file_path}")
+        return None
+
+    if file_path.suffix.lower() != ".pdf":
+        print(f"⚠ Archivo no es PDF: {file_path.name}")
+
+    course = canvas.get_course(course_id)
+
+    if module_id is None and not module_name:
+        print("❌ Debes indicar module_id o module_name")
+        return None
+    if debajo_item_id is None and not debajo_titulo:
+        print("❌ Debes indicar debajo_item_id o debajo_titulo")
+        return None
+
+    # Resolver módulo por ID o por nombre
+    target_module = None
+    if module_id is not None:
+        try:
+            target_module = course.get_module(module_id)
+        except Exception as e:
+            print(f"❌ Error: No se pudo obtener el módulo {module_id}")
+            print(f"   Detalles: {e}")
+            return None
+    else:
+        for mod in course.get_modules():
+            if mod.name == module_name:
+                target_module = mod
+                module_id = mod.id
+                break
+        if not target_module:
+            print(f"❌ No se encontró módulo con nombre exacto: '{module_name}'")
+            return None
+
+    print("=" * 80)
+    print("📤 SUBIENDO PDF DEBAJO DE ITEM ESPECÍFICO")
+    print(f"Curso ID: {course_id}")
+    print(f"Módulo: {target_module.name} (ID: {module_id})")
+    print(f"Archivo: {file_path.name}")
+    if debajo_item_id is not None:
+        print(f"Debajo de item ID: {debajo_item_id}")
+    else:
+        print(f"Debajo de título: {debajo_titulo}")
+    print("=" * 80)
+
+    # Buscar item de referencia
+    items = list(target_module.get_module_items())
+    item_referencia = None
+    if debajo_item_id is not None:
+        for item in items:
+            if item.id == debajo_item_id:
+                item_referencia = item
+                break
+        if not item_referencia:
+            print(f"❌ No se encontró el item de referencia ID {debajo_item_id} en el módulo {module_id}")
+            return None
+    else:
+        candidatos = [item for item in items if item.title == debajo_titulo]
+        if len(candidatos) == 0:
+            print(f"❌ No se encontró item con título exacto: '{debajo_titulo}'")
+            print("💡 Usa Canvas_Key.ver_contenido_modulo(module_id=...) para confirmar el título.")
+            return None
+        if len(candidatos) > 1:
+            print(f"❌ Hay {len(candidatos)} items con título '{debajo_titulo}'. Usa debajo_item_id para desambiguar.")
+            for c in candidatos:
+                print(f"   - ID: {c.id} | Pos: {c.position} | Indent: {c.indent}")
+            return None
+        item_referencia = candidatos[0]
+        debajo_item_id = item_referencia.id
+
+    titulo_final = nuevo_titulo or file_path.name
+    indent_final = item_referencia.indent if indent is None else indent
+    posicion_final = item_referencia.position + 1
+
+    print(f"  ✓ Referencia: [{item_referencia.position}] {item_referencia.title}")
+    print(f"  ✓ Inserción: posición {posicion_final}, indent {indent_final}, título '{titulo_final}'")
+
+    # Limpiar duplicado por título dentro del módulo
+    if reemplazar_item_titulo:
+        print("\n1. Limpiando items duplicados por título en módulo...")
+        items_actuales = list(target_module.get_module_items())
+        eliminados = 0
+        for item in items_actuales:
+            if item.type == 'File' and item.title == titulo_final:
+                item.delete()
+                eliminados += 1
+        print(f"  ✓ Items eliminados: {eliminados}")
+
+    # Limpiar archivo previo en Files del curso por nombre de archivo real
+    if reemplazar_archivo_files:
+        print("\n2. Limpiando archivos previos en Canvas Files...")
+        eliminados_files = 0
+        for existing_file in course.get_files():
+            if existing_file.display_name == file_path.name:
+                existing_file.delete()
+                eliminados_files += 1
+        print(f"  ✓ Archivos eliminados en Files: {eliminados_files}")
+
+    print("\n3. Subiendo archivo...")
+    uploaded_file = course.upload(str(file_path))
+    file_id = uploaded_file[1]['id']
+    print(f"  ✓ Archivo subido (ID: {file_id})")
+
+    print("\n4. Creando item del módulo...")
+    module_item = target_module.create_module_item(
+        module_item={
+            'type': 'File',
+            'content_id': file_id,
+            'title': titulo_final,
+            'position': posicion_final,
+            'indent': indent_final,
+            'published': publicado
+        }
+    )
+
+    # Algunos cursos/instancias de Canvas ignoran `published` al crear File items.
+    # Forzamos estado explícitamente justo después de crear.
+    try:
+        module_item.edit(module_item={'published': publicado})
+    except Exception as e:
+        print(f"  ⚠ No se pudo forzar estado de publicación vía edit(): {e}")
+
+    print(f"  ✓ Item creado: ID {module_item.id}")
+    # Releer item para reportar estado real
+    estado_real = None
+    try:
+        for it in target_module.get_module_items():
+            if it.id == module_item.id:
+                estado_real = getattr(it, 'published', None)
+                break
+    except Exception:
+        estado_real = None
+
+    if estado_real is None:
+        print(f"  ✓ Estado solicitado: {'Publicado' if publicado else 'No publicado'}")
+    else:
+        print(f"  ✓ Estado real: {'Publicado' if estado_real else 'No publicado'}")
+
+    print("=" * 80)
+    return module_item
+
 def crear_modulo_solemne(numero_solemne, html_path=None, course_id=None, 
                          fecha_inicio=None, fecha_hasta=None, test_mode=False):
     """
@@ -2188,10 +2494,6 @@ def ver_modulos(course_id=None, mostrar_items=True):
     except Exception as e:
         print(f"❌ Error al obtener módulos: {e}")
         return None
-
-
-
-
 
 
 
