@@ -1,0 +1,71 @@
+\documentclass[11pt,letterpaper]{article}
+
+% Preambulo compartido
+\input{preamble}
+
+% ========================
+% Datos de la asignatura
+% ========================
+\newcommand{\course}{Programación para la Física y Astronomía}
+\newcommand{\university}{\underline{Universidad Andr\'es Bello}}
+\newcommand{\department}{Departamento de Física y Astronomía}
+\newcommand{\faculty}{Facultad de Ciencias Exactas}
+\newcommand{\sessionnumber}{1}
+\newcommand{\logopath}{logo.png}
+
+\begin{document}
+
+\begin{flushleft}
+\begin{minipage}[t]{0.5\textwidth}
+\department\\
+\faculty\\
+\university
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.5\textwidth}
+\raggedleft
+\course
+\end{minipage}
+\end{flushleft}
+
+\begin{flushright}\vspace{-5mm}
+\includegraphics[height=1.5cm]{\logopath}
+\end{flushright}
+
+\begin{center}\vspace{-1cm}
+\textbf{\large Ejercicios Tarea \sessionnumber}
+\end{center}
+
+\rule{\textwidth}{0.1mm}
+
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,
+                  title={INDICACIONES},
+                  fonttitle=\bfseries\tiny,
+                  width=\linewidth, boxrule=0.3pt]
+\scriptsize
+\begin{itemize}
+    \item Esta Tarea consta de 2 ejercicios para evaluar contenidos repasados.
+    %\item Para compilar una versión con soluciones visibles, use \texttt{make pdf-with-answers}.
+\end{itemize}
+\end{tcolorbox}
+
+\bigskip
+\textbf{\large{Problemas}}
+
+\begin{enumerate}
+
+
+\input{../../problems/prob_MN-2-8.tex}
+\input{../../problems/prob_MN-0-0.tex}
+%\input{../../problems/prob_nombre_1.tex}
+%\input{../../problems/prob_nombre_2.tex}
+
+
+
+
+
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,84 @@
+\item \textbf{Clasificación de número entero}.
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado}]
+\begin{itemize}
+	\item Escriba un programa en \texttt{Python} que solicite al usuario ingresar un número entero.
+	\item El programa debe analizar el valor ingresado y determinar si corresponde a un número par o impar. Para lograr el objetivo, divida el número ingresado por 2, y evalúe el resto utilizando la operación módulo \texttt{ \% }
+\item Para realizar la clasificación, utilice únicamente estructuras condicionales (\texttt{if}, \texttt{elif}, \texttt{else}).
+\item Finalmente, el programa debe mostrar un mensaje indicando si el número ingresado es un par o impar.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+
+\subsubsection*{Idea}
+
+El programa debe solicitar al usuario un número entero.  
+Luego debe verificar si el número es divisible por 2.
+
+Para realizar esta verificación se utiliza la operación módulo \texttt{\%}.  
+El operador módulo devuelve el resto de una división.
+
+Por lo tanto:
+
+\begin{itemize}
+\item Si el resto de dividir el número por 2 es igual a 0, el número es \textbf{par}.
+\item Si el resto es diferente de 0, el número es \textbf{impar}.
+\end{itemize}
+
+Esta clasificación se puede realizar utilizando estructuras condicionales.
+
+\subsubsection*{Implementación}
+
+\begin{pythonjupyter}
+numero = int(input("Ingrese un número entero: "))
+
+if numero % 2 == 0:
+    print("El número ingresado es par.")
+else:
+    print("El número ingresado es impar.")
+\end{pythonjupyter}
+
+\subsubsection*{Explicación del algoritmo}
+
+Primero se solicita al usuario un número entero:
+
+\begin{pythonjupyter}
+numero = int(input("Ingrese un número entero: "))
+\end{pythonjupyter}
+
+La función \texttt{int()} convierte el valor ingresado a un número entero.
+
+Luego se evalúa la condición utilizando el operador módulo:
+
+\begin{pythonjupyter}
+if numero % 2 == 0:
+\end{pythonjupyter}
+
+Aquí ocurre lo siguiente:
+
+\begin{itemize}
+\item \texttt{numero \% 2} calcula el resto de dividir el número por 2.
+\item Si el resto es 0, el número es divisible por 2.
+\item Todo número divisible por 2 es un número par.
+\end{itemize}
+
+Ejemplo:
+
+\begin{itemize}
+\item Si el usuario ingresa \texttt{8}  
+      entonces \texttt{8 \% 2 = 0}.  
+      Por lo tanto el número es par.
+
+\item Si el usuario ingresa \texttt{7}  
+      entonces \texttt{7 \% 2 = 1}.  
+      Por lo tanto el número es impar.
+\end{itemize}
+
+Dependiendo del resultado de la condición, el programa imprime el mensaje correspondiente mediante \texttt{print()}.
+
+\subsubsection*{Resultado}
+
+El programa permite clasificar correctamente si el número ingresado es par o impar utilizando la operación módulo y estructuras condicionales.
+
+\end{solution}

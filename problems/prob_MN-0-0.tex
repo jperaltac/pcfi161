@@ -1,0 +1,204 @@
+\item \textbf{Iteradores para sumatoria y pitatoria}.
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado}]
+\begin{itemize}
+    \item Resuelva la siguiente operación:
+    \[
+    \text{Resultado}=\sum_{x=1}^{n_1} \pi \frac{x}{12}+\prod_{x=1}^{n_2} x^{2}.
+    \]
+    \item Indique al usuario que ingrese dos valores de entrada para \(n_1\) y \(n_2\), donde \(n_1\) corresponde a la sumatoria y \(n_2\) a la pitatoria.
+    \item Aplique dos iteradores independientes para calcular primero la sumatoria y luego la pitatoria.
+    \item Finalmente, imprima la operación correspondiente.
+    \item Analice qué ocurre si \(n_1=88\) y \(n_2=77\).
+    \item Deje como comentario al final del código:
+    \begin{itemize}
+        \item el resultado de la sumatoria,
+        \item el resultado de la pitatoria,
+        \item el resultado final.
+    \end{itemize}
+    \item \textbf{Bonus:} escriba el mismo programa utilizando dos funciones por separado. Luego sume los resultados de estas funciones en una variable e imprímala utilizando los mismos valores anteriores. Determine si se obtiene el mismo resultado.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+
+\paragraph{Observación previa.}
+Para esta versión del ejercicio, la operación pedida es
+\[
+\sum_{x=1}^{n_1} \pi \frac{x}{12}+\prod_{x=1}^{n_2} x^{2}.
+\]
+Es decir, una \emph{sumatoria lineal multiplicada por $\pi/12$} y una \emph{productoria de cuadrados}.
+
+\subsubsection*{Idea del algoritmo}
+
+Se necesitan dos procesos separados:
+
+\begin{itemize}
+    \item una variable acumuladora para la sumatoria, que debe comenzar en \(0\), porque \(0\) es el elemento neutro de la suma;
+    \item una variable acumuladora para la productoria, que debe comenzar en \(1\), porque \(1\) es el elemento neutro de la multiplicación.
+\end{itemize}
+
+Luego:
+
+\begin{itemize}
+    \item un primer iterador recorre los valores \(x=1,2,\dots,n_1\) y va sumando el término \(\pi\frac{x}{12}\);
+    \item un segundo iterador recorre los valores \(x=1,2,\dots,n_2\) y va multiplicando \(x^2\);
+    \item al final, el resultado pedido es la suma de ambos acumulados, dejando primero la sumatoria y luego la productoria.
+\end{itemize}
+
+\subsubsection*{Implementación con dos iteradores independientes}
+
+\begin{pythonjupyter}
+import math
+
+# Solicitar datos de entrada
+n1 = int(input("Ingrese el valor de n1: "))
+n2 = int(input("Ingrese el valor de n2: "))
+
+# Acumulador de la sumatoria
+sumatoria = 0
+
+# Primer iterador: calcula \sum_{x=1}^{n1} pi*x/12
+for x in range(1, n1 + 1):
+    sumatoria += math.pi * x / 12
+
+# Acumulador de la productoria
+productoria = 1
+
+# Segundo iterador: calcula \prod_{x=1}^{n2} x^2
+for x in range(1, n2 + 1):
+    productoria *= x ** 2
+
+# Resultado final
+resultado = sumatoria + productoria
+
+# Mostrar resultados
+print(f"La sumatoria es: {sumatoria:.3f}")
+print(f"La productoria es: {productoria:.3e}")
+print(f"El resultado final es: {resultado:.3e}")
+
+# Para n1 = 88 y n2 = 77:
+# sumatoria = 1025.206
+# productoria = 2.108e+226
+# resultado final = 2.108e+226
+\end{pythonjupyter}
+
+\subsubsection*{Qué hace cada parte del código}
+
+\paragraph{Entrada de datos.}
+Las líneas
+\[
+\texttt{n1 = int(input(...))}, \qquad \texttt{n2 = int(input(...))}
+\]
+piden al usuario dos enteros, porque ambos límites de iteración deben ser números enteros positivos.
+
+\paragraph{Sumatoria.}
+Se define
+\[
+\texttt{sumatoria = 0}
+\]
+porque ahora queremos ir agregando términos. El primer ciclo recorre los enteros desde \(1\) hasta \(n_1\), inclusive. En cada iteración se suma
+\[
+\texttt{math.pi * x / 12},
+\]
+es decir, el término \(\pi x/12\) correspondiente al valor actual de \(x\).
+
+\paragraph{Productoria.}
+Se define
+\[
+\texttt{productoria = 1}
+\]
+porque si iniciáramos en \(0\), cualquier multiplicación posterior seguiría dando \(0\). Después, el segundo ciclo
+\[
+\texttt{for x in range(1, n2 + 1)}
+\]
+recorre los enteros desde \(1\) hasta \(n_2\), inclusive. En cada vuelta del ciclo se actualiza el acumulador mediante
+\[
+\texttt{productoria *= x ** 2},
+\]
+que significa multiplicar sucesivamente por los cuadrados \(x^2\).
+
+\paragraph{Resultado final.}
+Una vez terminados ambos ciclos, ya se tienen calculadas las dos partes de la expresión. Por eso basta escribir
+\[
+\texttt{resultado = sumatoria + productoria}.
+\]
+
+\subsubsection*{Análisis para \(n_1=88\) y \(n_2=77\)}
+
+Si se evalúa el programa con esos valores, se obtiene:
+
+\[
+\sum_{x=1}^{88} \pi\frac{x}{12} \approx 1025.206,
+\]
+mientras que la productoria vale aproximadamente
+\[
+\prod_{x=1}^{77} x^{2} \approx 2.107\times 10^{226}.
+\]
+
+Entonces el resultado final es
+
+\[
+\text{Resultado} \approx 2.107\times 10^{226}.
+\]
+
+\paragraph{Interpretación.}
+Aquí ocurre algo interesante: la productoria es tan grande en comparación con la sumatoria que, al sumarlas en aritmética de punto flotante, el aporte de \(1025.206\) no cambia el valor mostrado por pantalla. En la práctica computacional, el resultado final coincide con la productoria a las cifras que puede representar el tipo numérico usado al imprimir con tres decimales en notación científica. La sumatoria no desaparece matemáticamente, pero sí queda completamente eclipsada numéricamente.
+
+\subsubsection*{Bonus: versión con dos funciones}
+
+Ahora conviene separar cada cálculo en su propia función. Esto mejora la organización del programa porque:
+
+\begin{itemize}
+    \item cada función tiene una tarea clara y única;
+    \item el código principal queda más limpio;
+    \item si más adelante se quiere reutilizar una de las operaciones, no es necesario reescribirla.
+\end{itemize}
+
+\begin{pythonjupyter}
+import math
+
+# Función para calcular la sumatoria
+def calcular_sumatoria(n1):
+    sumatoria = 0
+    for x in range(1, n1 + 1):
+        sumatoria += math.pi * x / 12
+    return sumatoria
+
+# Función para calcular la productoria
+def calcular_productoria(n2):
+    productoria = 1
+    for x in range(1, n2 + 1):
+        productoria *= x ** 2
+    return productoria
+
+# Solicitar datos
+n1 = int(input("Ingrese el valor de n1: "))
+n2 = int(input("Ingrese el valor de n2: "))
+
+# Llamar a las funciones
+sumatoria = calcular_sumatoria(n1)
+productoria = calcular_productoria(n2)
+
+# Sumar los resultados
+resultado = sumatoria + productoria
+
+# Imprimir resultados
+print(f"La sumatoria es: {sumatoria:.3f}")
+print(f"La productoria es: {productoria:.3e}")
+print(f"El resultado final es: {resultado:.3e}")
+
+# Para n1 = 88 y n2 = 77:
+# sumatoria = 1025.206
+# productoria = 2.108e+226
+# resultado final = 2.108e+226
+\end{pythonjupyter}
+
+\subsubsection*{¿Se obtiene el mismo resultado?}
+
+Sí. Se obtiene el mismo resultado numérico. La razón es que las funciones no cambian la operación matemática; solamente encapsulan el cálculo. La sumatoria sigue siendo la misma, la productoria sigue siendo la misma y, por tanto, su suma también.
+
+\paragraph{Conclusión.}
+La estrategia correcta consiste en usar dos acumuladores y dos iteradores independientes. Para \(n_1=88\) y \(n_2=77\), la sumatoria vale aproximadamente \(1025.206\), pero la productoria domina por completo el resultado final. La versión con funciones separadas entrega el mismo valor, aunque con una estructura de programa más ordenada y reutilizable.
+
+\end{solution}
