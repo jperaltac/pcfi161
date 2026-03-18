@@ -1,0 +1,120 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga del preambulo personalizado del proyecto
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+
+\begin{document}
+
+\myfront{}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\metroset{block=fill}
+
+
+
+\section{Solución ejercicios Sesión 3}
+
+% ------------------------------------------------------------------------
+% Slide 16: Solución 1 de Referencia - Clasificador de Velocidades
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Velocidades}
+\begin{minted}[fontsize=\tiny]{python}
+# Entrada de datos
+velocidad = float(input("Velocidad del objeto (m/s): "))
+masa = float(input("Masa del objeto (kg, opcional, 0 si no aplica): "))
+
+# Clasificación de velocidad
+if velocidad < 1:
+    categoria = "Movimiento lento"
+elif velocidad < 10:
+    categoria = "Movimiento moderado"
+elif velocidad < 100:
+    categoria = "Movimiento rápido"
+else:
+    categoria = "Movimiento muy rápido"
+
+print(f"Velocidad: {velocidad} m/s → {categoria}")
+
+# Cálculo de energía cinética si se proporciona masa
+if masa > 0:
+    energia_cinetica = 0.5 * masa * velocidad**2
+    print(f"Energía cinética: {energia_cinetica} J")
+\end{minted}
+\textbf{Discusión:} Uso de condicionales anidadas y validación de entrada opcional.
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 18: Solución 2 de Referencia - Suma de Números Pares
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Suma de Números Pares}
+\begin{minted}[fontsize=\tiny]{python}
+# Entrada de datos
+n = int(input("Ingrese el número límite: "))
+
+# Inicializar acumulador
+suma_pares = 0
+print(f"Números pares desde 2 hasta {n}:")
+
+# Bucle para sumar números pares
+for numero in range(2, n + 1, 2):  # Desde 2, hasta n+1, de 2 en 2
+    suma_pares += numero
+    print(f"  + {numero}")
+
+print(f"Suma total de números pares: {suma_pares}")
+
+# Verificación con fórmula (solo si n es par)
+if n % 2 == 0:
+    formula_resultado = n * (n // 2 + 1)
+    print(f"Verificación con fórmula: {formula_resultado}")
+    print(f"¿Coinciden? {suma_pares == formula_resultado}")
+\end{minted}
+\textbf{Discusión:} Uso eficiente de range() con paso, acumuladores, y verificación matemática.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Solución 3 de Referencia - Juego de Adivinanza
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Juego de Adivinanza de Números}
+\begin{minted}[fontsize=\tiny,baselinestretch=1.0]{python}
+# Número secreto: número entre 1 y 50
+numero_secreto = 37
+intentos = 0
+
+print("¡Juego de adivinanza!")
+print("He pensado en un número entre 1 y 50")
+print("¿Puedes adivinarlo?")
+
+while True:
+    intento = int(input("Tu estimación: "))
+    intentos += 1
+
+    diferencia = abs(intento - numero_secreto)
+
+    if intento == numero_secreto:
+        print(f"¡Correcto! El número era {numero_secreto}")
+        print(f"Lo lograste en {intentos} intentos")
+        break
+    elif diferencia <= 2:  # Muy cerca (diferencia de 1 o 2)
+        print("¡Muy cerca!")
+    elif diferencia <= 5:  # Cerca (diferencia de 3 a 5)
+        print("Cerca...")
+    elif intento < numero_secreto:
+        print("Muy bajo")
+    else:
+        print("Muy alto")
+\end{minted}
+\vspace{-0.4em}
+{\scriptsize \textbf{Discusión:} Bucle infinito con \texttt{break}, rangos de proximidad progresivos, contadores de intentos.}
+\end{frame}
+
+
+
+
+
+\end{document}

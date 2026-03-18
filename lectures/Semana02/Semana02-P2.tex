@@ -6,6 +6,12 @@
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
 
+% Control de visibilidad de soluciones:
+%   \showsolutionstrue  -> muestra soluciones
+%   \showsolutionsfalse -> oculta soluciones
+\newif\ifshowsolutions
+\showsolutionsfalse
+
 \begin{document}
 
 % ------------------------------------------------------------------------
@@ -188,7 +194,7 @@
     \end{itemize}
   \end{block}
   
-  \textbf{Conceptos:} Bucles \texttt{for}, listas, acumuladores, estadística básica.
+  \textbf{Conceptos:} Bucles \texttt{for}, acumuladores, estadística básica.
   \\
   \textbf{Física relevante:} Análisis estadístico de mediciones experimentales.
 \end{frame}
@@ -234,6 +240,11 @@
   \textbf{Física relevante:} Relaciones proporcionales, escalado de magnitudes.
 \end{frame}
 
+
+
+% comentado ...........
+
+\iffalse
 % ------------------------------------------------------------------------
 % Slide 11: Ejercicio 5 - Clasificador de Temperaturas
 % ------------------------------------------------------------------------
@@ -259,6 +270,33 @@
   \textbf{Física relevante:} Estados de la materia, escalas de temperatura.
 \end{frame}
 
+\fi 
+
+% ------------------------------------------------------------------------
+% Slide11:  Ejercicio 5 -  Cálculo de una suma
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Cálculo de una suma}
+  \begin{block}{Enunciado}
+    \footnotesize
+    \setlength{\itemsep}{0.12em}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}
+    \setlength{\topsep}{0.2em}
+    \begin{itemize}
+      \item En muchos cálculos de física es necesario evaluar sumas numéricas.
+      \item Considere la suma \( s = \sum_{k=1}^{100} \frac{1}{k} \).
+      \item Cree una variable \texttt{s} para almacenar el valor de la suma e inicialícela en \texttt{0.0}.
+      \item Use un bucle \texttt{for} para recorrer los valores de \(k\) desde \(1\) hasta \(100\).
+      \item En cada iteración calcule \(1/k\) y agréguelo al valor de \texttt{s}.
+      \item agruegue condicionales para mostrar mensajes de progreso. (ej; k = 20 , 40 , etc) 
+      \item Al finalizar el bucle, imprima el valor final de la suma.
+    \end{itemize}
+  \end{block}
+\vspace{-1.0em}
+  \footnotesize
+  \textbf{Conceptos:} Bucles \texttt{for}, acumuladores, sumas numéricas. \\
+  \textbf{Física relevante:} Evaluación de sumas en cálculos físicos.
+\end{frame}
 
 
 % ----------------------------------------------------------------------------------------
@@ -269,6 +307,7 @@
 % ------------------------------------------------------------------------
 % Slide 14: Solución 1 de Referencia - Ecuación de Movimiento
 % ------------------------------------------------------------------------
+\ifshowsolutions
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Ecuación de Movimiento en 1D}
 \begin{minted}{python}
 # Solicitar datos al usuario con unidades claras
@@ -380,7 +419,7 @@ else:
 % Slide 18: Solución 5 de Referencia - Clasificador de Temperaturas
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Temperaturas}
-\begin{minted}[fontsize=\tiny]{python}
+\begin{minted}[fontsize=\tiny,baselinestretch=1.0]{python}
 # Solicitar temperaturas
 temperaturas = []
 num_temp = int(input("¿Cuántas temperaturas desea clasificar? "))
@@ -411,8 +450,10 @@ for temp in temperaturas:
 print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
       f"Templado={templado}, Calor={calor}")
 \end{minted}
-\textbf{Discusión:} Bucles anidados, contadores múltiples, clasificación con condicionales.
+\vspace{-0.4em}
+{\scriptsize \textbf{Discusión:} Bucles anidados, contadores múltiples, clasificación con condicionales.}
 \end{frame}
+\fi
 
 
 % ------------------------------------------------------------------------
@@ -431,7 +472,6 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
     \item \textbf{Conceptos de programación aplicados}:
       \begin{itemize}
         \item Acumuladores: varianza (Ej. 2), contadores (Ej. 5)
-        \item Listas dinámicas: \texttt{append()} en múltiples ejercicios
         \item Formato de salida: \texttt{f-strings} con decimales
       \end{itemize}
     \item \textbf{Buenas prácticas observadas}:
@@ -444,6 +484,8 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
 \end{frame}
 
 
+
+\iffalse
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 5: Tarea 1
 % ----------------------------------------------------------------------------------------
@@ -490,6 +532,8 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
   \textbf{Objetivo:} Bucles \texttt{while} con condiciones físicas y simulación temporal.
 \end{frame}
 
+
+
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 6: Evaluación y Retroalimentación
 % ----------------------------------------------------------------------------------------
@@ -516,6 +560,9 @@ print(f"\nResumen: Congelación={congelacion}, Frío={frio}, "
     \end{itemize}
   \end{block}
 \end{frame}
+
+\fi
+
 
 % ------------------------------------------------------------------------
 % Slide 23: Retroalimentación Colectiva

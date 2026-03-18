@@ -1,0 +1,188 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga del preambulo personalizado del proyecto
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+
+\begin{document}
+
+\myfront{}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\metroset{block=fill}
+
+
+
+\section{Solución ejercicios Sesión 4}
+
+
+
+% ------------------------------------------------------------------------
+% Slide 14: Solución 1 de Referencia - Ecuación de Movimiento
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Ecuación de Movimiento en 1D}
+\begin{minted}{python}
+# Solicitar datos al usuario con unidades claras
+x0 = float(input("Posición inicial x0 (m): "))
+v0 = float(input("Velocidad inicial v0 (m/s): "))
+a = float(input("Aceleración a (m/s²): "))
+t = float(input("Tiempo t (s): "))
+
+# Aplicar la ecuación cinemática
+x_final = x0 + v0 * t + 0.5 * a * (t**2)
+
+# Mostrar resultado con formato claro
+print(f"La posición final es: {x_final:.2f} m")
+\end{minted}
+\textbf{Discusión:} Uso directo de float() para simplificar entrada, formato de decimales en salida.
+\end{frame}
+
+
+
+% ------------------------------------------------------------------------
+% Slide 15: Solución 2 de Referencia - Promedio y Varianza
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Promedio y Varianza de Mediciones}
+\begin{minted}[fontsize=\tiny]{python}
+# le solicitare distancias al usuario 
+
+x1 = float(input('Ingrese la primera distancia en metros:  '))
+x2 = float(input('Ingrese la segunda distancia en metros:  '))
+x3 = float(input('Ingrese la tercera distancia en metros:  '))
+
+#calculo promedio sobre las distancias 
+promedio = (x1 + x2 + x3) / 3 
+
+#calculo varianza muestral .. expandiendo suma
+varianza = 1 / (3 - 2) * ((x1 - promedio) **2  + (x2 - promedio) ** 2 + (x3 - promedio) ** 2)
+
+#muestro resultados en pantalla 
+print(f' El promedio sobre las variables de distancia es {promedio}')
+print(f' La varianza muestral sobre las variables es {varianza}')
+\end{minted}
+\textbf{Discusión:} Uso de varibales para calcular otra,  calculo de varianza, formato de decimales.
+\end{frame}
+            
+
+% ------------------------------------------------------------------------
+% Slide 16: Solución 3 de Referencia - Conversión de Unidades
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Conversión de Unidades con Condicionales}
+\begin{minted}[fontsize=\tiny,baselinestretch=0.92]{python}
+# Solicitar datos al usuario
+valor = float(input("Ingrese el valor numérico: "))
+unidad_origen = input("Unidad origen (cm, m, km): ").lower()
+unidad_destino = input("Unidad destino (cm, m, km): ").lower()
+
+# Convertir primero todo a metros (unidad base)
+if unidad_origen == "cm":
+    valor_metros = valor / 100
+elif unidad_origen == "m":
+    valor_metros = valor
+elif unidad_origen == "km":
+    valor_metros = valor * 1000
+else:
+    print("Unidad de origen no válida")
+    valor_metros = None
+
+# Convertir de metros a unidad destino
+if valor_metros is not None:
+    if unidad_destino == "cm":
+        resultado = valor_metros * 100
+    elif unidad_destino == "m":
+        resultado = valor_metros	    
+        resultado = valor_metros
+    elif unidad_destino == "km":
+        resultado = valor_metros / 1000
+    else:
+        print("Unidad de destino no válida")
+        resultado = None
+
+    if resultado is not None:
+        print(f"Resultado: {resultado:.3f} {unidad_destino}")
+\end{minted}
+\textbf{Discusión:} Validación de entradas, conversión a unidad base, manejo de errores.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Solución 4 de Referencia - Tabla de Multiplicar
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Tabla de Multiplicar con Bucles}
+\begin{minted}[fontsize=\tiny]{python}
+# Solicitar número al usuario
+numero = int(input("Ingrese un número para su tabla de multiplicar: "))
+
+# Validar que sea positivo
+if numero > 0:
+    print(f"Tabla de multiplicar del {numero}:")
+    print("-" * 25)
+
+    # Generar tabla usando bucle for
+    for i in range(1, 11):
+        resultado = numero * i
+        print(f"{numero} x {i} = {resultado}")
+else:
+    print("Por favor, ingrese un número positivo.")
+\end{minted}
+\textbf{Discusión:} Validación con if, bucle for con range, formato de salida organizado.
+\end{frame}
+
+
+% ------------------------------------------------------------------------
+% Slide 18: Solución 5 de Referencia - Clasificador de Temperaturas
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Serie convergente}
+\begin{minted}[fontsize=\tiny,baselinestretch=1.0]{python}
+
+# se inicializa variable a actualizar 
+s = 0
+
+# bucle toma valores de 1 a 100
+for i in range(1,101):
+
+  #actualizar variable s 
+  s = s + 1/i
+
+  if i == 20:
+    print(f'nos encontramos en la iteración {i} con el valor de la suma {s}')
+
+  elif i == 40:
+    print(f'nos encontramos en la iteracion {i} con el valor de la suma {s}')
+
+  elif i == 60:
+    print(f' nos encontramos en la iteracion {i} con el valor de la suma {s}')
+
+
+  # imprimir el valor de s en cada iteración
+  #print(f'sumando contribucion {s}')
+
+
+# al terminal el bucle la variables 's' contiene el valor de la suma total 
+print(f'La suma converge al valor de {s}')
+\end{minted}
+\vspace{-0.4em}
+{\scriptsize \textbf{Discusión:} Bucles, actualización de variables, clasificación con condicionales.}
+\end{frame}
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+

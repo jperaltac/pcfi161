@@ -2,8 +2,9 @@
 LATEX = lualatex -interaction=nonstopmode -halt-on-error -shell-escape
 OUTPUT = > /dev/null 2>&1
 
-# Archivos fuente
-PDFS = Semana02-P1.pdf Semana02-P2.pdf
+# Compila todos los .tex presentes en este directorio.
+TEXS = $(wildcard *.tex)
+PDFS = $(TEXS:.tex=.pdf)
 
 all: $(PDFS)
 

@@ -7,6 +7,12 @@
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
 
+% Control de visibilidad de soluciones:
+%   \showsolutionstrue  -> muestra soluciones
+%   \showsolutionsfalse -> oculta soluciones
+\newif\ifshowsolutions
+\showsolutionsfalse
+
 \begin{document}
 
 % ------------------------------------------------------------------------
@@ -341,7 +347,7 @@ print("="*40)
       \item Calcular la suma de todos los números pares desde 2 hasta un número \(n\) dado por el usuario.
       \item Usar un bucle \texttt{for} con \texttt{range()}.
       \item Mostrar cada número par que se suma y el total final.
-      \item Verificar el resultado usando la fórmula: $\sum_{k=1}^{n/2} 2k = n(n/2 + 1)$ para \(n\) par.
+      \item Verificar el resultado usando la fórmula: $\sum_{k=1}^{n/2} 2k = \frac{n}{2}(\frac{n}{2} + 1)$ para \(n\) par.
     \end{itemize}
   \end{block}
   
@@ -372,6 +378,7 @@ print("="*40)
 % ------------------------------------------------------------------------
 % Slide 16: Solución 1 de Referencia - Clasificador de Velocidades
 % ------------------------------------------------------------------------
+\ifshowsolutions
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Clasificador de Velocidades}
 \begin{minted}[fontsize=\tiny]{python}
 # Entrada de datos
@@ -431,7 +438,7 @@ if n % 2 == 0:
 % Slide 20: Solución 3 de Referencia - Juego de Adivinanza
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Juego de Adivinanza de Números}
-\begin{minted}[fontsize=\tiny]{python}
+\begin{minted}[fontsize=\tiny,baselinestretch=1.0]{python}
 # Número secreto: número entre 1 y 50
 numero_secreto = 37
 intentos = 0
@@ -459,8 +466,10 @@ while True:
     else:
         print("Muy alto")
 \end{minted}
-\textbf{Discusión:} Bucle infinito con \texttt{break}, rangos de proximidad progresivos, contadores de intentos.
+\vspace{-0.4em}
+{\scriptsize \textbf{Discusión:} Bucle infinito con \texttt{break}, rangos de proximidad progresivos, contadores de intentos.}
 \end{frame}
+\fi
 
 
 % ----------------------------------------------------------------------------------------
