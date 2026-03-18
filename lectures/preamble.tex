@@ -17,7 +17,22 @@
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage[utf8]{inputenc} %solucion del problema de los acentos.
 \usepackage{xcolor}
+\usepackage{comment}
 \usepackage{verbatim}
+
+% Switch global para compilar versiones con y sin soluciones.
+% Se activa desde la linea de comandos con:
+%   lualatex "\def\SHOWSOLUTIONS{1}\input{archivo.tex}"
+\newif\ifshowsolutions
+\showsolutionsfalse
+\ifdefined\SHOWSOLUTIONS
+  \showsolutionstrue
+\fi
+\ifshowsolutions
+  \includecomment{solutionblock}
+\else
+  \excludecomment{solutionblock}
+\fi
 
 \definecolor{LightGray}{gray}{0.9}
 % Paleta de azules estilo Python/matplotlib
@@ -202,4 +217,3 @@
 \@ifundefined{metropolis@progressonsectionpage@linewidth}{}{\setlength{\metropolis@progressonsectionpage@linewidth}{2pt}}
 \@ifundefined{metropolis@progressinheadfoot@linewidth}{}{\setlength{\metropolis@progressinheadfoot@linewidth}{2pt}}
 \makeatother
-
