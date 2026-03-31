@@ -1,0 +1,63 @@
+\item \textbf{Clasificación de estrellas por luminosidad}.
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado}]
+La luminosidad relativa de una estrella de masa \(M\) (en masas solares) se estima mediante la relación:
+\[
+L = M^{3.5}
+\]
+
+\begin{itemize}
+    \item Escriba un programa que:
+    \begin{itemize}
+        \item Solicite al usuario la masa \(M\) de una estrella.
+        \item Implemente una función \texttt{luminosidad(M)} que calcule \(L\).
+        \item Utilice un ciclo \texttt{while} para procesar múltiples valores de masa hasta que el usuario ingrese \(-1\).
+        \item Utilice una estructura \texttt{if/else} para indicar si la estrella es más o menos luminosa que el Sol.
+    \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+
+\subsubsection*{Idea}
+El problema consiste en calcular la luminosidad de una estrella a partir de su masa usando la relación \(L = M^{3.5}\). 
+
+Se requiere:
+\begin{itemize}
+    \item Definir una función que reciba la masa \(M\) y retorne la luminosidad \(L\).
+    \item Pedir valores al usuario repetidamente usando un ciclo \texttt{while}.
+    \item Terminar el ciclo cuando el usuario ingrese \(-1\).
+    \item Comparar la luminosidad obtenida con la del Sol (\(L=1\)) para clasificar la estrella.
+\end{itemize}
+
+\subsubsection*{Implementación}
+
+\begin{pythonjupyter}
+# Función que calcula la luminosidad
+def luminosidad(M):
+    return M**3.5
+
+# Bucle principal
+while True:
+    # Solicitar masa
+    M = float(input("Ingrese la masa de la estrella (-1 para salir): "))
+    
+    # Condición de término
+    if M == -1:
+        print("Programa finalizado.")
+        break
+    
+    # Calcular luminosidad
+    L = luminosidad(M)
+    
+    # Clasificación
+    if L > 1:
+        print(f"Luminosidad = {L:.2f} → Más luminosa que el Sol")
+    else:
+        print(f"Luminosidad = {L:.2f} → Menos luminosa que el Sol")
+\end{pythonjupyter}
+
+\subsubsection*{Resultado}
+El programa permite ingresar múltiples masas de estrellas, calcular su luminosidad y clasificarlas en relación con el Sol, utilizando funciones, ciclos y estructuras condicionales.
+
+\end{solution}

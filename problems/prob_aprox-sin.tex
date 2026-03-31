@@ -1,0 +1,67 @@
+\item \textbf{Aproximación de \(\sin(x)\) mediante serie de Taylor}.
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado}]
+La función seno \(\sin(x)\) se puede aproximar mediante su serie de Taylor:
+\[
+\sin(x) = \sum_{k=0}^{\infty} (-1)^k \frac{x^{2k+1}}{(2k+1)!} = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots
+\]
+
+\begin{itemize}
+    \item Escriba un programa que:
+    \begin{itemize}
+        \item Solicite al usuario un valor real \(x\).
+        \item Solicite un entero positivo \(n\) (número de términos).
+        \item Calcule la suma de los primeros \(n\) términos de la serie usando un ciclo \texttt{for}.
+        \item Compare el resultado con \texttt{math.sin(x)}.
+    \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+
+\subsubsection*{Idea}
+La serie de Taylor de \(\sin(x)\) es una suma alternante de términos impares. Cada término tiene la forma:
+\[
+(-1)^k \frac{x^{2k+1}}{(2k+1)!}
+\]
+
+Para aproximar la función:
+\begin{itemize}
+    \item Se suman los primeros \(n\) términos de la serie.
+    \item Se utiliza un ciclo \texttt{for} para iterar sobre los valores de \(k\).
+    \item Se compara el resultado con el valor real usando \texttt{math.sin(x)}.
+\end{itemize}
+
+\subsubsection*{Implementación}
+
+\begin{pythonjupyter}
+import math
+
+# Solicitar datos al usuario
+x = float(input("Ingrese el valor de x: "))
+n = int(input("Ingrese el número de términos: "))
+
+# Inicializar suma
+suma = 0
+
+# Cálculo de la serie
+for k in range(n):
+    termino = ((-1)**k) * (x**(2*k + 1)) / math.factorial(2*k + 1)
+    suma += termino
+
+# Resultado aproximado
+print(f"Aproximación de sin(x): {suma}")
+
+# Valor real
+valor_real = math.sin(x)
+print(f"Valor real de sin(x): {valor_real}")
+
+# Error absoluto
+error = abs(valor_real - suma)
+print(f"Error absoluto: {error}")
+\end{pythonjupyter}
+
+\subsubsection*{Resultado}
+El programa aproxima \(\sin(x)\) mediante una serie de Taylor y permite comparar la precisión de la aproximación en función del número de términos utilizados.
+
+\end{solution}

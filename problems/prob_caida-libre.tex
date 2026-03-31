@@ -1,0 +1,72 @@
+\item \textbf{Caída libre y conservación de la energía mecánica}.
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado}]
+
+	Considere una partícula de masa \(m\) que cae verticalmente bajo la acción de la gravedad, despreciando la resistencia del aire. Suponga que la velocidad inicial es nula, \(v_0 = 0\), y que la aceleración es constante, \(g = 9.8 \; \frac{m}{s^2}\). La posición y la velocidad de la partícula se describen en función del tiempo \(t\) como:
+
+\[
+y(t) = y_0 - \frac{1}{2}gt^2,
+\qquad
+v(t) = -gt
+\]
+
+donde \(y_0\) es la altura inicial ingresada por el usuario.
+
+La energía cinética, la energía potencial gravitatoria y la energía mecánica total se definen como:
+\[
+E_c = \frac{1}{2}mv(t)^2,
+\qquad
+E_p = mgy(t),
+\qquad
+E_{\text{tot}} = E_c + E_p
+\]
+
+\begin{itemize}
+    \item Escriba un programa que:
+    \begin{itemize}
+        \item Defina una función \texttt{caida\_libre(m, g=9.8)}.
+        \item Solicite al usuario el valor de la altura inicial \(y_0\).
+        \item Use un ciclo \texttt{for} para recorrer tiempos enteros entre \(t=1\) y \(t=99\).
+        \item Calcule en cada instante la posición \(y\) y la velocidad \(v\) usando las expresiones de caída libre.
+        \item Use esas mismas variables \(y\) y \(v\) para calcular la energía potencial \(E_p\) y la energía cinética \(E_c\), respectivamente. En todo instante de tiempo.
+        \item Calcule la energía total como la suma de ambas energías.
+        \item Muestre en pantalla, para cada instante, los valores de \(E_p\), \(E_c\) y \(E_{\text{tot}}\).
+    \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+
+\subsubsection*{Idea}
+Se debe construir una función que modele la caída libre de una partícula de masa \(m\). La función pedirá la altura inicial \(y_0\) y luego recorrerá distintos instantes de tiempo. En cada iteración se calcula primero la posición \(y\) y la velocidad \(v\). Después, esas mismas cantidades se reutilizan en las fórmulas de energía:
+\[
+E_c = \frac{1}{2}mv^2,
+\qquad
+E_p = mgy
+\]
+Finalmente, la energía mecánica total se obtiene sumando ambas:
+\[
+E_{\text{tot}} = E_c + E_p
+\]
+
+\subsubsection*{Implementación}
+\begin{pythonjupyter}
+def caida_libre(m, g = 9.8):
+    y0 = float(input('ingresar valor'))
+
+    for t in range(1, 100):
+        y = y0 - 1/2 * g * t**2
+        v = -g * t
+
+        e_c = 1 / 2 * m * v**2
+        e_p = m * g * y
+        e_tot = e_c + e_p
+
+        print('=' * 20)
+        print(f' para E_p {e_p} y E_k {e_c}: Energia total = {e_tot:.2f}')
+\end{pythonjupyter}
+
+\subsubsection*{Comentario}
+En este programa, la variable \texttt{y} calculada con la ecuación de posición se usa directamente en la energía potencial \texttt{e\_p}, mientras que la variable \texttt{v} calculada con la ecuación de velocidad se usa directamente en la energía cinética \texttt{e\_c}. De este modo, el código refleja de manera explícita la dependencia física entre movimiento y energía.
+
+\end{solution}
