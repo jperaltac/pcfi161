@@ -93,6 +93,7 @@
   \textbf{Física relevante:} Medición y control de errores.
 \end{frame}
 
+\iffalse
 % Ejercicio 3 (Intermedio)
 \begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Conversión de lista de temperaturas}
   \begin{block}{Enunciado}
@@ -104,9 +105,10 @@
   \textbf{Conceptos:} Listas, bucles, operadores \\ usar {\texttt{\textcolor{blue}{NombreLista.append(ValorAgregar)}}}.\\
   \textbf{Física relevante:} Termodinámica básica.
 \end{frame}
+\fi
 
-% Ejercicio 4 (Intermedio)
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Cálculo de energía potencial gravitatoria}
+% Ejercicio 3 (Intermedio)
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Cálculo de energía potencial gravitatoria}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Solicita masa (kg) y altura (m).
@@ -118,8 +120,8 @@
   \textbf{Física relevante:} Mecánica clásica.
 \end{frame}
 
-% Ejercicio 5 (Intermedio)
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Tabla de conversión de segundos a horas}
+% Ejercicio 4 (Intermedio)
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Tabla de conversión de segundos a horas}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Solicita un número entero \(n\).
@@ -132,13 +134,13 @@
 
 % -------------------- Ejercicios Difíciles --------------------
 
-% Ejercicio 6 (Difícil)
-\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Módulo de conversiones físicas avanzadas}
+% Ejercicio 5 (Difícil)
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Módulo de conversiones físicas avanzadas}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Crea un módulo \texttt{conversor.py} con funciones para convertir:
         \begin{itemize}
-          \item Newtons a kilogramos-fuerza.
+		\item Newtons a kilogramos-fuerza ( 1kgf \approx 9.8 N).
           \item Joules a calorías.
           \item Pascales a atmósferas.
         \end{itemize}
@@ -150,33 +152,35 @@
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Ejercicio 7 (Intermedio)
+% Ejercicio 6 (Intermedio)
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Validación y suma de números positivos}
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Validación y suma de números positivos}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Crea una función que solicite al usuario ingresar 5 números.
       \item Si el número ingresado es negativo, vuelve a pedirlo hasta que sea positivo.
       \item Al final, muestra la suma total de los números ingresados.
     \end{itemize}
-  \end{block}
+  \end{block}cd 
   \textbf{Conceptos:} Funciones, bucle \texttt{while}, validación de datos, acumuladores.\\
   \textbf{Física relevante:} Control de errores en mediciones.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Ejercicio 8 (Difícil)
+% Ejercicio 7 (Difícil)
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Aproximación de la raíz cuadrada por método iterativo}
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Aproximación de la raíz cuadrada por método iterativo}
+  \small
   \begin{block}{Enunciado}
     \begin{itemize}
+      \setlength{\itemsep}{0.35em}
       \item Crea una función que solicite un número positivo.
       \item Calcula la raíz cuadrada usando el método de Newton-Raphson:
         \[
-        x_{n+1} = \frac{1}{2}\left(x_n + \frac{a}{x_n}\right)
+        x_{n+1}=\frac{1}{2}\left(x_n+\frac{a}{x_n}\right)
         \]
-        donde \(a\) es el número ingresado y considera para el primer \(x_0\) como \(x_0 = a/2\). \\ (los \(x_1\), \(x_2\) ... se calculan a partir de \(x_n\))
-      \item Usa un ciclo \texttt{for} para realizar 10 iteraciones y muestra el resultado final.
+        donde \(a\) es el número ingresado y \(x_0=a/2\).
+      \item Usa un ciclo \texttt{for} para realizar 10 iteraciones y mostrar el resultado final.
     \end{itemize}
   \end{block}
   \textbf{Conceptos:} Funciones, ciclo \texttt{for}, aproximación numérica, operadores.\\
@@ -185,8 +189,8 @@
 
 
 
-% Ejercicio 9 (Difícil)
-\begin{frame}{Ejercicio 9: \hfill \textcolor{red}{$\clubsuit$} \\ Generador de tabla de valores de una función física}
+% Ejercicio 8 (Difícil)
+\begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Generador de tabla de valores de una función física}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Imprime una tabla de una ecuacion (por ejemplo, \(y = v_0 t - \frac{1}{2}gt^2\)), 
@@ -199,9 +203,9 @@
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Ejercicio 10 (Difícil)
+% Ejercicio 9 (Difícil)
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 10: \hfill \textcolor{red}{$\clubsuit$} \\ Simulación de crecimiento poblacional}
+\begin{frame}{Ejercicio 9: \hfill \textcolor{red}{$\clubsuit$} \\ Simulación de crecimiento poblacional}
   \begin{block}{Enunciado}
     \begin{itemize}
       \item Crea una función que solicite la población inicial, la tasa de crecimiento porcentual anual y el número de años.
@@ -216,6 +220,17 @@
   \textbf{Conceptos:} Funciones, ciclo \texttt{for}, operadores, entrada/salida.\\
   \textbf{Física relevante:} Modelos matemáticos en biología y física.
 \end{frame}
+
+\begin{solutionblock}
+\section{Soluciones de Referencia}
+
+\begin{frame}{Soluciones de Referencia}
+  \small
+  Las soluciones de referencia de \texttt{Semana04-P2.tex} deben agregarse en
+  este bloque. Este contenido se oculta con \texttt{make} y se muestra con
+  \texttt{make pdf-with-answers}.
+\end{frame}
+\end{solutionblock}
 
 
 \section{Conclusiones}
@@ -252,4 +267,3 @@
 \end{frame}
 
 \end{document}
-
