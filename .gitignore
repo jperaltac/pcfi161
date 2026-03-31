@@ -4,8 +4,8 @@ build/
 # SEGURIDAD: Archivos con tokens y credenciales
 Key.py
 # cache de latex 
-.tex-cache/
-.texlive-cache/
+*.tex-cache/
+*.texlive-cache/
 # Intermedios LaTeX
 *.aux
 *.log
