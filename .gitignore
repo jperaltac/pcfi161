@@ -5,6 +5,7 @@ build/
 Key.py
 # cache de latex 
 .tex-cache/
+.texlive-cache/
 # Intermedios LaTeX
 *.aux
 *.log
