@@ -53,9 +53,9 @@
 \begin{frame}{Resumen de Unidades y Conceptos}
   \begin{itemize}
     \item \textbf{Elementos Básicos} \\ 
-      Diseño de programas, uso de GNU/Linux, Google Colab y el intérprete Python.
+      Diseño de programas, uso de Google Colab y el intérprete Python.
     \item \textbf{Programación en Python} \\ 
-      Tipos de datos, operaciones, manejo de ficheros, funciones, paquetes y módulos.
+      Tipos de datos, operaciones, funciones, condicionales, paquetes.
     \item \textbf{Iteradores} \\ 
       Uso de bucles (\texttt{while} y \texttt{for}).
     \item \textbf{Funciones} \\ 
@@ -90,26 +90,6 @@
   \vspace{0.3cm}
 \end{frame}
 
-
-
-\begin{frame}{Ejercicio: Preguntas de Alternativas - Elementos Básicos y GNU/Linux} 
-    \begin{enumerate} 
-        \item ¿Cuál de los siguientes es un componente esencial de un sistema operativo GNU/Linux? 
-        \begin{enumerate}[A)] 
-            \item El kernel. 
-            \item La aplicación de ofimática. 
-            \item El navegador web. 
-            \item El entorno de escritorio exclusivo. 
-        \end{enumerate} 
-        \item ¿Qué ventaja ofrece Google Colab para quienes inician en la programación? 
-        \begin{enumerate}[A)] 
-            \item Permite acceder a recursos computacionales gratuitos en la nube. 
-            \item Requiere la instalación local de paquetes costosos. 
-            \item Solo funciona con el intérprete de C++. 
-            \item No permite compartir el código entre usuarios. 
-        \end{enumerate} 
-    \end{enumerate} 
-\end{frame}
 
 \begin{frame}{Ejercicio: Preguntas de Alternativas - Programación en Python: Tipos de Datos} 
     \begin{enumerate} 
@@ -193,6 +173,7 @@
   \begin{block}{Juego: Adivina el Número}
     \begin{itemize}
       \item El programa genera un número aleatorio entre 1 y 100.
+      \item Use \texttt{import random} y luego \texttt{random.randint(1,100)}
       \item El usuario tiene 7 intentos para adivinarlo.
       \item En cada intento, se informa si el número ingresado es mayor o menor que el objetivo.
       \item Al finalizar, se muestra un mensaje de felicitaciones o se revela el número correcto.
@@ -200,6 +181,23 @@
   \end{block}
   \vspace{0.2cm}
   \textbf{Objetivo:} Reforzar estructuras de control (bucles y condicionales) y el uso de la librería \texttt{random}.
+\end{frame}
+
+% ----- new ejercicio ------ 
+\begin{frame}{Ejercicio: Funciones, Iteración y Condicionales}
+    \begin{itemize}
+        \item La rapidez de un objeto en movimiento rectilíneo puede estimarse a partir de la distancia recorrida \( d \) (en metros) y el tiempo \( t \) (en segundos) mediante la relación:
+        \[
+        v = \frac{d}{t}
+        \]
+        Escriba un programa que:
+        \begin{enumerate}
+            \item Defina una función \texttt{rapidez(d, t)} que calcule la rapidez del objeto.
+            \item Permita al usuario ingresar distintos valores de distancia y tiempo de forma sucesiva, hasta que decida finalizar el proceso con un valor específico.
+            \item Evalúe cada resultado para indicar si el objeto se mueve a una rapidez mayor o menor que un valor de referencia dado (por ejemplo, \(10\ \text{m/s}\)).
+        \end{enumerate}
+        
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Actividad: Suma de una Serie Aritmética (Con Bucle)} 
@@ -230,18 +228,24 @@
 \end{frame}
 
 
-\begin{frame}[fragile]{Actividad: Programa Interactivo con \texttt{numpy}}
-  \begin{block}{Ejercicio: Estadísticas Básicas}
-    \begin{itemize}
-      \item Generar un arreglo de 15 números aleatorios utilizando \texttt{np.random.rand(15)}.
-      \item Calcular e imprimir la media y la desviación estándar del arreglo.
-      \item Identificar y mostrar los números mayores a la media.
-    \end{itemize}
-  \end{block}
-  \vspace{0.2cm}
-  \textbf{Objetivo:} Reforzar el uso de \texttt{numpy} y la manipulación de arreglos.
-\end{frame}
+\begin{frame}{Ejercicio: Aproximación de funciones con series}
+    \begin{enumerate}
+        \item La función logaritmo natural puede aproximarse mediante la serie de Taylor:
+        \[
+        \ln(1 + x) = \sum_{k=1}^{\infty} (-1)^{k+1} \frac{x^k}{k}
+        = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \cdots
+        \]
+        válida para \( -1 < x \leq 1 \).
 
+        Escriba un programa que:
+        \begin{enumerate}
+            \item Solicite al usuario un valor real \( x \) dentro del rango de convergencia.
+            \item Solicite un entero positivo \( n \) (número de términos).
+            \item Defina una función que calcule la suma de los primeros \( n \) términos de la serie.
+            \item Evalúe el resultado obtenido para indicar si la aproximación es razonable o no en comparación con el valor entregado por la función \texttt{math.log(1 + x)}.
+        \end{enumerate}
+    \end{enumerate}
+\end{frame}
 
 \begin{frame}{Sugerencias Finales}
   \begin{itemize}

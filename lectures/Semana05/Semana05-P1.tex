@@ -193,50 +193,61 @@
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 13: Ejercicio 3 - Módulos y Funciones
+% Slide 13: Ejercicio 3 - iteradores - aritmetica
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: Módulo de Conversión de Unidades}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Aproximación de la raíz cuadrada por método iterativo}
+  \small
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Crea un archivo \texttt{conversor.py} con varias funciones:
-        \begin{itemize}
-          \item \texttt{cm\_a\_m}, \texttt{m\_a\_km}, \texttt{km\_a\_cm}, etc.
-        \end{itemize}
-      \item Importa \texttt{conversor} en \texttt{main.py} y pide al usuario un valor y la conversión deseada (ej. cm \(\rightarrow\) km).
-      \item Muestra el resultado final.
+      \setlength{\itemsep}{0.35em}
+      \item Crea una función que solicite un número positivo.
+      \item Calcula la raíz cuadrada usando el método de Newton-Raphson:
+        \[
+        x_{n+1}=\frac{1}{2}\left(x_n+\frac{a}{x_n}\right)
+        \]
+        donde \(a\) es el número ingresado y \(x_0=a/2\).
+      \item Usa un ciclo \texttt{for} para realizar 10 iteraciones y mostrar el resultado final.
     \end{itemize}
   \end{block}
-  \textbf{Objetivo}: Practicar la creación de \textbf{módulos}, importación y lógica simple de funciones.
+  \textbf{Conceptos:} Funciones, ciclo \texttt{for}, aproximación numérica, operadores.\\
+  \textbf{Física relevante:} Métodos numéricos aplicados a física.
 \end{frame}
-
 % ------------------------------------------------------------------------
-% Slide 14: Ejercicio 4 - Biblioteca Externa
+% Slide 14: Ejercicio 4 - iteradores - fisica 1 
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: Usando \texttt{numpy}}
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Generador de tabla de valores de una función física}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Instala e importa \texttt{numpy}.
-      \item Genera un \textbf{arreglo} de 10 números aleatorios (\texttt{np.random.rand(10)}).
-      \item Calcula su \textbf{media} y \textbf{desviación estándar}.
-      \item \textbf{Opcional}: filtrar solo valores > 0.5 y mostrarlos.
+      \item Imprime una tabla de una ecuacion (por ejemplo, \(y = v_0 t - \frac{1}{2}gt^2\)),
+      \item Pide los valores iniciales \(v_0\) y  \(t_f\), teniendo encuenta que \(t_0 = 0 \).
+      \item Imprime una tabla con los valores calculados (por ejemplo, \(y\) para diferentes valores de \(t\)).
     \end{itemize}
   \end{block}
-  \textbf{Objetivo}: Reforzar \textbf{numpy}, acceso a funciones \texttt{mean}, \texttt{std}, slicing y condicionales.
+  \textbf{Conceptos:} Bucles, operadores, entrada/salida, funciones.\\
+  \textbf{Física relevante:} Movimiento rectilíneo uniformemente acelerado.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 15: Actividad Colaborativa
+% Slide 15: Ejercicio 5 - iteradores - poblacion 
 % ------------------------------------------------------------------------
-\begin{frame}{Actividad Colaborativa}
-  \begin{itemize}
-    \item Trabaja en \textbf{parejas} o \textbf{grupos de 3}.
-    \item Selecciona 2 ejercicios (o más) y discútelos en conjunto.
-    \item Anota cualquier duda o error que surja durante la implementación.
-    \item Comparte tus soluciones y reflexiona sobre los puntos más complicados.
-  \end{itemize}
+
+\begin{frame}{Ejercicio 9: \hfill \textcolor{red}{$\clubsuit$} \\ Simulación de crecimiento poblacional}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crea una función que solicite la población inicial, la tasa de crecimiento porcentual anual y el número de años.
+      \item Usa la fórmula de crecimiento exponencial:
+        \[
+        P_{n} = P_0 \times (1 + r)^n
+        \]
+        donde \(P_0\) es la población inicial, \(r\) es la tasa de crecimiento (como decimal), y \(n\) es el número de años.
+      \item Usa un ciclo \texttt{for} para calcular y mostrar la población para cada año.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} Funciones, ciclo \texttt{for}, operadores, entrada/salida.\\
+  \textbf{Física relevante:} Modelos matemáticos en biología y física.
 \end{frame}
 
-% ------------------------------------------------------------------------
+%------------------------------------------------------------------------
 % Slide 16: Ayuda y Orientación
 % ------------------------------------------------------------------------
 \begin{frame}{Ayuda y Orientación}
