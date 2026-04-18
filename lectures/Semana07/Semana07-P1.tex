@@ -47,11 +47,10 @@
   \begin{itemize}
     \item \textbf{Semana 6, Sesión 2 (Sesión 12)} se enfocó en:
       \begin{itemize}
-        \item Manipulación avanzada de NumPy (\texttt{reshape}, \texttt{transpose}, \texttt{concatenate}).
-        \item Uso de \texttt{np.random} para valores aleatorios y \texttt{np.linalg} (álgebra lineal).
-        \item Primeros pasos con \textbf{Matplotlib} (\texttt{plot}, \texttt{scatter}).
+        \item Manipulación avanzada de NumPy (\texttt{reshape}, \texttt{linspace}, \texttt{arange}).
+        \item Uso de \texttt{np.random} para valores aleatorios y \texttt{np.std} (álgebra lineal).
       \end{itemize}
-    \item \textbf{Objetivo de hoy}: Avanzar con gráficos más complejos (subplots, histogramas, 3D) y comenzar a manipular datos de forma más eficiente (posiblemente una introducción a \texttt{pandas}).
+    \item \textbf{Objetivo de hoy}: Avanzar con gráficos (plots, scatter, histogramas) y comenzar a manipular datos de forma más eficiente (posiblemente una introducción a \texttt{pandas}).
   \end{itemize}
 \end{frame}
 
@@ -183,12 +182,14 @@ plt.show()
 % Slide 9: Tipos de Gráficos Básicos
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Tipos de Gráficos Básicos}
-\begin{minted}[fontsize=\tiny]{python}
+\begin{minted}[fontsize=\tiny,baselinestretch=0.85]{python}
 import matplotlib.pyplot as plt
 import numpy as np
+
 # Datos de ejemplo
 x = np.linspace(0, 5, 20)
 y = x**2
+
 # 1. Gráfico de línea
 plt.figure(figsize=(12, 4))
 plt.subplot(1, 3, 1)
@@ -288,9 +289,11 @@ plt.show()
 % Slide 12: Ejercicio Guiado - Paso a Paso
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio Guiado: \hfill \textcolor{red}{$\clubsuit$} \\ Gráfica de Caída Libre}
+  \footnotesize
   \begin{block}{Enunciado}
     Crear una gráfica que muestre la posición vs tiempo para un objeto en caída libre:
     \begin{itemize}
+      \setlength{\itemsep}{0.1em}
       \item Usar la fórmula: \(y(t) = y_0 - \frac{1}{2}gt^2\)
       \item \(y_0 = 100\) m (altura inicial)
       \item \(g = 9.81\) m/s² (gravedad)
@@ -300,6 +303,7 @@ plt.show()
   
   \textbf{Pasos a seguir:}
   \begin{enumerate}
+    \setlength{\itemsep}{0.1em}
     \item Crear array de tiempo
     \item Calcular posiciones
     \item Crear gráfica con etiquetas apropiadas
@@ -311,6 +315,7 @@ plt.show()
 % ------------------------------------------------------------------------
 % Slide 13: Solución del Ejercicio Guiado
 % ------------------------------------------------------------------------
+\ifshowsolutions
 \begin{frame}[fragile]{Solución del Ejercicio Guiado: \hfill \textcolor{green}{$\checkmark$} \\ Gráfica de Caída Libre}
 \begin{minted}[fontsize=\tiny]{python}
 # Paso 1: Definir parámetros
@@ -343,6 +348,7 @@ plt.annotate(f't = {t_final:.2f} s',
 plt.show()
 \end{minted}
 \end{frame}
+\fi
 
 
 % ----------------------------------------------------------------------------------------
@@ -620,6 +626,7 @@ print(df.head())
 % ----------------------------------------------------------------------------------------
 % SECCIÓN: Soluciones de Referencia
 % ----------------------------------------------------------------------------------------
+\ifshowsolutions
 \section{Soluciones de Referencia}
 
 % ------------------------------------------------------------------------
@@ -834,6 +841,7 @@ print(f"Tiempo al que ocurre: {df['Tiempo'][df['PosY'].idxmax()]:.2f} s")
 \vspace{0.3cm}
 \textbf{Discusión:} pandas facilita la lectura de datos externos y su manipulación. La integración con matplotlib es directa.
 \end{frame}
+\fi
 
 
 % ------------------------------------------------------------------------
@@ -935,4 +943,3 @@ print(f"Tiempo al que ocurre: {df['Tiempo'][df['PosY'].idxmax()]:.2f} s")
 \end{frame}
 
 \end{document}
-

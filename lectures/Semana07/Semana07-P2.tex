@@ -47,15 +47,14 @@
   \begin{itemize}
     \item \textbf{Semana 6} nos introdujimos en:
       \begin{itemize}
-        \item NumPy avanzado (\texttt{reshape}, \texttt{transpose}, \texttt{np.linalg}, etc.).
-        \item Primeras visualizaciones con Matplotlib (gráficos 2D y un vistazo a 3D).
+        \item NumPy avanzado (\texttt{reshape}, \texttt{np.arange}, \texttt{np.linspace}, etc.).
       \end{itemize}
     \item \textbf{Semana 7, Sesión 1 (Sesión 13)} cubrimos:
       \begin{itemize}
-        \item Gráficas más avanzadas (subplots múltiples, histogramas, 3D).
+        \item Primeras visualizaciones con Matplotlib (gráficos 2D y un vistazo a 3D).
         \item Breve introducción a \texttt{pandas} para manejar datos tabulares.
       \end{itemize}
-    \item \textbf{Objetivo de hoy}: Resolver un problema evaluado (\textbf{Problema a Evaluar}), reforzar lo aprendido y seguir practicando la visualización y manejo de arreglos.
+    \item \textbf{Objetivo de hoy}: aplicar a  problemas para reforzar lo aprendido y seguir practicando la visualización y manejo de arreglos.
   \end{itemize}
 \end{frame}
 
@@ -64,8 +63,7 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 14}
   \begin{itemize}
-    \item \textbf{Aplicar} los conceptos de \textbf{NumPy} (manipulación avanzada, aleatoriedad, álgebra lineal) y \textbf{Matplotlib} (gráficas) en un ejercicio integrador.
-    \item \textbf{Realizar} una \textbf{evaluación parcial} en grupos, donde se resolverá un problema práctico y se subirá a \textbf{CANVAS}.
+    \item \textbf{Aplicar} los conceptos de \textbf{NumPy} (manipulación avanzada, aleatoriedad, álgebra lineal) y \textbf{Matplotlib} (gráficas) en una serie de ejercicios integradores.
     \item \textbf{Discutir} resultados y dificultades tras la entrega.
   \end{itemize}
 \end{frame}
@@ -82,8 +80,7 @@
 \begin{frame}{Organización de Equipos de Trabajo}
   \begin{itemize}
     \item Formar \textbf{grupos de 2-3 estudiantes}
-    \item Seleccionar ejercicios específicos (según tiempo disponible)
-    \item Editar un \textbf{notebook compartido} en Google Colab
+    \item Resolver ejercicios de la clase 
     \item \textbf{Estrategia recomendada:}
       \begin{itemize}
         \item Discutir enfoque antes de programar
@@ -156,10 +153,18 @@
 % Slide 13: Ejercicio 4 - Análisis de Movimiento Parabólico
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis de Movimiento Parabólico}
+  \footnotesize
   \begin{block}{Enunciado}
     \begin{itemize}
+      \setlength{\itemsep}{0.15em}
       \item Simular un proyectil con \(v_0 = 30\) m/s, \(\theta = 45°\), \(g = 9.81\) m/s².
-      \item Calcular trayectoria \(x(t)\) e \(y(t)\) hasta el impacto.
+      \item Usar las ecuaciones:
+      \[
+      x(t)=v_0\cos(\theta)\,t,
+      \qquad
+      y(t)=v_0\sin(\theta)\,t-\frac{1}{2}gt^2
+      \]
+      \item Calcular trayectoria \(x(t)\) e \(y(t)\) hasta el impacto (\(y(t) = 0\)).
       \item Graficar altura vs tiempo y trayectoria 2D en subplots separados.
       \item Agregar títulos, etiquetas y grillas apropiadas.
     \end{itemize}
@@ -194,7 +199,7 @@
 \begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Comparación de Distribuciones}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Generar 3 conjuntos de 1000 datos: normal(0,1), normal(2,0.5), uniforme(0,4).
+      \item Generar 3 conjuntos de 1000 datos: normal(0,1), normal(2,0.5), uniform(0,4).
       \item Crear histogramas superpuestos con transparencia.
       \item Agregar líneas verticales indicando las medias de cada distribución.
       \item Incluir leyenda y etiquetas descriptivas.
@@ -209,6 +214,7 @@
 % ------------------------------------------------------------------------
 % Slide 9: Solución 1 de Referencia
 % ------------------------------------------------------------------------
+\ifshowsolutions
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Primer Gráfico con NumPy}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -328,10 +334,11 @@ plt.show()
 % ------------------------------------------------------------------------
 % Slide 16: Solución 4 de Referencia
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Movimiento Parabólico}
-\begin{columns}
+\begin{frame}[fragile]{{\small Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Movimiento Parabólico}}
+\scriptsize
+\begin{columns}[t]
 \begin{column}{0.5\textwidth}
-\begin{minted}{python}
+\begin{minted}[fontsize=\scriptsize]{python}
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -352,7 +359,7 @@ fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 \end{minted}
 \end{column}
 \begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=18]{python}
+\begin{minted}[fontsize=\scriptsize,firstnumber=18]{python}
 # Altura vs tiempo
 ax1.plot(t, y, 'b-', linewidth=2)
 ax1.set_xlabel('Tiempo (s)')
@@ -374,7 +381,7 @@ print(f"Altura máxima: {np.max(y):.2f} m")
 \end{minted}
 \end{column}
 \end{columns}
-\vspace{0.3cm}
+\vspace{0.15cm}
 \textbf{Discusión:} Las ecuaciones cinemáticas vectorizadas permiten calcular toda la trayectoria eficientemente.
 \end{frame}
 
@@ -481,6 +488,7 @@ plt.show()
 \vspace{0.3cm}
 \textbf{Discusión:} Los histogramas con transparencia permiten comparar visualmente múltiples distribuciones.
 \end{frame}
+\fi
 
 % ------------------------------------------------------------------------
 % Slide 12: Discusión y Retroalimentación
@@ -552,10 +560,11 @@ plt.show()
 % Slide 16: Cierre de la Sesión
 % ------------------------------------------------------------------------
 \begin{frame}
-  \Huge{\centerline{¡Excelente trabajo \\ y \\ hasta la próxima!}}
-  \vspace{0.5cm}
-  \normalsize
+  \Large{\centerline{¡Excelente trabajo \\ y \\ hasta la próxima!}}
+  \vspace{0.25cm}
+  \small
   \begin{itemize}
+    \setlength{\itemsep}{0.2em}
     \item Recuerden revisar \textbf{notas y comentarios} en CANVAS.
     \item Continúen practicando la combinación NumPy + Matplotlib.
     \item ¡Nos vemos en la \textbf{Semana 8} con nuevos temas!
@@ -563,4 +572,3 @@ plt.show()
 \end{frame}
 
 \end{document}
-
