@@ -46,13 +46,14 @@
   \begin{itemize}
     \item \textbf{En las sesiones previas} aprendimos:
       \begin{itemize}
-        \item Uso de listas y sus métodos principales
-        \item Listas por comprensión para procesamiento de datos
+        \item Uso de bucles para calculos y creación de tablas
+        \item condicionales para toma de desiciones
         \item Estructuras de control para análisis de datos
         \item Funciones para encapsular operaciones complejas
       \end{itemize}
     \item \textbf{Conexión con la sesión actual:} 
       \begin{itemize}
+        \item Primero veremos listas de Python para trabajar colecciones de datos
         \item Ahora exploraremos las limitaciones de estas estructuras nativas
         \item Aprenderemos herramientas especializadas para computación científica
       \end{itemize}
@@ -69,10 +70,10 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 11}
   \begin{itemize}
+    \item \textbf{Comprender} los conceptos básicos de Listas en Python: creación, acceso, manipulación.
     \item \textbf{Comprender} los conceptos básicos de NumPy: arreglos (arrays), vectorización, broadcasting.
     \item \textbf{Practicar} la creación y manipulación de arrays en Google Colab.
     \item \textbf{Aplicar} estas herramientas a ejemplos numéricos y pequeños problemas de Física/Astronomía.
-    \item \textbf{Desarrollar} habilidades de trabajo colaborativo y análisis numérico.
   \end{itemize}
 \end{frame}
 
@@ -141,6 +142,7 @@ print(numeros[::2])   # [10, 30, 50] (saltos de 2)
 \end{minted}
 \end{frame}
 
+\iffalse
 % ------------------------------------------------------------------------
 % Slide 8: Operaciones con Listas - Caso Práctico
 % ------------------------------------------------------------------------
@@ -168,7 +170,7 @@ print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
 \end{itemize}
 \end{frame}
 
-
+\fi
 % ------------------------------------------------------------------------
 % Slide: Métodos para Agregar y Quitar Elementos
 % ------------------------------------------------------------------------
@@ -217,14 +219,7 @@ print(lista1)     # [1, 2, 3, 4, 5, 6]
 repetida = [0] * 4
 print(repetida)   # [0, 0, 0, 0]
 
-# Dividir cadena en lista
-texto = "Python es poderoso"
-palabras = texto.split()
-print(palabras)   # ['Python', 'es', 'poderoso']
 
-# Unir lista en cadena
-unida = " | ".join(palabras)
-print(unida)      # 'Python | es | poderoso'
 \end{minted}
 \end{frame}
 
@@ -276,12 +271,6 @@ print(cuadrados)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
 pares = [x for x in range(10) if x % 2 == 0]
 print(pares)      # [0, 2, 4, 6, 8]
 
-# Combinar elementos de dos listas
-nombres = ["Ana", "Luis"]
-apellidos = ["Gómez", "Pérez"]
-nombres_completos = [n + " " + a for n in nombres for a in apellidos]
-print(nombres_completos)  
-# ['Ana Gómez', 'Ana Pérez', 'Luis Gómez', 'Luis Pérez']
 \end{minted}
 \end{frame}
 
@@ -320,6 +309,7 @@ print(f"Días calurosos: {dias_calurosos}")  # [4, 5]
 % Slide: ¿Qué es NumPy?
 % ------------------------------------------------------------------------
 \begin{frame}{¿Qué es NumPy?}
+  \footnotesize
   \begin{itemize}
     \item \textbf{NumPy} = \textit{Numerical Python}
     \item \textbf{Biblioteca fundamental} para computación científica en Python
@@ -541,6 +531,7 @@ print("Desviación estándar total:", np.std(velocidades))
 % ------------------------------------------------------------------------
 % Slide: Slicing Lógico en NumPy
 % ------------------------------------------------------------------------
+\iffalse
 \begin{frame}[fragile]{Slicing Lógico en NumPy}
   \begin{itemize}
     \item El \textbf{slicing lógico} permite modificar elementos basándose en condiciones
@@ -568,11 +559,13 @@ print("Array modificado:", arr_mod)
     \end{itemize}
   \end{alertblock}
 \end{frame}
+\fi
 
 
 % ------------------------------------------------------------------------
 % Slide: Reshape y Redimensionamiento de Arrays 
 % ------------------------------------------------------------------------
+\iffalse
 \begin{frame}[fragile]{Reshape y Redimensionamiento de Arrays}
 \begin{minted}{python}
 import numpy as np
@@ -600,10 +593,12 @@ print("Matriz 2x?:\n", mat3)
   \item Usar \texttt{-1} para calcular automáticamente una dimensión.
 \end{itemize}
 \end{frame}
+\fi
 
 % ------------------------------------------------------------------------
 % Slide: Concatenación de Arrays
 % ------------------------------------------------------------------------
+\iffalse
 \begin{frame}[fragile]{Concatenación de Arrays}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -636,10 +631,12 @@ print("Concatenación vertical:\n", v_concat)
   \item \texttt{axis=1}: une a lo largo de las columnas (horizontalmente).
 \end{itemize}
 \end{frame}
+\fi
 
 % ------------------------------------------------------------------------
 % Slide: Stack - Apilamiento de Arrays
 % ------------------------------------------------------------------------
+\iffalse
 \begin{frame}[fragile]{Stack - Apilamiento de Arrays}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -673,10 +670,12 @@ print("dstack:\n", depth_stack)
   \item También existe \texttt{np.stack} para control más preciso.
 \end{itemize}
 \end{frame}
+\fi
 
 % ------------------------------------------------------------------------
 % Slide: Split - Dividir Arrays
 % ------------------------------------------------------------------------
+\iffalse
 \begin{frame}[fragile]{Split - Dividir Arrays}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -712,10 +711,12 @@ for i, cuad in enumerate(np.array(cuadrantes).reshape(4, 3, 3)):
 \end{minted}
 \end{block}
 \end{frame}
+\fi
 
 % ------------------------------------------------------------------------
 % Slide: Transposición y Manipulación de Ejes
 % ------------------------------------------------------------------------
+\iffalse
 \begin{frame}[fragile]{Transposición y Manipulación de Ejes}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -748,6 +749,7 @@ print("Swapped shape:", swap_axes.shape)  # (4, 3, 2)
   \item \texttt{swapaxes()} intercambia dos ejes específicos.
 \end{itemize}
 \end{frame}
+\fi
 
 
 
@@ -811,6 +813,7 @@ print("Swapped shape:", swap_axes.shape)  # (4, 3, 2)
 % ------------------------------------------------------------------------
 % Slide 20: Solución 1 de Referencia - Primer Contacto con NumPy
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Primer Contacto con NumPy}
 \begin{minted}{python}
 # Creamos el arreglo y calculamos estadísticas
@@ -829,10 +832,12 @@ print("Array modificado:", arr_mod)
 \end{minted}
 	\textbf{Discusión:} El uso de slicing lógico permite modificar el arreglo de forma eficiente y sin bucles.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 21: Solución 2 de Referencia - Matriz y Broadcasting
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Matriz y Broadcasting}
 \begin{minted}{python}
 # Suma de vector a matriz usando broadcasting
@@ -849,10 +854,12 @@ print("Matriz resultante:\n", resultado)
 \end{minted}
 	\textbf{Discusión:} Broadcasting permite sumar el vector a cada fila sin bucles explícitos.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 22: Solución 3 de Referencia - Aproximación de $\pi$
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Aproximación de $\pi$}
 \begin{minted}{python}
 # Aproximación de pi usando la serie de Leibniz
@@ -873,6 +880,7 @@ print("Diferencia:", abs(math.pi - aprox_pi))
 \end{minted}
 	\textbf{Discusión:} La vectorización permite calcular sumas grandes de manera eficiente y rápida.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 23: Discusión de Resultados
@@ -916,4 +924,3 @@ print("Diferencia:", abs(math.pi - aprox_pi))
 \end{frame}
 
 \end{document}
-

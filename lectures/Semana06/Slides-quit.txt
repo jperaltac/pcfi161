@@ -1,0 +1,51 @@
+#### ----- Slides comentadas P1 ---------
+
+Comento ciertas slides debido a que es mucha información inicial para alumnos ... 
+se deja lo escencial y basico por el momento sin herramientas 'avanzadas' de listas .. 
+aqui iré mencionando las slides que comento y una breve razon ... 
+
+##### --------------
+
+--Slide 3 
+Arreglo conceptos aprendidos en semanas previas ... no se vieron listas .. 
+
+--Slide 4
+Agregar listas de python .... 
+
+--Slide 8 
+Comentada completamente .. está repetida .
+
+--Slide 10 
+Borro funcion de split .. no se usa mucho y ya es mucha info para los cabros 
+
+--slide 12
+Borro ultimo ejemplo .. usa syntaxis avanzda y es confuso para principiantes .. 
+
+--Slide 14 
+Ajusto tamaño de texto para que quepa en la slide 
+
+--Slide 22 
+Comentada .. ejemplo complejo .. 
+
+--Slide 23 
+Comentada .. aun no saben lo que es una matriz .. concepto avanzado . 
+
+--Slide 24 
+Comentada .. recien entendiendo lo que es un array .. nadie entenderá ese concepto o se les olvidará al segundo .. 
+
+--Slide 25 
+Comentada .. Función con muy poco uso practico .. 
+
+--Slide 26 
+Comentada .. Funcion con poco uso practico y complejo para principiantes .. 
+
+--Slide 27 
+Comentada .. no saben lo que es una matriz aun .. 
+
+
+
+
+
+
+
+ 

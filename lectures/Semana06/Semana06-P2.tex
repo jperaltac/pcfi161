@@ -116,6 +116,7 @@
 % ------------------------------------------------------------------------
 % Slide 7: Solución Ejercicio Guiado 1
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución Guiado 1: \hfill \textcolor{green}{$\checkmark$} \\ Comparación Listas vs NumPy}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -142,6 +143,7 @@ print(f"Desviación estándar: {np.std(cuadrados_array)}")
 \end{minted}
 \textbf{Discusión:} NumPy es más conciso para operaciones matemáticas y ofrece funciones estadísticas integradas.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 8: Ejercicio Guiado 2 - Análisis de Datos Experimentales
@@ -165,6 +167,7 @@ print(f"Desviación estándar: {np.std(cuadrados_array)}")
 % ------------------------------------------------------------------------
 % Slide 9: Solución Ejercicio Guiado 2
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución Guiado 2: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Datos de Temperatura}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -198,6 +201,7 @@ print(f"Valores bajos: {temperaturas[temp_bajas]:.2f}")
 \end{minted}
 \textbf{Discusión:} El uso de indexación booleana permite filtrar datos eficientemente.
 \end{frame}
+\end{solutionblock}
 
 
 
@@ -339,6 +343,7 @@ print(f"Valores bajos: {temperaturas[temp_bajas]:.2f}")
 % ------------------------------------------------------------------------
 % Solución Ejercicio 1 -
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Primeros Pasos con NumPy}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -366,10 +371,12 @@ print("Forma:", array_espaciado.shape)
 \end{minted}
 \textbf{Discusión:} NumPy ofrece diferentes funciones para crear arrays según nuestras necesidades específicas.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Solución Ejercicio 2 -
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Operaciones Básicas con NumPy}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -397,10 +404,12 @@ print("Valor mínimo:", np.min(arr_cuad))  # 484
 \end{minted}
 \textbf{Discusión:} Las operaciones con arrays de NumPy se aplican a todos los elementos sin necesidad de bucles.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Solución Ejercicio 3 
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Comparación Lista vs NumPy}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -429,11 +438,13 @@ print("Suma de array:", suma_array)  # 15
 \end{minted}
 \textbf{Discusión:} NumPy permite operaciones vectorizadas más concisas y legibles que las listas de Python.
 \end{frame}
+\end{solutionblock}
 
 
 % ------------------------------------------------------------------------
 % Solución Ejercicio 4 - Indexación y Slicing
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Indexación y Slicing con NumPy}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -465,10 +476,12 @@ print(elementos_mayores)  # [ 9 10 11 12 13 14 15]
 \end{minted}
 \textbf{Discusión:} La indexación flexible de NumPy permite extraer datos específicos de matrices multidimensionales, fundamental para análisis de datos científicos.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Solución Ejercicio 5 - Análisis de Caída Libre
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Caída Libre con NumPy}
 \begin{minted}[fontsize=\tiny]{python}
 import numpy as np
@@ -502,6 +515,7 @@ print(f"Posición a los {tiempos[indice_3s]:.2f} s: {posicion_3s:.2f} m")
 \end{minted}
 \textbf{Discusión:} NumPy permite simular fácilmente fenómenos físicos y analizar resultados sin necesidad de bucles.
 \end{frame}
+\end{solutionblock}
 
 
 % ------------------------------------------------------------------------
@@ -531,4 +545,3 @@ print(f"Posición a los {tiempos[indice_3s]:.2f} s: {posicion_3s:.2f} m")
 \end{frame}
 
 \end{document}
-
