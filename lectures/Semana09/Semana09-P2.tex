@@ -1,7 +1,7 @@
 \documentclass[10pt]{beamer}
 \input{../preamble.tex}
 
-\title{Semana 9 – Sesión 2 (18)\\Análisis y visualización con pandas, nivel intermedio}
+\title{Semana 9 – Sesión 2 (18)\\Repaso de NumPy y Matplotlib}
 \author{PCFI161 – Programación para Física y Astronomía}
 \date{\today}
 
@@ -15,202 +15,398 @@
 \begin{frame}\frametitle{Índice}\tableofcontents\end{frame}
 
 % 3 ──────────────────────────────────────────────────────────
-\section{Fuentes de datos}
-\begin{frame}{Fuentes para la práctica}
+\section{Objetivo de la sesión}
+\begin{frame}{Objetivo de la sesión}
 \begin{itemize}
-  \item Meteoritos NASA (limitado a 5 000 filas)\newline
-        \url{https://data.nasa.gov/resource/y77d-th95.csv?\$\$limit=5000}
-  \item Exoplanetas Seaborn\newline
-        \url{https://raw.githubusercontent.com/mwaskom/seaborn-data/master/planets.csv}
-  \item Masas PDG (extracto)\newline
-        \url{https://raw.githubusercontent.com/particle-physics-book/data/master/pdg_mass.csv}
+  \item Repasar la creación de arreglos con \textbf{NumPy}.
+  \item Practicar operaciones vectorizadas y funciones matemáticas.
+  \item Reforzar gráficos básicos con \textbf{Matplotlib}.
+  \item Resolver ejercicios similares al razonamiento esperado en la Solemne II.
 \end{itemize}
-Copia estas direcciones directamente en tu notebook.
 \end{frame}
 
 % 4 ──────────────────────────────────────────────────────────
-\section{Carga y limpieza}
-\begin{frame}[fragile]{Lectura de los tres conjuntos}
-\begin{minted}{python}
-met   = pd.read_csv("https://data.nasa.gov/resource/y77d-th95.csv?$$limit=5000")
-pln   = pd.read_csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/planets.csv")
-pdg   = pd.read_csv("https://raw.githubusercontent.com/particle-physics-book/data/master/pdg_mass.csv")
+\section{Recordatorio de NumPy}
+\begin{frame}[fragile]{Crear arreglos}
+\textbf{Herramientas mínimas para hoy.}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+
+a = np.array([1, 2, 3, 4])
+x = np.linspace(0, 10, 100)
+n = np.arange(0, 20, 2)
 \end{minted}
-`read\_csv` descarga y parsea automáticamente; no requiere bibliotecas externas.
+\begin{itemize}
+  \item \texttt{np.array}: transforma datos en arreglo.
+  \item \texttt{np.linspace}: puntos igualmente espaciados.
+  \item \texttt{np.arange}: secuencia con paso fijo.
+\end{itemize}
 \end{frame}
 
 % 5 ──────────────────────────────────────────────────────────
-\begin{frame}[fragile]{Eliminar faltantes y outliers en meteoritos}
-\begin{minted}{python}
-met = met[met.mass.notna()].copy()
-met["massKg"] = met.mass.astype(float) / 1000    # gramos a kg
-met = met[met.massKg < 1e4]                      # quitar >10 t
+\begin{frame}[fragile]{Operaciones vectorizadas}
+\textbf{Idea clave.} Operar sobre todo el arreglo sin escribir un \texttt{for}.
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+t = np.linspace(0, 5, 50)
+x0 = 2.0
+v0 = 3.0
+a  = -1.5
+
+x = x0 + v0*t + 0.5*a*t**2
+
+print(x.mean(), x.min(), x.max())
 \end{minted}
-Tres líneas bastan para dejar el conjunto listo para análisis.
+\textit{Punto docente.} Las operaciones se aplican elemento a elemento.
 \end{frame}
 
 % 6 ──────────────────────────────────────────────────────────
-\section{Diagnóstico de faltantes}
-\begin{frame}[fragile]{Porcentaje de valores nulos}
-\begin{minted}{python}
-faltantes = met.isna().mean() * 100
-faltantes.sort_values(ascending=False).head()
+\section{Recordatorio de Matplotlib}
+\begin{frame}[fragile]{Gráfico de línea}
+\textbf{Estructura básica de una figura.}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import matplotlib.pyplot as plt
+
+plt.plot(t, x, label="posicion")
+plt.xlabel("tiempo [s]")
+plt.ylabel("posicion [m]")
+plt.title("Movimiento en 1D")
+plt.grid(True)
+plt.legend()
+plt.show()
 \end{minted}
-Así priorizas las columnas que necesitan limpieza.
 \end{frame}
 
 % 7 ──────────────────────────────────────────────────────────
-\section{Agrupaciones avanzadas}
-\begin{frame}[fragile]{Resumen por década}
-\begin{minted}{python}
-met["year"] = pd.to_datetime(met.year, errors="coerce").dt.year
-decade = (met.groupby(met.year // 10 * 10)["massKg"]
-              .agg(conteo='size', promedio='mean', total='sum'))
-decade.head()
+\begin{frame}[fragile]{Scatter e histograma}
+\textbf{Dos gráficos frecuentes en ejercicios.}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+plt.scatter(t, x, alpha=0.7)
+plt.xlabel("tiempo [s]")
+plt.ylabel("posicion [m]")
+plt.grid(True)
+plt.show()
+
+plt.hist(x, bins=12, edgecolor="black")
+plt.xlabel("posicion [m]")
+plt.ylabel("frecuencia")
+plt.show()
 \end{minted}
-Agrupar por transformación matemática del año genera la tabla por décadas.
 \end{frame}
 
 % 8 ──────────────────────────────────────────────────────────
-\begin{frame}[fragile]{Pivot table visual}
-\begin{minted}{python}
-pln["decada"] = pln.year // 10 * 10
-tabla = pln.pivot_table(index="method", columns="decada",
-                        values="distance", aggfunc="count")
-plt.imshow(tabla.fillna(0), aspect='auto')
-plt.colorbar(label="número de exoplanetas"); plt.yticks(range(len(tabla)), tabla.index)
-plt.xlabel("decada"); plt.show()
-\end{minted}
-La matriz calor ayuda a descubrir métodos dominantes en cada período.
+\section{Ejercicios guiados}
+\begin{frame}{Ejercicio guiado 1: Movimiento 1D}
+\begin{block}{Enunciado}
+\begin{itemize}
+  \item Crea un arreglo \texttt{t} con 100 valores entre 0 y 8 segundos.
+  \item Usa \(x(t)=x_0+v_0t+\frac{1}{2}at^2\), con \(x_0=0\), \(v_0=12\) y \(a=-9.8\).
+  \item Grafica posición versus tiempo.
+  \item Calcula la altura máxima usando NumPy.
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} \texttt{linspace}, operaciones vectorizadas, \texttt{max}, \texttt{plot}.
 \end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución Guiado 1: \hfill \textcolor{green}{$\checkmark$} \\ Movimiento 1D}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+t = np.linspace(0, 8, 100)
+x0 = 0
+v0 = 12
+a = -9.8
+x = x0 + v0*t + 0.5*a*t**2
+altura_maxima = np.max(x)
+print("Altura maxima:", altura_maxima)
+plt.plot(t, x)
+plt.xlabel("tiempo [s]")
+plt.ylabel("posicion [m]")
+plt.title("Movimiento 1D")
+plt.grid(True)
+plt.show()
+\end{minted}
+\textbf{Discusión:} El arreglo \texttt{t} contiene todos los tiempos y la formula se aplica a todos sus valores al mismo tiempo.
+\end{frame}
+\end{solutionblock}
 
 % 9 ──────────────────────────────────────────────────────────
-\section{Reshape melt y pivot}
-\begin{frame}[fragile]{Convertir tabla ancha a larga}
-\begin{minted}{python}
-wide = decade.reset_index().rename(columns={"year":"decada"})
-long = wide.melt(id_vars="decada",
-                 var_name="metrica", value_name="valor")
-long.head()
-\end{minted}
-La forma “larga” es conveniente para bibliotecas de visualización como Seaborn.
-\end{frame}
-
-% 10 ──────────────────────────────────────────────────────────
-\section{Series temporales}
-\begin{frame}[fragile]{Resample anual de masa caída}
-\begin{minted}{python}
-metTs = (met.set_index(pd.to_datetime(met.year, format='%Y'))
-              .massKg.resample("1Y").sum())
-metTs.plot(title="Masa total de meteoritos por año"); plt.ylabel("kg"); plt.show()
-\end{minted}
-`resample` es la versión temporal de `groupby`.
-\end{frame}
-
-% 11 ──────────────────────────────────────────────────────────
-\section{Merge ilustrativo}
-\begin{frame}[fragile]{Normalizar masas de planetas}
-\begin{minted}{python}
-proton = pdg.loc[pdg.symbol == "p", "mass_GeV"].iat[0]
-pln["massOverMp"] = pln.mass / proton
-pln[["name", "mass", "massOverMp"]].head()
-\end{minted}
-Combinamos física de partículas con astronomía en un solo DataFrame.
-\end{frame}
-
-% 12 ──────────────────────────────────────────────────────────
-\section{Visualización integrada}
-\begin{frame}[fragile]{Scatters y densidad KDE}
-\begin{minted}{python}
-pln.plot.scatter(x="mass", y="orbital_period",
-                 alpha=0.4, logx=True, logy=True,
-                 title="Masa vs periodo orbital")
-pln["distance"].plot.kde(title="Densidad de distancias"); plt.show()
-\end{minted}
-La API integrada evita llamadas adicionales a Matplotlib.
-\end{frame}
-
-% 13 ──────────────────────────────────────────────────────────
-\section{Estilos}
-\begin{frame}[fragile]{Aplicar estilo SciencePlots}
-\begin{minted}{python}
-plt.style.use("science")
-decade.total.plot(marker='o')
-plt.title("Toneladas de meteoritos por década"); plt.ylabel("kg"); plt.show()
-\end{minted}
-El resultado queda listo para copiar en un informe o paper.
-\end{frame}
-
-% 14 ──────────────────────────────────────────────────────────
-\section{Exportar resultados}
-\begin{frame}[fragile]{Guardar en disco}
-\begin{minted}{python}
-decade.to_csv("meteoritos_por_decada.csv", index=True)
-pln.to_parquet("planetsCompact.parquet", index=False)
-\end{minted}
-Parquet brinda alta compresión y lectura más veloz que CSV.
-\end{frame}
-
-% 15 ──────────────────────────────────────────────────────────
-\section{Rendimiento}
-\begin{frame}{Consejos de eficiencia}
+\begin{frame}{Ejercicio guiado 2: Trayectoria 2D}
+\begin{block}{Enunciado}
 \begin{itemize}
-  \item Columnas con pocos valores → `astype("category")` para reducir memoria.  
-  \item `read\_csv` con `chunksize` permite procesar archivos gigantes en porciones.  
-  \item `eval` y `query` compilan expresiones y evitan copias intermedias.
+  \item Crea un arreglo \texttt{theta} entre 0 y \(2\pi\).
+  \item Define \(r=2+\cos(\theta)\).
+  \item Calcula \(x=r\cos(\theta)\) e \(y=r\sin(\theta)\).
+  \item Grafica la trayectoria y usa \texttt{plt.axis("equal")}.
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} coordenadas polares, \texttt{np.cos}, \texttt{np.sin}, ejes proporcionales.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución Guiado 2: \hfill \textcolor{green}{$\checkmark$} \\ Trayectoria 2D}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+theta = np.linspace(0, 2*np.pi, 200)
+r = 2 + np.cos(theta)
+x = r*np.cos(theta)
+y = r*np.sin(theta)
+plt.plot(x, y)
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("Trayectoria 2D")
+plt.axis("equal")
+plt.grid(True)
+plt.show()
+\end{minted}
+\textbf{Discusión:} Primero se calcula el radio y luego se transforma cada punto desde coordenadas polares a coordenadas cartesianas.
+\end{frame}
+\end{solutionblock}
+
+% 10 ─────────────────────────────────────────────────────────
+\begin{frame}{Ejercicio guiado 3: Datos con ruido}
+\begin{block}{Enunciado}
+\begin{itemize}
+  \item Genera 200 mediciones alrededor de 5.0 usando \texttt{np.random.normal}.
+  \item Calcula media y desviación estándar.
+  \item Dibuja un histograma de las mediciones.
+  \item Marca la media con una línea vertical.
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} números aleatorios, estadística descriptiva, histogramas.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución Guiado 3: \hfill \textcolor{green}{$\checkmark$} \\ Datos con ruido}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+np.random.seed(1)
+mediciones = np.random.normal(5.0, 0.3, 200)
+media = np.mean(mediciones)
+desviacion = np.std(mediciones)
+print("Media:", media)
+print("Desviacion estandar:", desviacion)
+plt.hist(mediciones, bins=15, edgecolor="black")
+plt.axvline(media, color="red", label="media")
+plt.xlabel("medicion")
+plt.ylabel("frecuencia")
+plt.title("Mediciones con ruido")
+plt.legend()
+plt.show()
+\end{minted}
+\textbf{Discusión:} La media indica el valor central de las mediciones y la desviación estándar indica cuánto se dispersan.
+\end{frame}
+\end{solutionblock}
+
+% 11 ─────────────────────────────────────────────────────────
+\begin{frame}{Ejercicio guiado 4: Relación física}
+\begin{block}{Enunciado}
+\begin{itemize}
+  \item Crea arreglos para distancia \(d\) y velocidad \(v\).
+  \item Calcula \(H=v/d\) para cada dato.
+  \item Grafica \(v\) versus \(d\) usando \texttt{scatter}.
+  \item Calcula el promedio de \(H\).
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} división elemento a elemento, \texttt{scatter}, promedio.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución Guiado 4: \hfill \textcolor{green}{$\checkmark$} \\ Relación física}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+d = np.array([2, 4, 6, 8, 10])
+v = np.array([140, 260, 430, 540, 700])
+H = v/d
+promedio_H = np.mean(H)
+print("Valores de H:", H)
+print("Promedio de H:", promedio_H)
+plt.scatter(d, v)
+plt.xlabel("distancia")
+plt.ylabel("velocidad")
+plt.title("Velocidad versus distancia")
+plt.grid(True)
+plt.show()
+\end{minted}
+\textbf{Discusión:} Al dividir dos arreglos del mismo tamaño, NumPy divide cada velocidad por su distancia correspondiente.
+\end{frame}
+\end{solutionblock}
+
+% 12 ─────────────────────────────────────────────────────────
+\section{Ejercicios tipo Solemne}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Altura de un proyectil}
+\begin{block}{Enunciado}
+\begin{itemize}
+  \item Construye \(t\) entre 0 y 4 segundos con 80 puntos.
+  \item Calcula \(y(t)=1.5+18t-4.9t^2\).
+  \item Grafica \(y\) versus \(t\), con etiquetas y grilla.
+  \item Informa la altura máxima y el tiempo donde ocurre.
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} arreglo temporal, vectorización, \texttt{np.max}, \texttt{np.argmax}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Altura de un proyectil}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+t = np.linspace(0, 4, 80)
+y = 1.5 + 18*t - 4.9*t**2
+altura_maxima = np.max(y)
+indice_maximo = np.argmax(y)
+tiempo_maximo = t[indice_maximo]
+print("Altura maxima:", altura_maxima)
+print("Tiempo de altura maxima:", tiempo_maximo)
+plt.plot(t, y)
+plt.xlabel("tiempo [s]")
+plt.ylabel("altura [m]")
+plt.title("Altura de un proyectil")
+plt.grid(True)
+plt.show()
+\end{minted}
+\textbf{Discusión:} \texttt{np.argmax} entrega la posición del valor máximo; con esa posición se obtiene el tiempo correspondiente.
+\end{frame}
+\end{solutionblock}
+
+% 13 ─────────────────────────────────────────────────────────
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Órbita circular perturbada}
+\begin{block}{Enunciado}
+\begin{itemize}
+  \item Crea \(\theta\) entre 0 y \(2\pi\) con 360 puntos.
+  \item Define \(r=1+0.15\sin(5\theta)\).
+  \item Calcula \(x=r\cos(\theta)\) e \(y=r\sin(\theta)\).
+  \item Grafica la órbita usando \texttt{axis("equal")}.
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} trigonometría con NumPy, trayectoria 2D, proporción de ejes.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Órbita circular perturbada}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+theta = np.linspace(0, 2*np.pi, 360)
+r = 1 + 0.15*np.sin(5*theta)
+x = r*np.cos(theta)
+y = r*np.sin(theta)
+plt.plot(x, y)
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("Orbita circular perturbada")
+plt.axis("equal")
+plt.grid(True)
+plt.show()
+\end{minted}
+\textbf{Discusión:} La parte \texttt{0.15*np.sin(5*theta)} modifica suavemente el radio y produce la perturbación de la órbita.
+\end{frame}
+\end{solutionblock}
+
+% 14 ─────────────────────────────────────────────────────────
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Mediciones experimentales}
+\begin{block}{Enunciado}
+\begin{itemize}
+  \item Simula 300 mediciones de una longitud promedio \(L=2.4\) m.
+  \item Usa una dispersión de \(0.08\) m.
+  \item Calcula media, desviación estándar, mínimo y máximo.
+  \item Dibuja un histograma e interpreta la dispersión.
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} \texttt{np.random.normal}, \texttt{mean}, \texttt{std}, \texttt{hist}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Mediciones experimentales}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+np.random.seed(2)
+mediciones = np.random.normal(2.4, 0.08, 300)
+media = np.mean(mediciones)
+desviacion = np.std(mediciones)
+minimo = np.min(mediciones)
+maximo = np.max(mediciones)
+print("Media:", media)
+print("Desviacion estandar:", desviacion)
+print("Minimo:", minimo)
+print("Maximo:", maximo)
+plt.hist(mediciones, bins=15, edgecolor="black")
+plt.xlabel("longitud [m]")
+plt.ylabel("frecuencia")
+plt.title("Mediciones de longitud")
+plt.show()
+\end{minted}
+\textbf{Discusión:} La dispersión de \(0.08\) m hace que la mayoría de las mediciones quede cerca de \(2.4\) m.
+\end{frame}
+\end{solutionblock}
+
+% 15 ─────────────────────────────────────────────────────────
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Ley de Hubble simplificada}
+\begin{block}{Enunciado}
+\begin{itemize}
+  \item Crea arreglos de distancias \([5,10,20,40,80]\) Mpc.
+  \item Crea velocidades \([350,710,1420,2790,5650]\) km/s.
+  \item Grafica velocidad versus distancia.
+  \item Calcula \(H_0=v/d\) y estima su promedio.
+\end{itemize}
+\end{block}
+\textbf{Conceptos:} arrays, scatter plot, división vectorizada, promedio.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Ley de Hubble simplificada}
+\begin{minted}[fontsize=\scriptsize,breaklines,breakanywhere,baselinestretch=0.78]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+d = np.array([5, 10, 20, 40, 80])
+v = np.array([350, 710, 1420, 2790, 5650])
+H0 = v/d
+promedio_H0 = np.mean(H0)
+print("Valores de H0:", H0)
+print("Promedio de H0:", promedio_H0)
+plt.scatter(d, v)
+plt.xlabel("distancia [Mpc]")
+plt.ylabel("velocidad [km/s]")
+plt.title("Ley de Hubble simplificada")
+plt.grid(True)
+plt.show()
+\end{minted}
+\textbf{Discusión:} Si la relación es aproximadamente lineal, los valores \(v/d\) deberían ser parecidos entre sí.
+\end{frame}
+\end{solutionblock}
+
+% 16 ─────────────────────────────────────────────────────────
+\section{Errores comunes}
+\begin{frame}{Errores comunes a evitar}
+\begin{itemize}
+  \item Usar \texttt{math.sin} o \texttt{math.cos} sobre arreglos en vez de \texttt{np.sin} o \texttt{np.cos}.
+  \item Olvidar \texttt{plt.show()} al final del gráfico.
+  \item No usar \texttt{plt.axis("equal")} en trayectorias 2D.
+  \item Mezclar listas y arrays sin revisar el tipo de dato.
+  \item Entregar gráficos sin título, ejes o unidades.
 \end{itemize}
 \end{frame}
 
-% 16 ──────────────────────────────────────────────────────────
-\section{Mini proyecto en parejas}
-\begin{frame}{Instrucciones de treinta minutos}
-\begin{enumerate}
-  \item Clasifica cada meteorito en continente según latitud y longitud.  
-  \item Histograma logarítmico de masa por continente.  
-  \item Pivot table de cantidad de impactos por década y continente.  
-  \item Exporta la pivot table a un archivo Excel para compartir.
-\end{enumerate}
-\end{frame}
-
-% 17 ──────────────────────────────────────────────────────────
-\section{Guía rápida de solución}
-\begin{frame}[fragile,shrink=5]{Fragmento de código orientativo}
-\begin{minted}{python}
-bins = np.logspace(-2, 4, 30)
-for cont in met.continent.unique():
-    met.loc[met.continent == cont, "massKg"].plot.hist(
-        bins=bins, alpha=0.5, label=cont)
-plt.xscale("log"); plt.legend(); plt.show()
-\end{minted}
-\end{frame}
-
-% 18 ──────────────────────────────────────────────────────────
-\section{Recursos recomendados}
-\begin{frame}{Para profundizar}
+% 17 ─────────────────────────────────────────────────────────
+\section{Cierre}
+\begin{frame}{Resumen de la sesión}
 \begin{itemize}
-  \item Cheat-sheet oficial: \url{https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf}
-  \item Libro “Python Data Science Handbook”, capítulos ocho a once.
-  \item Lista Awesome Public Datasets en GitHub.
+  \item NumPy permite construir arreglos y operar sobre ellos directamente.
+  \item Matplotlib permite visualizar resultados con pocas instrucciones.
+  \item La Solemne II exigirá combinar cálculo, gráfico e interpretación.
 \end{itemize}
 \end{frame}
 
-% 19 ──────────────────────────────────────────────────────────
-\section{Preguntas frecuentes}
-\begin{frame}{FAQ en vivo}
-\begin{itemize}
- \item \textbf{Warning SettingWithCopy} → usa `loc` y `copy`.  
- \item CSV muy grande → convierte a Parquet y gana 5-10 x en velocidad.  
- \item Problemas en merge → usa `validate="one\_to\_one"` para asegurar unicidad.
-\end{itemize}
+% 18 ─────────────────────────────────────────────────────────
+\begin{frame}{Próxima sesión}
+La Semana 10, Sesión 1 queda como simulacro integrador para la Solemne II.
 \end{frame}
 
-% 20 ──────────────────────────────────────────────────────────
-\section{Próximos temas}
-\begin{frame}{En la próxima semana}
-Estadística básica, bootstrap y visualización con Seaborn aplicadas a datos físicos.
-\end{frame}
-
-% 21 ──────────────────────────────────────────────────────────
+% 19 ─────────────────────────────────────────────────────────
 \begin{frame}\Huge{\centerline{¡Fin de la sesión!}}\end{frame}
 
 \end{document}

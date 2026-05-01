@@ -1,0 +1,48 @@
+Semana09
+
+Resumen generado a partir de `git diff` antes del commit.
+
+Cambios generales
+
+- Se actualiza el Makefile para compilar automaticamente todos los `.tex` definidos en `TEXS`.
+- Se agrega soporte para `make pdf-with-answers` usando `SHOWSOLUTIONS=1`.
+- Se definen cache local de TeX (`.tex-cache` y `.tex-var`) para evitar archivos temporales globales.
+- Se mejora `clean` para borrar archivos auxiliares, `.cut`, cache local y directorios `_minted`.
+- Se regeneran los PDF de Semana09-P1 y Semana09-P2.
+
+Semana09-P1
+
+- Cambio menor de formato: se elimina una linea en blanco despues del `preamble`.
+- El contenido principal de P1 queda sin cambios relevantes.
+
+Semana09-P2
+
+- Se reemplaza el enfoque anterior de pandas intermedio por una sesion de repaso de NumPy y Matplotlib.
+- El titulo cambia a: "Repaso de NumPy y Matplotlib".
+- Se elimina la secuencia basada en fuentes de datos externas, limpieza, agrupaciones avanzadas, pivot tables, series temporales, merge, estilos y exportacion.
+- Se agrega una estructura nueva orientada a:
+  - objetivo de la sesion;
+  - recordatorio de NumPy;
+  - operaciones vectorizadas;
+  - graficos basicos con Matplotlib;
+  - ejercicios guiados;
+  - ejercicios tipo Solemne;
+  - errores comunes;
+  - cierre y proxima sesion.
+- Se agregan ejercicios guiados con soluciones de referencia:
+  - movimiento 1D;
+  - trayectoria 2D;
+  - datos con ruido;
+  - relacion fisica.
+- Se agregan ejercicios tipo Solemne con soluciones de referencia:
+  - altura de un proyectil;
+  - orbita circular perturbada;
+  - mediciones experimentales;
+  - ley de Hubble simplificada.
+- Las soluciones quedan dentro de bloques `solutionblock` para poder compilar una version con respuestas.
+
+Resumen numerico del diff de Semana09
+
+- 5 archivos modificados antes de agregar este resumen.
+- 351 lineas agregadas.
+- 142 lineas eliminadas.
