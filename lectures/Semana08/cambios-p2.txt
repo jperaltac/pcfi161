@@ -1,0 +1,196 @@
+Semana08 P2
+
+Propuesta de cambio general
+
+La P2 actual se aleja bastante de lo visto en la P1. En la primera parte se trabajó principalmente:
+
+- acceso a DataFrames
+- selección de columnas y filas
+- filtrado
+- groupby básico
+- isnull
+- dropna
+- drop
+- visualización simple
+- lectura/exportación de CSV
+
+En cambio, la P2 actual empuja rápidamente hacia:
+
+- generación de datos sintéticos complejos
+- imputación guiada por física
+- derivaciones astrofísicas no triviales
+- filtros físicos relativamente avanzados
+- análisis más cercano a un mini proyecto que a una práctica inicial de pandas
+
+Mi sugerencia es cambiar el enfoque completo de la P2 para que:
+
+1. Usted les suba un archivo `.csv`.
+2. El primer paso sea usar `pd.read_csv(...)`.
+3. Los ejercicios practiquen herramientas básicas y frecuentes de pandas.
+4. El contexto siga siendo astronómico, pero sin depender de fórmulas complejas ni generación sintética.
+
+
+Propuesta de cambio para cada ejercicio
+
+1. Ejercicio 1 actual: Inspección y unidades
+
+Razón de cambio:
+Este ejercicio sí es adecuado en espíritu, pero conviene adaptarlo al hecho de que ahora el dataset provendrá de un archivo CSV. Debe reforzar `pd.read_csv`, `head`, `shape`, `columns`, `info`, que son las primeras herramientas que realmente usarán.
+
+Lo cambiaría por:
+- Leer el archivo con `pd.read_csv('nombre_archivo.csv')`.
+- Mostrar `df.head()`.
+- Mostrar `df.shape`.
+- Mostrar `df.columns`.
+- Mostrar `df.info()`.
+
+
+2. Ejercicio 2 actual: Limpieza e imputación
+
+Razón de cambio:
+La imputación por cuartiles, la imputación física de `planet_radius_Re` y la discusión MCAR/MNAR son demasiado avanzadas para el nivel que deja la P1. Antes de eso conviene consolidar detección de nulos y limpieza básica.
+
+Lo cambiaría por:
+- Contar valores nulos con `df.isnull().sum()`.
+- Calcular porcentaje de nulos por columna.
+- Crear un nuevo DataFrame con `dropna()` en columnas clave.
+- Comparar cuántas filas había antes y después.
+
+
+3. Ejercicio 3 actual: Columnas derivadas físicas
+
+Razón de cambio:
+Recalcular `a_AU`, `teq_K` y clasificar planetas ya mezcla física, unidades y pandas a un nivel mayor. No es malo como actividad futura, pero no como práctica coherente con la P1.
+
+Lo cambiaría por:
+- Seleccionar un subconjunto de columnas relevantes.
+- Crear una columna derivada simple y comprensible, por ejemplo una razón entre dos variables ya presentes en el CSV.
+- Mostrar el nuevo DataFrame con esa columna.
+
+Ejemplo de tipo de tarea:
+- crear una columna `radio_relativo = planet_radius_Re / star_radius_Rsun`
+
+La idea no es la física exacta, sino practicar operaciones vectorizadas sobre columnas.
+
+
+4. Ejercicio 4 actual: Candidatos templados y detectables
+
+Razón de cambio:
+El filtrado en sí es bueno, pero aquí usa demasiadas condiciones físicas especializadas. Para principiantes conviene practicar filtros más legibles y directos.
+
+Lo cambiaría por:
+- Filtrar con una o dos condiciones simples.
+- Luego filtrar con tres condiciones combinadas usando `&`.
+- Mostrar el subconjunto resultante.
+
+Ejemplos de estilo:
+- `period_days > 50`
+- `planet_radius_Re < 3`
+- `snr > 10`
+
+Aquí el aprendizaje importante es construir máscaras booleanas de forma correcta.
+
+
+5. Ejercicio 5 actual: Tasas por metalicidad y tipo de planeta
+
+Razón de cambio:
+`pd.qcut`, proporciones por cuartil y análisis de tendencia ya es más avanzado que el nivel deseable para esta P2 si queremos continuidad real con P1.
+
+Lo cambiaría por:
+- Agrupar por una categoría ya existente en el CSV.
+- Calcular una media con `groupby(...).mean()`.
+- Si quiere, calcular también un conteo por grupo con `value_counts()` o `groupby(...).size()`.
+
+Ejemplo de estilo:
+- agrupar por `discovery_method`
+- calcular promedio de `planet_radius_Re`
+- contar cuántos objetos hay por método
+
+Eso practica agrupación de manera más natural y frecuente.
+
+
+6. Ejercicio 6 actual: Gráficas integradas
+
+Razón de cambio:
+Tres gráficos en una sola actividad ya es mucho para el nivel inicial. Además la dispersión coloreada por una tercera variable exige más atención al gráfico que al uso básico de pandas.
+
+Lo cambiaría por:
+- un histograma simple de una columna numérica
+- un gráfico de barras simple usando conteos por categoría
+
+Ejemplos:
+- histograma de `period_days`
+- barras de cantidad por `discovery_method`
+
+Así practican visualización rápida, que sí está en la línea de la P1.
+
+
+7. Ejercicio 7 actual: Exportación de resultados
+
+Razón de cambio:
+La exportación sí es adecuada, pero actualmente depende de una cadena de ejercicios más avanzada de lo necesario.
+
+Lo cambiaría por:
+- exportar el DataFrame limpio a un nuevo CSV
+- exportar además un subconjunto filtrado a otro CSV
+
+Ejemplo:
+- `df_clean.to_csv('exoplanetas_limpio.csv', index=False)`
+- `df_filtrado.to_csv('exoplanetas_filtrados.csv', index=False)`
+
+
+Propuesta concreta de nueva secuencia de ejercicios
+
+1. Lectura e inspección del CSV
+   - usar `pd.read_csv`
+   - mostrar `head`, `shape`, `columns`, `info`
+
+2. Selección de columnas y acceso básico
+   - seleccionar algunas columnas relevantes
+   - mostrar subconjunto
+
+3. Filtrado simple y filtrado múltiple
+   - una condición
+   - varias condiciones con `&`
+
+4. Datos faltantes
+   - `isnull().sum()`
+   - `dropna()` sobre columnas clave
+   - comparar tamaños
+
+5. Eliminar columnas no necesarias
+   - usar `drop(columns=[...])`
+   - dejar un DataFrame más limpio y enfocado
+
+6. Agrupación básica
+   - `groupby(...).mean()`
+   - opcionalmente conteo por grupo
+
+7. Visualización simple
+   - histograma
+   - barras por categoría
+
+8. Exportación
+   - guardar DataFrame limpio
+   - guardar DataFrame filtrado
+
+
+Razón pedagógica de este cambio
+
+Esta propuesta se ajusta mucho mejor al contexto real de la clase actual porque:
+
+- usa herramientas vistas en P1
+- practica comandos frecuentes en pandas
+- introduce lectura real de archivos con `pd.read_csv`
+- evita generación de datos sintéticos difíciles de entender
+- evita fórmulas físicas que desvían el foco
+- permite una práctica integradora, pero todavía inicial
+
+
+Recomendación final
+
+Yo cambiaría completamente la P2 hacia un flujo de trabajo más cercano a:
+
+CSV real -> read_csv -> inspección -> selección -> filtrado -> nulos -> drop/dropna -> groupby -> gráfico -> exportación
+
+Ese flujo es mucho más transferible a futuras tareas, laboratorios y proyectos que la versión actual basada en generación sintética e imputaciones avanzadas.

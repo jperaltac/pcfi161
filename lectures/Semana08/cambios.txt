@@ -1,0 +1,234 @@
+Semana08 P1 ... 
+
+Explora en gran medida la librería de pandas mostrando varios conceptos ... desde manejo de datos de manera básica 
+  --> continua con manejo avanzado de datos ---> limpieza de datos --> lectura y exploración --> visualización 
+  --> y termina con un par de ejercicios .... 
+
+---- La misión es disminuir cantidad de slide dejando lo básico .. ya sea de cada sección o eliminando una por completo 
+	para dejar como máximo unas 30 slides ... veré slide por slide .... :c 
+
+-Slide 3 
+ Cambiar parte de ' realizamos un problema evaluado ' a realizamos una sesión de ejercicios en los que se implementaron       	arreglos numpy y su posterior visualización usando librerías matplotlib .. con estructura acorde ... 
+	
+-slide 4 
+ Dejar como está 
+
+-slide 5 
+ Dejar como esta 
+
+-slide 6 
+ Dejar como esta 
+
+-slide 7 
+ Dejar .. 
+
+-slide 8 
+ Dejar .. 
+
+-slide 9 
+ Dejar .. 
+
+-slide10 
+ Dejar .. 
+
+-slide 11 
+ Dejar .. 
+
+-slide 12  - 13 
+ Me canse ...... 
+
+--- Propuesta de continuación revisión slide por slide (Semana08-P1.tex) ---
+
+-Slide 12
+ Dejar, pero simplificar discusión.
+ Razón: `df.describe()` sí es parte del uso diario de pandas y sirve como primer diagnóstico rápido.
+
+-Slide 13
+ Dejar solo si se quiere mostrar un primer ejemplo de NaN + `dropna()`.
+ Razón: manejo de faltantes es importante, pero aquí todavía está bien mantenerlo en nivel básico.
+
+-Slide 14
+ Sacar slide completa.
+ Razón: generar otro DataFrame aleatorio de 100 filas corta demasiado el hilo pedagógico. Mete un segundo dataset demasiado pronto y empieza a alargar la sesión.
+
+-Slide 15
+ Dejar.
+ Razón: `pd.cut()` para crear categorías sí puede ser útil en ciencia y además introduce agrupación de forma natural.
+
+-Slide 16
+ Dejar.
+ Razón: `groupby(...).mean()` es de las operaciones más usadas en pandas y conviene mostrarla.
+
+-Slide 17 --------> ignorar propuesta de slide 17 
+ Sacar slide completa.
+ Razón: `df.info()` y `df.shape` ya debiesen haberse mostrado antes que esta parte, no después. Además repite inspección básica y rompe la progresión.
+
+-Slide 18
+ Dejar.
+ Razón: seleccionar columnas específicas es muy cotidiano en cualquier análisis.
+
+-Slide 19
+ Dejar.
+ Razón: filtrar por una condición simple también es uso diario en pandas.
+
+-Slide 20
+ Dejar solo si quieres cerrar filtrado con un ejemplo un poco más realista.
+ Si hay que recortar fuerte, esta sería candidata a sacar.
+ Razón: el filtrado múltiple aporta, pero ya es una extensión del filtrado simple.
+
+-Slide 21
+ Sacar slide completa.
+ Razón: esta agregación con múltiples estadísticas ya se siente más avanzada para una primera pasada. Para una intro basta con un `groupby().mean()`.
+
+-Slide 22
+ Sacar slide completa.
+ Razón: correlaciones ya empujan la clase hacia análisis exploratorio más específico y no a fundamentos de pandas.
+
+-Slide 23
+ Sacar slide completa.
+ Razón: volver a simular NaN después de ya haber mostrado faltantes genera redundancia.
+
+-Slide 24
+ Dejar.
+ Razón: `isnull().sum()` sí es esencial y probablemente más útil que varias de las slides vecinas.
+
+-Slide 25
+ Dejar.
+ Razón: `dropna()` es una estrategia básica que vale la pena conocer.
+
+-Slide 26
+ Sacar slide completa.
+ Razón: mostrar explícitamente un caso con error al usar `df.mean()` rellena demasiado detalle técnico para una primera clase.
+
+-Slide 27
+ Dejar, pero resumir.
+ Razón: mostrar la solución correcta de rellenar solo columnas numéricas sí tiene valor práctico, pero puede condensarse mucho.
+
+-Slide 28
+ Dejar.
+ Razón: leer y exportar CSV es probablemente de lo más útil para estudiantes de astronomía/física.
+
+-Slide 29
+ Sacar slide completa.
+ Razón: mostrar el formato CSV como texto no agrega demasiado si ya explicaste `read_csv()` y `to_csv()`.
+
+-Slide 30
+ Dejar.
+ Razón: histograma simple desde pandas es una visualización rápida muy razonable para una intro.
+
+-Slide 31
+ Dejar solo una de las dos slides de visualización integrada.
+ Mi preferencia: dejar esta y sacar la siguiente.
+ Razón: con una sola slide basta para mostrar que pandas se integra con matplotlib.
+
+-Slide 32
+ Sacar slide completa.
+ Razón: sería redundante si ya dejas una slide de visualización. No hace falta dos gráficos distintos en una introducción.
+
+
+INGRESAR TODO LAS SOLUCIONES DE REFERENCIA DENTRO DE UN BEGIN{COMMENT} COMO EN LAS SEMANAS ANTERIORES .. MODIFICAR EL MAKEFILE DENTRO DE SEMANA08 PARA QUE SE APLIQUE COMO EN LAS SEMANAS ANTERIORES (make , make pdf-with-answers ) 
+
+
+----------- IGNORAR TODO DESDE AQUI ABAJO HASTA EL CIERRE ------- 
+
+-Slide 33
+ Sacar slide completa.
+ Razón: aquí empieza prácticamente una segunda clase dentro de la misma clase. El dataset de meteoritos abre un bloque muy largo de ejercicios y dispara el total de slides.
+
+-Slide 34
+ Sacar slide completa.
+ Razón: el enunciado del ejercicio 1 repite inspección básica ya vista antes.
+
+-Slide 35
+ Sacar slide completa.
+ Razón: también repite inspección básica; no añade un concepto nuevo de pandas.
+
+-Slide 36
+ Sacar slide completa.
+ Razón: vuelve a repetir `shape`, `info`, `describe`.
+
+-Slide 37
+ Sacar slide completa.
+ Razón: misma idea anterior; totalmente redundante para una introducción.
+
+-Slide 38
+ Sacar slide completa.
+ Razón: el filtrado físico ya puede sobrevivir con ejemplos anteriores; no hace falta otro bloque completo.
+
+-Slide 39
+ Sacar slide completa.
+ Razón: solución asociada al ejercicio anterior, también prescindible.
+
+-Slide 40
+ Sacar slide completa.
+ Razón: columnas derivadas físicas son interesantes, pero ya pasan desde pandas básico a aplicación temática extensa.
+
+-Slide 41
+ Sacar slide completa.
+ Razón: solución asociada; mantiene demasiado larga la parte de ejercicios.
+
+-Slide 42
+ Sacar slide completa.
+ Razón: ley de cráter y modelación física se sale del foco "primer vistazo a pandas".
+
+-Slide 43
+ Sacar slide completa.
+ Razón: solución asociada; demasiado específica del caso de meteoritos.
+
+-Slide 44
+ Sacar slide completa.
+ Razón: clasificación de mortalidad por bins es interesante, pero no necesaria en la primera sesión.
+
+-Slide 45
+ Sacar slide completa.
+ Razón: solución asociada; se puede omitir sin perder fundamentos.
+
+-Slide 46
+ Sacar slide completa.
+ Razón: otra combinación de `groupby` + ranking, ya demasiado avanzada para el nivel introductorio.
+
+-Slide 47
+ Sacar slide completa.
+ Razón: solución asociada y redundante respecto a conceptos ya mostrados.
+
+-Slide 48
+ Sacar slide completa.
+ Razón: visualización + exportación ya fueron cubiertas antes en la presentación.
+
+-Slide 49
+ Sacar slide completa.
+ Razón: solución asociada, repetitiva y extensa.
+
+
+
+--- Recomendación global ---
+
+Si el objetivo es dejar la clase en ~30 slides, yo propondría:
+
+1. Mantener portada + resumen + introducción.
+2. Mantener solo el bloque esencial de pandas:
+   Series, DataFrame, acceso, operaciones vectorizadas, `describe`, selección, filtrado, `groupby` básico, faltantes, `read_csv`, `to_csv`, una visualización rápida.
+3. Eliminar casi por completo el bloque de ejercicios guiados de meteoritos.
+
+Con ese criterio, la presentación bajaría desde 49 slides a unas 24-28 slides aprox., que ya queda mucho más alineado con una sesión introductoria.
+
+--- Criterio pedagógico sugerido ---
+
+Para un curso introductorio a Python orientado a astronomía, yo priorizaría que el estudiante salga sabiendo:
+
+- qué es una `Series` y un `DataFrame`
+- cómo seleccionar columnas y filas
+- cómo filtrar datos
+- cómo crear columnas nuevas
+- cómo resumir con `describe()` y `groupby()`
+- cómo detectar/limpiar faltantes
+- cómo leer/exportar CSV
+- cómo hacer una visualización rápida
+
+Todo lo demás puede quedar para una sesión práctica o una P2.
+
+----------- CIERRE ------------- 
+
+se ajustó el ejercicio a uno mas acorde al nivel ... llevando la creacion de datos a una manera de codigo mas legible de acuerdo a lo visto en clases .... preferí usar un dataset mas pequeño para sea posible ver de manera mas clara que es lo que se hace con cada linea de codigo .. que es lo escencial al inicio .... 
+
+

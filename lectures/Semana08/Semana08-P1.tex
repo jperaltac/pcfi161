@@ -52,10 +52,10 @@
       \end{itemize}
     \item \textbf{Semana 7, Sesión 2 (Sesión 14)}:
       \begin{itemize}
-        \item Realizamos un \textbf{problema evaluado} integrando NumPy y Matplotlib (matriz aleatoria, álgebra lineal, gráficas 3D e histograma).
+        \item Realizamos una \textbf{sesión de ejercicios} en la que se implementaron arreglos con NumPy y su posterior visualización usando librerías como Matplotlib.
         \item Aclaramos dudas tras la entrega.
       \end{itemize}
-    \item \textbf{Objetivo de hoy}: Iniciar \textbf{programación orientada a objetos (POO)} en Python y repasar análisis básico de datos en NumPy/pandas.
+    \item \textbf{Objetivo de hoy}: Iniciar \textbf{programación orientada a analisis de datos} en Python y repasar análisis básico de datos en NumPy/pandas.
   \end{itemize}
 \end{frame}
 
@@ -64,10 +64,8 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 15}
   \begin{itemize}
-    \item \textbf{Comprender} los fundamentos de la Programación Orientada a Objetos (POO) en Python.
     \item \textbf{Explorar} el uso de \textbf{pandas} para análisis y manipulación de datos.
     \item \textbf{Aplicar} operaciones básicas y avanzadas de pandas en contextos físicos y astronómicos.
-    \item \textbf{Desarrollar} habilidades para combinar POO y pandas en problemas prácticos.
   \end{itemize}
 \end{frame}
 
@@ -301,7 +299,7 @@ df.describe()
   \includegraphics[scale=0.4]{2) Pandas/df_describe.png}
 \end{figure}
 
-\textbf{Discusión:} Las estadísticas descriptivas proporcionan una visión general de la distribución y características de los datos en el DataFrame.
+\textbf{Discusión:} \texttt{df.describe()} entrega un diagnóstico rápido del comportamiento general de los datos.
 \end{frame}
 
 
@@ -309,6 +307,7 @@ df.describe()
 % ------------------------------------------------------------------------
 % Nueva Slide: Limpieza y manejo de datos faltantes
 % ------------------------------------------------------------------------
+\begin{comment}
 \begin{frame}[fragile]{Limpieza y manejo de datos faltantes}
 \begin{minted}{python}
 import numpy as np
@@ -335,16 +334,18 @@ df_clean
 
 \textbf{Discusión:} pandas facilita la detección y el tratamiento de datos incompletos, común en experimentos reales.
 \end{frame}
+\end{comment}
 
 % ------------------------------------------------------------------------
 % Sección 3: Manejo Avanzado de Datos con Pandas
 % ------------------------------------------------------------------------
-
+\begin{comment}
 \section{Manejo de datos con Pandas}
-
+\end{comment}
 % ------------------------------------------------------------------------
 % Nueva Slide: Agrupación y resumen de datos
 % ------------------------------------------------------------------------
+\begin{comment}
 \begin{frame}[fragile]{Nuevos datos de ejemplo para agrupación}
 \begin{minted}{python}
 import random
@@ -365,12 +366,19 @@ df
 \end{figure}
 \textbf{Discusión:} Creamos un DataFrame con datos aleatorios para ilustrar la agrupación.
 \end{frame}
+\end{comment}
 
 % ------------------------------------------------------------------------
 % Nueva Slide: Agrupación y resumen de datos
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Agrupación y resumen de datos}
 \begin{minted}{python}
+df = pd.DataFrame({
+    'masa': [1.5, 2.0, 0.8, 1.2],
+    'velocidad': [10.5, 8.2, 15.3, 11.1],
+    'temperatura': [250, 300, 390, 280]
+})
+
 # Crear una columna categórica
 df['categoria'] = pd.cut(df['temperatura'], bins=[0,273,373,1000], labels=['Solido','Liquido','Gaseoso'])
 
@@ -415,16 +423,16 @@ df.info()        # Información del DataFrame
     Output:
     \begin{minted}[fontsize=\tiny]{text}
 <class 'pandas.core.frame.DataFrame'>
-RangeIndex: 100 entries, 0 to 99
+RangeIndex: 4 entries, 0 to 3
 Data columns (total 4 columns):
  #   Column       Non-Null Count  Dtype   
 ---  ------       --------------  -----   
- 0   masa         100 non-null    float64 
- 1   velocidad    100 non-null    float64 
- 2   temperatura  100 non-null    int64   
- 3   categoria    100 non-null    category
+ 0   masa         4 non-null      float64 
+ 1   velocidad    4 non-null      float64 
+ 2   temperatura  4 non-null      int64   
+ 3   categoria    4 non-null      category
 dtypes: category(1), float64(2), int64(1)
-memory usage: 2.7 KB
+memory usage: 468.0 bytes
     \end{minted}
   \end{column}
 
@@ -436,7 +444,7 @@ df.shape        # Dimensiones (filas, columnas)
 
     Output:
     \begin{minted}[fontsize=\tiny]{text}
-(100, 4)
+(4, 4)
     \end{minted}
   \end{column}
 \end{columns}
@@ -502,12 +510,13 @@ filtered_df
 
 \end{frame}
 
-
+\begin{comment}
 \section{Manejo avanzado de datos con pandas}
 
 % ------------------------------------------------------------------------
 % Slide 13: Agrupación y Estadísticas
 % ------------------------------------------------------------------------
+
 \begin{frame}[fragile]{Agrupación y Estadísticas Avanzadas}
 \begin{minted}{python}
 
@@ -529,12 +538,14 @@ grouped
 \textbf{Discusión:} La agrupación avanzada permite obtener múltiples estadísticas descriptivas por categoría, facilitando un análisis más profundo de los datos según diferentes criterios físicos.
 
 \end{frame}
+\end{comment}
 
 
 
 % ------------------------------------------------------------------------
 % Slide 13: Agrupación y Estadísticas
 % ------------------------------------------------------------------------
+\begin{comment}
 \begin{frame}[fragile]{Correlaciones entre Variables}
 \begin{minted}{python}
 # Correlaciones entre variables
@@ -558,10 +569,12 @@ correlations
 \end{block}
 
 \end{frame}
+\end{comment}
 
 \section{Limpieza de datos}
 
 
+\begin{comment}
 \begin{frame}[fragile]{Manejo de Datos Faltantes y Limpieza}
 \begin{minted}{python}
 import numpy as np
@@ -583,6 +596,7 @@ df
 
 
 \end{frame}
+\end{comment}
 
 
 % ------------------------------------------------------------------------
@@ -590,6 +604,11 @@ df
 % ------------------------------------------------------------------------
 \begin{frame}[fragile]{Detectar Valores Faltantes}
 \begin{minted}{python}
+import numpy as np
+
+# Simular algunos valores faltantes para inspección
+df.loc[[1, 3], 'temperatura'] = np.nan
+
 # Detectar valores faltantes
 print("Valores nulos por columna:")
 df.isnull().sum()
@@ -628,6 +647,7 @@ df_dropped
 % ------------------------------------------------------------------------
 % Slide 14: Manejo de Datos Faltantes
 % ------------------------------------------------------------------------
+\begin{comment}
 \begin{frame}[fragile]{Manejo de Datos Faltantes y Limpieza}
 \begin{minted}{python}
 # Opciones para manejar datos faltantes
@@ -643,6 +663,7 @@ df_filled
 \textbf{Discusión:} Rellenar valores faltantes con la media es una técnica común, pero puede no ser adecuada si los datos no son homogéneos.
 
 \end{frame}
+\end{comment}
 
 
 % ------------------------------------------------------------------------
@@ -674,7 +695,7 @@ df_filled
   \includegraphics[scale=0.4]{2) Pandas/df_filled.png}
 \end{figure}
 
-\textbf{Discusión:} Esta técnica asegura que solo las columnas numéricas sean rellenadas con sus respectivas medias, evitando errores en columnas no numéricas.
+\textbf{Discusión:} Conviene mostrar solo la estrategia correcta: rellenar columnas numéricas sin afectar variables categóricas.
 
 \end{frame}
 
@@ -712,6 +733,7 @@ df[['masa', 'velocidad']].to_csv('energia_datos.csv')
 % Nueva Slide: Visualización rápida con pandas
 % ------------------------------------------------------------------------
 
+\begin{comment}
 \begin{frame}[fragile]{Formato comun .csv}
 
 \textbf{Ejemplo de archivo CSV:} El siguiente es un ejemplo simple de un archivo CSV que contiene datos de masa, velocidad y temperatura.
@@ -729,6 +751,7 @@ masa,velocidad,temperatura
 
 
 \end{frame}
+\end{comment}
 
 \section{Visualización de Datos con Pandas}
 
@@ -759,6 +782,7 @@ plt.show()
 % ------------------------------------------------------------------------
 % Slide 17: Visualización con Pandas y Matplotlib
 % ------------------------------------------------------------------------
+\begin{comment}
 \begin{frame}[fragile]{Visualización Integrada con Pandas y Matplotlib}
 
     \begin{minted}{python}
@@ -776,6 +800,7 @@ plt.show()
     \textbf{Discusión:} Este gráfico de barras muestra la temperatura promedio agrupada por categoría, facilitando el análisis comparativo.
 
 \end{frame}
+\end{comment}
 
 \begin{frame}[fragile]{Visualización Integrada con Pandas y Matplotlib}
 
@@ -799,69 +824,63 @@ plt.show()
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 4: Ejercicios Prácticos
 % ----------------------------------------------------------------------------------------
-\section{Ejercicios Guiados: Impactos de Meteoritos}
+\section{Ejercicios de practica}
 
 % ------------------------------------------------------------------------
 % Slide: Dataset base (generación reproducible)
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Dataset base: Impactos de meteoritos (200 filas)}
-\begin{minted}[fontsize=\tiny]{python}
-import numpy as np, pandas as pd
-
-# Semilla y tamaño
-rng = np.random.default_rng(42); n = 200
-
-# Columnas base
-diametro_m = rng.uniform(10, 1e5, n)               # 10 m a 100 km
-densidad_kg_m3 = rng.uniform(1500, 8000, n)        # roca-carbonáceo-metálico
-velocidad_kms = rng.uniform(11, 72, n)             # km/s
-angulo_deg = rng.uniform(10, 80, n)                # grados
-ids = [f"M{i:04d}" for i in range(1, n+1)]
+\begin{frame}[fragile]{Dataset base: Catálogo simple de estrellas cercanas}
+\begin{minted}[fontsize=\scriptsize]{python}
+import numpy as np
+import pandas as pd
 
 df = pd.DataFrame({
-    "id": ids,
-    "diametro_m": diametro_m,
-    "densidad_kg_m3": densidad_kg_m3,
-    "velocidad_kms": velocidad_kms,
-    "angulo_deg": angulo_deg
+    "estrella": ["Sol", "Alpha Cen A", "Proxima Cen", "Sirius A",
+                 "Tau Ceti", "Vega", "Barnard", "61 Cyg A"],
+    "temperatura_K": [5778, 5790, 3042, 9940, 5344, 9602, 3134, 4450],
+    "radio_Rsol": [1.00, 1.22, 0.15, 1.71, 0.79, 2.36, 0.20, 0.67],
+    "distancia_pc": [0.00, 1.34, 1.30, 2.64, 3.65, 7.68, 1.83, 3.48],
+    "magnitud_V": [-26.7, 0.01, 11.13, -1.46, 3.50, 0.03, 9.54, np.nan],
+    "categoria": ["Solar", "Solar", "Enana roja", "Caliente",
+                  "Solar", "Caliente", "Enana roja", "Enana naranja"]
 })
-df.head()
+
+df
 \end{minted}
 
-\begin{alertblock}{Nota física}
-Ley de cráter simplificada para Tierra (didáctica): 
-\(\texttt{crater\_diam\_km} \approx \tfrac{0.016}{1000} \cdot m^{1/3} \cdot v^{0.44} \cdot \sin(\theta)^{1/3}\) \,(resultado en km).
+\begin{alertblock}{Nota}
+Se usa un dataset pequeño y legible para concentrarnos en pandas: inspección, filtrado, limpieza, agrupación y exportación.
 \end{alertblock}
 \end{frame}
-
 % ------------------------------------------------------------------------
 % Slide 1: Ejercicio 1
 % ------------------------------------------------------------------------
 \begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Identificar el dataset}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Visualiza $\rightarrow$ \texttt{head()}, \texttt{tail()}, \texttt{sample(5)} y \texttt{df.columns}.
-    \item Reporta unidades: diámetro (m), densidad (kg/m³), velocidad (km/s), ángulo (°).
+    \item Visualiza $\rightarrow$ \texttt{head()}, \texttt{tail()} y \texttt{df.columns}.
+    \item Reporta unidades de las variables numéricas principales.
   \end{itemize}
 \end{block}
 \textbf{Conceptos:} Inspección inicial. \quad
-\textbf{Física:} Revisión de magnitudes y unidades.
+\textbf{Astronomía:} Revisión de magnitudes y unidades.
 \end{frame}
 
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Identificar el dataset}
 \begin{minted}{python}
 # Inspección inicial del DataFrame
 df.head()
 df.tail()
-df.sample(5, random_state=0)
 df.columns.tolist()
 
 # Unidades:
-# diametro_m [m], densidad_kg_m3 [kg/m^3],
-# velocidad_kms [km/s], angulo_deg [°]
+# temperatura_K [K], radio_Rsol [R_sun],
+# distancia_pc [pc], magnitud_V [mag]
 \end{minted}
 \textbf{Discusión:} Validamos estructura y unidades para evitar errores de interpretación.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 2: Ejercicio 2
@@ -876,6 +895,7 @@ df.columns.tolist()
 \textbf{Conceptos:} Estructura y estadísticas rápidas.
 \end{frame}
 
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Dimensiones, tipos y describir}
 \begin{minted}{python}
 # Dimensiones, tipos y estadísticas
@@ -893,164 +913,134 @@ print("No numéricas:", non_num_cols)
 \end{minted}
 \textbf{Discusión:} Diferenciar tipos guía la limpieza y transformaciones posteriores.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 4: Ejercicio 3
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Filtrado físico}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Selección de columnas}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Filtra impactos con: \texttt{diametro\_m > 1000}, \texttt{velocidad\_kms > 20} y \texttt{30 ≤ angulo\_deg ≤ 60}.
-    \item Cuenta filas y calcula promedio de \texttt{velocidad\_kms} del subconjunto.
+    \item Crea un subconjunto con las columnas \texttt{estrella}, \texttt{temperatura\_K} y \texttt{distancia\_pc}.
+    \item Muestra ese subconjunto.
   \end{itemize}
 \end{block}
-\textbf{Conceptos:} Máscaras booleanas y selección.
+\textbf{Conceptos:} Selección de columnas.
 \end{frame}
 
-\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Filtrado físico}
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Selección de columnas}
 \begin{minted}{python}
-# Máscara booleana con tres condiciones
-crit = (
-    (df['diametro_m'] > 1000) &
-    (df['velocidad_kms'] > 20) &
-    (df['angulo_deg'].between(30, 60))
-)
-sub = df[crit]
-print("Filas filtradas:", len(sub))
-print("Promedio velocidad_kms:", sub['velocidad_kms'].mean())
+# Seleccionar columnas de interés
+subset = df[['estrella', 'temperatura_K', 'distancia_pc']]
+subset
 \end{minted}
-\textbf{Discusión:} El encadenamiento de condiciones permite filtros físicos realistas.
+\textbf{Discusión:} Seleccionar columnas ayuda a enfocarse en las variables relevantes antes de analizar.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 5: Ejercicio 4
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Columnas derivadas I (masa y energía)}
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Filtrado de estrellas}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Agrega: \(\texttt{volumen\_m3} = \frac{\pi}{6}\cdot \texttt{diametro\_m}^3\).
-    \item \(\texttt{masa\_kg} = \texttt{densidad\_kg\_m3} \cdot \texttt{volumen\_m3}\).
-    \item \(\texttt{velocidad\_ms} = 1000 \cdot \texttt{velocidad\_kms}\).
-    \item \(\texttt{energia\_J} = 0.5\cdot \texttt{masa\_kg}\cdot \texttt{velocidad\_ms}^2\).
+    \item Filtra estrellas con \texttt{temperatura\_K > 5000} y \texttt{distancia\_pc < 5}.
+    \item Cuenta cuántas filas cumplen la condición y muestra las columnas \texttt{estrella}, \texttt{temperatura\_K} y \texttt{distancia\_pc}.
   \end{itemize}
 \end{block}
-\textbf{Conceptos:} Operaciones vectorizadas y unidades.
+\textbf{Conceptos:} Máscaras booleanas y filtrado.
 \end{frame}
 
-\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Masa y energía}
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Filtrado de estrellas}
 \begin{minted}{python}
-import numpy as np
+# Filtrado con dos condiciones
+filtro = (df['temperatura_K'] > 5000) & (df['distancia_pc'] < 5)
+cercanas_calidas = df[filtro]
 
-# Velocidad a m/s y masa (esfera): m = ρ * (π/6) * d^3
-df['velocidad_ms'] = df['velocidad_kms'] * 1000.0
-df['masa_kg'] = df['densidad_kg_m3'] * (np.pi/6.0) * (df['diametro_m']**3)
-
-# Energía cinética
-df['energia_J'] = 0.5 * df['masa_kg'] * (df['velocidad_ms']**2)
-df[['id','velocidad_ms','masa_kg','energia_J']].head()
+print("Cantidad:", len(cercanas_calidas))
+cercanas_calidas[['estrella', 'temperatura_K', 'distancia_pc']]
 \end{minted}
-\textbf{Discusión:} Cuidar la coherencia de unidades evita errores de órdenes de magnitud.
+\textbf{Discusión:} Este tipo de filtro es de los usos más comunes de pandas en análisis inicial.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 7: Ejercicio 5
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Cráter (escala simplificada)}
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Crear una columna derivada}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Calcula \(\theta\) en rad: \(\texttt{theta\_rad} = \texttt{np.deg2rad(angulo\_deg)}\).
-    \item Agrega \(\texttt{crater\_diam\_km} = \tfrac{0.016}{1000} \cdot \texttt{masa\_kg}^{1/3} \cdot \texttt{velocidad\_ms}^{0.44} \cdot \sin(\theta)^{1/3}\).
-    \item Reporta el top-5 por \texttt{crater\_diam\_km}.
+    \item Crea la columna \texttt{luminosidad\_rel} usando la relación:
+    \item \texttt{df['luminosidad\_rel'] = df['radio\_Rsol']**2 * (df['temperatura\_K']/5778)**4}
+    \item Muestra \texttt{estrella} y \texttt{luminosidad\_rel}.
   \end{itemize}
 \end{block}
-\textbf{Física:} Ley de escala de cráter didáctica (Tierra).
+\textbf{Conceptos:} Crear columnas con operaciones vectorizadas.
 \end{frame}
 
-\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Cráter (escala simplificada)}
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Crear una columna derivada}
 \begin{minted}{python}
-import numpy as np
-
-# Ángulo en radianes y diámetro de cráter
-df['theta_rad'] = np.deg2rad(df['angulo_deg'])
-df['crater_diam_km'] = (0.016 * (df['masa_kg']**(1/3)) * (df['velocidad_ms']**0.44) * (np.sin(df['theta_rad'])**(1/3))) / 1000.0
-
-df.nlargest(5, 'crater_diam_km')[['id','diametro_m','crater_diam_km']]
+# Luminosidad relativa aproximada
+df['luminosidad_rel'] = df['radio_Rsol']**2 * (df['temperatura_K'] / 5778)**4
+df[['estrella', 'luminosidad_rel']]
 \end{minted}
-
-\begin{alertblock}{Nota física}
-Ley de cráter simplificada para Tierra (didáctica): 
-\(\texttt{crater\_diam\_km} \approx \tfrac{0.016}{1000} \cdot m^{1/3} \cdot v^{0.44} \cdot \sin(\theta)^{1/3}\).
-\end{alertblock}
-
-\textbf{Discusión:} La fórmula ilustra tendencias cualitativas; no sustituye modelos detallados.
+\textbf{Discusión:} Agregar columnas nuevas es una de las operaciones más útiles para enriquecer un dataset.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 8: Ejercicio 6
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Mortalidad por rangos de diámetro}
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Datos faltantes}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Define bins en metros: 
-    \texttt{[0,100), [100,300), [300,1000), [1000,5000), [5000,20000), [20000,80000), [80000, inf)}.
-    \item Etiquetas: \textit{Inofensivo, Daños regionales, Ciudad devastada, Catástrofe regional, Catástrofe continental, Impacto global severo, Extinción total}.
-    \item Crea \texttt{mortalidad} con \texttt{pd.cut} y muestra \texttt{value\_counts()}.
+    \item Detecta valores faltantes con \texttt{df.isnull().sum()}.
+    \item Rellena \texttt{magnitud\_V} con el promedio de esa columna y guarda el resultado en \texttt{df\_filled}.
   \end{itemize}
 \end{block}
-\textbf{Conceptos:} Discretización con \texttt{pd.cut}.
+\textbf{Conceptos:} Detección y limpieza básica de nulos.
 \end{frame}
 
-\begin{frame}[fragile]{Solución 6 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Mortalidad por rangos}
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 6 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Datos faltantes}
 \begin{minted}{python}
-import numpy as np, pandas as pd
+# Detectar valores faltantes
+print(df.isnull().sum())
 
-bins = [0,100,300,1000,5000,20000,80000, np.inf]
-labels = [
-    'Inofensivo','Daños regionales','Ciudad devastada',
-    'Catástrofe regional','Catástrofe continental',
-    'Impacto global severo','Extinción total'
-]
-df['mortalidad'] = pd.cut(
-    df['diametro_m'], bins=bins, labels=labels, right=False, ordered=True)
-
-print(df['mortalidad'].value_counts().sort_index())
+# Rellenar magnitud con el promedio
+mag_media = df['magnitud_V'].mean()
+df_filled = df.fillna({'magnitud_V': mag_media})
+df_filled[['estrella', 'magnitud_V']]
 \end{minted}
-\textbf{Discusión:} pd.cut permite análisis por categorías físicas interpretables.
+\textbf{Discusión:} Primero se detecta el problema y luego se aplica una solución simple y explícita.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 9: Ejercicio 7
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupar y ranking por energía}
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupar por categoría}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Agrupa por \texttt{mortalidad} y calcula media de \texttt{energia\_J} y \texttt{crater\_diam\_km}.
-    \item Obtén el top-5 impactos por \texttt{energia\_J}.
+    \item Agrupa por \texttt{categoria}.
+    \item Calcula la media de \texttt{temperatura\_K} y \texttt{distancia\_pc} para cada grupo.
   \end{itemize}
 \end{block}
-\textbf{Conceptos:} \texttt{groupby} + \texttt{agg} y \texttt{nlargest}.
+\textbf{Conceptos:} \texttt{groupby} y medias por grupo.
 \end{frame}
 
-\begin{frame}[fragile]{Solución 7 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Agrupar y ranking por energía}
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 7 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Agrupar por categoría}
 \begin{minted}{python}
-import numpy as np
-
-# Asegurar columnas requeridas
-df['velocidad_ms'] = df['velocidad_kms'] * 1000.0
-df['masa_kg'] = df['densidad_kg_m3'] * (np.pi/6.0) * (df['diametro_m']**3)
-df['energia_J'] = 0.5 * df['masa_kg'] * (df['velocidad_ms']**2)
-
-df['theta_rad'] = np.deg2rad(df['angulo_deg'])
-df['crater_diam_km'] = (
-  0.016 * (df['masa_kg']**(1/3)) * (df['velocidad_ms']**0.44) * (np.sin(df['theta_rad'])**(1/3))
-) / 1000.0
-
-# Resumen por categoría y top-5 por energía
-res = df.groupby('mortalidad')[['energia_J','crater_diam_km']].mean()
-print(res)
-print(df[['id','diametro_m','crater_diam_km']].sort_values("crater_diam_km", ascending=False).head())
+resumen = df.groupby('categoria')[['temperatura_K', 'distancia_pc']].mean()
+print(resumen)
 \end{minted}
+\textbf{Discusión:} \texttt{groupby().mean()} resume información de manera clara con muy pocas líneas.
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 10: Ejercicio 8
@@ -1058,50 +1048,36 @@ print(df[['id','diametro_m','crater_diam_km']].sort_values("crater_diam_km", asc
 \begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización y exportación}
 \begin{block}{Enunciado}
   \begin{itemize}
-    \item Dibuja histograma de \texttt{velocidad\_kms} y scatter \texttt{diametro\_m} vs \texttt{crater\_diam\_km} coloreado por \texttt{mortalidad}.
-    \item Exporta \texttt{df} limpio a \texttt{CSV} (\texttt{impactos\_meteoritos.csv}).
+    \item Dibuja un histograma de \texttt{temperatura\_K}.
+    \item Exporta \texttt{df\_filled} a un archivo \texttt{CSV} llamado \texttt{catalogo\_estrellas.csv}.
   \end{itemize}
 \end{block}
 \textbf{Conceptos:} visualización rápida y persistencia con \texttt{to\_csv}.
 \end{frame}
 
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 8 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Visualización y exportación}
-\begin{columns}
-\begin{column}{0.5\textwidth}
 \begin{minted}{python}
 import matplotlib.pyplot as plt
 
-# Histograma de velocidad
-df['velocidad_kms'].hist(bins=20)
-plt.xlabel('Velocidad [km/s]')
+# Histograma de temperaturas
+df['temperatura_K'].hist(bins=6)
+plt.xlabel('Temperatura [K]')
 plt.ylabel('Frecuencia')
-plt.title('Histograma de velocidad')
+plt.title('Distribución de temperaturas')
 plt.show()
-
-# Asegurar categoría 'mortalidad'
-import numpy as np, pandas as pd
-bins = [0,100,300,1000,5000,20000,80000, np.inf]
-labels = ['Inofensivo','Daños regionales','Ciudad devastada','Catástrofe regional','Catástrofe continental','Impacto global severo','Extinción total']
-
-df['mortalidad'] = pd.cut(df['diametro_m'], bins=bins, labels=labels, right=False, ordered=True)
 \end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=17]{python}
-# Scatter coloreado por categoría
-colors = df['mortalidad'].astype('category').cat.codes
-plt.scatter(df['diametro_m'], df['crater_diam_km'], c=colors,cmap='viridis', s=12)
-plt.xlabel('Diámetro [m]'); plt.ylabel('Diám. cráter [km]')
-plt.title('Diámetro vs Cráter (color = mortalidad)'); plt.show()
+
+\begin{minted}{python}
+# Si aún no existe df_filled, se crea rellenando magnitud_V
+mag_media = df['magnitud_V'].mean()
+df_filled = df.fillna({'magnitud_V': mag_media})
 
 # Exportar CSV
-df.to_csv('impactos_meteoritos.csv', index=False)
+df_filled.to_csv('catalogo_estrellas.csv', index=False)
 \end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-\textbf{Discusión:} Visualizamos distribución y relación; persistimos resultados para análisis externo.
+\textbf{Discusión:} Se combina una visualización rápida con la exportación de una versión limpia del dataset.
 \end{frame}
+\end{solutionblock}
 
 \end{document}
-
