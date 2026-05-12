@@ -1,0 +1,177 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Curva de brillo de una estrella variable}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},breakable]
+En astronomía, una estrella variable es una estrella cuyo brillo observado cambia con el tiempo. Una forma simple de modelar estas variaciones es construir una curva de luz, donde se grafica el brillo de la estrella en función del tiempo. En este ejercicio se trabajará con un modelo periódico compuesto por varias oscilaciones sinusoidales, similar a una señal astronómica idealizada.
+
+Considere que $t$ representa el tiempo medido en horas. El brillo relativo de la estrella se modelará mediante la función
+\[
+B(t)
+=
+1
++
+a_1 \sin\left(\frac{2\pi t}{p}\right)
++
+a_2 \sin\left(\frac{4\pi t}{p}+\phi_1\right)
++
+a_3 \sin\left(\frac{6\pi t}{p}+\phi_2\right),
+\]
+donde los parámetros $a_1$, $a_2$, $a_3$, $p$, $\phi_1$ y $\phi_2$ son constantes.
+
+Use los valores
+\[
+a_1 = 0.35, 
+\qquad 
+a_2 = 0.18,
+\qquad 
+a_3 = 0.10,
+\qquad
+p = 4.8,
+\qquad
+\phi_1 = \frac{\pi}{3},
+\qquad
+\phi_2 = -\frac{\pi}{5}.
+\]
+
+\begin{itemize}
+    \item[(a)] Cree un arreglo \texttt{t} con $300$ valores entre $0$ y $12$ horas usando \texttt{np.linspace}.
+    
+    \item[(b)] Cree una función llamada \texttt{brillo\_estrella(t)} que reciba el arreglo de tiempos y retorne el brillo $B(t)$.
+    
+    \item[(c)] Evalue la función anterior para obtener un arreglo \texttt{B} con los valores del brillo de la estrella.
+    
+    \item[(d)] Grafique el brillo $B$ en función del tiempo $t$ usando \texttt{matplotlib}. La gráfica debe tener título, etiquetas en los ejes, grilla y una apariencia clara.
+    
+    \item[(e)] Calcule e imprimir el brillo máximo $B_{\max}$, el brillo mínimo $B_{\min}$, el brillo promedio $\overline{B}$ y la amplitud de variación
+    \[
+    A = \frac{B_{\max}-B_{\min}}{2}.
+    \]
+    
+    \item[(f)] Cuente cuántos puntos del arreglo \texttt{B} quedan sobre el brillo promedio $\overline{B}$.
+    
+    \item[(g)] Use un condicional para clasificar la variabilidad de la estrella como baja o alta. Para ello, defina la variabilidad relativa como
+    \[
+    V_{\rm rel}=\frac{A}{\overline{B}}.
+    \]
+    Si $V_{\rm rel} \geq 0.25$, la variabilidad se considerará alta. En caso contrario, se considerará baja.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+Para resolver el problema se debe construir primero el arreglo temporal, luego definir una función que represente el modelo de brillo y finalmente analizar numéricamente los valores obtenidos.
+
+El tiempo $t$ se representa mediante un arreglo de NumPy porque se desea evaluar la función $B(t)$ en muchos puntos de forma simultánea. La instrucción \texttt{np.linspace(0, 12, 300)} genera $300$ puntos igualmente espaciados desde $0$ hasta $12$, incluyendo ambos extremos.
+
+Los parámetros elegidos para el modelo son:
+\[
+a_1 = 0.35, 
+\qquad 
+a_2 = 0.18,
+\qquad 
+a_3 = 0.10,
+\qquad
+p = 4.8,
+\qquad
+\phi_1 = \frac{\pi}{3},
+\qquad
+\phi_2 = -\frac{\pi}{5}.
+\]
+Estos valores producen una curva de luz suave, periódica y con estructura visual interesante, sin que el brillo relativo tome valores negativos.
+
+La función \texttt{brillo\_estrella(t)} recibe el arreglo de tiempos y retorna el arreglo de brillos. Como NumPy permite operar directamente con arreglos, no es necesario usar un ciclo para calcular cada valor de $B(t)$: las operaciones sinusoidales se aplican automáticamente a todos los elementos del arreglo.
+
+Luego se calculan las cantidades pedidas:
+\[
+B_{\max} = \max(B),
+\qquad
+B_{\min} = \min(B),
+\qquad
+\overline{B} = \frac{1}{N}\sum_{i=1}^{N} B_i,
+\qquad
+A = \frac{B_{\max}-B_{\min}}{2}.
+\]
+
+Para contar los puntos sobre el promedio se usa una comparación elemento a elemento:
+\[
+B_i > \overline{B}.
+\]
+Esta comparación genera un arreglo de valores booleanos. Al aplicar \texttt{np.sum}, Python cuenta cuántos valores son verdaderos.
+
+La clasificación final se realiza mediante un condicional \texttt{if}. La cantidad
+\[
+V_{\rm rel}=\frac{A}{\overline{B}}
+\]
+mide qué tan grande es la amplitud de variación comparada con el brillo promedio. Si esta razón es mayor o igual que $0.25$, se clasifica como una estrella de variabilidad alta; de lo contrario, como una estrella de variabilidad baja.
+
+\begin{pythonjupyter}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetros del modelo de brillo
+a1 = 0.35
+a2 = 0.18
+a3 = 0.10
+p = 4.8
+phi1 = np.pi / 3
+phi2 = -np.pi / 5
+
+# (a) Arreglo de tiempo entre 0 y 12 horas
+t = np.linspace(0, 12, 300)
+
+# (b) Función para calcular el brillo de la estrella
+def brillo_estrella(t):
+    B = (
+        1
+        + a1 * np.sin(2 * np.pi * t / p)
+        + a2 * np.sin(4 * np.pi * t / p + phi1)
+        + a3 * np.sin(6 * np.pi * t / p + phi2)
+    )
+    return B
+
+# (c) Evaluar el brillo en cada instante de tiempo
+B = brillo_estrella(t)
+
+# (d) Graficar brillo versus tiempo
+plt.figure(figsize=(9, 5))
+plt.plot(t, B, linewidth=2, label="Brillo relativo")
+plt.axhline(np.mean(B), linestyle="--", linewidth=1.5, label="Brillo promedio")
+
+plt.title("Curva de luz simulada de una estrella variable")
+plt.xlabel("Tiempo t [horas]")
+plt.ylabel("Brillo relativo B(t)")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.show()
+
+# (e) Cálculo de cantidades características
+B_max = np.max(B)
+B_min = np.min(B)
+B_promedio = np.mean(B)
+amplitud = (B_max - B_min) / 2
+
+print(f"Brillo máximo: {B_max:.3f}")
+print(f"Brillo mínimo: {B_min:.3f}")
+print(f"Brillo promedio: {B_promedio:.3f}")
+print(f"Amplitud de variación: {amplitud:.3f}")
+
+# (f) Contar puntos sobre el brillo promedio
+puntos_sobre_promedio = np.sum(B > B_promedio)
+
+print(f"Puntos sobre el brillo promedio: {puntos_sobre_promedio}")
+
+# (g) Clasificación de la variabilidad
+variabilidad_relativa = amplitud / B_promedio
+
+if variabilidad_relativa >= 0.25:
+    clasificacion = "alta"
+else:
+    clasificacion = "baja"
+
+print(f"Variabilidad relativa: {variabilidad_relativa:.3f}")
+print(f"La estrella tiene variabilidad {clasificacion}.")
+\end{pythonjupyter}
+
+El programa construye una curva de luz limpia y permite analizar sus propiedades principales. Además, el uso de una función hace que el modelo de brillo quede separado del análisis posterior, lo cual mejora el orden del código y permite modificar fácilmente los parámetros físicos del modelo.
+\end{solution}

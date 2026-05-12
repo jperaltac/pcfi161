@@ -1,0 +1,115 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Clasificación de estrellas según su brillo aparente}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},breakable]
+En astronomía, el brillo aparente de una estrella puede estimarse a partir de su luminosidad y su distancia al observador. Una forma simplificada de calcular este brillo es mediante la expresión:
+\[
+F = \frac{L}{4\pi d^2},
+\]
+donde $F$ representa el brillo observado, $L$ la luminosidad de la estrella y $d$ la distancia a la estrella.
+
+Considere los siguientes arreglos con información de distintas estrellas:
+\[
+L = [120,\ 80,\ 15,\ 5,\ 200,\ 40],
+\]
+\[
+d = [3,\ 5,\ 8,\ 10,\ 6,\ 12].
+\]
+
+Cada elemento de ambos arreglos corresponde a una misma estrella. Es decir, la luminosidad \texttt{L[i]} y la distancia \texttt{d[i]} pertenecen a la estrella ubicada en el índice \texttt{i}.
+
+Escriba un programa en Python que realice lo siguiente:
+
+\begin{itemize}
+    \item[(a)] Defina los arreglos de luminosidad $L$ y distancia $d$ usando \texttt{np.array}.
+
+    \item[(b)] Cree una lista vacía donde se almacenarán los valores de brillo $F$ calculados para cada estrella.
+
+    \item[(c)] Recorra todos los índices de los arreglos usando un ciclo \texttt{for}. En cada iteración, acceda a \texttt{L[i]} y \texttt{d[i]} para calcular el brillo de la estrella correspondiente y agréguelo a la lista, por ejemplo con \texttt{lista\_vacia.append(calculo\_F)}:
+    \[
+    F_i = \frac{L_i}{4\pi d_i^2}.
+    \]
+
+    \item[(d)] Para cada estrella, clasifique su brillo usando condicionales según el siguiente criterio:
+    \[
+    F > 1 \quad \Longrightarrow \quad \text{Muy brillante},
+    \]
+    \[
+    0.1 < F \leq 1 \quad \Longrightarrow \quad \text{Brillo medio},
+    \]
+    \[
+    F \leq 0.1 \quad \Longrightarrow \quad \text{Débil}.
+    \]
+
+    \item[(e)] Muestre en pantalla, para cada estrella, su índice, su luminosidad, su distancia, su brillo calculado y su clasificación.
+
+    \item[(f)] Calcule e imprima el brillo promedio de todas las estrellas.
+
+    \item[(g)] Realice un gráfico de dispersión usando \texttt{plt.scatter}, donde el eje horizontal represente la distancia $d$ y el eje vertical represente el brillo aparente $F$. Agregue título, nombres de ejes, grilla y una presentación limpia de la figura.
+\end{itemize}
+
+El objetivo del ejercicio es practicar el recorrido de arreglos mediante índices, usando expresiones como \texttt{L[i]} y \texttt{d[i]}, junto con condicionales para clasificar datos físicos y visualizar los resultados mediante un gráfico de dispersión.
+\end{tcolorbox}
+
+\begin{solution}
+Una posible solución consiste en recorrer los arreglos usando sus índices. En cada iteración se calcula el brillo de la estrella correspondiente, se guarda el resultado en una lista y se clasifica usando condicionales.
+
+\begin{pythonjupyter}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Arreglos de datos
+L = np.array([120, 80, 15, 5, 200, 40])
+d = np.array([3, 5, 8, 10, 6, 12])
+
+# Lista vacía para guardar los brillos
+brillos = []
+
+# Recorrido usando índices
+for i in range(len(L)):
+
+    # Cálculo del brillo aparente
+    F = L[i] / (4 * np.pi * d[i]**2)
+
+    # Guardar el brillo calculado
+    brillos.append(F)
+
+    # Clasificación usando condicionales
+    if F > 1:
+        clasificacion = "Muy brillante"
+    elif F > 0.1:
+        clasificacion = "Brillo medio"
+    else:
+        clasificacion = "Débil"
+
+    # Mostrar resultados de cada estrella
+    print("=" * 40)
+    print("Estrella índice:", i)
+    print("Luminosidad:", L[i])
+    print("Distancia:", d[i])
+    print("Brillo:", F)
+    print("Clasificación:", clasificacion)
+
+# Convertir la lista de brillos a arreglo de NumPy
+brillos = np.array(brillos)
+
+# Brillo promedio
+brillo_promedio = np.mean(brillos)
+
+print("=" * 40)
+print("Brillo promedio:", brillo_promedio)
+
+# Gráfico de dispersión
+plt.figure(figsize=(7, 5))
+plt.scatter(d, brillos)
+
+plt.title("Brillo aparente de estrellas según su distancia")
+plt.xlabel("Distancia d")
+plt.ylabel("Brillo aparente F")
+plt.grid(True)
+
+plt.show()
+\end{pythonjupyter}
+\end{solution}

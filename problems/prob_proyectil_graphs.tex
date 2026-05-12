@@ -1,0 +1,179 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Movimiento de un proyectil lanzado desde un edificio}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},breakable]
+Un proyectil se lanza desde la parte superior de un edificio de altura inicial $y_0$, con rapidez inicial $v_0$ y un ángulo de lanzamiento $\theta$ respecto de la horizontal. Se desea estudiar su movimiento usando arreglos de NumPy y visualizar, en una misma figura, la posición, velocidad y aceleración en las direcciones horizontal y vertical.
+
+Considere los siguientes valores constantes:
+\[
+y_0 = 50 \ \text{m}, 
+\qquad 
+v_0 = 35 \ \text{m/s},
+\qquad 
+\theta = 55^\circ,
+\qquad 
+g = 9.8 \ \text{m/s}^2.
+\]
+
+El tiempo debe representarse mediante un arreglo temporal construido con \texttt{np.linspace}. En este problema use un arreglo \texttt{t} con $300$ valores entre $t=0$ y $t=8$ segundos.
+
+Las ecuaciones cinemáticas del movimiento son:
+\[
+x(t) = v_0 \cos(\theta)t,
+\]
+\[
+y(t) = y_0 + v_0 \sin(\theta)t - \frac{1}{2}gt^2.
+\]
+
+Las velocidades en cada dirección están dadas por:
+\[
+v_x(t) = v_0 \cos(\theta),
+\]
+\[
+v_y(t) = v_0 \sin(\theta) - gt.
+\]
+
+Las aceleraciones correspondientes son:
+\[
+a_x(t) = 0,
+\]
+\[
+a_y(t) = -g.
+\]
+
+Escriba un programa en Python que realice lo siguiente:
+
+\begin{itemize}
+    \item[(a)] Defina las constantes físicas del problema y construya el arreglo temporal $t$ usando \texttt{np.linspace} con inicio $0$, final $8$ y $300$ puntos.
+
+    \item[(b)] Calcule los arreglos de posición $x(t)$ y $y(t)$ usando las ecuaciones cinemáticas entregadas.
+
+    \item[(c)] Calcule los arreglos de velocidad $v_x(t)$ y $v_y(t)$. Recuerde que, aunque $v_x(t)$ sea constante, debe representarse como un arreglo con la misma dimensión que $t$ para poder graficarlo correctamente.
+
+    \item[(d)] Encuentre el índice y el valor máximo de cada arreglo de velocidad, es decir, de $v_x(t)$ y $v_y(t)$. Además, calcule el promedio de ambos arreglos de velocidad.
+
+    \item[(e)] Calcule los arreglos de aceleración $a_x(t)$ y $a_y(t)$. Para $a_x(t)$ puede usar un arreglo de ceros con la misma dimensión que el tiempo, por ejemplo mediante \texttt{np.zeros\_like(t)}. Para $a_y(t)$ debe construir un arreglo constante igual a $-g$.
+
+    \item[(f)] Realice una figura con subgráficos usando \texttt{plt.subplots(3, 2)}. En la primera columna debe graficar las cantidades asociadas al movimiento vertical:
+    \[
+    y(t) \ \text{vs.} \ t,
+    \qquad
+    v_y(t) \ \text{vs.} \ t,
+    \qquad
+    a_y(t) \ \text{vs.} \ t.
+    \]
+    En la segunda columna debe graficar las cantidades asociadas al movimiento horizontal:
+    \[
+    x(t) \ \text{vs.} \ t,
+    \qquad
+    v_x(t) \ \text{vs.} \ t,
+    \qquad
+    a_x(t) \ \text{vs.} \ t.
+    \]
+
+    \item[(g)] Agregue títulos, nombres de ejes y una presentación limpia a cada gráfico, de modo que la figura permita comparar claramente la evolución horizontal y vertical del proyectil.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+Una posible solución consiste en construir primero el arreglo temporal, luego calcular las cantidades cinemáticas como arreglos de NumPy y finalmente graficarlas en una figura de $3 \times 2$ subgráficos.
+
+\begin{pythonjupyter}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Constantes físicas
+y0 = 50          # altura inicial en metros
+v0 = 35          # rapidez inicial en m/s
+theta_deg = 55   # ángulo en grados
+g = 9.8          # aceleración de gravedad en m/s^2
+
+# Conversión del ángulo a radianes
+theta = np.deg2rad(theta_deg)
+
+# Arreglo temporal
+t = np.linspace(0, 8, 300)
+
+# Posiciones
+x = v0 * np.cos(theta) * t
+y = y0 + v0 * np.sin(theta) * t - 0.5 * g * t**2
+
+# Velocidades
+vx = v0 * np.cos(theta) * np.ones_like(t)
+vy = v0 * np.sin(theta) - g * t
+
+# Índices de velocidad máxima
+idx_vx_max = np.argmax(vx)
+idx_vy_max = np.argmax(vy)
+
+# Valores máximos
+vx_max = vx[idx_vx_max]
+vy_max = vy[idx_vy_max]
+
+# Promedios
+vx_prom = np.mean(vx)
+vy_prom = np.mean(vy)
+
+print("Velocidad máxima en x:")
+print("Índice:", idx_vx_max)
+print("Valor:", vx_max)
+
+print("\nVelocidad máxima en y:")
+print("Índice:", idx_vy_max)
+print("Valor:", vy_max)
+
+print("\nPromedios:")
+print("Promedio de vx:", vx_prom)
+print("Promedio de vy:", vy_prom)
+
+# Aceleraciones
+ax = np.zeros_like(t)
+ay = -g * np.ones_like(t)
+
+# Figura con subgráficos
+fig, axs = plt.subplots(3, 2, figsize=(10, 9))
+
+# Columna izquierda: movimiento vertical
+axs[0, 0].plot(t, y)
+axs[0, 0].set_title("Posición vertical")
+axs[0, 0].set_xlabel("t [s]")
+axs[0, 0].set_ylabel("y(t) [m]")
+axs[0, 0].grid(True)
+
+axs[1, 0].plot(t, vy)
+axs[1, 0].set_title("Velocidad vertical")
+axs[1, 0].set_xlabel("t [s]")
+axs[1, 0].set_ylabel("vy(t) [m/s]")
+axs[1, 0].grid(True)
+
+axs[2, 0].plot(t, ay)
+axs[2, 0].set_title("Aceleración vertical")
+axs[2, 0].set_xlabel("t [s]")
+axs[2, 0].set_ylabel("ay(t) [m/s²]")
+axs[2, 0].grid(True)
+
+# Columna derecha: movimiento horizontal
+axs[0, 1].plot(t, x)
+axs[0, 1].set_title("Posición horizontal")
+axs[0, 1].set_xlabel("t [s]")
+axs[0, 1].set_ylabel("x(t) [m]")
+axs[0, 1].grid(True)
+
+axs[1, 1].plot(t, vx)
+axs[1, 1].set_title("Velocidad horizontal")
+axs[1, 1].set_xlabel("t [s]")
+axs[1, 1].set_ylabel("vx(t) [m/s]")
+axs[1, 1].grid(True)
+
+axs[2, 1].plot(t, ax)
+axs[2, 1].set_title("Aceleración horizontal")
+axs[2, 1].set_xlabel("t [s]")
+axs[2, 1].set_ylabel("ax(t) [m/s²]")
+axs[2, 1].grid(True)
+
+plt.tight_layout()
+plt.show()
+\end{pythonjupyter}
+\end{solution}
