@@ -1,0 +1,90 @@
+\item \textbf{Visualización de la distribución estelar.}
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado}]
+
+A partir de los datos generados en el problema anterior, se desea visualizar la distribución de estrellas en la galaxia.
+
+\begin{itemize}
+\item[(a)] Use \texttt{matplotlib.pyplot} para construir un gráfico de dispersión (\texttt{scatter}) de las posiciones \((x,y)\).
+
+\item[(b)] Configure el gráfico de manera que:
+\begin{itemize}
+\item tenga título,
+\item tenga etiquetas en los ejes,
+\item incluya una grilla.
+\end{itemize}
+
+\item[(c)] Utilice la distancia al origen \(r_i\) para asignar un color a cada punto en el gráfico (usando el argumento \texttt{c=} en \texttt{scatter}).
+
+\item[(d)] Añada una barra de color (\texttt{colorbar}) para visualizar cómo varía la distancia al centro.
+
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{solution}
+
+\subsubsection*{(a) Gráfico de dispersión}
+
+Se utiliza \texttt{matplotlib.pyplot} para visualizar las posiciones:
+
+\begin{pythonjupyter}
+import matplotlib.pyplot as plt
+
+plt.scatter(x, y)
+plt.show()
+\end{pythonjupyter}
+
+\subsubsection*{(b) Configuración del gráfico}
+
+Se añaden elementos básicos para mejorar la visualización:
+
+\begin{pythonjupyter}
+plt.figure(figsize=(6,6))
+plt.scatter(x, y)
+
+plt.title("Distribución de estrellas en la galaxia")
+plt.xlabel("Posición en x")
+plt.ylabel("Posición en y")
+plt.grid()
+
+plt.show()
+\end{pythonjupyter}
+
+\subsubsection*{(c) Uso del color según la distancia}
+
+Se utiliza el arreglo \texttt{r} para asignar colores a cada punto:
+
+\begin{pythonjupyter}
+plt.figure(figsize=(6,6))
+plt.scatter(x, y, c=r)
+
+plt.title("Distribución de estrellas (color según distancia)")
+plt.xlabel("Posición en x")
+plt.ylabel("Posición en y")
+plt.grid()
+
+plt.show()
+\end{pythonjupyter}
+
+\subsubsection*{(d) Barra de color}
+
+Se agrega una barra de color para interpretar los valores:
+
+\begin{pythonjupyter}
+plt.figure(figsize=(6,6))
+scatter = plt.scatter(x, y, c=r)
+
+plt.title("Distribución de estrellas (color según distancia)")
+plt.xlabel("Posición en x")
+plt.ylabel("Posición en y")
+plt.grid()
+
+plt.colorbar(scatter, label="Distancia al origen")
+
+plt.show()
+\end{pythonjupyter}
+
+El resultado permite visualizar cómo las estrellas se distribuyen alrededor del centro y cómo varía su distancia mediante el color.
+
+\end{solution}

@@ -1,0 +1,84 @@
+\item \textbf{Distribución de estrellas en una galaxia (modelo simple).}
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado}]
+
+Considere una galaxia idealizada donde las estrellas están distribuidas en el plano \((x,y)\) siguiendo una distribución aproximadamente gaussiana centrada en el origen.
+
+Se desea generar un conjunto de posiciones de estrellas y calcular magnitudes asociadas a su posición.
+
+\begin{itemize}
+\item[(a)] Genere \(N = 1000\) valores para el eje \(x\) y \(N\) valores para el eje \(y\) usando la función \texttt{numpy.random.normal}, con media \(0\) y desviación estándar \(\sigma = 100 \).
+
+\item[(b)] Considere que cada par \((x_i, y_i)\) representa la posición de una estrella en la galaxia.
+
+\item[(c)] Calcule la distancia de cada estrella al centro usando:
+\[
+r_i = \sqrt{x_i^2 + y_i^2}.
+\]
+
+\item[(d)] Determine:
+\begin{itemize}
+\item la distancia máxima al origen,
+\item la distancia mínima,
+\item y el promedio de las distancias.
+\end{itemize}
+
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{solution}
+
+\subsubsection*{(a) Generación de posiciones}
+
+La función \texttt{numpy.random.normal} permite generar números aleatorios con distribución normal. En este caso, generamos dos arreglos independientes:
+
+\begin{pythonjupyter}
+import numpy as np
+
+# Número de estrellas
+N = 1000
+
+# Parámetros de la distribución
+sigma = 1.0
+
+# Generación de posiciones
+x = np.random.normal(0, sigma, N)
+y = np.random.normal(0, sigma, N)
+\end{pythonjupyter}
+
+Cada posición \((x_i, y_i)\) representa una estrella en el plano.
+
+\subsubsection*{(b) Interpretación de los datos}
+
+Los arreglos \texttt{x} e \texttt{y} contienen las coordenadas de las estrellas. Ambas componentes son independientes y están centradas en el origen.
+
+\subsubsection*{(c) Cálculo de la distancia al origen}
+
+Se utiliza la definición de distancia euclidiana:
+
+\begin{pythonjupyter}
+# Distancia al origen
+r = np.sqrt(x**2 + y**2)
+\end{pythonjupyter}
+
+Esta operación se realiza de forma vectorizada sobre todos los elementos del arreglo.
+
+\subsubsection*{(d) Magnitudes globales}
+
+Se calculan valores característicos del arreglo de distancias:
+
+\begin{pythonjupyter}
+# Estadísticas básicas
+r_max = np.max(r)
+r_min = np.min(r)
+r_mean = np.mean(r)
+
+print("Distancia máxima:", r_max)
+print("Distancia mínima:", r_min)
+print("Distancia promedio:", r_mean)
+\end{pythonjupyter}
+
+Estos valores permiten describir de forma global la distribución espacial de las estrellas.
+
+\end{solution}
