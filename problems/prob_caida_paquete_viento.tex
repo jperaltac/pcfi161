@@ -1,0 +1,171 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Caída de un paquete soltado desde un dron con viento horizontal}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},breakable]
+Un dron vuela horizontalmente y suelta un paquete desde una altura inicial $h_0$. Mientras el paquete cae, el viento produce una aceleración horizontal constante $a_w$. Se desea estudiar el movimiento usando arreglos de NumPy y visualizar, en una misma figura, la posición, velocidad y aceleración en las direcciones horizontal y vertical.
+
+Considere los siguientes valores constantes:
+\[
+h_0 = 80 \ \text{m},
+\qquad
+v_{x0} = 12 \ \text{m/s},
+\qquad
+v_{y0} = 0 \ \text{m/s},
+\qquad
+a_w = 0.8 \ \text{m/s}^2,
+\qquad
+g = 9.8 \ \text{m/s}^2.
+\]
+
+El tiempo debe representarse mediante un arreglo temporal construido con \texttt{np.linspace}. En este problema use un arreglo \texttt{t} con $300$ valores entre $t=0$ y $t=5$ segundos.
+
+Las ecuaciones cinemáticas del movimiento son:
+\[
+x(t) = v_{x0}t + \frac{1}{2}a_wt^2,
+\]
+\[
+y(t) = h_0 + v_{y0}t - \frac{1}{2}gt^2.
+\]
+
+Las velocidades en cada dirección están dadas por:
+\[
+v_x(t) = v_{x0} + a_wt,
+\]
+\[
+v_y(t) = v_{y0} - gt.
+\]
+
+Las aceleraciones correspondientes son:
+\[
+a_x(t) = a_w,
+\]
+\[
+a_y(t) = -g.
+\]
+
+Escriba un programa en Python que realice lo siguiente:
+
+\begin{itemize}
+    \item[(a)] Defina las constantes físicas del problema y construya el arreglo temporal $t$ usando \texttt{np.linspace} con inicio $0$, final $5$ y $300$ puntos.
+
+    \item[(b)] Calcule los arreglos de posición $x(t)$ y $y(t)$ usando las ecuaciones cinemáticas entregadas.
+
+    \item[(c)] Calcule los arreglos de velocidad $v_x(t)$ y $v_y(t)$.
+
+    \item[(d)] Encuentre el índice y el valor mínimo de la posición vertical $y(t)$. Además, calcule el promedio de los arreglos de velocidad $v_x(t)$ y $v_y(t)$.
+
+    \item[(e)] Calcule los arreglos de aceleración $a_x(t)$ y $a_y(t)$. Ambas aceleraciones deben representarse como arreglos con la misma dimensión que $t$ para poder graficarlas correctamente.
+
+    \item[(f)] Realice una figura con subgráficos usando \texttt{plt.subplots(3, 2)}. En la primera columna debe graficar las cantidades asociadas al movimiento vertical:
+    \[
+    y(t) \ \text{vs.} \ t,
+    \qquad
+    v_y(t) \ \text{vs.} \ t,
+    \qquad
+    a_y(t) \ \text{vs.} \ t.
+    \]
+    En la segunda columna debe graficar las cantidades asociadas al movimiento horizontal:
+    \[
+    x(t) \ \text{vs.} \ t,
+    \qquad
+    v_x(t) \ \text{vs.} \ t,
+    \qquad
+    a_x(t) \ \text{vs.} \ t.
+    \]
+
+    \item[(g)] Agregue títulos, nombres de ejes y una presentación limpia a cada gráfico, de modo que la figura permita comparar claramente la evolución horizontal y vertical del paquete.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+Una posible solución consiste en calcular todas las cantidades como arreglos de NumPy. Las aceleraciones constantes también se escriben como arreglos para que puedan graficarse junto con el tiempo.
+
+\begin{pythonjupyter}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Constantes físicas
+h0 = 80       # altura inicial en metros
+vx0 = 12      # velocidad horizontal inicial en m/s
+vy0 = 0       # velocidad vertical inicial en m/s
+aw = 0.8      # aceleración horizontal por viento en m/s^2
+g = 9.8       # aceleración de gravedad en m/s^2
+
+# Arreglo temporal
+t = np.linspace(0, 5, 300)
+
+# Posiciones
+x = vx0 * t + 0.5 * aw * t**2
+y = h0 + vy0 * t - 0.5 * g * t**2
+
+# Velocidades
+vx = vx0 + aw * t
+vy = vy0 - g * t
+
+# Índice y valor mínimo de y
+idx_y_min = np.argmin(y)
+y_min = y[idx_y_min]
+
+# Promedios de velocidad
+vx_prom = np.mean(vx)
+vy_prom = np.mean(vy)
+
+print("Posición vertical mínima:")
+print("Índice:", idx_y_min)
+print("Valor:", y_min)
+
+print("\nPromedios:")
+print("Promedio de vx:", vx_prom)
+print("Promedio de vy:", vy_prom)
+
+# Aceleraciones
+ax = aw * np.ones_like(t)
+ay = -g * np.ones_like(t)
+
+# Figura con subgráficos
+fig, axs = plt.subplots(3, 2, figsize=(10, 9))
+
+# Columna izquierda: movimiento vertical
+axs[0, 0].plot(t, y)
+axs[0, 0].set_title("Posición vertical")
+axs[0, 0].set_xlabel("t [s]")
+axs[0, 0].set_ylabel("y(t) [m]")
+axs[0, 0].grid(True)
+
+axs[1, 0].plot(t, vy)
+axs[1, 0].set_title("Velocidad vertical")
+axs[1, 0].set_xlabel("t [s]")
+axs[1, 0].set_ylabel("vy(t) [m/s]")
+axs[1, 0].grid(True)
+
+axs[2, 0].plot(t, ay)
+axs[2, 0].set_title("Aceleración vertical")
+axs[2, 0].set_xlabel("t [s]")
+axs[2, 0].set_ylabel("ay(t) [m/s^2]")
+axs[2, 0].grid(True)
+
+# Columna derecha: movimiento horizontal
+axs[0, 1].plot(t, x)
+axs[0, 1].set_title("Posición horizontal")
+axs[0, 1].set_xlabel("t [s]")
+axs[0, 1].set_ylabel("x(t) [m]")
+axs[0, 1].grid(True)
+
+axs[1, 1].plot(t, vx)
+axs[1, 1].set_title("Velocidad horizontal")
+axs[1, 1].set_xlabel("t [s]")
+axs[1, 1].set_ylabel("vx(t) [m/s]")
+axs[1, 1].grid(True)
+
+axs[2, 1].plot(t, ax)
+axs[2, 1].set_title("Aceleración horizontal")
+axs[2, 1].set_xlabel("t [s]")
+axs[2, 1].set_ylabel("ax(t) [m/s^2]")
+axs[2, 1].grid(True)
+
+plt.tight_layout()
+plt.show()
+\end{pythonjupyter}
+\end{solution}

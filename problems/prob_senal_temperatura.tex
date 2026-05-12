@@ -1,0 +1,132 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Señal de temperatura de un satélite en órbita}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},breakable]
+Un satélite registra la temperatura de uno de sus paneles mientras orbita la Tierra. Debido a la alternancia entre zonas iluminadas y zonas de sombra, la temperatura puede modelarse como una señal periódica con varias oscilaciones sinusoidales.
+
+Considere que $t$ representa el tiempo medido en minutos. La temperatura del panel se modelará mediante la función
+\[
+T(t)
+=
+22
++
+b_1 \sin\left(\frac{2\pi t}{q}\right)
++
+b_2 \cos\left(\frac{4\pi t}{q}+\alpha_1\right)
++
+b_3 \sin\left(\frac{6\pi t}{q}+\alpha_2\right),
+\]
+donde los parámetros $b_1$, $b_2$, $b_3$, $q$, $\alpha_1$ y $\alpha_2$ son constantes.
+
+Use los valores
+\[
+b_1 = 6.5,
+\qquad
+b_2 = 2.8,
+\qquad
+b_3 = 1.4,
+\qquad
+q = 90,
+\qquad
+\alpha_1 = \frac{\pi}{4},
+\qquad
+\alpha_2 = -\frac{\pi}{6}.
+\]
+
+\begin{itemize}
+    \item[(a)] Cree un arreglo \texttt{t} con $400$ valores entre $0$ y $180$ minutos usando \texttt{np.linspace}.
+
+    \item[(b)] Cree una función llamada \texttt{temperatura\_panel(t)} que reciba el arreglo de tiempos y retorne la temperatura $T(t)$.
+
+    \item[(c)] Evalue la función anterior para obtener un arreglo \texttt{T} con los valores de temperatura.
+
+    \item[(d)] Grafique la temperatura $T$ en función del tiempo $t$ usando \texttt{matplotlib}. La gráfica debe tener título, etiquetas en los ejes, grilla y una apariencia clara.
+
+    \item[(e)] Calcule e imprimir la temperatura máxima $T_{\max}$, la temperatura mínima $T_{\min}$, la temperatura promedio $\overline{T}$ y la amplitud térmica
+    \[
+    A_T = \frac{T_{\max}-T_{\min}}{2}.
+    \]
+
+    \item[(f)] Cuente cuántos puntos del arreglo \texttt{T} quedan bajo la temperatura promedio $\overline{T}$.
+
+    \item[(g)] Use un condicional para clasificar la variación térmica como moderada o intensa. Para ello, defina la variación relativa como
+    \[
+    R_T=\frac{A_T}{\overline{T}}.
+    \]
+    Si $R_T \geq 0.20$, la variación térmica se considerará intensa. En caso contrario, se considerará moderada.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+Una posible solución consiste en construir el arreglo temporal, definir una función vectorizada para el modelo de temperatura y luego calcular las cantidades pedidas directamente con NumPy.
+
+\begin{pythonjupyter}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetros del modelo de temperatura
+b1 = 6.5
+b2 = 2.8
+b3 = 1.4
+q = 90
+alpha1 = np.pi / 4
+alpha2 = -np.pi / 6
+
+# (a) Arreglo de tiempo entre 0 y 180 minutos
+t = np.linspace(0, 180, 400)
+
+# (b) Función para calcular la temperatura del panel
+def temperatura_panel(t):
+    T = (
+        22
+        + b1 * np.sin(2 * np.pi * t / q)
+        + b2 * np.cos(4 * np.pi * t / q + alpha1)
+        + b3 * np.sin(6 * np.pi * t / q + alpha2)
+    )
+    return T
+
+# (c) Evaluar la temperatura en cada instante
+T = temperatura_panel(t)
+
+# (d) Graficar temperatura versus tiempo
+plt.figure(figsize=(9, 5))
+plt.plot(t, T, linewidth=2, label="Temperatura")
+plt.axhline(np.mean(T), linestyle="--", linewidth=1.5, label="Promedio")
+
+plt.title("Temperatura simulada de un panel satelital")
+plt.xlabel("Tiempo t [min]")
+plt.ylabel("Temperatura T(t) [C]")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.show()
+
+# (e) Cálculo de cantidades características
+T_max = np.max(T)
+T_min = np.min(T)
+T_promedio = np.mean(T)
+amplitud_termica = (T_max - T_min) / 2
+
+print(f"Temperatura máxima: {T_max:.3f}")
+print(f"Temperatura mínima: {T_min:.3f}")
+print(f"Temperatura promedio: {T_promedio:.3f}")
+print(f"Amplitud térmica: {amplitud_termica:.3f}")
+
+# (f) Contar puntos bajo la temperatura promedio
+puntos_bajo_promedio = np.sum(T < T_promedio)
+
+print(f"Puntos bajo el promedio: {puntos_bajo_promedio}")
+
+# (g) Clasificación de la variación térmica
+variacion_relativa = amplitud_termica / T_promedio
+
+if variacion_relativa >= 0.20:
+    clasificacion = "intensa"
+else:
+    clasificacion = "moderada"
+
+print(f"Variación relativa: {variacion_relativa:.3f}")
+print(f"La variación térmica es {clasificacion}.")
+\end{pythonjupyter}
+\end{solution}
