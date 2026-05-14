@@ -1,0 +1,35 @@
+Ajustes realizados en Semana10
+==============================
+
+Archivos ajustados:
+- Makefile
+- Semana10-P1.tex
+- Semana10-P1.pdf
+
+Resumen de cambios:
+- Se actualizo el Makefile para compilar con lualatex desde /Library/TeX/texbin.
+- Se agrego soporte para compilar con y sin soluciones mediante SHOWSOLUTIONS.
+- Se reemplazaron bloques minted por Verbatim para reducir problemas de compilacion.
+- Se incorporaron bloques de solucion controlados por solutionblock.
+- Se reoriento la clase hacia preparacion de Solemne II con foco en NumPy, Matplotlib, funciones y condicionales.
+- Se elimino el eje anterior centrado en pandas y lectura de CSV.
+- Se agregaron ejercicios de repaso sobre:
+  - perfil termico de una barra,
+  - curva de luz de una estrella variable,
+  - detector 2D como matriz,
+  - periodo de un pendulo simple,
+  - linea de emision en un espectro.
+- Se reforzaron contenidos de:
+  - np.linspace,
+  - operaciones vectorizadas,
+  - np.mean, np.max, np.min, np.argmax,
+  - mascaras booleanas,
+  - reshape y matrices,
+  - plt.plot, plt.scatter, plt.imshow y plt.colorbar,
+  - funciones con def,
+  - condicionales if/else.
+- Se actualizaron las estrategias y errores comunes para alinearlas con la Solemne II.
+
+Uso esperado:
+- Material de repaso de Semana 10 para preparar la Solemne II.
+- El PDF actualizado corresponde a la version compilada de Semana10-P1.tex.

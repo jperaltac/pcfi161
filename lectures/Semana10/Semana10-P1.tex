@@ -42,14 +42,15 @@
 % ------------------------------------------------------------------------
 \begin{frame}{Objetivos de la Sesión 19}
   \begin{itemize}
-    \item \textbf{Revisar} y \textbf{ejercitar} los conceptos clave para la Solemne II:
+    \item \textbf{Repasar} los conceptos clave para la Solemne II:
       \begin{itemize}
         \item NumPy: arrays, operaciones vectorizadas, funciones matemáticas
-        \item pandas: lectura de CSV, análisis de datos, agrupaciones
-        \item Matplotlib: gráficos scatter, personalización de figuras
+        \item NumPy: indexación, máscaras booleanas, estadísticas y matrices
+        \item Matplotlib: gráficos de línea, scatter, histogramas y mapas de color
+        \item Python: funciones propias y condicionales simples
       \end{itemize}
-    \item \textbf{Resolver} ejercicios similares a los de la evaluación
-    \item \textbf{Prepararnos} para la \textbf{Solemne II} (Semana 10, Sesión 2)
+    \item \textbf{Resolver} ejercicios integradores similares a los de la evaluación
+    \item \textbf{Practicar} código claro, verificable y con interpretación física
   \end{itemize}
 \end{frame}
 
@@ -70,38 +71,35 @@
     \item \textbf{Operaciones matemáticas vectorizadas:}
       \begin{itemize}
         \item Operaciones elemento a elemento: \texttt{+, -, *, /, **}
-        \item Funciones trigonométricas: \texttt{np.cos()}, \texttt{np.sin()}
+        \item Funciones: \texttt{np.sin()}, \texttt{np.cos()}, \texttt{np.sqrt()}, \texttt{np.exp()}
       \end{itemize}
     \item \textbf{Funciones estadísticas:}
       \begin{itemize}
         \item \texttt{np.mean()}, \texttt{np.std()}, \texttt{np.min()}, \texttt{np.max()}
       \end{itemize}
-    \item \textbf{Redondeo:} \texttt{array.round(decimales)}
+    \item \textbf{Búsqueda de posiciones:} \texttt{np.argmax()}, \texttt{np.argmin()}, \texttt{np.where()}
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 5: pandas - Conceptos Clave
+% Slide 5: NumPy - Selección e indexación
 % ------------------------------------------------------------------------
-\begin{frame}{pandas: Conceptos Clave para la Prueba}
+\begin{frame}{NumPy: Selección, Filtros y Matrices}
   \begin{itemize}
-    \item \textbf{Lectura de datos:}
+    \item \textbf{Indexación directa:}
       \begin{itemize}
-        \item \texttt{pd.read\_csv("archivo.csv")}
+        \item \texttt{array[0]}, \texttt{array[-1]}, \texttt{matriz[2, 3]}
       \end{itemize}
-    \item \textbf{Exploración básica:}
+    \item \textbf{Slicing:}
       \begin{itemize}
-        \item \texttt{df.head()}, \texttt{df.info()}, \texttt{df.describe()}
+        \item \texttt{array[inicio:fin]}, \texttt{matriz[:, 1]}, \texttt{matriz[0, :]}
       \end{itemize}
-    \item \textbf{Agrupación y análisis:}
+    \item \textbf{Máscaras booleanas:}
       \begin{itemize}
-        \item \texttt{df.groupby('columna').agg(\{...\})}
-        \item Funciones de agregación: \texttt{'mean'}, \texttt{'std'}, \texttt{'min'}, \texttt{'max'}
+        \item \texttt{datos[datos > limite]}
+        \item \texttt{calientes = temperatura > 40}
       \end{itemize}
-    \item \textbf{Ordenamiento:}
-      \begin{itemize}
-        \item \texttt{df.sort\_values(columna, ascending=True/False)}
-      \end{itemize}
+    \item \textbf{Matrices:} crear con \texttt{reshape()} y analizar por filas o columnas.
   \end{itemize}
 \end{frame}
 
@@ -118,15 +116,40 @@
       \begin{itemize}
         \item \texttt{plt.plot(x, y)} - líneas
         \item \texttt{plt.scatter(x, y)} - puntos dispersos
+        \item \texttt{plt.hist(datos)} - histogramas
+        \item \texttt{plt.imshow(matriz)} - mapa de color
       \end{itemize}
     \item \textbf{Personalización:}
       \begin{itemize}
         \item \texttt{plt.xlabel()}, \texttt{plt.ylabel()}, \texttt{plt.title()}
-        \item \texttt{plt.grid()}, \texttt{plt.legend()}
-        \item \texttt{plt.axis('equal')} - ejes proporcionales
+        \item \texttt{plt.grid()}, \texttt{plt.legend()}, \texttt{plt.colorbar()}
+        \item \texttt{plt.axis("equal")} - ejes proporcionales
       \end{itemize}
-    \item \textbf{Mostrar gráfico:} \texttt{plt.show()}
   \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 6.5: Funciones y condicionales
+% ------------------------------------------------------------------------
+\begin{frame}[fragile]{Funciones y Condicionales: Recordatorio}
+  \begin{block}{Funciones propias}
+    Usar \texttt{def} permite separar el modelo físico del resto del análisis.
+  \end{block}
+\begin{Verbatim}[fontsize=\scriptsize]
+def modelo(x):
+    y = 2*x + 1
+    return y
+\end{Verbatim}
+
+  \begin{block}{Condicionales}
+    Usar \texttt{if/else} permite tomar decisiones según el resultado.
+  \end{block}
+\begin{Verbatim}[fontsize=\scriptsize]
+if valor > limite:
+    print("supera el limite")
+else:
+    print("dentro del limite")
+\end{Verbatim}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
@@ -158,8 +181,9 @@
 % ------------------------------------------------------------------------
 % Slide 8: Solución 1 - Órbita Parabólica
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Órbita Parabólica}
-\begin{minted}{python}
+\begin{Verbatim}[fontsize=\tiny]
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -175,14 +199,16 @@ r = p / (1 + np.cos(theta))
 # 3. Convertir a coordenadas cartesianas
 x = r * np.cos(theta)
 y = r * np.sin(theta)
-\end{minted}
+\end{Verbatim}
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
 % Slide 9: Solución 1 (continuación) - Graficación
 % ------------------------------------------------------------------------
+\begin{solutionblock}
 \begin{frame}[fragile]{Solución 1 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Graficación y Análisis}
-\begin{minted}{python}
+\begin{Verbatim}[fontsize=\tiny]
 # 4. Graficar la trayectoria parabólica
 plt.figure(figsize=(10, 8))
 plt.plot(x, y, 'r-', linewidth=2, label='Trayectoria parabólica')
@@ -197,204 +223,416 @@ plt.show()
 # 5. Calcular valor máximo de r
 r_max = np.max(r)
 print(f"Valor máximo de r: {r_max:.3f} UA")
-\end{minted}
+\end{Verbatim}
 \textbf{Discusión:} La órbita parabólica representa una trayectoria de escape. El valor máximo de \(r\) ocurre en \(\theta = \pi\).
 \end{frame}
+\end{solutionblock}
 
 % ------------------------------------------------------------------------
-% Slide 10: Ejercicio 2 - Análisis de Galaxias
+% Slide 10: Ejercicio 2 - Perfil térmico con NumPy
 % ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis de Datos de Galaxias con pandas}
+\begin{frame}[shrink=5]{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Perfil Térmico de una Barra}
   \begin{block}{Enunciado}
     \begin{itemize}
-      \item Archivo CSV: \texttt{galaxies\_data.csv} con columnas:
+      \item Una barra metálica de 10 cm tiene una temperatura variable \(T(x)\).
+      \item Crear un array \texttt{x} con 200 puntos entre 0 cm y 10 cm.
+      \item Modelar la temperatura con:
         \begin{itemize}
-          \item \texttt{galaxy\_type}: tipo de galaxia (Elíptica, Espiral, Irregular)
-          \item \texttt{distance\_Mpc}: distancia en Megaparsecs
-          \item \texttt{luminosity}: luminosidad relativa
+          \item \(T(x)=22+55\exp(-x/4)\cos(\pi x/10)\)
         \end{itemize}
-      \item Cargar los datos y mostrar las primeras 5 filas
-      \item Agrupar por \texttt{galaxy\_type} y calcular:
-        \begin{itemize}
-          \item Media y desviación estándar de \texttt{distance\_Mpc}
-          \item Luminosidad máxima para cada tipo
-        \end{itemize}
-      \item Ordenar por distancia media (descendente) y mostrar resultado
-      \item Crear scatter plot: distancia vs luminosidad
+      \item Calcular temperatura máxima, mínima y promedio.
+      \item Identificar los puntos donde \(T>40^\circ\text{C}\).
+      \item Escribir una función \texttt{temperatura\_barra(x)} para calcular \(T(x)\).
+      \item Usar un condicional para indicar si la barra supera \(70^\circ\text{C}\).
+      \item Graficar \(T(x)\) como línea y destacar los puntos calientes con scatter.
     \end{itemize}
   \end{block}
-  \textbf{Objetivo:} Integrar lectura CSV, agrupación, análisis estadístico y visualización.
+  \textbf{Objetivo:} Aplicar arreglos, funciones propias, condicionales, máscaras booleanas y gráficos.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 10.5: Generación de Datos de Galaxias
+% Slide 11: Solución 2 - Perfil térmico
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Generación de Datos: \hfill \textcolor{blue}{$\star$} \\ Creación del archivo galaxies\_data.csv}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny]{python}
-import pandas as pd
-import random
-
-# Establecer semilla para reproducibilidad
-random.seed(42)
-
-# Definir tipos de galaxias
-tipos_galaxias = ['Elíptica', 'Espiral', 
-                  'Irregular']
-
-# Generar datos aleatorios
-data = {
-    'galaxy_type': [random.choice(tipos_galaxias) 
-                    for _ in range(100)],
-    'distance_Mpc': [random.uniform(10.0, 150.0) 
-                     for _ in range(100)],
-    'luminosity': [random.uniform(0.5, 5.0) 
-                   for _ in range(100)]
-}
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny,firstnumber=16]{python}
-# Crear DataFrame
-df = pd.DataFrame(data)
-
-# Redondear valores para mejor presentación
-df['distance_Mpc'] = df['distance_Mpc'].round(2)
-df['luminosity'] = df['luminosity'].round(3)
-
-# Mostrar primeras filas
-print(df.head(10))
-
-# Guardar a archivo CSV
-df.to_csv('galaxies_data.csv', index=False)
-
-print("\n¡Archivo galaxies_data.csv creado!")
-print(f"Total de galaxias: {len(df)}")
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-\textbf{Nota:} Este código genera datos sintéticos para practicar. En la prueba, el archivo ya estará disponible.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 11: Solución 2 - Análisis con pandas
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Análisis con pandas}
-\begin{minted}{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# 1. Cargar datos
-df = pd.read_csv("galaxies_data.csv")
-
-# 2. Mostrar primeras filas
-print(df.head())
-print("="*50)
-
-# 3. Agrupación y análisis estadístico
-resultado = df.groupby('galaxy_type').agg({
-    'distance_Mpc': ['mean', 'std'],
-    'luminosity': 'max'
-}).round(2)
-
-print(resultado)
-\end{minted}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 12: Solución 2 (continuación) - Ordenamiento y Gráfico
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Ordenamiento y Visualización}
-\begin{minted}{python}
-# 4. Ordenar por distancia media (descendente)
-resultado_ordenado = resultado.sort_values(('distance_Mpc', 'mean'), ascending=False)
-print("\nResultado ordenado:")
-print(resultado_ordenado)
-
-# 5. Scatter plot
-plt.figure(figsize=(10, 6))
-plt.scatter(df['distance_Mpc'], df['luminosity'],alpha=0.6, edgecolors='black')
-plt.xlabel('Distancia [Mpc]')
-plt.ylabel('Luminosidad relativa')
-plt.title('Relación Distancia-Luminosidad de Galaxias')
-plt.grid(True, alpha=0.3)
-plt.show()
-\end{minted}
-\textbf{Discusión:} El análisis por tipo de galaxia revela patrones de distribución espacial y luminosidad.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 13: Ejercicio 3 - Ley de Hubble
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Verificación de la Ley de Hubble}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Datos observacionales de 5 galaxias:
-        \begin{itemize}
-          \item \texttt{d = np.array([10, 25, 50, 75, 100])} [Mpc] - distancias
-          \item \texttt{v = np.array([700, 1750, 3500, 5250, 7000])} [km/s] - velocidades
-        \end{itemize}
-      \item Crear scatter plot de \(d\) vs \(v\)
-      \item Calcular la constante de Hubble \(H_0 = v/d\) para cada galaxia
-      \item Mostrar los 5 valores de \(H_0\) con 2 decimales
-      \item Calcular y mostrar media y desviación estándar de \(H_0\)
-      \item Agregar etiquetas y título descriptivo al gráfico
-    \end{itemize}
-  \end{block}
-  \textbf{Conceptos:} Arrays NumPy, operaciones elemento a elemento, estadísticas, scatter plot.
-  \\
-  \textbf{Física relevante:} La Ley de Hubble establece que \(v = H_0 \cdot d\), evidencia de expansión del universo.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide 14: Solución 3 - Ley de Hubble
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Verificación de la Ley de Hubble}
-\begin{minted}{python}
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Perfil Térmico}
+\begin{Verbatim}[fontsize=\tiny]
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Datos de galaxias
-d = np.array([10, 25, 50, 75, 100])  # Distancia [Mpc]
-v = np.array([700, 1750, 3500, 5250, 7000])  # Velocidad [km/s]
+# 1. Definir una función para el modelo
+def temperatura_barra(x):
+    T = 22 + 55*np.exp(-x/4)*np.cos(np.pi*x/10)
+    return T
 
-# 1. Scatter plot
-plt.figure(figsize=(10, 6))
-plt.scatter(d, v, c='red', s=100, alpha=0.7, 
-           edgecolors='black', linewidth=1.5)
-plt.xlabel('Distancia d [Mpc]')
-plt.ylabel('Velocidad de recesión v [km/s]')
-plt.title('Ley de Hubble: Relación Distancia-Velocidad')
+# 2. Crear posiciones sobre la barra
+x = np.linspace(0, 10, 200)  # cm
+
+# 3. Calcular temperatura en cada posicion
+T = temperatura_barra(x)
+
+# 4. Estadísticas básicas
+T_max = np.max(T)
+T_min = np.min(T)
+T_prom = np.mean(T)
+
+indice_max = np.argmax(T)
+x_max = x[indice_max]
+
+print(f"Temperatura maxima: {T_max:.2f} C en x={x_max:.2f} cm")
+print(f"Temperatura minima: {T_min:.2f} C")
+print(f"Temperatura promedio: {T_prom:.2f} C")
+
+if T_max > 70:
+    print("Advertencia: la barra supera 70 C")
+else:
+    print("La barra no supera 70 C")
+\end{Verbatim}
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 12: Solución 2 (continuación) - Filtro y gráfico
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 2 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Zonas Calientes}
+\begin{Verbatim}[fontsize=\tiny]
+# 5. Máscara booleana para puntos calientes
+puntos_calientes = T > 40
+
+plt.figure(figsize=(8, 5))
+plt.plot(x, T, color="tab:blue", linewidth=2, label="T(x)")
+plt.scatter(x[puntos_calientes], T[puntos_calientes],
+            color="red", s=25, label="T > 40 C")
+plt.scatter(x_max, T_max, color="black", s=80, label="maximo")
+plt.axhline(40, color="gray", linestyle="--", label="40 C")
+
+plt.xlabel("Posicion x [cm]")
+plt.ylabel("Temperatura [C]")
+plt.title("Perfil termico de una barra")
 plt.grid(True, alpha=0.3)
+plt.legend()
 plt.show()
-\end{minted}
+
+print(f"Puntos con T > 40 C: {np.sum(puntos_calientes)}")
+\end{Verbatim}
+\textbf{Discusión:} La máscara \texttt{T > 40} selecciona solo las posiciones donde la barra supera el umbral.
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 13: Ejercicio 3 - Curva de luz
+% ------------------------------------------------------------------------
+\begin{frame}[shrink=5]{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Curva de Luz de una Estrella Variable}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un array \texttt{t} con 300 valores entre 0 y 12 horas.
+      \item Modelar el brillo con:
+        \[
+          B(t)=10+0.45\sin\left(\frac{2\pi t}{4}\right)+0.12\cos\left(\frac{2\pi t}{2}\right)
+        \]
+      \item Graficar brillo versus tiempo.
+      \item Calcular brillo máximo, brillo mínimo y amplitud \((B_{\max}-B_{\min})/2\).
+      \item Contar cuántos puntos quedan sobre el brillo promedio.
+      \item Crear una función \texttt{brillo\_estrella(t)} para calcular \(B(t)\).
+      \item Usar un condicional para clasificar la variabilidad como baja o alta.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} funciones, condicionales, trigonometría, \texttt{max/min}, máscaras booleanas.
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 15: Solución 3 (continuación) - Cálculo de H0
+% Slide 14: Solución 3 - Curva de luz
 % ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 3 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Cálculo de la Constante de Hubble}
-\begin{minted}{python}
-# 2. Calcular constante de Hubble H0 = v/d
-H0 = v / d
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Curva de Luz}
+\begin{Verbatim}[fontsize=\tiny]
+import numpy as np
+import matplotlib.pyplot as plt
 
-# 3. Mostrar valores con 2 decimales
-print("Valores de H0 [km/s/Mpc]:")
-print(H0.round(2))
+t = np.linspace(0, 12, 300)
 
-# 4. Estadísticas de H0
-media_H0 = np.mean(H0)
-std_H0 = np.std(H0)
+def brillo_estrella(t):
+    B = 10 + 0.45*np.sin(2*np.pi*t/4)
+    B = B + 0.12*np.cos(2*np.pi*t/2)
+    return B
 
-print(f"\nMedia de H0: {media_H0:.2f} km/s/Mpc")
-print(f"Desviación estándar: {std_H0:.2f} km/s/Mpc")
-print(f"\nLos valores de H0 son consistentes, confirmando")
-print(f"la proporcionalidad entre distancia y velocidad.")
-\end{minted}
-\textbf{Discusión:} Si \(H_0\) es aproximadamente constante, confirma la Ley de Hubble. Los valores cercanos a 70 km/s/Mpc coinciden con mediciones cosmológicas modernas.
+B = brillo_estrella(t)
+
+B_max = np.max(B)
+B_min = np.min(B)
+amplitud = (B_max - B_min) / 2
+promedio = np.mean(B)
+puntos_sobre_promedio = np.sum(B > promedio)
+
+print(f"Brillo maximo: {B_max:.3f}")
+print(f"Brillo minimo: {B_min:.3f}")
+print(f"Amplitud: {amplitud:.3f}")
+print(f"Puntos sobre el promedio: {puntos_sobre_promedio}")
+
+if amplitud > 0.5:
+    print("Variabilidad alta")
+else:
+    print("Variabilidad baja o moderada")
+
+plt.figure(figsize=(9, 5))
+plt.plot(t, B, color="purple", label="brillo")
+plt.axhline(promedio, color="black", linestyle="--", label="promedio")
+plt.xlabel("Tiempo [h]")
+plt.ylabel("Brillo relativo")
+\end{Verbatim}
 \end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 15: Solución 3 (continuación)
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 3 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Gráfico e Interpretación}
+\begin{Verbatim}[fontsize=\tiny]
+plt.title("Curva de luz de una estrella variable")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.show()
+\end{Verbatim}
+\textbf{Discusión:} La señal combina dos oscilaciones. La línea promedio permite distinguir cuándo la estrella está relativamente más brillante.
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 16: Ejercicio 4 - Detector 2D
+% ------------------------------------------------------------------------
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Mapa Térmico de un Detector}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un array con 24 temperaturas medidas por sensores.
+      \item Transformarlo en una matriz de \(4\times 6\) usando \texttt{reshape}.
+      \item Calcular la temperatura media de todo el detector.
+      \item Calcular la media por fila y por columna.
+      \item Encontrar la posición del sensor más caliente.
+      \item Visualizar la matriz con \texttt{plt.imshow()} y \texttt{plt.colorbar()}.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} matrices, \texttt{reshape}, \texttt{axis}, \texttt{argmax}, mapas de color.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 17: Solución 4 - Detector 2D
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 4 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Mapa Térmico}
+\begin{Verbatim}[fontsize=\tiny]
+import numpy as np
+import matplotlib.pyplot as plt
+
+temperaturas = np.array([
+    18.2, 18.5, 19.1, 19.4, 19.0, 18.7,
+    18.8, 19.3, 20.1, 21.4, 20.3, 19.5,
+    18.6, 19.0, 20.4, 23.2, 21.0, 19.8,
+    18.1, 18.7, 19.6, 20.2, 19.9, 19.1
+])
+
+detector = temperaturas.reshape(4, 6)
+
+media_total = np.mean(detector)
+media_filas = np.mean(detector, axis=1)
+media_columnas = np.mean(detector, axis=0)
+
+indice_max = np.argmax(detector)
+fila_max, columna_max = np.unravel_index(indice_max, detector.shape)
+
+print(f"Media total: {media_total:.2f} C")
+print("Media por fila:", media_filas.round(2))
+print("Media por columna:", media_columnas.round(2))
+\end{Verbatim}
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 18: Solución 4 (continuación)
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 4 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Sensor Más Caliente}
+\begin{Verbatim}[fontsize=\tiny]
+print(f"Sensor mas caliente: fila {fila_max}, columna {columna_max}")
+print(f"Temperatura maxima: {detector[fila_max, columna_max]:.2f} C")
+
+plt.figure(figsize=(8, 4))
+plt.imshow(detector, cmap="inferno")
+plt.colorbar(label="Temperatura [C]")
+plt.scatter(columna_max, fila_max, color="cyan", s=120,
+            edgecolor="black", label="maximo")
+plt.xlabel("Columna")
+plt.ylabel("Fila")
+plt.title("Mapa termico del detector")
+plt.legend()
+plt.show()
+\end{Verbatim}
+\textbf{Discusión:} \texttt{reshape} organiza las mediciones como una imagen simple, útil para detectar zonas calientes.
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 19: Ejercicio 5 - Péndulo
+% ------------------------------------------------------------------------
+\begin{frame}[shrink=8]{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Período de un Péndulo Simple}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un array de longitudes \(L\) entre 0.20 m y 1.80 m.
+      \item Calcular el período teórico:
+        \[
+          T = 2\pi\sqrt{\frac{L}{g}}, \quad g=9.8~\text{m/s}^2
+        \]
+      \item Crear mediciones observadas sumando pequeñas diferencias conocidas.
+      \item Graficar \(T_{\text{obs}}\) versus \(L\) con scatter.
+      \item Graficar \(T_{\text{teo}}\) como línea sobre los mismos ejes.
+      \item Calcular residuos \(T_{\text{obs}}-T_{\text{teo}}\) y su promedio absoluto.
+      \item Definir una función \texttt{periodo\_pendulo(L, g)}.
+      \item Usar un condicional para decidir si el ajuste es aceptable.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} \texttt{sqrt}, comparación modelo-datos, scatter, línea teórica, residuos.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 20: Solución 5 - Péndulo
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 5 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Péndulo Simple}
+\begin{Verbatim}[fontsize=\tiny]
+import numpy as np
+import matplotlib.pyplot as plt
+
+g = 9.8
+L = np.linspace(0.20, 1.80, 9)
+
+def periodo_pendulo(L, g):
+    T = 2*np.pi*np.sqrt(L/g)
+    return T
+
+T_teo = periodo_pendulo(L, g)
+
+diferencias = np.array([0.03, -0.02, 0.01, 0.04, -0.01,
+                        0.02, -0.03, 0.01, 0.03])
+T_obs = T_teo + diferencias
+
+residuos = T_obs - T_teo
+promedio_abs = np.mean(np.abs(residuos))
+
+print("Longitudes:", L.round(2))
+print("Periodo teorico:", T_teo.round(3))
+print("Periodo observado:", T_obs.round(3))
+print("Residuos:", residuos.round(3))
+print(f"Promedio absoluto de residuos: {promedio_abs:.3f} s")
+
+if promedio_abs < 0.05:
+    print("Modelo aceptable para estas mediciones")
+else:
+    print("Revisar mediciones o modelo")
+\end{Verbatim}
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 21: Solución 5 (continuación)
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 5 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Modelo y Datos}
+\begin{Verbatim}[fontsize=\tiny]
+plt.figure(figsize=(8, 5))
+plt.scatter(L, T_obs, color="red", s=80, label="datos observados")
+plt.plot(L, T_teo, color="blue", label="modelo teorico")
+plt.xlabel("Longitud L [m]")
+plt.ylabel("Periodo T [s]")
+plt.title("Periodo de un pendulo simple")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.show()
+\end{Verbatim}
+\textbf{Discusión:} El gráfico permite comparar directamente el modelo físico con los datos observados.
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 22: Ejercicio 6 - Espectro
+% ------------------------------------------------------------------------
+\begin{frame}[shrink=8]{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Línea de Emisión en un Espectro}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Crear un array de longitudes de onda entre 650 nm y 670 nm.
+      \item Modelar la intensidad como:
+        \[
+          I(\lambda)=1+4\exp\left[-\frac{(\lambda-656.3)^2}{2(1.4)^2}\right]
+        \]
+      \item Graficar intensidad versus longitud de onda.
+      \item Encontrar la longitud de onda donde la intensidad es máxima.
+      \item Calcular cuántos puntos tienen intensidad mayor que la mitad del máximo.
+      \item Marcar el máximo con un punto rojo en el gráfico.
+      \item Crear una función \texttt{linea\_emision(lam, centro, sigma)}.
+      \item Usar un condicional para verificar si el máximo queda cerca del centro esperado.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} \texttt{np.exp}, \texttt{argmax}, máscaras booleanas, gráfico de línea.
+\end{frame}
+
+% ------------------------------------------------------------------------
+% Slide 23: Solución 6 - Espectro
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 6 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Línea de Emisión}
+\begin{Verbatim}[fontsize=\tiny]
+import numpy as np
+import matplotlib.pyplot as plt
+
+lam = np.linspace(650, 670, 400)
+centro = 656.3
+sigma = 1.4
+
+def linea_emision(lam, centro, sigma):
+    I = 1 + 4*np.exp(-((lam - centro)**2) / (2*sigma**2))
+    return I
+
+I = linea_emision(lam, centro, sigma)
+
+indice_max = np.argmax(I)
+lam_max = lam[indice_max]
+I_max = I[indice_max]
+
+mitad_max = I_max / 2
+puntos_sobre_mitad = np.sum(I > mitad_max)
+
+print(f"Longitud de onda del maximo: {lam_max:.2f} nm")
+print(f"Intensidad maxima: {I_max:.2f}")
+print(f"Puntos sobre la mitad del maximo: {puntos_sobre_mitad}")
+
+if abs(lam_max - centro) < 0.1:
+    print("Maximo consistente con el centro esperado")
+else:
+    print("Maximo desplazado respecto al centro esperado")
+\end{Verbatim}
+\end{frame}
+\end{solutionblock}
+
+% ------------------------------------------------------------------------
+% Slide 24: Solución 6 (continuación)
+% ------------------------------------------------------------------------
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 6 (continuación): \hfill \textcolor{green}{$\checkmark$} \\ Gráfico del Espectro}
+\begin{Verbatim}[fontsize=\tiny]
+plt.figure(figsize=(8, 5))
+plt.plot(lam, I, label="espectro")
+plt.scatter(lam_max, I_max, color="red", s=90, label="maximo")
+plt.axhline(mitad_max, color="gray", linestyle="--",
+            label="mitad del maximo")
+plt.xlabel("Longitud de onda [nm]")
+plt.ylabel("Intensidad relativa")
+plt.title("Linea de emision simulada")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.show()
+\end{Verbatim}
+\textbf{Discusión:} La posición del máximo permite estimar el centro de la línea de emisión.
+\end{frame}
+\end{solutionblock}
 
 % ----------------------------------------------------------------------------------------
 % SECCIÓN 4: Consejos y Estrategias
@@ -402,52 +640,48 @@ print(f"la proporcionalidad entre distancia y velocidad.")
 \section{Consejos para la Prueba}
 
 % ------------------------------------------------------------------------
-% Slide 16: Estrategias para el Día de la Evaluación
+% Slide 25: Estrategias para el Día de la Evaluación
 % ------------------------------------------------------------------------
-\begin{frame}{Estrategias para la Solemne II}
+\begin{frame}[shrink=6]{Estrategias para la Solemne II}
   \begin{alertblock}{Antes de empezar a codificar}
     \begin{itemize}
-      \item \textbf{Lee} el problema completo antes de escribir código
-      \item \textbf{Identifica} qué librerías necesitas (NumPy, pandas, Matplotlib)
-      \item \textbf{Planifica} los pasos: lectura → procesamiento → visualización
+      \item \textbf{Lee} el problema completo antes de escribir código.
+      \item \textbf{Identifica} si necesitas arrays, filtros, estadísticas o gráficos.
+      \item \textbf{Planifica} los pasos: crear datos, definir funciones, calcular, visualizar, interpretar.
     \end{itemize}
   \end{alertblock}
-  
+
   \begin{block}{Durante la resolución}
     \begin{itemize}
-      \item Usa \textbf{nombres descriptivos} de variables
-      \item Incluye \textbf{comentarios} para clarificar tu código
-      \item \textbf{Verifica} tipos de datos y dimensiones de arrays
-      \item \textbf{Prueba} el código por partes antes de continuar
+      \item Usa \textbf{nombres descriptivos} de variables.
+      \item Encapsula modelos repetidos en una \textbf{función} con \texttt{def}.
+      \item Usa \textbf{condicionales} para reportar decisiones o clasificaciones.
+      \item Incluye \textbf{comentarios breves} cuando el cálculo tenga varios pasos.
+      \item \textbf{Verifica} dimensiones con \texttt{shape} cuando uses matrices.
+      \item \textbf{Prueba} el código por partes antes de continuar.
     \end{itemize}
   \end{block}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 17: Errores Comunes a Evitar
+% Slide 26: Errores Comunes a Evitar
 % ------------------------------------------------------------------------
-\begin{frame}{Errores Comunes a Evitar}
+\begin{frame}[shrink=8]{Errores Comunes a Evitar}
   \begin{block}{NumPy}
     \begin{itemize}
-      \item Olvidar usar funciones de NumPy (\texttt{np.cos} vs \texttt{cos})
-      \item Confundir operaciones elemento a elemento con álgebra matricial
-      \item No verificar dimensiones al crear arrays
+      \item Usar \texttt{math.sin()} o \texttt{math.cos()} sobre arrays en vez de \texttt{np.sin()} o \texttt{np.cos()}.
+      \item Confundir el índice de un valor con el valor mismo.
+      \item Olvidar que las máscaras booleanas deben tener el mismo tamaño que el array filtrado.
+      \item Usar \texttt{reshape()} con un número total de elementos incompatible.
     \end{itemize}
   \end{block}
-  
-  \begin{block}{pandas}
-    \begin{itemize}
-      \item Sintaxis incorrecta en \texttt{groupby().agg()}
-      \item Olvidar entre paréntesis en \texttt{sort\_values()}
-      \item No especificar nombres correctos de columnas (sensibles a mayúsculas)
-    \end{itemize}
-  \end{block}
-  
+
   \begin{block}{Matplotlib}
     \begin{itemize}
-      \item Olvidar \texttt{plt.show()} al final
-      \item No incluir etiquetas de ejes y título
-      \item Confundir \texttt{plot} con \texttt{scatter}
+      \item Olvidar \texttt{plt.show()} al final.
+      \item Entregar gráficos sin etiquetas de ejes, unidades o título.
+      \item No usar \texttt{plt.axis("equal")} en trayectorias 2D.
+      \item Poner muchas curvas sin \texttt{legend()}.
     \end{itemize}
   \end{block}
 \end{frame}
@@ -458,60 +692,60 @@ print(f"la proporcionalidad entre distancia y velocidad.")
 \section{Conclusiones y Preparación}
 
 % ------------------------------------------------------------------------
-% Slide 18: Resumen de la Sesión
+% Slide 27: Resumen de la Sesión
 % ------------------------------------------------------------------------
 \begin{frame}{Resumen de la Sesión 19}
   \begin{itemize}
     \item \textbf{Repasamos} los comandos esenciales de:
       \begin{itemize}
-        \item NumPy: arrays, operaciones, estadísticas
-        \item pandas: lectura CSV, agrupaciones, análisis
-        \item Matplotlib: scatter, personalización
+        \item NumPy: arrays, operaciones, estadísticas, filtros y matrices.
+        \item Matplotlib: líneas, scatter, histogramas y mapas de color.
+        \item Python: funciones propias con \texttt{def} y condicionales \texttt{if/else}.
       \end{itemize}
     \item \textbf{Practicamos} con ejercicios tipo evaluación:
       \begin{itemize}
-        \item Órbitas y trayectorias astronómicas
-        \item Análisis de datos de galaxias
-        \item Verificación de leyes físicas
+        \item Trayectorias orbitales y coordenadas polares.
+        \item Perfiles térmicos y selección de zonas con máscaras booleanas.
+        \item Curvas de luz, detectores, péndulos y espectros.
       \end{itemize}
-    \item \textbf{Identificamos} estrategias y errores comunes
+    \item \textbf{Identificamos} estrategias y errores comunes.
   \end{itemize}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 19: Preparación Final
+% Slide 28: Preparación Final
 % ------------------------------------------------------------------------
-\begin{frame}{Preparación para la Solemne II (Próxima Sesión)}
+\begin{frame}{Preparación para la Solemne II}
   \begin{itemize}
     \item \textbf{Repasen} la sintaxis de los comandos clave:
       \begin{itemize}
-        \item \texttt{np.linspace()}, \texttt{np.array()}, operaciones vectorizadas
-        \item \texttt{pd.read\_csv()}, \texttt{groupby().agg()}, \texttt{sort\_values()}
-        \item \texttt{plt.scatter()}, \texttt{plt.xlabel()}, \texttt{plt.show()}
+        \item \texttt{np.linspace()}, \texttt{np.array()}, \texttt{reshape()}, operaciones vectorizadas.
+        \item \texttt{np.mean()}, \texttt{np.std()}, \texttt{np.argmax()}, máscaras booleanas.
+        \item \texttt{plt.plot()}, \texttt{plt.scatter()}, \texttt{plt.hist()}, \texttt{plt.show()}.
+        \item \texttt{def nombre(...):}, \texttt{return}, \texttt{if}, \texttt{else}.
       \end{itemize}
-    \item \textbf{Practiquen} escribir código sin consultar apuntes
-    \item \textbf{Revisen} cómo interpretar enunciados y extraer requisitos
-    \item \textbf{Consulten} dudas finales antes de la evaluación
+    \item \textbf{Practiquen} escribir código sin consultar apuntes.
+    \item \textbf{Revisen} cómo interpretar enunciados y extraer requisitos.
+    \item \textbf{Consulten} dudas finales antes de la evaluación.
   \end{itemize}
-  
+
   \begin{alertblock}{Importante}
-    La prueba evaluará su capacidad de aplicar estos conceptos en problemas astronómicos similares a los practicados hoy.
+    La prueba evaluará la capacidad de aplicar NumPy, Matplotlib, funciones y condicionales en problemas físicos o astronómicos similares a los practicados hoy.
   \end{alertblock}
 \end{frame}
 
 % ------------------------------------------------------------------------
-% Slide 20: Recursos y Cierre
+% Slide 29: Recursos y Cierre
 % ------------------------------------------------------------------------
 \begin{frame}{Recursos para Estudio}
   \begin{itemize}
-    \item \href{https://numpy.org/doc/stable/user/quickstart.html}{\textbf{NumPy Quickstart}} - Referencia rápida
-    \item \href{https://pandas.pydata.org/docs/user_guide/10min.html}{\textbf{10 minutes to pandas}} - Tutorial esencial
-    \item \href{https://matplotlib.org/stable/gallery/index.html}{\textbf{Matplotlib Gallery}} - Ejemplos de gráficos
-    \item Apuntes de clases previas (Semanas 7-9)
+    \item \href{https://numpy.org/doc/stable/user/quickstart.html}{\textbf{NumPy Quickstart}} - Referencia rápida.
+    \item \href{https://matplotlib.org/stable/gallery/index.html}{\textbf{Matplotlib Gallery}} - Ejemplos de gráficos.
+    \item Apuntes de clases previas: Semanas 6, 7 y 9.
   \end{itemize}
-  
+
   \vspace{0.5cm}
-  
+
   \begin{center}
     \Large{\textbf{¡Éxito en la Solemne II!}}
     \\
