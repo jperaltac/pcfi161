@@ -1,0 +1,286 @@
+\documentclass[11pt,letterpaper,landscape]{article}
+
+\usepackage[
+  top=0.55cm,
+  bottom=0.55cm,
+  left=0.65cm,
+  right=0.65cm
+]{geometry}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{amsmath}
+
+\setmainfont{Libertinus Sans}
+\setmonofont{Libertinus Mono}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\definecolor{tealbox}{HTML}{079A9A}
+\definecolor{orangeTitle}{HTML}{FF5A00}
+
+\lstdefinestyle{pyinline}{
+  basicstyle=\ttfamily\footnotesize,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  showstringspaces=false
+}
+\lstset{style=pyinline}
+
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\entry}[2]{\textbf{\code{#1}} & #2\\}
+\newcommand{\smallentry}[2]{\code{#1} & #2\\}
+\newcommand{\colw}{0.318\textwidth}
+
+\newtcolorbox{cheatbox}[1]{
+  enhanced,
+  sharp corners,
+  boxrule=0pt,
+  colback=white,
+  left=2.5mm,
+  right=2.5mm,
+  top=1.2mm,
+  bottom=1.2mm,
+  before skip=2.5mm,
+  after skip=2.5mm,
+  title=#1,
+  coltitle=white,
+  fonttitle=\bfseries\large,
+  colbacktitle=tealbox,
+  attach boxed title to top center={yshift=-1mm},
+  boxed title style={sharp corners, boxrule=0pt, colback=tealbox, left=3mm, right=3mm},
+}
+
+\newcommand{\cheattitle}{
+  \begin{center}
+    {\fontsize{23}{25}\selectfont\bfseries\color{orangeTitle} Python para Solemne 2 - Cheat Sheet}
+  \end{center}
+  \vspace{-3mm}
+}
+
+\begin{document}
+\cheattitle
+
+\noindent
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Python: sintaxis básica}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\textbf{\texttt{\# comentario}} & texto que Python ignora\\
+\entry{x = 3.5}{asignar un valor}
+\entry{a + b, a - b}{suma y resta}
+\entry{a * b, a / b}{multiplicación y división}
+\entry{a ** 2}{potencia}
+\entry{(a + b) / 2}{ordenar cálculos}
+\entry{print(x)}{mostrar resultado}
+\entry{print(f"{x:.3f}")}{imprimir con 3 decimales}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Funciones}
+\begin{lstlisting}
+def nombre_funcion(t):
+    resultado = ...
+    return resultado
+
+y = nombre_funcion(t)
+\end{lstlisting}
+Use funciones para separar el modelo físico del análisis numérico.
+\end{cheatbox}
+
+\begin{cheatbox}{Condicionales}
+\begin{lstlisting}
+if condicion:
+    clasificacion = "alta"
+else:
+    clasificacion = "baja"
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{>=, <=}{mayor/menor o igual}
+\entry{>, <}{mayor o menor}
+\entry{==}{igualdad}
+\entry{and}{dos condiciones a la vez}
+\end{tabularx}
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Listas e índices}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{lista = []}{crear lista vacía}
+\entry{lista.append(x)}{agregar \code{x} al final}
+\entry{L[i]}{elemento de \code{L} en índice \code{i}}
+\entry{d[i]}{elemento de \code{d} en índice \code{i}}
+\entry{len(d)}{cantidad de elementos}
+\entry{range(n)}{índices desde \code{0} hasta \code{n-1}}
+\end{tabularx}
+\begin{lstlisting}
+valores = []
+for i in range(len(d)):
+    calculo_F = L[i] / (4*np.pi*d[i]**2)
+    valores.append(calculo_F)
+\end{lstlisting}
+\end{cheatbox}
+
+\begin{cheatbox}{Importar módulos}
+\begin{lstlisting}
+import numpy as np
+import matplotlib.pyplot as plt
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{np}{alias usual de NumPy}
+\entry{plt}{alias usual de Matplotlib}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{NumPy: crear arreglos}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{np.array([1,2,3])}{crear arreglo desde una lista}
+\entry{np.linspace(0,12,300)}{300 valores entre 0 y 12}
+\entry{np.zeros_like(t)}{ceros con forma de \code{t}}
+\entry{np.ones_like(t)}{unos con forma de \code{t}}
+\entry{c*np.ones_like(t)}{arreglo constante igual a \code{c}}
+\entry{np.ones(n)}{arreglo de \code{n} unos}
+\end{tabularx}
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{NumPy: funciones matemáticas}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{np.pi}{valor de $\pi$}
+\entry{np.sin(x)}{seno de \code{x} en radianes}
+\entry{np.cos(x)}{coseno de \code{x} en radianes}
+\entry{np.deg2rad(theta)}{convertir grados a radianes}
+\entry{t**2}{cuadrado elemento a elemento}
+\entry{a*t + b}{operación vectorizada}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{NumPy: análisis de datos}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{np.max(B)}{máximo del arreglo}
+\entry{np.min(B)}{mínimo del arreglo}
+\entry{np.mean(B)}{promedio}
+\entry{np.sum(B > prom)}{cuenta valores que cumplen condición}
+\entry{np.argmax(v)}{índice del máximo}
+\entry{B > prom}{comparación elemento a elemento}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Modelos vectorizados}
+\begin{lstlisting}
+t = np.linspace(0, 12, 300)
+B = 1 + a1*np.sin(2*np.pi*t/p)
+
+theta = np.deg2rad(theta_deg)
+x = v0*np.cos(theta)*t
+y = y0 + v0*np.sin(theta)*t - 0.5*g*t**2
+\end{lstlisting}
+Si \code{t} es un arreglo, las operaciones producen arreglos.
+\end{cheatbox}
+\end{minipage}
+
+\newpage
+\cheattitle
+
+\noindent
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Matplotlib: crear figura}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{plt.figure(figsize=(9,5))}{crear figura}
+\entry{plt.show()}{mostrar figura}
+\entry{plt.tight_layout()}{ajustar espacios}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Matplotlib: graficar}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{plt.plot(t,B)}{gráfico de línea}
+\entry{plt.scatter(d,F)}{gráfico de dispersión}
+\entry{plt.axhline(prom)}{línea horizontal}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Matplotlib: presentación}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{plt.title("...")}{título}
+\entry{plt.xlabel("...")}{nombre eje x}
+\entry{plt.ylabel("...")}{nombre eje y}
+\entry{plt.grid(True)}{activar grilla}
+\entry{plt.legend()}{mostrar leyenda}
+\end{tabularx}
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Subgráficos: crear grilla}
+\begin{lstlisting}
+fig, axs = plt.subplots(3, 2, figsize=(10, 9))
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{3, 2}{3 filas y 2 columnas}
+\entry{axs[fila,col]}{seleccionar un panel}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Subgráficos: usar paneles}
+\begin{lstlisting}
+axs[0, 0].plot(t, y)
+axs[0, 0].set_title("Posición vertical")
+axs[0, 0].set_xlabel("t [s]")
+axs[0, 0].set_ylabel("y(t) [m]")
+axs[0, 0].grid(True)
+\end{lstlisting}
+\end{cheatbox}
+
+\begin{cheatbox}{Subgráficos: posiciones}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{axs[0,0]}{fila 1, columna 1}
+\entry{axs[1,0]}{fila 2, columna 1}
+\entry{axs[2,0]}{fila 3, columna 1}
+\entry{axs[0,1]}{fila 1, columna 2}
+\entry{axs[1,1]}{fila 2, columna 2}
+\entry{axs[2,1]}{fila 3, columna 2}
+\end{tabularx}
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Errores típicos: ángulos}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\smallentry{sin(55)}{mal si 55 está en grados; use \code{np.deg2rad}}
+\smallentry{np.sin(theta)}{\code{theta} debe estar en radianes}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Errores típicos: listas}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\smallentry{lista.append}{requiere paréntesis: \code{lista.append(x)}}
+\smallentry{L[i], d[i]}{use el mismo índice para datos relacionados}
+\smallentry{range(len(d))}{recorre todos los índices de \code{d}}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Errores típicos: arreglos}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\smallentry{vx = constante}{para graficar, conviene usar \code{ones_like}}
+\smallentry{axs[0].plot}{en grilla 2D use \code{axs[0,0].plot}}
+\smallentry{if B > prom}{\code{B > prom} es un arreglo; use \code{np.sum}}
+\end{tabularx}
+\end{cheatbox}
+\end{minipage}
+
+\end{document}
