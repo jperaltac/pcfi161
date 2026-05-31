@@ -20,7 +20,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Sube una semana a Canvas para múltiples usuarios."
     )
-    parser.add_argument("--semana", type=int, required=True, help="Semana a subir (1-15).")
+    parser.add_argument("--semana", type=int, default=None, help="Semana a subir (1-15).")
     parser.add_argument(
         "--usuarios",
         type=str,
@@ -33,8 +33,18 @@ def main():
         action="store_true",
         help="Sube en modo test (no publica).",
     )
+    parser.add_argument(
+        "--eliminar-semana",
+        type=int,
+        default=None,
+        help="Elimina esta semana del módulo. Puede usarse sola o junto a --semana. "
+             "Ej: --eliminar-semana 13 --semana 12.",
+    )
 
     args = parser.parse_args()
+
+    if args.semana is None and args.eliminar_semana is None:
+        parser.error("Debes indicar --semana, --eliminar-semana, o ambos.")
 
     disponibles = _usuarios_disponibles()
     if not disponibles:
@@ -49,8 +59,16 @@ def main():
         return 1
 
     print("=" * 80)
-    print("📤 SUBIDA MASIVA DE SEMANA")
-    print(f"Semana: {args.semana}")
+    if args.semana is not None and args.eliminar_semana is not None:
+        print("🗑️📤 ELIMINACIÓN Y SUBIDA MASIVA DE SEMANA")
+    elif args.semana is not None:
+        print("📤 SUBIDA MASIVA DE SEMANA")
+    else:
+        print("🗑️ ELIMINACIÓN MASIVA DE SEMANA")
+    if args.semana is not None:
+        print(f"Semana a subir: {args.semana}")
+    if args.eliminar_semana is not None:
+        print(f"Semana a eliminar: {args.eliminar_semana}")
     print(f"Usuarios: {', '.join(usuarios)}")
     print(f"Modo: {'TEST (no publica)' if args.test_mode else 'PRODUCCIÓN (publica)'}")
     print("=" * 80)
@@ -65,9 +83,21 @@ def main():
             errores.append((usuario, "No se pudo conectar"))
             continue
 
-        resultado = ck.subir_contenido(args.semana, test_mode=args.test_mode)
-        if resultado is None:
-            errores.append((usuario, "Fallo en subir_contenido"))
+        if args.eliminar_semana is not None:
+            eliminado = ck.eliminar_semana(
+                args.eliminar_semana,
+                test_mode=args.test_mode,
+            )
+            if eliminado is None:
+                errores.append((usuario, f"Fallo en eliminar_semana({args.eliminar_semana})"))
+                continue
+
+        if args.semana is not None:
+            resultado = ck.subir_contenido(args.semana, test_mode=args.test_mode)
+            if resultado is None:
+                errores.append((usuario, "Fallo en subir_contenido"))
+            else:
+                exitos.append(usuario)
         else:
             exitos.append(usuario)
 

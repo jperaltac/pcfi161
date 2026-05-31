@@ -1,5 +1,6 @@
 # Canvas API Configuration
 import os
+import re
 from pathlib import Path
 from canvasapi import Canvas
 
@@ -102,7 +103,7 @@ semanas_por_unidad = {
     9: "Semana 09",
     10: "Semana 10",
     11: "Semana 11 | np.polyfit y análisis de residuos",
-    12: "Semana 12 | scipy.optimize.curve_fit y estadísticas",
+    12: "Semana 12 | Estadística descriptiva con Python",
     13: "Semana 13 | Algoritmos",
     14: "Semana 14 | Repaso Final",
     15: "Semana 15 | Repaso pre-solemnes"
@@ -347,6 +348,80 @@ def ordenar_modulo(course_id=None, test_mode=False):
     
     return resultado
 
+def _extraer_numero_semana(titulo):
+    """
+    Extrae el número de títulos tipo:
+      Semana 12
+      Semana 12 | Estadística descriptiva
+      Semana 012
+    Retorna None si el título no corresponde a una semana.
+    """
+    match = re.match(r"^\s*Semana\s*0*(\d+)(?:\b|\s|\|)", titulo or "", re.IGNORECASE)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def _titulo_corresponde_semana(titulo, numero_semana):
+    """
+    Evita falsos positivos como que "Semana 13" coincida con "Semana 1".
+    """
+    return _extraer_numero_semana(titulo) == numero_semana
+
+
+def _ultima_posicion(items):
+    if not items:
+        return 0
+    return max(getattr(item, "position", idx + 1) for idx, item in enumerate(items))
+
+
+def _items_ordenados(items):
+    return sorted(items, key=lambda item: getattr(item, "position", 0))
+
+
+def _posicion_insercion_semana(items, nombre_unidad, numero_semana):
+    """
+    Calcula una posición Canvas (1-indexed) para insertar una semana respetando:
+      Unidad -> Semana menor -> archivos -> Semana actual -> Semana mayor -> siguiente unidad.
+    """
+    items = _items_ordenados(items)
+    unidad_idx = None
+    for idx, item in enumerate(items):
+        if item.type == "SubHeader" and item.indent == 0 and item.title == nombre_unidad:
+            unidad_idx = idx
+            break
+
+    if unidad_idx is None:
+        return _ultima_posicion(items) + 1
+
+    for item in items[unidad_idx + 1:]:
+        if item.type == "SubHeader" and item.indent == 0:
+            return item.position
+
+        if item.type == "SubHeader" and item.indent == 1:
+            semana_actual = _extraer_numero_semana(item.title)
+            if semana_actual is not None and semana_actual > numero_semana:
+                return item.position
+
+    return _ultima_posicion(items) + 1
+
+
+def _posicion_insercion_unidad(items, nombre_unidad):
+    """
+    Calcula la posición Canvas (1-indexed) donde debe ir una unidad faltante.
+    """
+    items = _items_ordenados(items)
+    unidades_list = list(unidades.keys())
+    unidad_index = unidades_list.index(nombre_unidad)
+    unidades_posteriores = set(unidades_list[unidad_index + 1:])
+
+    for item in items:
+        if item.type == "SubHeader" and item.indent == 0 and item.title in unidades_posteriores:
+            return item.position
+
+    return _ultima_posicion(items) + 1
+
+
 def _reordenar_unidades(main_module, unidades_dict):
     """
     Reordena todas las unidades, semanas y archivos según la estructura base
@@ -365,7 +440,7 @@ def _reordenar_unidades(main_module, unidades_dict):
     estructura_base = _generar_estructura_base()
     
     # Obtener todos los items del módulo
-    items = list(main_module.get_module_items())
+    items = _items_ordenados(list(main_module.get_module_items()))
     
     if not items:
         print("  ℹ No hay items en el módulo")
@@ -412,17 +487,13 @@ def _reordenar_unidades(main_module, unidades_dict):
             # Verificar semanas de esta unidad
             for num_semana, semana_data in unidad_data['semanas'].items():
                 # Buscar la semana por cualquier versión del nombre
-                semana_str = f"{num_semana:02d}"
-                semana_patron_simple = f"Semana {semana_str}"  # "Semana 01", "Semana 02"
-                semana_patron_sin_cero = f"Semana {num_semana}"  # "Semana 1", "Semana 2"
                 semana_titulo_completo = semana_data['titulo']  # Nombre descriptivo completo
                 
                 item_semana = None
                 for key, item in items_mapa.items():
                     if key[0] == 'semana':
                         # Detectar si es esta semana con cualquier versión del nombre
-                        if (item.title.startswith(semana_patron_simple) or 
-                            item.title.startswith(semana_patron_sin_cero) or
+                        if (_titulo_corresponde_semana(item.title, num_semana) or
                             item.title == semana_titulo_completo):
                             item_semana = item
                             break
@@ -478,7 +549,7 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
         
     Ejemplo:
         Canvas_Key.subir_contenido(11)  # Sube "Semana 11 | np.polyfit"
-        Canvas_Key.subir_contenido(12)  # Sube "Semana 12 | scipy.optimize.curve_fit"
+        Canvas_Key.subir_contenido(12)  # Sube "Semana 12 | Estadística descriptiva"
     """
     if canvas is None:
         print("❌ Error: No hay conexión activa con Canvas")
@@ -560,7 +631,7 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     
     # Obtener todos los items actuales del módulo
     print("\n2. Analizando estructura actual del módulo...")
-    items = list(main_module.get_module_items())
+    items = _items_ordenados(list(main_module.get_module_items()))
     
     # Encontrar o crear la posición de la unidad
     unidad_item = None
@@ -569,74 +640,51 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     for idx, item in enumerate(items):
         if item.type == 'SubHeader' and item.title == nombre_unidad:
             unidad_item = item
-            unidad_position = idx
+            unidad_position = item.position
             print(f"  ✓ Unidad '{nombre_unidad}' encontrada en posición {unidad_position}")
             break
     
     # Si la unidad no existe, encontrar dónde debe insertarse
     if not unidad_item:
         print(f"  ⚠ Unidad '{nombre_unidad}' no existe. Determinando posición...")
-        
-        # Encontrar la posición correcta basada en el orden de unidades
-        unidades_list = list(unidades.keys())
-        unidad_index = unidades_list.index(nombre_unidad)
-        
-        # Buscar la última unidad anterior que ya existe
-        insert_position = 0
-        for prev_unidad in unidades_list[:unidad_index]:
-            for idx, item in enumerate(items):
-                if item.type == 'SubHeader' and item.title == prev_unidad:
-                    # Encontrar el final de esta unidad (siguiente unidad o final)
-                    next_unidad_pos = len(items)
-                    for j in range(idx + 1, len(items)):
-                        if items[j].type == 'SubHeader' and items[j].indent == 0:
-                            next_unidad_pos = j
-                            break
-                    insert_position = next_unidad_pos
+        insert_position = _posicion_insercion_unidad(items, nombre_unidad)
         
         # Crear la unidad en la posición correcta
         unidad_item = main_module.create_module_item(
             module_item={
                 'type': 'SubHeader',
                 'title': nombre_unidad,
-                'position': insert_position + 1,
+                'position': insert_position,
                 'published': not test_mode
             }
         )
-        print(f"  ✓ Unidad agregada en posición {insert_position + 1}")
+        print(f"  ✓ Unidad agregada en posición {insert_position}")
         
         # Actualizar la lista de items
-        items = list(main_module.get_module_items())
+        items = _items_ordenados(list(main_module.get_module_items()))
         unidad_position = insert_position
     
     # Procesar la semana con su nombre descriptivo
     print(f"\n3. Procesando '{semana_titulo}'...")
     
     # Verificar si la semana ya existe (cualquier versión) y eliminarla junto con sus archivos
-    items = list(main_module.get_module_items())
+    items = _items_ordenados(list(main_module.get_module_items()))
     items_to_delete = []
-    
-    # Patrón para detectar cualquier versión de esta semana:
-    # "Semana 01", "Semana 01 | algo", "Semana 1", etc.
-    semana_patron_simple = f"Semana {semana_str}"  # "Semana 01", "Semana 02", etc.
-    semana_patron_sin_cero = f"Semana {numero_semana}"  # "Semana 1", "Semana 2", etc.
     
     for idx, item in enumerate(items):
         # Verificar si es cualquier versión de esta semana
         if item.type == 'SubHeader' and item.indent == 1:
             # Detectar si el título comienza con "Semana XX" (con o sin ceros, con o sin descriptor)
-            if (item.title.startswith(semana_patron_simple) or 
-                item.title.startswith(semana_patron_sin_cero) or
-                item.title == semana_titulo):
+            if (_titulo_corresponde_semana(item.title, numero_semana) or item.title == semana_titulo):
                 print(f"  ⚠ '{item.title}' detectada. Eliminando versión anterior...")
                 items_to_delete.append(item)
                 
-                # Eliminar archivos asociados (los que tienen indent=2 después de esta semana)
+                # Eliminar archivos asociados (todo hijo con mayor indentación)
                 for j in range(idx + 1, len(items)):
-                    if items[j].indent == 2:
-                        items_to_delete.append(items[j])
-                    elif items[j].type == 'SubHeader':
+                    if items[j].type == 'SubHeader' and items[j].indent <= 1:
                         break
+                    if items[j].indent > 1:
+                        items_to_delete.append(items[j])
     
     # Eliminar items marcados para evitar duplicados
     if items_to_delete:
@@ -646,40 +694,12 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
             print(f"    ✓ Eliminado: {item.title}")
     
     # Actualizar lista de items después de eliminaciones
-    items = list(main_module.get_module_items())
+    items = _items_ordenados(list(main_module.get_module_items()))
     
     # Encontrar la posición correcta para insertar la semana
     # Debe estar después de la unidad y antes de la siguiente unidad o semana mayor
     print(f"  📍 Calculando posición correcta para '{semana_titulo}'...")
-    insert_position = len(items)  # Por defecto al final
-    
-    for idx, item in enumerate(items):
-        if item.type == 'SubHeader' and item.title == nombre_unidad:
-            # Buscar después de esta unidad
-            for j in range(idx + 1, len(items)):
-                current_item = items[j]
-                
-                # Si encontramos otra unidad (indent=0), insertar antes
-                if current_item.type == 'SubHeader' and current_item.indent == 0:
-                    insert_position = j
-                    break
-                
-                # Si encontramos una semana posterior, insertar antes
-                if current_item.type == 'SubHeader' and current_item.indent == 1:
-                    # Verificar que sea un título de semana (comienza con "Semana")
-                    if current_item.title.startswith('Semana'):
-                        try:
-                            current_semana_num = int(current_item.title.split()[-1])
-                            if current_semana_num > numero_semana:
-                                insert_position = j
-                                break
-                        except ValueError:
-                            # Si no se puede convertir a número, ignorar
-                            continue
-            else:
-                # No se encontró siguiente unidad ni semana mayor, insertar al final de esta unidad
-                insert_position = len(items)
-            break
+    insert_position = _posicion_insercion_semana(items, nombre_unidad, numero_semana)
     
     # Agregar título de la semana en la posición correcta
     main_module.create_module_item(
@@ -687,11 +707,11 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
             'type': 'SubHeader',
             'title': semana_titulo,
             'indent': 1,
-            'position': insert_position + 1,
+            'position': insert_position,
             'published': not test_mode
         }
     )
-    print(f"  ✓ '{semana_titulo}' agregada en posición {insert_position + 1}")
+    print(f"  ✓ '{semana_titulo}' agregada en posición {insert_position}")
     
     # Definir archivos a subir (P1 y P2)
     semana_dir = LECTURES_BASE_PATH / f"Semana{semana_str}"
@@ -729,14 +749,17 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
                     'content_id': file_id,
                     'title': file_name,
                     'indent': 2,
-                    'position': insert_position + 2 + uploaded_count,
+                    'position': insert_position + 1 + uploaded_count,
                     'published': not test_mode
                 }
             )
-            print(f"    ✓ Agregado al módulo en posición {insert_position + 2 + uploaded_count}")
+            print(f"    ✓ Agregado al módulo en posición {insert_position + 1 + uploaded_count}")
             uploaded_count += 1
         else:
             print(f"  ❌ Archivo no encontrado: {file_path}")
+
+    # Reordenar nuevamente para normalizar posiciones luego de borrar/agregar.
+    _reordenar_unidades(main_module, unidades)
     
     # Publicar el módulo si no es modo test
     if not test_mode:
@@ -756,6 +779,120 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     print("=" * 80)
     
     return main_module
+
+def eliminar_semana(numero_semana, course_id=None, test_mode=False):
+    """
+    Elimina de Canvas una semana completa dentro del módulo "Material del curso".
+
+    Borra:
+      - El subheader de la semana, por ejemplo "Semana 13" o "Semana 13 | ..."
+      - Los items hijos de la semana con indent mayor a 1
+      - Los archivos SemanaXX-P1.pdf y SemanaXX-P2.pdf desde Canvas Files
+
+    Args:
+        numero_semana: Número de semana a eliminar.
+        course_id: ID del curso en Canvas. Si es None, usa el usuario activo.
+        test_mode: Si es True, opera sobre "Material del curso TEST".
+
+    Returns:
+        Un diccionario con conteos de items y archivos eliminados, o None si falla.
+    """
+    if canvas is None:
+        print("❌ Error: No hay conexión activa con Canvas")
+        print("💡 Primero ejecuta: Canvas_Key.select_user('TuNombre')")
+        return None
+
+    if course_id is None:
+        if current_course_id is None:
+            print("❌ Error: No hay un course_id asignado al usuario")
+            print("💡 Especifica el course_id: Canvas_Key.eliminar_semana(13, course_id=123456)")
+            return None
+        course_id = current_course_id
+        print(f"📌 Usando course_id del usuario: {course_id}")
+
+    if numero_semana not in semanas_por_unidad:
+        print(f"❌ Error: La semana {numero_semana} no está definida en semanas_por_unidad")
+        print(f"💡 Semanas válidas: {list(semanas_por_unidad.keys())}")
+        return None
+
+    semana_str = f"{numero_semana:02d}"
+    pdf_names = {f"Semana{semana_str}-P1.pdf", f"Semana{semana_str}-P2.pdf"}
+
+    module_name = "Material del curso"
+    if test_mode:
+        module_name += " TEST"
+
+    course = canvas.get_course(course_id)
+
+    print("=" * 80)
+    print("🗑️ ELIMINANDO SEMANA DE CANVAS")
+    print(f"Curso ID: {course_id}")
+    print(f"Módulo: {module_name}")
+    print(f"Semana: {numero_semana}")
+    print("=" * 80)
+
+    main_module = None
+    for module in course.get_modules():
+        if module.name == module_name:
+            main_module = module
+            break
+
+    if not main_module:
+        print(f"❌ No se encontró el módulo '{module_name}'")
+        return None
+
+    print(f"  ✓ Módulo encontrado: {main_module.name} (ID: {main_module.id})")
+
+    items = _items_ordenados(list(main_module.get_module_items()))
+    items_to_delete = []
+
+    for idx, item in enumerate(items):
+        if item.type == "SubHeader" and item.indent == 1:
+            if _titulo_corresponde_semana(item.title, numero_semana):
+                print(f"  ⚠ Semana detectada: {item.title}")
+                items_to_delete.append(item)
+
+                for child in items[idx + 1:]:
+                    if child.type == "SubHeader" and child.indent <= 1:
+                        break
+                    if child.indent > 1:
+                        items_to_delete.append(child)
+
+    deleted_items = 0
+    if items_to_delete:
+        print(f"\n1. Eliminando {len(items_to_delete)} items del módulo...")
+        for item in items_to_delete:
+            item.delete()
+            deleted_items += 1
+            print(f"  ✓ Eliminado: {item.title}")
+    else:
+        print("\n1. No se encontraron items de módulo para esta semana.")
+
+    deleted_files = 0
+    print("\n2. Eliminando archivos previos en Canvas Files...")
+    for existing_file in course.get_files():
+        if existing_file.display_name in pdf_names:
+            existing_file.delete()
+            deleted_files += 1
+            print(f"  ✓ Archivo eliminado: {existing_file.display_name}")
+
+    if deleted_files == 0:
+        print("  ℹ No se encontraron archivos SemanaXX-P1/P2 en Canvas Files.")
+
+    _reordenar_unidades(main_module, unidades)
+
+    print("\n" + "=" * 80)
+    print("✅ ELIMINACIÓN COMPLETADA")
+    print(f"   Semana: {numero_semana}")
+    print(f"   Items eliminados: {deleted_items}")
+    print(f"   Archivos eliminados: {deleted_files}")
+    print("=" * 80)
+
+    return {
+        "module_id": main_module.id,
+        "deleted_items": deleted_items,
+        "deleted_files": deleted_files,
+    }
 
 def subir_syllabus(pdf_path, course_id=None, module_name="Material del curso", test_mode=False):
     """
@@ -2494,7 +2631,3 @@ def ver_modulos(course_id=None, mostrar_items=True):
     except Exception as e:
         print(f"❌ Error al obtener módulos: {e}")
         return None
-
-
-
-
