@@ -41,6 +41,7 @@ _*.minted
 __pycache__/
 *.pyc
 .DS_Store
+# Archivos temporales generados por \usepackage{comment}
 *.cut
 # Configuración local de Canvas
 lectures/Key.txt

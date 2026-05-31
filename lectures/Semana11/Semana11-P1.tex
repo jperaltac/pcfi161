@@ -1,737 +1,637 @@
 \documentclass[10pt]{beamer}
 
-% ------------------------------------------------------------------------
-% Carga de tu preámbulo personalizado (preamble.tex).
-% Asegúrate de tenerlo en la misma carpeta para que \input funcione.
-% ------------------------------------------------------------------------
 \input{../preamble.tex}
+\title[Semana 11 - P1]{Semana 11 - Sesión 1 (Sesión 21)\\Introducción a pandas y manejo de datos}
+\subtitle{Unidad V: Clases y análisis de datos}
+\graphicspath{{../Semana08/2) Pandas/}}
 
 \begin{document}
 
-% ------------------------------------------------------------------------
-% Portada de la Presentación
-% ------------------------------------------------------------------------
 \myfront{}
 
 % ------------------------------------------------------------------------
-% Slide 1: Título de la Sesión
+% Portada
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % \title{Semana 11 - Sesión 1 (Sesión 21): Ajuste de Datos y Modelado (Parte 1)}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de Contenidos
-% ------------------------------------------------------------------------
 \begin{frame}
   \frametitle{Resumen - Semana 11, Sesión 1 (Sesión 21)}
   \tableofcontents
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Configuración de bloques
-% ------------------------------------------------------------------------
 \metroset{block=fill}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión
+% SECCIÓN 1: Contexto
 % ----------------------------------------------------------------------------------------
-\section{Introducción y Repaso}
+\section{Contexto}
 
-% ------------------------------------------------------------------------
-% Slide: Contexto y metas
-% ------------------------------------------------------------------------
-\begin{frame}{Contexto y metas de la sesión}
+\begin{frame}{Borrón y cuenta nueva: Unidad V}
   \begin{itemize}
-    \item \textbf{Tema central:} Ajuste de datos y modelado con \texttt{NumPy} y \texttt{SciPy}.
-    \item \textbf{Objetivo:} Construir, paso a paso, una base sólida para ajustar datos experimentales y astronómicos.
-    \item \textbf{Hoy (P1):}
-      \begin{itemize}
-        \item Ajuste lineal con \texttt{np.polyfit}.
-        \item Ejemplos: Ley de Hubble, relación masa–luminosidad (transformación log–log).
-        \item Residuos y bondad de ajuste (\(\chi^2\) reducido).
-      \end{itemize}
-    \item \textbf{Prerequisitos suaves:} \texttt{numpy} (arrays, operaciones vectorizadas) y \texttt{matplotlib}.
+    \item El syllabus ubica después de la Semana 10 una etapa de consolidación y luego el inicio de la \textbf{Unidad V: Clases y análisis de datos}.
+    \item Por el ajuste de calendario, esta sesión retoma el contenido previsto para el bloque siguiente: \textbf{manejo de datos en Python con pandas}.
+    \item La idea es volver a revisar pandas desde la base, sin asumir dominio previo.
+    \item Esta P1 será una introducción ordenada; la P2 puede quedar como laboratorio aplicado.
   \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Recordatorio rápido de NumPy/Matplotlib
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Mini-repaso: arrays, ruido y gráficos}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Semilla reproducible
-rng = np.random.default_rng(42)
-
-# Datos sintéticos simples
-x = np.linspace(0, 10, 25)
-y_true = 2.5 * x + 5.0
-sigma = 2.0  # incertidumbre típica de medición
-y_obs = y_true + rng.normal(0, sigma, size=x.size)
-
-plt.scatter(x, y_obs, s=20)
-plt.xlabel('x'); plt.ylabel('y'); plt.grid(alpha=0.3)
-plt.title('Datos con ruido')
-plt.show()
-\end{minted}
-	\textbf{Idea:} simularemos escenarios físicos con ruido para practicar ajustes.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ajuste lineal con np.polyfit
-% ----------------------------------------------------------------------------------------
-\section{Ajuste lineal con \texttt{np.polyfit}}
-
-\begin{frame}{Fenómeno físico: relación lineal simple}
-  \begin{itemize}
-    \item \textbf{Escenarios típicos:} calibración sensor \(V=aT+b\), ley de Hooke en pequeñas deformaciones \(F=kx\), ley de Ohm \(V=RI\).
-    \item \textbf{¿Por qué una recta?} por \textit{aproximación lineal} (expansión de Taylor de primer orden) en un rango acotado.
-    \item \textbf{Qué medimos:} pares \((x\_i, y\_i)\) con incertidumbre en \(y\) y (a veces) en \(x\).
-    \item \textbf{Meta:} estimar parámetros físicos (pendiente e intercepto) y evaluar calidad del modelo.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{¿Qué es \texttt{np.polyfit}?}
-  \begin{block}{Definición}
-    \texttt{np.polyfit(x, y, deg)} ajusta un polinomio de grado \texttt{deg} a los datos \((x, y)\) minimizando la suma de los cuadrados de los residuos.
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Parámetros principales:}
-      \begin{itemize}
-        \item \texttt{x}: array de valores independientes
-        \item \texttt{y}: array de valores dependientes (observaciones)
-        \item \texttt{deg}: grado del polinomio (1 = lineal, 2 = cuadrático, etc.)
-      \end{itemize}
-    \item \textbf{Retorna:} coeficientes del polinomio en orden descendente
-    \item Para \texttt{deg=1}: retorna \([m, b]\) donde \(y = mx + b\)
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Recta por mínimos cuadrados con \texttt{np.polyfit}}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Supongamos y = m x + b + ruido
-m_est, b_est = np.polyfit(x, y_obs, deg=1) # deg (int) grado del polinomio a ajustar
-y_fit = m_est * x + b_est
-
-plt.scatter(x, y_obs, label='datos')
-plt.plot(x, y_fit, 'r', label=f'fit: y={m_est:.2f}x+{b_est:.2f}')
-plt.legend(); plt.grid(alpha=0.3); plt.show()
-
-print(f'Pendiente: m = {m_est:.3f}')
-print(f'Intercepto: b = {b_est:.3f}')
-\end{minted}
-	\textbf{Notas:} \texttt{np.polyfit} entrega coeficientes polinomiales por mínimos cuadrados.
-\end{frame}
-
-\begin{frame}{¿Qué hace este código? (paso a paso)}
-  \begin{itemize}
-    \item Genera datos \(x\) y una relación lineal \(y\_\text{true}=mx+b\) con ruido gaussiano (\(\sigma\)).
-    \item Aplica \texttt{np.polyfit} para obtener \(m,b\) que minimizan \(\sum r\_i^2\).
-    \item Grafica datos y la recta ajustada para inspección visual.
-  \end{itemize}
-  	\textbf{Por qué así:} es la forma estándar y eficiente de mínimos cuadrados en NumPy.
-\end{frame}
-
-\begin{frame}{¿Qué hace realmente \texttt{polyfit}? y supuestos}
-  \begin{itemize}
-    \item \textbf{Modelo:} asumimos una relación polinómica (aquí, recta) \(y\_i \approx m x\_i + b\).
-    \item \textbf{Objetivo:} encontrar \(m,b\) que \textit{minimicen la suma de cuadrados} de los residuos: \(\sum (y\_i - y\_\text{mod})^2\).
-    \item \textbf{Supuestos implícitos:}
-      \begin{itemize}
-        \item Errores en \(y\) son gaussianos, independientes y con varianza constante.
-        \item El modelo lineal es adecuado en el rango de datos.
-      \end{itemize}
-    \item \textbf{Física:} estos supuestos se aproximan cuando la incertidumbre experimental es similar para todos los puntos y el fenómeno es lineal en el rango.
-    \item \textbf{Resultado:} \texttt{polyfit} devuelve los coeficientes del polinomio que minimiza el error cuadrático medio.
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SUBSECCIÓN: Métricas de calidad del ajuste
-% ----------------------------------------------------------------------------------------
-
-\begin{frame}{Métricas de calidad del ajuste: ¿Qué tan bueno es nuestro modelo?}
-  \begin{block}{Pregunta fundamental}
-    Una vez que tenemos un ajuste, ¿cómo sabemos si es bueno?
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Inspección visual:} útil pero subjetiva
-    \item \textbf{Métricas cuantitativas:} nos dan números objetivos
-  \end{itemize}
-  
-  \begin{alertblock}{Tres métricas principales}
-    \begin{enumerate}
-      \item \textbf{Residuos} (\(r_i\)): diferencias punto a punto
-      \item \textbf{Coeficiente \(R^2\)}: fracción de varianza explicada
-      \item \textbf{\(\chi^2\) reducido}: consistencia con incertidumbres
-    \end{enumerate}
+  \begin{alertblock}{Meta de la sesión}
+    Leer, inspeccionar, limpiar, filtrar y resumir datos tabulares usando \texttt{pandas}.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Métrica 1: \\ Residuos (\(r_i\))}
-  \begin{block}{Definición}
-    El residuo es la diferencia entre el valor observado y el predicho por el modelo:
-    \[
-    r_i = y_{\text{obs},i} - y_{\text{modelo},i}
-    \]
-  \end{block}
-  
+\begin{frame}{Qué recuperamos de semanas anteriores}
   \begin{itemize}
-    \item \textbf{Interpretación física:}
-      \begin{itemize}
-        \item \(r_i > 0\): el modelo subestima la observación
-        \item \(r_i < 0\): el modelo sobreestima la observación
-        \item \(r_i \approx 0\): el modelo predice bien ese punto
-      \end{itemize}
-    \item \textbf{Análisis de residuos:}
-      \begin{itemize}
-        \item Patrón aleatorio \(\Rightarrow\) modelo adecuado
-        \item Patrón sistemático (curva, tendencia) \(\Rightarrow\) modelo inadecuado
-      \end{itemize}
-    \item \textbf{Ejemplo:} Si ajustamos una recta a datos que siguen una parábola, los residuos mostrarán una forma de "U".
+    \item \textbf{Semana 7:} apareció pandas como una introducción opcional para leer datos tabulares.
+    \item \textbf{Semana 8:} se trabajaron fundamentos: \texttt{Series}, \texttt{DataFrame}, selección, filtrado, \texttt{groupby} y datos faltantes.
+    \item \textbf{Semana 9:} se usó pandas como apoyo breve junto con Matplotlib avanzado.
+    \item \textbf{Ahora:} reorganizamos esos contenidos como una clase inicial coherente de análisis de datos.
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Métrica 1: \\ Cálculo de residuos}
+\begin{frame}{Objetivos de aprendizaje}
+  Al terminar la sesión, deberían poder:
+  \begin{itemize}
+    \item importar pandas con el alias estándar \texttt{pd};
+    \item crear una \texttt{Series} y un \texttt{DataFrame};
+    \item leer un archivo CSV con \texttt{pd.read\_csv};
+    \item inspeccionar una tabla con \texttt{head}, \texttt{shape}, \texttt{columns}, \texttt{info} y \texttt{describe};
+    \item seleccionar columnas y filas;
+    \item filtrar datos usando condiciones;
+    \item detectar y tratar valores faltantes;
+    \item resumir datos usando \texttt{groupby};
+    \item hacer visualizaciones rápidas y exportar resultados.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Fundamentos
+% ----------------------------------------------------------------------------------------
+\section{Fundamentos de pandas}
+
+\begin{frame}{¿Por qué pandas?}
+  \begin{itemize}
+    \item En física y astronomía muchas mediciones llegan como \textbf{tablas}: columnas, unidades, categorías y valores faltantes.
+    \item NumPy es excelente para arreglos numéricos homogéneos.
+    \item pandas agrega una capa tabular con nombres de columnas, índices y herramientas de análisis exploratorio.
+  \end{itemize}
+
+  \begin{block}{Idea central}
+    Un \texttt{DataFrame} es una tabla con columnas etiquetadas. Cada columna puede representar una variable física, observacional o experimental.
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Importar pandas}
 \begin{minted}{python}
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
-# Calcular residuos
-res = y_obs - y_fit
-
-# Estadísticas básicas de residuos
-print(f"Media de residuos: {np.mean(res):.6f}")  # debe ser ≈ 0
-print(f"Desviación estándar: {np.std(res):.3f}")
-print(f"Residuo máximo: {np.max(np.abs(res)):.3f}")
-
-# Gráfico de residuos vs x
-plt.figure(figsize=(10, 4))
-plt.subplot(1, 2, 1)
-plt.scatter(x, res, alpha=0.6)
-plt.axhline(0, color='r', linestyle='--')
-plt.xlabel('x'); plt.ylabel('Residuos'); plt.grid(alpha=0.3)
-plt.title('Residuos vs x')
-
-# Histograma de residuos
-plt.subplot(1, 2, 2)
-plt.hist(res, bins=10, alpha=0.7, edgecolor='black')
-plt.xlabel('Residuo'); plt.ylabel('Frecuencia')
-plt.title('Distribución de residuos'); plt.show()
 \end{minted}
-\end{frame}
 
-\begin{frame}{Métrica 2: \\ Coeficiente de determinación (\(R^2\))}
-  \begin{block}{Definición}
-    \(R^2\) mide la proporción de la varianza en \(y\) que es explicada por el modelo:
-    \[
-    R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}} = 1 - \frac{\sum (y_i - y_{\text{fit},i})^2}{\sum (y_i - \bar{y})^2}
-    \]
-  \end{block}
-  
   \begin{itemize}
-    \item \textbf{Componentes:}
-      \begin{itemize}
-        \item \(SS_{\text{res}}\): suma de cuadrados de residuos (error del modelo)
-        \item \(SS_{\text{tot}}\): varianza total de los datos
-        \item \(\bar{y}\): promedio de las observaciones
-      \end{itemize}
-    \item \textbf{Rango de valores:} \(0 \leq R^2 \leq 1\)
-      \begin{itemize}
-        \item \(R^2 = 1\): el modelo explica perfectamente los datos
-        \item \(R^2 = 0\): el modelo no explica nada (equivalente a usar \(\bar{y}\))
-        \item \(R^2 < 0\): el modelo es peor que usar el promedio (raro)
-      \end{itemize}
+    \item \texttt{pd} es el alias estándar de pandas.
+    \item \texttt{np} se mantiene para cálculos numéricos.
+    \item \texttt{plt} se usa para visualizar resultados.
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Métrica 2: \\ Cálculo de \(R^2\)}
+\begin{frame}[fragile]{Series: una columna con índice}
+\begin{columns}
+\begin{column}{0.52\textwidth}
 \begin{minted}{python}
-# Calcular componentes
-res = y_obs - y_fit
-SS_res = np.sum(res**2)  # Suma de cuadrados residual
-SS_tot = np.sum((y_obs - np.mean(y_obs))**2)  # Varianza total
+import pandas as pd
 
-# Calcular R^2
-R2 = 1 - SS_res / SS_tot
+s = pd.Series(
+    [1.5, 2.0, 0.8],
+    index=["objeto1", "objeto2", "objeto3"]
+)
 
-print(f"SS_res = {SS_res:.2f}")
-print(f"SS_tot = {SS_tot:.2f}")
-print(f"R² = {R2:.4f}")
-
-# Interpretación
-if R2 > 0.9:
-    print("Excelente ajuste: >90% de varianza explicada")
-elif R2 > 0.7:
-    print("Buen ajuste: >70% de varianza explicada")
-elif R2 > 0.5:
-    print("Ajuste moderado")
-else:
-    print("Ajuste pobre: considerar otro modelo")
+s
 \end{minted}
+\end{column}
+\begin{column}{0.44\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{s_index.png}
+  \end{figure}
+\end{column}
+\end{columns}
+\vspace{0.2cm}
+\textbf{Lectura:} una \texttt{Series} funciona como un vector, pero cada elemento puede tener una etiqueta.
 \end{frame}
 
-\begin{frame}{Métrica 2: \\ Interpretación de \(R^2\)}
-  \begin{itemize}
-    \item \textbf{Ventajas:}
-      \begin{itemize}
-        \item Fácil de interpretar (porcentaje de varianza explicada)
-        \item Sin unidades (adimensional)
-        \item Útil para comparar modelos en los mismos datos
-      \end{itemize}
-    \item \textbf{Limitaciones importantes:}
-      \begin{itemize}
-        \item NO indica si el modelo es apropiado físicamente
-        \item Siempre aumenta al agregar parámetros (sobreajuste)
-        \item NO usa las incertidumbres \(\sigma_i\) de las mediciones
-      \end{itemize}
-  \end{itemize}
-  
-  \begin{alertblock}{Advertencia física}
-    Un \(R^2\) alto NO garantiza que el modelo sea correcto. Ejemplo: ajustar una recta a datos que siguen una parábola puede dar \(R^2 > 0.9\) en un rango limitado, pero el modelo sigue siendo incorrecto.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Métrica 3: \\ \(\chi^2\) reducido}
-  \begin{block}{Definición}
-    El \(\chi^2\) reducido compara los residuos con las incertidumbres esperadas:
-    \[
-    \chi^2_{\text{red}} = \frac{1}{\nu} \sum_{i=1}^{N} \frac{(y_i - y_{\text{fit},i})^2}{\sigma_i^2}, \quad \nu = N - p
-    \]
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Componentes:}
-      \begin{itemize}
-        \item \(N\): número de puntos de datos
-        \item \(p\): número de parámetros ajustados (2 para recta: \(m, b\))
-        \item \(\nu\): grados de libertad = \(N - p\)
-        \item \(\sigma_i\): incertidumbre del punto \(i\)
-      \end{itemize}
-    \item \textbf{Diferencia clave con \(R^2\):} 
-      \begin{itemize}
-        \item \(\chi^2_{\text{red}}\) SÍ usa las incertidumbres \(\sigma_i\)
-        \item Responde: "¿son los residuos consistentes con \(\sigma_i\)?"
-      \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Métrica 3: \\ Interpretación de \(\chi^2\) reducido}
-  \begin{itemize}
-    \item \textbf{Valores típicos e interpretación:}
-      \begin{itemize}
-        \item \(\chi^2_{\text{red}} \approx 1\): \textcolor{green}{\textbf{Ideal}}. Los residuos son consistentes con las \(\sigma_i\) estimadas.
-        \item \(\chi^2_{\text{red}} \gg 1\): \textcolor{red}{\textbf{Problema}}. Los residuos son mayores que \(\sigma_i\). Posibles causas:
-          \begin{itemize}
-            \item Modelo inadecuado (falta física)
-            \item Incertidumbres \(\sigma_i\) subestimadas
-            \item Datos atípicos (outliers)
-          \end{itemize}
-        \item \(\chi^2_{\text{red}} \ll 1\): \textcolor{orange}{\textbf{Sospechoso}}. Los residuos son menores que \(\sigma_i\). Posibles causas:
-          \begin{itemize}
-            \item Incertidumbres \(\sigma_i\) sobrestimadas
-            \item Sobreajuste (demasiados parámetros)
-          \end{itemize}
-      \end{itemize}
-  \end{itemize}
-  
-  \begin{alertblock}{Regla práctica}
-    Para un buen ajuste: \(0.5 < \chi^2_{\text{red}} < 2.0\)
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}[fragile]{Métrica 3: \\ Cálculo de \(\chi^2\) reducido}
+\begin{frame}[fragile]{DataFrame: tabla bidimensional}
+\begin{columns}
+\begin{column}{0.50\textwidth}
 \begin{minted}{python}
-# Supongamos que todos los puntos tienen sigma = 2.0
-sigma = 2.0
+df = pd.DataFrame({
+    "masa": [1.5, 2.0, 0.8],
+    "velocidad": [10.5, 8.2, 15.3]
+})
 
-# Calcular chi^2
-res = y_obs - y_fit
-chi2 = np.sum((res / sigma)**2)
-
-# Grados de libertad
-N = len(y_obs)
-p = 2  # parámetros: m y b
-nu = N - p
-
-# Chi^2 reducido
-chi2_red = chi2 / nu
-
-print(f"N = {N} puntos")
-print(f"p = {p} parámetros")
-print(f"ν = {nu} grados de libertad")
-print(f"χ² = {chi2:.2f}")
-print(f"χ²_red = {chi2_red:.2f}")
-
-if 0.5 < chi2_red < 2.0:
-    print("✓ Ajuste consistente con incertidumbres")
-elif chi2_red > 2.0:
-    print("✗ Residuos mayores que esperado")
-else:
-    print("⚠ Residuos menores que esperado")
+df
 \end{minted}
+\end{column}
+\begin{column}{0.46\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{df.png}
+  \end{figure}
+\end{column}
+\end{columns}
+  \begin{itemize}
+    \item Cada columna tiene nombre.
+    \item Cada fila representa una observación u objeto.
+    \item pandas permite mezclar texto y números en una misma tabla.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Comparación de las tres métricas}
-  \begin{center}
-  \begin{tabular}{|l|c|c|c|}
-    \hline
-    \textbf{Aspecto} & \textbf{Residuos} & \textbf{\(R^2\)} & \textbf{\(\chi^2_{\text{red}}\)} \\
-    \hline
-    Usa \(\sigma_i\) & No & No & \textbf{Sí} \\
-    \hline
-    Detecta patrones & Sí & No & No \\
-    \hline
-    Valor objetivo & \(\approx 0\) & \(\approx 1\) & \(\approx 1\) \\
-    \hline
-    Comparar modelos & Difícil & Sí & Sí \\
-    \hline
-    Interpretación & Visual & \% varianza & Consistencia \\
-    \hline
-  \end{tabular}
-  \end{center}
-  
-  \vspace{0.3cm}
-  \begin{block}{Recomendación}
+\begin{frame}[fragile]{Crear columnas derivadas}
+\begin{minted}[fontsize=\scriptsize]{python}
+# Energía cinética:
+# Ec = 1/2 m v^2
+df["energia_cinetica"] = (
+    0.5 * df["masa"] *
+    df["velocidad"]**2
+)
+
+df
+\end{minted}
+\vspace{-0.15cm}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.86\linewidth]{df_energia_cinetica.png}
+\end{figure}
+\vspace{-0.2cm}
+\textbf{Punto clave:} las operaciones sobre columnas se aplican de forma vectorizada, parecido a NumPy.
+\end{frame}
+
+\begin{frame}[fragile]{Crear categorías a partir de cálculos}
+\begin{minted}[fontsize=\scriptsize]{python}
+df["categoria"] = pd.cut(
+    df["energia_cinetica"],
+    bins=[0, 70, 100],
+    labels=["Baja", "Alta"]
+)
+
+df
+\end{minted}
+\vspace{-0.2cm}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.88\linewidth]{df_categoria.png}
+\end{figure}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Lectura e inspección
+% ----------------------------------------------------------------------------------------
+\section{Lectura e inspección}
+
+\begin{frame}[fragile]{Leer un CSV}
+\begin{minted}{python}
+url = (
+    "https://raw.githubusercontent.com/"
+    "mwaskom/seaborn-data/master/planets.csv"
+)
+
+planets = pd.read_csv(url)
+
+print(planets.head())
+\end{minted}
+
+  \begin{itemize}
+    \item \texttt{pd.read\_csv} carga datos desde archivo local o URL.
+    \item \texttt{head()} muestra las primeras filas para revisar estructura.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Inspección inicial}
+\begin{minted}{python}
+print(planets.shape)
+print(planets.columns)
+
+planets.info()
+\end{minted}
+
+  \begin{block}{Preguntas que responde}
     \begin{itemize}
-      \item Use \textbf{residuos} para detectar problemas del modelo
-      \item Use \textbf{\(R^2\)} para comunicación general
-      \item Use \textbf{\(\chi^2_{\text{red}}\)} para validación estadística rigurosa
+      \item ¿Cuántas filas y columnas hay?
+      \item ¿Cómo se llaman las columnas?
+      \item ¿Qué tipos de datos aparecen?
+      \item ¿Hay columnas con valores faltantes?
     \end{itemize}
   \end{block}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SUBSECCIÓN: Ponderación por incertidumbres
-% ----------------------------------------------------------------------------------------
-
-\begin{frame}{Ponderación: \\ ¿Por qué pesar los datos?}
-  \begin{itemize}
-    \item \textbf{Problema:} No todas las mediciones son igual de confiables.
-    \item \textbf{Ejemplo físico:} 
-      \begin{itemize}
-        \item Medición 1: \(y_1 = 10.0 \pm 0.1\) (muy precisa)
-        \item Medición 2: \(y_2 = 10.5 \pm 2.0\) (menos precisa)
-      \end{itemize}
-    \item \textbf{Pregunta:} ¿Deberían ambas mediciones influir igual en el ajuste?
-    \item \textbf{Respuesta intuitiva:} NO. La medición más precisa debe "pesar más" en el resultado final.
-  \end{itemize}
-  
-  \begin{alertblock}{Principio físico}
-    Dar más importancia a las mediciones con menor incertidumbre es fundamental para obtener el mejor estimador de los parámetros.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Ponderación matemática: \(w_i = 1/\sigma_i\)}
-  \begin{block}{Fórmula de ponderación}
-    El peso de cada punto es inversamente proporcional a su incertidumbre:
-    \[
-    w_i = \frac{1}{\sigma_i}
-    \]
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Interpretación:}
-      \begin{itemize}
-        \item \(\sigma_i\) pequeño \(\Rightarrow\) \(w_i\) grande \(\Rightarrow\) más influencia
-        \item \(\sigma_i\) grande \(\Rightarrow\) \(w_i\) pequeño \(\Rightarrow\) menos influencia
-      \end{itemize}
-    \item \textbf{Minimización ponderada:}
-    \[
-    \chi^2 = \sum_{i=1}^{N} w_i^2 \left(y_i - (mx_i + b)\right)^2 = \sum_{i=1}^{N} \frac{(y_i - (mx_i + b))^2}{\sigma_i^2}
-    \]
-    \item Los puntos con \(\sigma\) pequeño contribuyen más al \(\chi^2\) total.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 1)}
-\textbf{Paso 1: Generar datos con incertidumbres variables}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Datos originales (del ejemplo anterior)
-rng = np.random.default_rng(42)
-x = np.linspace(0, 10, 25)
-y_true = 2.5 * x + 5.0
-
-# Crear incertidumbres variables para cada punto
-rng2 = np.random.default_rng(0)
-sigma_i = rng2.uniform(1.0, 3.0, size=x.size)  # σ entre 1 y 3
-
-# Generar observaciones con ruido proporcional a sigma_i
-y_obs = y_true + rng.normal(0, 1, size=x.size) * sigma_i
-
-print("Primeros 5 puntos:")
-for i in range(5):
-    print(f"x={x[i]:.1f}, y={y_obs[i]:.2f}, σ={sigma_i[i]:.2f}")
-\end{minted}
-\textbf{Resultado:} Cada punto tiene diferente nivel de incertidumbre.
-\end{frame}
-
-\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 2)}
-\textbf{Paso 2: Ajuste SIN ponderación}
-\begin{minted}{python}
-# Ajuste estándar: todos los puntos pesan igual
-m_sin, b_sin = np.polyfit(x, y_obs, deg=1)
-y_fit_sin = m_sin * x + b_sin
-
-print(f"\nAjuste SIN ponderación:")
-print(f"  Pendiente m = {m_sin:.3f} (real: 2.500)")
-print(f"  Intercepto b = {b_sin:.3f} (real: 5.000)")
-
-# Calcular chi^2 sin ponderar (asumiendo σ=1 para todos)
-res_sin = y_obs - y_fit_sin
-chi2_sin = np.sum(res_sin**2)
-print(f"  Suma de residuos² = {chi2_sin:.2f}")
-\end{minted}
-\textbf{Problema:} Puntos con alta incertidumbre afectan igual que los precisos.
-\end{frame}
-
-\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 3)}
-\textbf{Paso 3: Ajuste CON ponderación}
-\begin{minted}{python}
-# Calcular pesos: w = 1/σ
-w = 1.0 / sigma_i
-
-# Ajuste ponderado: puntos precisos pesan más
-m_con, b_con = np.polyfit(x, y_obs, deg=1, w=w)
-y_fit_con = m_con * x + b_con
-
-print(f"\nAjuste CON ponderación:")
-print(f"  Pendiente m = {m_con:.3f} (real: 2.500)")
-print(f"  Intercepto b = {b_con:.3f} (real: 5.000)")
-
-# Calcular chi^2 ponderado correctamente
-res_con = y_obs - y_fit_con
-chi2_con = np.sum((res_con / sigma_i)**2)
-print(f"  χ² ponderado = {chi2_con:.2f}")
-\end{minted}
-\textbf{Resultado:} Los parámetros se acercan más al valor real.
-\end{frame}
-
-\begin{frame}[fragile]{Comparación: Sin ponderación vs Con ponderación (Paso 4)}
-\textbf{Paso 4: Visualización comparativa}
+\begin{frame}[fragile]{Resumen estadístico}
 \begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.44\textwidth}
 \begin{minted}{python}
-plt.figure(figsize=(10, 6))
-# Graficar datos con barras de error
-plt.errorbar(x, y_obs, yerr=sigma_i, 
-             fmt='o', alpha=0.6, 
-             label='Datos', capsize=3)
-# Línea verdadera
-plt.plot(x, y_true, 'g--', lw=2, 
-         label='Modelo real')
-# Ajuste sin ponderación
-plt.plot(x, y_fit_sin, 'r-', lw=2, 
-         label=f'Sin pond: '
-               f'm={m_sin:.2f}, '
-               f'b={b_sin:.2f}')
+df.describe()
+
+df["energia_cinetica"].mean()
 \end{minted}
 \end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=15]{python}
-# Ajuste con ponderación
-plt.plot(x, y_fit_con, 'b-', lw=2, 
-         label=f'Con pond: '
-               f'm={m_con:.2f}, '
-               f'b={b_con:.2f}')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.legend()
-plt.grid(alpha=0.3)
-plt.title('Comparación de ajustes')
+\begin{column}{0.52\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{df_describe.png}
+  \end{figure}
+\end{column}
+\end{columns}
+
+  \begin{itemize}
+    \item \texttt{describe()} entrega conteo, media, desviación estándar, mínimos y cuartiles.
+    \item Es el primer diagnóstico numérico de una tabla.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Selección y filtrado
+% ----------------------------------------------------------------------------------------
+\section{Selección y filtrado}
+
+\begin{frame}[fragile]{Seleccionar columnas}
+\begin{columns}
+\begin{column}{0.44\textwidth}
+\begin{minted}{python}
+# Una columna
+df["masa"]
+
+# Varias columnas
+subset = df[["masa", "velocidad"]]
+
+subset
+\end{minted}
+\end{column}
+\begin{column}{0.52\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{df_subset.png}
+  \end{figure}
+\end{column}
+\end{columns}
+\vspace{0.1cm}
+\textbf{Regla práctica:} una columna se selecciona con un string; varias columnas con una lista de strings.
+\end{frame}
+
+\begin{frame}[fragile]{Seleccionar filas con \texttt{loc} e \texttt{iloc}}
+\begin{minted}{python}
+# Por posición
+print(planets.iloc[0])
+print(planets.iloc[0:5])
+
+# Por condición con loc
+transito = planets.loc[planets["method"] == "Transit"]
+
+print(transito.head())
+\end{minted}
+
+  \begin{itemize}
+    \item \texttt{iloc}: usa posiciones numéricas.
+    \item \texttt{loc}: usa etiquetas o condiciones lógicas.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Filtros simples}
+\begin{columns}
+\begin{column}{0.46\textwidth}
+\begin{minted}{python}
+# Filtrado con una condición
+altas_temp = df[
+    df["temperatura"] > 300
+]
+
+altas_temp
+\end{minted}
+\end{column}
+\begin{column}{0.50\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{df_altas_temp.png}
+  \end{figure}
+\end{column}
+\end{columns}
+\vspace{0.1cm}
+\textbf{Idea:} un filtro crea una máscara \texttt{True}/\texttt{False}; pandas conserva solo las filas verdaderas.
+\end{frame}
+
+\begin{frame}[fragile]{Filtros múltiples}
+\begin{minted}{python}
+mask = (
+    (planets["method"] == "Radial Velocity") &
+    (planets["mass"] > 1) &
+    (planets["distance"] < 100)
+)
+
+seleccion = planets.loc[
+    mask,
+    ["method", "orbital_period", "mass", "distance"]
+]
+
+print(seleccion.head())
+\end{minted}
+
+  \begin{itemize}
+    \item Use \texttt{\&} para condiciones simultáneas.
+    \item Cada condición debe ir entre paréntesis.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Datos faltantes
+% ----------------------------------------------------------------------------------------
+\section{Datos faltantes}
+
+\begin{frame}[fragile]{Detectar valores faltantes}
+\begin{columns}
+\begin{column}{0.44\textwidth}
+\begin{minted}{python}
+import numpy as np
+
+df.loc[[1, 3], "temperatura"] = np.nan
+
+df.isnull().sum()
+\end{minted}
+\end{column}
+\begin{column}{0.50\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.78\linewidth]{df_isnull.png}
+  \end{figure}
+\end{column}
+\end{columns}
+\vspace{0.1cm}
+\textbf{Por qué importa:} muchos datasets reales tienen mediciones incompletas; primero se identifica qué falta.
+\end{frame}
+
+\begin{frame}[fragile]{Eliminar filas incompletas}
+\begin{minted}[fontsize=\scriptsize]{python}
+df_dropped = df.dropna()
+
+df_dropped
+\end{minted}
+\vspace{-0.15cm}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.82\linewidth]{df_dropped.png}
+\end{figure}
+\vspace{-0.2cm}
+  \begin{itemize}
+    \item \texttt{dropna()} elimina filas con valores faltantes.
+    \item Se debe evaluar si conviene perder filas o usar otra estrategia.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Rellenar valores faltantes}
+\begin{minted}[fontsize=\scriptsize]{python}
+numeric_means = df.select_dtypes(
+    include=[np.number]
+).mean()
+
+df_filled = df.fillna(numeric_means)
+
+df_filled
+\end{minted}
+\vspace{-0.15cm}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.82\linewidth]{df_filled.png}
+\end{figure}
+\vspace{-0.2cm}
+\textbf{Cuidado:} rellenar con la media puede ser útil para práctica, pero no siempre es físicamente correcto.
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Agrupación y resumen
+% ----------------------------------------------------------------------------------------
+\section{Agrupación y resumen}
+
+\begin{frame}[fragile]{Agrupar con \texttt{groupby}}
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\begin{minted}{python}
+resumen = df.groupby("categoria")[
+    "temperatura"
+].mean()
+
+resumen
+\end{minted}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{df_temperatura.png}
+  \end{figure}
+\end{column}
+\end{columns}
+\vspace{0.1cm}
+\textbf{Interpretación:} \texttt{groupby} separa la tabla por categorías y aplica una operación a cada grupo.
+\end{frame}
+
+\begin{frame}[fragile]{Agrupar con varias estadísticas}
+\begin{minted}{python}
+resumen = df.groupby("categoria").agg({
+    "masa": ["mean", "min", "max"],
+    "velocidad": ["mean", "std"],
+    "temperatura": "mean"
+})
+
+resumen
+\end{minted}
+
+  \begin{itemize}
+    \item \texttt{count}: cantidad de datos no nulos.
+    \item \texttt{mean}: promedio.
+    \item \texttt{median}: mediana.
+    \item \texttt{max}: valor máximo.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ordenar resultados}
+\begin{minted}{python}
+conteos = df["categoria"].value_counts()
+print(conteos.head())
+
+categorias_comunes = conteos.sort_values(ascending=False)
+print(categorias_comunes.head())
+\end{minted}
+
+  \begin{block}{Uso típico}
+    Ordenar ayuda a identificar categorías dominantes, valores extremos o métodos más frecuentes.
+  \end{block}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 7: Visualización y exportación
+% ----------------------------------------------------------------------------------------
+\section{Visualización y exportación}
+
+\begin{frame}[fragile]{Histograma rápido}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{minted}{python}
+df["velocidad"].hist(bins=20)
+
+plt.title("Histograma de velocidades")
+plt.xlabel("Velocidad")
+plt.ylabel("Frecuencia")
 plt.show()
 \end{minted}
+\end{column}
+\begin{column}{0.51\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.88\linewidth]{df_histograma.png}
+  \end{figure}
+\end{column}
+\end{columns}
+  \begin{itemize}
+    \item pandas se integra directamente con Matplotlib.
+    \item Para gráficos más controlados, se puede usar \texttt{plt} explícitamente.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Scatter con Matplotlib}
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\begin{minted}{python}
+df.plot(
+    x="masa",
+    y="velocidad",
+    kind="scatter",
+    title="Masa vs Velocidad"
+)
+
+plt.show()
+\end{minted}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{df_masa_vs_velocidad_scatter.png}
+  \end{figure}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Interpretación física de la ponderación}
-  \begin{itemize}
-    \item \textbf{Efecto en parámetros:}
-      \begin{itemize}
-        \item El ajuste ponderado se "acerca" más a los puntos con \(\sigma\) pequeño
-        \item Se "aleja" de puntos con \(\sigma\) grande (menos confiables)
-      \end{itemize}
-    \item \textbf{Cuándo usar ponderación:}
-      \begin{itemize}
-        \item Mediciones con diferentes instrumentos o métodos
-        \item Datos tomados en diferentes condiciones
-        \item Combinación de observaciones históricas y modernas
-      \end{itemize}
-    \item \textbf{Advertencia importante:}
-      \begin{itemize}
-        \item Si las \(\sigma_i\) están mal estimadas, el ajuste será incorrecto
-        \item Es crucial conocer bien las incertidumbres experimentales
-      \end{itemize}
-  \end{itemize}
-  
-  \begin{alertblock}{Regla práctica}
-    Si todos los puntos tienen incertidumbre similar, la ponderación no cambia mucho el resultado.
-  \end{alertblock}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Ley de Hubble (lineal)
-% ----------------------------------------------------------------------------------------
-\section{Ejemplo: Ley de Hubble}
-
-\begin{frame}{Ley de Hubble: contexto físico y observacional}
-  \begin{itemize}
-    \item \textbf{Idea simple:} cuanto más \textbf{lejos} está una galaxia (\(d\)), más \textbf{rápido} se aleja (\(v\)). La relación es \(v = H_0\, d\).
-    \item \textbf{Interpretación geométrica:} el \textit{pendiente} de la recta es \(H_0\). Si la expansión fuera perfecta, el \textit{intercepto} sería 0.
-    \item \textbf{Régimen de validez local:} para \(z \ll 1\), \(v \approx c\,z\). Para \(z\) grandes se usa un modelo cosmológico completo.
-    \item \textbf{Cómo se mide:}
-      \begin{itemize}
-        \item \(v\): a partir del \textbf{corrimiento al rojo} \(z\) medido en espectros.
-        \item \(d\): con la \textbf{escalera de distancias} (cefeidas, supernovas Ia, etc.).
-      \end{itemize}
-    \item \textbf{Dispersión real:} las \textbf{velocidades peculiares} (\(\sim100{-}300\) km/s) añaden ruido, especialmente a distancias pequeñas.
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}
-  \begin{block}{Diccionario rápido (símbolos y unidades)}
-    \begin{itemize}
-      \item \(v\): velocidad de recesión, en km/s.
-      \item \(d\): distancia, en Mpc (1 Mpc \(\approx\) 3.26 millones de años luz).
-      \item \(H_0\): constante de Hubble, en km\,s\(^{-1}\)\,Mpc\(^{-1}\) (\(\sim 70\) en este ejemplo).
-      \item \(z\): corrimiento al rojo; si \(z\ll 1\), \(v \approx c\,z\) (\(c\): velocidad de la luz).
-      \item Intercepto: valor de \(v\) cuando \(d=0\); idealmente \(\approx 0\), pero puede verse afectado por sesgos/peculiares.
-    \end{itemize}
-  \end{block}
-  \begin{alertblock}{Ejemplo numérico}
-    Si \(H_0=70\) km\,s\(^{-1}\)\,Mpc\(^{-1}\) y \(d=100\) Mpc, entonces \(v\approx 7000\) km/s.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Supuestos, validez y fuentes de dispersión}
-  \begin{itemize}
-    \item \textbf{Supuestos:} el universo es \textit{más o menos igual} en todas partes (homogéneo e isótropo) y se expande de forma uniforme \textit{en promedio}.
-    \item \textbf{Unidades y tiempos:} \(H_0\) también puede escribirse en s\(^{-1}\). El \textit{tiempo de Hubble} \(t_H \approx 1/H_0\) da una escala de edad del universo.
-    \item En el ejemplo siguiente usaremos datos \textbf{sintéticos} para practicar el ajuste y recuperar \(H_0\).
-  \end{itemize}
-  \begin{block}{Traducción simple}
-    "Más lejos \(\Rightarrow\) más rápido". El \(H_0\) es cuántos km/s aumentan por cada Mpc de distancia.
-  \end{block}
-  \begin{alertblock}{Cuidado}
-    A distancias pequeñas los términos peculiares pueden dominar y hacer que el intercepto aparente no sea 0.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}[fragile]{Ley de Hubble: \(v = H_0\, d\)}
+\begin{frame}[fragile]{Exportar resultados}
 \begin{minted}{python}
-import numpy as np
+df_filled.to_csv("datos_limpios.csv", index=False)
+resumen.to_csv("resumen_por_categoria.csv")
+\end{minted}
+
+  \begin{block}{Para qué sirve}
+    Después de limpiar, filtrar o resumir datos, conviene guardar una versión reproducible del resultado.
+  \end{block}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 8: Ejercicio integrador
+% ----------------------------------------------------------------------------------------
+\section{Ejercicio integrador}
+
+\begin{frame}{Ejercicio guiado: exploración de exoplanetas}
+  Use el dataset \texttt{planets.csv} y realice:
+  \begin{enumerate}
+    \item Leer el CSV con \texttt{pd.read\_csv}.
+    \item Mostrar \texttt{head}, \texttt{shape}, \texttt{columns} e \texttt{info}.
+    \item Crear un DataFrame limpio usando columnas relevantes.
+    \item Filtrar planetas detectados por velocidad radial.
+    \item Calcular distancia promedio y masa promedio por método.
+    \item Graficar masa versus periodo orbital.
+    \item Exportar el subconjunto filtrado.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile,shrink=5]{Solución guiada: lectura, limpieza y filtro}
+\begin{minted}{python}
+import pandas as pd
 import matplotlib.pyplot as plt
-# Simular galaxias: velocidad vs distancia
-rng = np.random.default_rng(7)
-H0_true = 70.0  # km/s/Mpc
-d = np.linspace(0, 200, 30)  # Mpc
-v_true = H0_true * d
-sigma_v = 150.0  # km/s (dispersión peculiar)
-v_obs = v_true + rng.normal(0, sigma_v, size=d.size)
 
-# Graficar datos observados
-plt.scatter(d, v_obs, s=20)
-plt.xlabel('Distancia (Mpc)'); plt.ylabel('Velocidad (km/s)')
+url = (
+    "https://raw.githubusercontent.com/"
+    "mwaskom/seaborn-data/master/planets.csv"
+)
 
-# Ajustar H0 a los datos simulados
-H0_hat, v0_hat = np.polyfit(d, v_obs, 1)
-v_fit = H0_hat * d + v0_hat
-plt.plot(d, v_fit, 'r', label=f'fit: H0={H0_hat:.1f} km/s/Mpc')
+planets = pd.read_csv(url)
 
-print(f"H0 estimado = {H0_hat:.1f} km/s/Mpc, intercepto = {v0_hat:.1f} km/s")
+print(planets.head())
+print(planets.shape)
+print(planets.columns)
+planets.info()
+
+cols = ["method", "orbital_period", "mass", "distance", "year"]
+datos = planets[cols].dropna()
+
+rv = datos[datos["method"] == "Radial Velocity"]
+print(rv.head())
 \end{minted}
-	\textbf{Física:} a primer orden, la expansión se ve como una relación lineal entre \(v\) y \(d\).
 \end{frame}
 
-\begin{frame}{¿Qué hace este código de Hubble?}
-  \begin{itemize}
-    \item Simula distancias \(d\) y velocidades \(v\) con \(H\_0\) verdadero, agregando \textbf{dispersión peculiar} (ruido) \(\sigma\_v\).
-    \item Ajusta \(v=H\_0\,d + b\) para estimar \(H\_0\) e intercepto.
-    \item Muestra la recta resultante y reporta los parámetros.
-    \item Posteriormente calcula residuos y \(\chi^2\_\text{red}\) para evaluar consistencia con las \(\sigma\_v\).
-  \end{itemize}
-  	\textbf{Conexión física:} el pendiente es una medida de la expansión local del Universo.
-\end{frame}
-
-\begin{frame}[fragile]{Ley de Hubble: residuos y \(\chi^2\) reducido}
+\begin{frame}[fragile,shrink=5]{Solución guiada: resumen, gráfico y exportación}
 \begin{minted}{python}
-# Residuos y chi^2 reducido del ajuste lineal v = H0 d + b
-res = v_obs - v_fit
-chi2 = np.sum((res/sigma_v)**2)
-nu = d.size - 2  # parámetros: H0 y b
-chi2_red = chi2/nu
-print(f"chi2_red = {chi2_red:.2f}")
+resumen = datos.groupby("method").agg({
+    "distance": "mean",
+    "mass": "mean",
+    "orbital_period": "median"
+})
 
-# (Opcional) Inspección de residuos por distancia
-# for di, ri in zip(d, res):
-#     print(f"d={di:6.1f} Mpc, residuo={ri:7.1f} km/s")
+print(resumen)
+
+plt.figure(figsize=(7, 5))
+plt.scatter(rv["orbital_period"], rv["mass"], alpha=0.6)
+plt.xlabel("Periodo orbital [días]")
+plt.ylabel("Masa [M_J]")
+plt.title("Planetas detectados por velocidad radial")
+plt.grid(True, alpha=0.3)
+plt.show()
+
+rv.to_csv("planetas_velocidad_radial.csv", index=False)
 \end{minted}
-	\textbf{Lectura física:} residuos reflejan velocidades peculiares y errores en distancias;
-\(\chi^2_\mathrm{red}\approx 1\) sugiere incertidumbres realistas.
 \end{frame}
-
-\begin{frame}{Residuos en contexto físico}
-  \begin{itemize}
-    \item \textbf{Residuos} \(r\_i = v\_{\text{obs},i} - v\_{\text{fit},i}\): nos dicen cuánto se desvía cada galaxia de la recta de Hubble.
-    \item \textbf{Causas típicas:} velocidades peculiares (caídas al pozo de un cúmulo, interacciones), errores en distancias, selección de muestra.
-    \item \textbf{Patrones:} si los residuos muestran tendencia con \(d\), el modelo lineal podría ser insuficiente o las incertidumbres están mal estimadas.
-    \item \textbf{\(\chi^2\) reducido cercano a 1:} sugiere que las \(\sigma\) usadas reflejan bien la dispersión real.
-  \end{itemize}
-\end{frame}
-
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Cierre
+% Cierre
 % ----------------------------------------------------------------------------------------
 \section{Cierre}
 
-\begin{frame}{Resumen y próximos pasos}
+\begin{frame}{Errores comunes}
   \begin{itemize}
-    \item Vimos ajustes lineales con \texttt{np.polyfit}.
-    \item Métricas de calidad: Residuos, \(R^2\), y \(\chi^2_{\text{red}}\).
-    \item Ponderación por incertidumbres variables.
-    \item Ejemplo físico: Ley de Hubble con análisis completo.
-    \item Próxima sesión (P2): Práctica intensiva con ejercicios de ajustes lineales y análisis de datos.
+    \item Olvidar importar pandas como \texttt{pd}.
+    \item Usar \texttt{df[columna]} sin comillas: debe ser \texttt{df["columna"]}.
+    \item Combinar condiciones sin paréntesis.
+    \item Usar \texttt{and} en vez de \texttt{\&} para filtros de pandas.
+    \item Calcular promedios sin revisar valores faltantes.
+    \item Modificar una tabla sin guardar una copia cuando se quiere conservar el original.
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Recursos Adicionales
-% ------------------------------------------------------------------------
-\begin{frame}{Recursos Adicionales}
+\begin{frame}{Resumen de la sesión}
   \begin{itemize}
-    \item \href{https://numpy.org/doc/stable/reference/routines.polynomials.polyfit.html}{\textbf{NumPy polyfit}}
-    \item \href{https://matplotlib.org/stable/}{\textbf{Matplotlib}} para visualización
+    \item pandas permite trabajar con datos tabulares de forma eficiente.
+    \item \texttt{DataFrame} es la estructura central.
+    \item El flujo básico es:
+      \[
+      \text{leer} \rightarrow \text{inspeccionar} \rightarrow \text{limpiar} \rightarrow \text{filtrar} \rightarrow \text{resumir} \rightarrow \text{visualizar}
+      \]
+    \item La próxima sesión puede profundizar en ejercicios aplicados y análisis estadístico simple.
   \end{itemize}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Cierre de la Sesión
-% ------------------------------------------------------------------------
-\begin{frame}
-  \Huge{\centerline{¡Buen trabajo}}
-  \Huge{\centerline{hasta la próxima sesión!}}
-  \vspace{0.3cm}
-  \normalsize
+\begin{frame}{Preparación para la P2}
+  Practicar:
   \begin{itemize}
-    \item Practicar con datasets propios (p. ej., espectros, curvas de luz, relaciones escalares).
-    \item Traer dudas para profundizar en P2.
+    \item leer CSV locales y remotos;
+    \item revisar \texttt{head}, \texttt{info}, \texttt{describe};
+    \item seleccionar columnas;
+    \item filtrar filas;
+    \item limpiar datos faltantes;
+    \item usar \texttt{groupby};
+    \item hacer un histograma y un scatter;
+    \item guardar resultados con \texttt{to\_csv}.
   \end{itemize}
 \end{frame}
 
 \end{document}
-

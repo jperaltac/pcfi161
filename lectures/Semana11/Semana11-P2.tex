@@ -1,406 +1,570 @@
-﻿\documentclass[9pt]{beamer}
+\documentclass[10pt]{beamer}
 
-% ------------------------------------------------------------------------
-% Carga de tu preámbulo personalizado (preamble.tex).
-% Asegúrate de tenerlo en la misma carpeta para que \input funcione.
-% ------------------------------------------------------------------------
 \input{../preamble.tex}
+\title[Semana 11 - P2]{Semana 11 - Sesión 2 (Sesión 22)\\Ejercitación de pandas}
+\subtitle{Unidad V: práctica de manejo y análisis de datos}
 
 \begin{document}
 
-% ------------------------------------------------------------------------
-% Portada de la Presentación
-% ------------------------------------------------------------------------
 \myfront{}
 
 % ------------------------------------------------------------------------
-% Slide 1: Título de la Sesión
+% Portada
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % \title{Semana 11 - Sesión 2 (Sesión 22): Aplicación de Ajuste de Datos y Modelado}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de Contenidos
-% ------------------------------------------------------------------------
 \begin{frame}
   \frametitle{Resumen - Semana 11, Sesión 2 (Sesión 22)}
   \tableofcontents
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Configuración de bloques
-% ------------------------------------------------------------------------
 \metroset{block=fill}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión con la Sesión Anterior
+% SECCIÓN 1: Introducción
 % ----------------------------------------------------------------------------------------
-\section{Introducción y Conexión}
+\section{Introducción}
 
-\begin{frame}{Repaso de la Sesión Previa (P1)}
-  \begin{block}{Conceptos fundamentales que aprendimos}
-    \begin{itemize}
-      \item \textbf{Ajuste con \texttt{np.polyfit}}: ajuste de polinomios por mínimos cuadrados
-      \item \textbf{Métricas de calidad}: Residuos, \(R^2\), \(\chi^2_{\text{red}}\)
-      \item \textbf{Ponderación}: Uso de pesos \(w = 1/\sigma\)
-      \item \textbf{Ejemplo físico}: Ley de Hubble
-    \end{itemize}
-  \end{block}
-  
-  \begin{alertblock}{Objetivo de hoy (P2)}
-    Aplicar ajustes lineales con \texttt{np.polyfit} en problemas prácticos de física.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Estructura de la Sesión: Dos Ejercicios Prácticos}
-  \begin{center}
-  \textbf{Aplicación de ajustes lineales:}
-  \end{center}
-  
-  \begin{enumerate}
-    \item \textbf{Ejercicio 1}: Calibración de sensor de temperatura
-      \begin{itemize}
-        \item Ajuste lineal simple: \(V = aT + b\)
-        \item Cálculo de \(R^2\)
-      \end{itemize}
-    \item \textbf{Ejercicio 2}: Ley de Hubble con análisis completo
-      \begin{itemize}
-        \item Ajuste con ponderación
-        \item Cálculo de \(\chi^2_{\text{red}}\)
-        \item Gráficos de residuos
-      \end{itemize}
-  \end{enumerate}
-  
-  \vspace{0.3cm}
-  \textbf{Sesión práctica enfocada en dominar np.polyfit!}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ejercicios Prácticos
-% ----------------------------------------------------------------------------------------
-\section{Ejercicios Prácticos}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 1
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Calibración de sensor de temperatura}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Un sensor de temperatura mide voltaje \(V\) según \(V = aT + b\)
-      \item Simule 12 medidas en \(T = 0, 10, 20, ..., 110\)°C
-      \item Use \(a_{\text{real}} = 0.018\) V/°C, \(b_{\text{real}} = 0.15\) V
-      \item Agregue ruido gaussiano \(\sigma = 0.02\) V (constante)
-      \item \textbf{Tareas}:
-        \begin{enumerate}
-          \item Ajuste con \texttt{np.polyfit(T, V, 1)}
-          \item Calcule y reporte \(R^2\)
-          \item Grafique datos y recta ajustada
-          \item Compare \(a_{\text{est}}\) y \(b_{\text{est}}\) con valores reales
-        \end{enumerate}
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Ajuste lineal básico, \(R^2\)
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 2
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Ley de Hubble (análisis completo)}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Relación de Hubble: \(v = H_0 d + b\)
-      \item Simule 25 galaxias con \(d \in [10, 200]\) Mpc (espaciado uniforme)
-      \item Use \(H_0 = 70.0\) km/s/Mpc, \(b = 0\) km/s
-      \item Agregue ruido \(\sigma_v = 180\) km/s (velocidades peculiares)
-      \item \textbf{Tareas}:
-        \begin{enumerate}
-          \item Ajuste con ponderación: \texttt{np.polyfit(d, v, 1, w=1/sigma\_v)}
-          \item Calcule \(\chi^2_{\text{red}}\)
-          \item Grafique: (a) datos + ajuste con barras de error, (b) residuos vs distancia
-          \item Interprete: ¿es \(\chi^2_{\text{red}} \approx 1\)?
-        \end{enumerate}
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Ponderación, \(\chi^2_{\text{red}}\), residuos, aplicación cosmológica
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Soluciones de Referencia
-% ----------------------------------------------------------------------------------------
-\section{Soluciones de Referencia}
-
-% ------------------------------------------------------------------------
-% Solución 1
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Calibración de sensor}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Generar datos sintéticos
-np.random.seed(42)
-T = np.arange(0, 120, 10)
-a_true, b_true = 0.018, 0.15
-sigma = 0.02
-V = a_true*T + b_true + \
-    np.random.normal(0, sigma, 
-                     len(T))
-
-# Ajustar con polyfit
-a_est, b_est = np.polyfit(T, V, 1)
-V_fit = a_est*T + b_est
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-# Calcular R^2
-SS_res = np.sum((V - V_fit)**2)
-SS_tot = np.sum((V - np.mean(V))**2)
-R2 = 1 - SS_res/SS_tot
-
-# Graficar
-plt.scatter(T, V, label='Datos')
-plt.plot(T, V_fit, 'r', 
-         label=f'Ajuste: '
-         f'a={a_est:.4f}, '
-         f'b={b_est:.3f}')
-plt.xlabel('Temperatura (°C)')
-plt.ylabel('Voltaje (V)')
-plt.legend(); plt.grid()
-plt.show()
-
-print(f"a = {a_est:.4f} V/°C")
-print(f"b = {b_est:.3f} V")
-print(f"R² = {R2:.4f}")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 2
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Ley de Hubble (Parte 1: Ajuste)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Generar datos
-np.random.seed(10)
-H0_true, sigma_v = 70.0, 180.0
-d = np.linspace(10, 200, 25)
-v_obs = H0_true*d + \
-        np.random.normal(0, sigma_v,
-                        len(d))
-
-# Ajuste CON ponderación
-w = 1.0 / sigma_v
-H0_est, b_est = np.polyfit(
-    d, v_obs, 1, w=w)
-v_fit = H0_est*d + b_est
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=17]{python}
-# Calcular chi^2_red
-res = v_obs - v_fit
-chi2 = np.sum((res/sigma_v)**2)
-nu = len(d) - 2
-chi2_red = chi2/nu
-
-print(f"H₀ = {H0_est:.1f} "
-      f"km/s/Mpc")
-print(f"b = {b_est:.1f} km/s")
-print(f"χ²_red = {chi2_red:.2f}")
-
-# Interpretación
-if 0.5 < chi2_red < 2.0:
-    print("✓ Ajuste consistente")
-else:
-    print("⚠ Revisar modelo")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 2: Gráficos
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Ley de Hubble (Parte 2: Visualización)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-# Gráfico principal
-plt.figure(figsize=(10, 4))
-
-plt.subplot(1, 2, 1)
-plt.errorbar(d, v_obs, 
-             yerr=sigma_v,
-             fmt='o', capsize=3,
-             label='Galaxias')
-plt.plot(d, v_fit, 'r-',
-         label=f'H₀={H0_est:.1f}')
-plt.xlabel('Distancia (Mpc)')
-plt.ylabel('Velocidad (km/s)')
-plt.legend(); plt.grid()
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=13]{python}
-# Gráfico de residuos
-plt.subplot(1, 2, 2)
-plt.scatter(d, res, alpha=0.6)
-plt.axhline(0, color='r',
-            linestyle='--')
-plt.axhline(sigma_v, color='gray',
-            linestyle=':', 
-            label='±σ')
-plt.axhline(-sigma_v, 
-            color='gray',
-            linestyle=':')
-plt.xlabel('Distancia (Mpc)')
-plt.ylabel('Residuos (km/s)')
-plt.legend(); plt.grid()
-
-plt.tight_layout()
-plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Consolidación y Retroalimentación
-% ----------------------------------------------------------------------------------------
-\section{Consolidación y Retroalimentación}
-
-\begin{frame}{Puesta en Común - ¿Cómo les fue?}
-  \begin{block}{Reflexión sobre los ejercicios}
-    \begin{itemize}
-      \item ¿Lograron implementar \texttt{np.polyfit} correctamente?
-      \item ¿Cómo interpretaron el \(R^2\) y el \(\chi^2_{\text{red}}\)?
-      \item ¿Qué les pareció el uso de ponderación (parámetro \texttt{w})?
-      \item ¿Cómo interpretaron las barras de error y los residuos?
-    \end{itemize}
-  \end{block}
-  
-  \begin{alertblock}{Objetivo}
-    Desarrollar criterio físico-estadístico al evaluar ajustes lineales con incertidumbres.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Errores Comunes con \texttt{np.polyfit}}
-  \begin{block}{Errores frecuentes}
-    \begin{itemize}
-      \item \textbf{Olvidar el grado del polinomio}: \texttt{np.polyfit(x, y, 1)} para lineal
-      \item \textbf{No revisar el \(\chi^2_{\text{red}}\)}: \(R^2\) alto no garantiza consistencia con incertidumbres
-      \item \textbf{Ignorar el parámetro \texttt{w}}: Esencial cuando hay ponderación
-      \item \textbf{No graficar residuos}: Patrones sistemáticos indican modelo inadecuado
-    \end{itemize}
-  \end{block}
-  
-  \begin{alertblock}{Consejo}
-    \textbf{Workflow}: Visualizar datos → Ajustar con \texttt{np.polyfit} → Calcular \(R^2\) y \(\chi^2_{\text{red}}\) → Graficar residuos → Interpretar
-  \end{alertblock}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 6: Conclusiones
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones}
-
-\begin{frame}{Síntesis de la Sesión}
-  \begin{block}{Lo que aprendimos hoy}
-    \begin{itemize}
-      \item \textbf{Uso de \texttt{np.polyfit}:} Ajustes lineales y polinomiales
-      \item \textbf{Métricas de calidad:} Cálculo de \(R^2\) y \(\chi^2_{\text{red}}\)
-      \item \textbf{Ponderación:} Uso del parámetro \texttt{w} para incertidumbres
-      \item \textbf{Análisis de residuos:} Diagnóstico visual de la calidad del ajuste
-      \item \textbf{Aplicaciones físicas:} Calibración de sensores y Ley de Hubble
-    \end{itemize}
-  \end{block}
-  
-  \begin{alertblock}{Habilidad adquirida}
-    Realizar ajustes lineales rigurosos con \texttt{np.polyfit}, evaluando calidad mediante métricas estadísticas.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Recapitulación: Herramientas de Esta Sesión}
-  \begin{block}{Funciones clave de NumPy}
-    \begin{itemize}
-      \item \texttt{np.polyfit(x, y, deg, w=None)}: Ajuste polinomial (lineal cuando \texttt{deg=1})
-      \item \texttt{np.mean()}, \texttt{np.sum()}: Cálculo de estadísticas
-      \item \texttt{np.linspace()}, \texttt{np.arange()}: Generación de arrays
-      \item \texttt{matplotlib.pyplot}: Visualización de datos y residuos
-    \end{itemize}
-  \end{block}
-  
-  \begin{block}{Métricas implementadas}
-    \begin{itemize}
-      \item \(R^2\): Bondad de ajuste general (\(R^2 = 1 - SS_{\text{res}}/SS_{\text{tot}}\))
-      \item \(\chi^2_{\text{red}}\): Consistencia con incertidumbres (\(\chi^2_{\text{red}} = \chi^2/\nu\))
-      \item Residuos: \(r_i = y_i - \hat{y}_i\) para diagnóstico visual
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Preparación para la Próxima Unidad}
+\begin{frame}{Objetivo de la sesión}
   \begin{itemize}
-    \item \textbf{Próxima semana (Semana 12):} Ajustes no lineales con \texttt{curve\_fit}
-    \item \textbf{Recomendación de estudio:}
-      \begin{itemize}
-        \item Repasar \texttt{np.polyfit} y las métricas vistas hoy
-        \item Explorar documentación de \texttt{scipy.optimize.curve\_fit}
-        \item Revisar funciones no lineales comunes en física
-      \end{itemize}
-    \item \textbf{Práctica sugerida:}
-      \begin{itemize}
-        \item Repetir ejercicios con diferentes datasets
-        \item Experimentar con diferentes grados de polinomios
-      \end{itemize}
+    \item Esta P2 es una sesión de ejercitación basada en la P1.
+    \item Se reciclan ejercicios de Semana 8, pero reorganizados para reforzar la introducción a pandas.
+    \item El foco es practicar un flujo completo de análisis:
+      crear o leer datos, inspeccionar, filtrar, limpiar, agrupar y graficar.
   \end{itemize}
-  
-  \begin{center}
-    \textbf{¡Nos vemos en la próxima sesión!}
-  \end{center}
+  \begin{alertblock}{Meta práctica}
+    Que cada grupo termine con un DataFrame limpio, un resumen por categoría, un gráfico y un archivo CSV exportado.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Contenidos que se ejercitan}
+  \begin{itemize}
+    \item \texttt{pd.DataFrame}
+    \item \texttt{pd.read\_csv}
+    \item \texttt{head}, \texttt{tail}, \texttt{shape}, \texttt{columns}, \texttt{info}, \texttt{describe}
+    \item selección de columnas
+    \item filtros con máscaras booleanas
+    \item \texttt{isnull}, \texttt{dropna}, \texttt{fillna}
+    \item creación de columnas derivadas
+    \item \texttt{groupby}, \texttt{agg}, \texttt{value\_counts}
+    \item gráficos rápidos con pandas y Matplotlib
+    \item \texttt{to\_csv}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Dinámica sugerida}
+  \begin{itemize}
+    \item Trabajar en parejas o grupos pequeños.
+    \item Resolver primero sin mirar las soluciones.
+    \item Probar el código por bloques: lectura, inspección, limpieza, análisis, gráfico.
+    \item Comparar resultados con otro grupo antes de pasar al siguiente ejercicio.
+  \end{itemize}
+  \begin{block}{Regla de trabajo}
+    Antes de calcular o graficar, siempre inspeccionar el DataFrame.
+  \end{block}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% APÉNDICE: Recursos adicionales
+% SECCIÓN 2: Dataset local
 % ----------------------------------------------------------------------------------------
-%\appendix
-\section{Apéndice: Recursos Adicionales}
+\section{Catálogo de estrellas}
 
-\begin{frame}[fragile]{Extra: \texttt{np.polyfit} con errores estimados}
+\begin{frame}[fragile,shrink=8]{Dataset base: catálogo simple de estrellas}
 \begin{minted}{python}
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# Datos de ejemplo
-x = np.linspace(0, 10, 30)
-y_true = 2.0*x + 1.0
-y = y_true + np.random.normal(0, 0.5, len(x))
-
-# Ajuste
-m, b = np.polyfit(x, y, 1)
-
-# Calcular R^2 y métricas
-y_fit = m*x + b
-SS_res = np.sum((y - y_fit)**2)
-SS_tot = np.sum((y - np.mean(y))**2)
-R2 = 1 - SS_res/SS_tot
-
-print(f"m = {m:.2f}, b = {b:.2f}")
-print(f"R² = {R2:.4f}")
+df = pd.DataFrame({
+    "estrella": ["Sol", "Alpha Cen A", "Proxima Cen", "Sirius A",
+                 "Tau Ceti", "Vega", "Barnard", "61 Cyg A",
+                 "Altair", "Epsilon Eri"],
+    "temperatura_K": [5778, 5790, 3042, 9940, 5344, 9602,
+                      3134, 4450, 7550, 5084],
+    "radio_Rsol": [1.00, 1.22, 0.15, 1.71, 0.79, 2.36,
+                   0.20, 0.67, 1.63, 0.74],
+    "distancia_pc": [0.00, 1.34, 1.30, 2.64, 3.65, 7.68,
+                     1.83, 3.48, 5.13, 3.22],
+    "magnitud_V": [-26.7, 0.01, 11.13, -1.46, 3.50,
+                   0.03, 9.54, np.nan, 0.77, 3.73],
+    "categoria": ["Solar", "Solar", "Enana roja", "Caliente",
+                  "Solar", "Caliente", "Enana roja",
+                  "Enana naranja", "Caliente", "Enana naranja"]
+})
 \end{minted}
-\textbf{Nota:} Para ajustes más complejos y errores formales de parámetros, ver \texttt{curve\_fit} en Semana 12.
+\end{frame}
+
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Reconocer la tabla}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Muestre las primeras y últimas filas con \texttt{head()} y \texttt{tail()}.
+      \item Muestre los nombres de columnas con \texttt{df.columns}.
+      \item Reporte qué representa cada columna numérica y sus unidades.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} inspección inicial, lectura de columnas y unidades.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 1: reconocer la tabla}
+\begin{minted}{python}
+print(df.head())
+print(df.tail())
+print(df.columns.tolist())
+
+# Unidades:
+# temperatura_K  -> Kelvin
+# radio_Rsol     -> radios solares
+# distancia_pc   -> parsec
+# magnitud_V     -> magnitud visual
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Dimensiones, tipos y resumen}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Use \texttt{df.shape} para obtener dimensiones.
+      \item Use \texttt{df.info()} para revisar tipos y valores no nulos.
+      \item Use \texttt{df.describe()} para obtener estadísticas rápidas.
+      \item Separe columnas numéricas y no numéricas usando \texttt{select\_dtypes}.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} estructura del DataFrame y diagnóstico inicial.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 2: dimensiones, tipos y resumen}
+\begin{minted}{python}
+print("shape:", df.shape)
+print("="*40)
+df.info()
+print("="*40)
+print(df.describe())
+
+num_cols = df.select_dtypes(include="number").columns.tolist()
+non_num_cols = df.select_dtypes(exclude="number").columns.tolist()
+
+print("Columnas numéricas:", num_cols)
+print("Columnas no numéricas:", non_num_cols)
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Selección de columnas}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Cree un subconjunto con \texttt{estrella}, \texttt{temperatura\_K}, \texttt{distancia\_pc} y \texttt{categoria}.
+      \item Muestre las primeras filas del subconjunto.
+      \item Explique por qué conviene reducir columnas antes de analizar.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} selección de columnas y DataFrames derivados.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 3: selección de columnas}
+\begin{minted}{python}
+subset = df[[
+    "estrella",
+    "temperatura_K",
+    "distancia_pc",
+    "categoria"
+]]
+
+print(subset.head())
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Filtros simples y múltiples}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Filtre estrellas con \texttt{temperatura\_K > 5500}.
+      \item Filtre estrellas con \texttt{distancia\_pc < 4}.
+      \item Combine ambas condiciones y muestre \texttt{estrella}, \texttt{temperatura\_K}, \texttt{distancia\_pc}.
+      \item Cuente cuántas estrellas cumplen la condición combinada.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} máscaras booleanas, \texttt{\&}, conteo con \texttt{len()}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 4: filtros simples y múltiples}
+\begin{minted}{python}
+calientes = df[df["temperatura_K"] > 5500]
+cercanas = df[df["distancia_pc"] < 4]
+
+mask = (df["temperatura_K"] > 5500) & (df["distancia_pc"] < 4)
+calientes_cercanas = df.loc[
+    mask,
+    ["estrella", "temperatura_K", "distancia_pc"]
+]
+
+print(calientes_cercanas)
+print("Cantidad:", len(calientes_cercanas))
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Crear una columna física}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Cree una columna \texttt{luminosidad\_rel} usando:
+      \[
+      L_{\rm rel}=R^2\left(\frac{T}{5778}\right)^4
+      \]
+      \item Muestre \texttt{estrella}, \texttt{categoria} y \texttt{luminosidad\_rel}.
+      \item Ordene la tabla por luminosidad relativa de mayor a menor.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} columnas derivadas y \texttt{sort\_values}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 5: columna física}
+\begin{minted}{python}
+df["luminosidad_rel"] = (
+    df["radio_Rsol"]**2 *
+    (df["temperatura_K"] / 5778)**4
+)
+
+tabla_lum = df[["estrella", "categoria", "luminosidad_rel"]]
+print(tabla_lum)
+
+tabla_ordenada = tabla_lum.sort_values(
+    "luminosidad_rel",
+    ascending=False
+)
+print(tabla_ordenada)
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Datos faltantes}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Detecte valores faltantes con \texttt{df.isnull().sum()}.
+      \item Cree \texttt{df\_clean} eliminando filas con faltantes en \texttt{magnitud\_V}.
+      \item Cree \texttt{df\_filled} rellenando \texttt{magnitud\_V} con su promedio.
+      \item Compare cuántas filas hay en cada DataFrame.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} \texttt{dropna}, \texttt{fillna}, copias limpias.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 6: datos faltantes}
+\begin{minted}{python}
+print(df.isnull().sum())
+
+df_clean = df.dropna(subset=["magnitud_V"])
+
+mag_media = df["magnitud_V"].mean()
+df_filled = df.copy()
+df_filled["magnitud_V"] = df_filled["magnitud_V"].fillna(mag_media)
+
+print("Original:", len(df))
+print("Sin nulos:", len(df_clean))
+print("Rellenado:", len(df_filled))
+print(df_filled[["estrella", "magnitud_V"]])
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupación por categoría}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Agrupe por \texttt{categoria}.
+      \item Calcule media de \texttt{temperatura\_K}, \texttt{distancia\_pc} y \texttt{luminosidad\_rel}.
+      \item Calcule también cuántas estrellas hay en cada categoría.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} \texttt{groupby}, \texttt{agg}, conteos por grupo.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 7: agrupación por categoría}
+\begin{minted}{python}
+if "luminosidad_rel" not in df.columns:
+    df["luminosidad_rel"] = (
+        df["radio_Rsol"]**2 *
+        (df["temperatura_K"] / 5778)**4
+    )
+
+resumen = df.groupby("categoria").agg({
+    "estrella": "count",
+    "temperatura_K": "mean",
+    "distancia_pc": "mean",
+    "luminosidad_rel": "mean"
+})
+
+print(resumen)
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Visualización rápida}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Dibuje un histograma de \texttt{temperatura\_K}.
+      \item Dibuje un scatter de \texttt{distancia\_pc} versus \texttt{magnitud\_V}.
+      \item Use título, nombres de ejes y grilla.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} pandas plot, Matplotlib, gráficos exploratorios.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 8: visualización rápida}
+\begin{minted}{python}
+df["temperatura_K"].hist(bins=6)
+plt.title("Distribución de temperaturas")
+plt.xlabel("Temperatura [K]")
+plt.ylabel("Frecuencia")
+plt.grid(True, alpha=0.3)
+plt.show()
+
+plt.figure(figsize=(7, 5))
+plt.scatter(df_clean["distancia_pc"], df_clean["magnitud_V"])
+plt.xlabel("Distancia [pc]")
+plt.ylabel("Magnitud V")
+plt.title("Magnitud visual vs distancia")
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 9: \hfill \textcolor{red}{$\clubsuit$} \\ Exportación}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Exporte \texttt{df\_filled} como \texttt{catalogo\_estrellas\_limpio.csv}.
+      \item Exporte el resumen por categoría como \texttt{resumen\_estrellas.csv}.
+      \item Use \texttt{index=False} cuando no quiera guardar el índice.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} persistencia de resultados con \texttt{to\_csv}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 9: exportación}
+\begin{minted}{python}
+df_filled.to_csv(
+    "catalogo_estrellas_limpio.csv",
+    index=False
+)
+
+resumen.to_csv("resumen_estrellas.csv")
+\end{minted}
+
+\begin{block}{Comentario}
+  Guardar resultados permite reproducir el análisis y compartir una tabla limpia.
+\end{block}
+\end{frame}
+\end{solutionblock}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Dataset real
+% ----------------------------------------------------------------------------------------
+\section{CSV real de exoplanetas}
+
+\begin{frame}{Ejercicio 10: \hfill \textcolor{red}{$\clubsuit$} \\ Leer un CSV real}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Lea el dataset \texttt{planets.csv} desde la URL de Seaborn.
+      \item Muestre \texttt{head}, \texttt{shape}, \texttt{columns} e \texttt{info}.
+      \item Identifique columnas numéricas y columnas categóricas.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} \texttt{pd.read\_csv}, inspección de datos reales.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 10: leer un CSV real}
+\begin{minted}{python}
+url = (
+    "https://raw.githubusercontent.com/"
+    "mwaskom/seaborn-data/master/planets.csv"
+)
+
+planets = pd.read_csv(url)
+
+print(planets.head())
+print(planets.shape)
+print(planets.columns.tolist())
+planets.info()
+
+num_cols = planets.select_dtypes(include="number").columns.tolist()
+cat_cols = planets.select_dtypes(exclude="number").columns.tolist()
+print("Numéricas:", num_cols)
+print("Categóricas:", cat_cols)
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 11: \hfill \textcolor{red}{$\clubsuit$} \\ Limpieza y subconjunto}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Seleccione las columnas \texttt{method}, \texttt{orbital\_period}, \texttt{mass}, \texttt{distance}, \texttt{year}.
+      \item Elimine filas con valores faltantes en esas columnas.
+      \item Compare el número de filas antes y después.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} selección, \texttt{dropna(subset=...)}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 11: limpieza y subconjunto}
+\begin{minted}{python}
+cols = ["method", "orbital_period", "mass", "distance", "year"]
+
+planets_sub = planets[cols]
+planets_clean = planets_sub.dropna(subset=cols)
+
+print("Filas originales:", len(planets))
+print("Filas con columnas seleccionadas:", len(planets_sub))
+print("Filas limpias:", len(planets_clean))
+
+print(planets_clean.head())
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 12: \hfill \textcolor{red}{$\clubsuit$} \\ Filtro astronómico}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Filtre planetas detectados por \texttt{Radial Velocity}.
+      \item Dentro de ese grupo, conserve planetas con \texttt{mass > 1} y \texttt{distance < 100}.
+      \item Muestre \texttt{method}, \texttt{mass}, \texttt{distance}, \texttt{orbital\_period}.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} filtros múltiples y selección con \texttt{loc}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 12: filtro astronómico}
+\begin{minted}{python}
+mask = (
+    (planets_clean["method"] == "Radial Velocity") &
+    (planets_clean["mass"] > 1) &
+    (planets_clean["distance"] < 100)
+)
+
+rv_masivos = planets_clean.loc[
+    mask,
+    ["method", "mass", "distance", "orbital_period"]
+]
+
+print(rv_masivos.head())
+print("Cantidad:", len(rv_masivos))
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 13: \hfill \textcolor{red}{$\clubsuit$} \\ Resumen por método}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Agrupe \texttt{planets\_clean} por método de detección.
+      \item Calcule cantidad de planetas, distancia promedio, masa promedio y mediana del periodo orbital.
+      \item Ordene por cantidad de planetas de mayor a menor.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} \texttt{groupby}, \texttt{agg}, \texttt{sort\_values}.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 13: resumen por método}
+\begin{minted}{python}
+resumen_metodo = planets_clean.groupby("method").agg({
+    "year": "count",
+    "distance": "mean",
+    "mass": "mean",
+    "orbital_period": "median"
+})
+
+resumen_metodo = resumen_metodo.rename(columns={"year": "cantidad"})
+resumen_metodo = resumen_metodo.sort_values(
+    "cantidad",
+    ascending=False
+)
+
+print(resumen_metodo.head())
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 14: \hfill \textcolor{red}{$\clubsuit$} \\ Visualizar el dataset real}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Haga un histograma de \texttt{distance}.
+      \item Haga un scatter de \texttt{orbital\_period} versus \texttt{mass}.
+      \item Use los datos limpios.
+      \item Agregue título, etiquetas y grilla.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} visualización exploratoria con datos reales.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 14: visualizar el dataset real}
+\begin{minted}{python}
+planets_clean["distance"].hist(bins=30)
+plt.xlabel("Distancia [pc]")
+plt.ylabel("Frecuencia")
+plt.title("Distribución de distancias")
+plt.grid(True, alpha=0.3)
+plt.show()
+
+plt.figure(figsize=(7, 5))
+plt.scatter(
+    planets_clean["orbital_period"],
+    planets_clean["mass"],
+    alpha=0.5
+)
+plt.xlabel("Periodo orbital [días]")
+plt.ylabel("Masa [M_J]")
+plt.title("Masa vs periodo orbital")
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+% ----------------------------------------------------------------------------------------
+% Cierre
+% ----------------------------------------------------------------------------------------
+\section{Cierre}
+
+\begin{frame}{Puesta en común}
+  \begin{itemize}
+    \item ¿Qué comando fue más útil para entender la estructura del DataFrame?
+    \item ¿Qué diferencia práctica hubo entre \texttt{dropna} y \texttt{fillna}?
+    \item ¿Qué información entrega \texttt{groupby} que no se ve mirando fila por fila?
+    \item ¿Qué gráfico fue más informativo para el dataset real?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Errores comunes en pandas}
+  \begin{itemize}
+    \item Usar \texttt{and} en vez de \texttt{\&} para combinar filtros.
+    \item Olvidar paréntesis alrededor de cada condición.
+    \item Escribir \texttt{df[columna]} en vez de \texttt{df["columna"]}.
+    \item Calcular estadísticas sin revisar nulos.
+    \item Modificar el DataFrame original cuando convenía crear una copia.
+    \item Exportar con índice cuando no era necesario.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Síntesis de la sesión}
+  \begin{itemize}
+    \item Practicamos un flujo completo de análisis de datos con pandas.
+    \item Trabajamos con un DataFrame pequeño y con un CSV real.
+    \item Aplicamos inspección, selección, filtrado, limpieza, agrupación, gráficos y exportación.
+    \item Este flujo será la base para análisis estadístico con pandas, NumPy y Matplotlib.
+  \end{itemize}
 \end{frame}
 
 \end{document}
