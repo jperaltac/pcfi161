@@ -1,700 +1,413 @@
-\documentclass[9pt]{beamer}
+\documentclass[10pt]{beamer}
 
-% ------------------------------------------------------------------------
-% Carga de tu preámbulo personalizado (preamble.tex).
-% ------------------------------------------------------------------------
 \input{../preamble.tex}
+\title[Semana 12 - P2]{Semana 12 - Sesión 2 (Sesión 24)\\Laboratorio de análisis estadístico}
+\subtitle{Unidad V: práctica con pandas, NumPy y Matplotlib}
 
 \begin{document}
 
-% ------------------------------------------------------------------------
-% Portada de la Presentación
-% ------------------------------------------------------------------------
 \myfront{}
 
 % ------------------------------------------------------------------------
-% Slide 1: Título de la Sesión
+% Portada
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de Contenidos
-% ------------------------------------------------------------------------
 \begin{frame}
-  %\frametitle{Resumen - Semana 12, Sesión 2 (Sesión 24)}
+  \frametitle{Resumen - Semana 12, Sesión 2 (Sesión 24)}
   \tableofcontents
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Configuración de bloques
-% ------------------------------------------------------------------------
 \metroset{block=fill}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión
+% SECCIÓN 1: Introducción
 % ----------------------------------------------------------------------------------------
-\section{Introducción y Conexión}
+\section{Introducción}
 
-\begin{frame}{Repaso de la Sesión Previa (P1)}
-  \begin{block}{Conceptos fundamentales que dominamos}
-    \begin{itemize}
-      \item \textbf{`curve\_fit`}: Ajustar funciones arbitrarias (exponenciales, potencias, etc.)
-      \item \textbf{Matriz de covarianza}: Extracción automática de incertidumbres con `pcov`
-      \item \textbf{Ponderación con `sigma`}: Dar mayor peso a mediciones precisas
-      \item \textbf{Ejemplo físico}: Relación masa-luminosidad (log-log vs ajuste directo)
-    \end{itemize}
-  \end{block}
-  
-  \begin{alertblock}{Objetivo de hoy (P2)}
-    Consolidar `curve\_fit` aplicándolo a \textbf{4 problemas físicos reales} con diferentes modelos matemáticos.
+\begin{frame}{Objetivo de la sesión}
+  \begin{itemize}
+    \item Aplicar estadística descriptiva sobre un conjunto de datos tabular.
+    \item Practicar limpieza mínima antes de calcular estadísticas.
+    \item Comparar grupos usando \texttt{groupby}.
+    \item Construir gráficos que ayuden a interpretar los resultados.
+  \end{itemize}
+  \begin{alertblock}{Producto esperado}
+    Una tabla resumida, dos gráficos y tres conclusiones escritas a partir de los datos.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Objetivos de la Sesión P2}
+\begin{frame}{Contenidos que se ejercitan}
   \begin{itemize}
-    \item \textbf{Consolidar} el uso de `curve\_fit` en contextos variados
-    \item \textbf{Aplicar} modelos exponenciales, oscilatorios y saturación
-    \item \textbf{Desarrollar} habilidades para extraer e interpretar incertidumbres
-    \item \textbf{Integrar} visualización con barras de error y bandas de confianza
+    \item \texttt{pd.DataFrame}
+    \item \texttt{head}, \texttt{info}, \texttt{describe}, \texttt{isna}
+    \item \texttt{mean}, \texttt{median}, \texttt{std}, \texttt{quantile}
+    \item \texttt{dropna}, \texttt{fillna}
+    \item \texttt{groupby}, \texttt{agg}
+    \item histogramas, scatter y boxplot
+    \item interpretación de resultados
   \end{itemize}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ejercicios Prácticos Integrados
-% ----------------------------------------------------------------------------------------
-\section{Ejercicios Prácticos Integrados}
-
-\begin{frame}{Enfoque de la Sesión: Aplicación Práctica}
+\begin{frame}{Dinámica}
   \begin{itemize}
-    \item \textbf{Enfoque 100\% práctico}: Resolver 4 problemas con `curve\_fit`
-    \item \textbf{Integración de conceptos}: Combinar ajuste + incertidumbres + visualización
-    \item \textbf{Contextos físicos}: Decaimiento radiactivo, oscilaciones, crecimiento de poblaciones, ley de enfriamiento
+    \item Resolver cada ejercicio por bloques.
+    \item Verificar resultados intermedios antes de graficar.
+    \item Comparar interpretaciones entre grupos.
+    \item Dejar registro de decisiones de limpieza.
   \end{itemize}
-  
-  \begin{block}{Meta de la Sesión}
-    Lograr que cada estudiante se sienta cómodo eligiendo y ajustando el modelo físico apropiado para sus datos.
+  \begin{block}{Criterio}
+    Una respuesta numérica sin interpretación no cierra el análisis.
   \end{block}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 1 - Decaimiento Radiactivo
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Decaimiento Radiactivo de C-14}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Modelo: \(N(t) = N_0 e^{-\lambda t}\) donde \(\lambda = \ln(2)/T_{1/2}\)
-      \item Datos simulados: 15 mediciones de actividad (\(N\)) vs tiempo (\(t\)) en años
-      \item Valores reales: \(N_0 = 1000\) Bq, \(T_{1/2} = 5730\) años
-      \item Ruido Gaussiano: \(\sigma = 5\%\) de la señal
-      \item \textbf{Tareas}:
-        \begin{enumerate}
-          \item Defina función `exponencial_decay(t, N0, lambda_val)`
-          \item Use `curve\_fit` para ajustar los parámetros
-          \item Extraiga incertidumbres desde `pcov`
-          \item Grafique datos con barras de error + curva ajustada
-          \item Calcule \(T_{1/2}\) ajustado y compare con el real
-        \end{enumerate}
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Decaimiento exponencial, vida media
-  \\
-  \textbf{Física}: Datación por radiocarbono
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 2 - Oscilador Amortiguado
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Péndulo con Amortiguamiento}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Modelo: \(x(t) = A e^{-\gamma t} \cos(\omega t + \phi)\)
-      \item Parámetros reales: \(A = 10\) cm, \(\gamma = 0.1\) s\(^{-1}\), \(\omega = 2\pi\) rad/s, \(\phi = 0\)
-      \item Genere 50 puntos en \(t \in [0, 20]\) s con ruido \(\sigma = 0.3\) cm
-      \item \textbf{Tareas}:
-        \begin{enumerate}
-          \item Defina función `oscilador_amortiguado(t, A, gamma, omega, phi)`
-          \item Ajuste con `curve\_fit` usando `p0=[8, 0.05, 6, 0]` (valores iniciales)
-          \item Calcule periodo \(T = 2\pi/\omega\) y tiempo de decaimiento \(\tau = 1/\gamma\)
-          \item Grafique con banda de incertidumbre (use `fill_between`)
-          \item Reporte parámetros con formato: \(A = X \pm \sigma_A\)
-        \end{enumerate}
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Oscilaciones amortiguadas, valores iniciales
-  \\
-  \textbf{Aplicación}: Análisis de sistemas mecánicos disipativos
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 3 - Saturación Logística
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Crecimiento de Población Estelar}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Modelo logístico: \(N(t) = \frac{K}{1 + e^{-r(t - t_0)}}\)
-      \item Contexto: Formación estelar en un cúmulo con capacidad limitada
-      \item Parámetros reales: \(K = 500\) estrellas, \(r = 0.3\) Myr\(^{-1}\), \(t_0 = 5\) Myr
-      \item Genere 25 mediciones en \(t \in [0, 20]\) Myr con ruido \(\sigma = 10\) estrellas
-      \item \textbf{Tareas}:
-        \begin{enumerate}
-          \item Defina función `logistica(t, K, r, t0)`
-          \item Ajuste con `curve\_fit` (use `p0=[400, 0.2, 4]`)
-          \item Extraiga incertidumbres y calcule intervalos del 68\% de confianza
-          \item Grafique datos + curva ajustada + zona de confianza
-          \item Interprete: ¿A qué tiempo se alcanza el 90\% de la capacidad?
-        \end{enumerate}
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Crecimiento saturado, asíntotas
-  \\
-  \textbf{Física}: Formación estelar en entornos densos
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 4 - Ley de Enfriamiento de Newton
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Enfriamiento de Enana Blanca}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Modelo: \(T(t) = T_{\text{amb}} + (T_0 - T_{\text{amb}}) e^{-kt}\)
-      \item Parámetros reales: \(T_0 = 25000\) K, \(T_{\text{amb}} = 2.7\) K (CMB), \(k = 0.05\) Gyr\(^{-1}\)
-      \item Genere 20 mediciones en \(t \in [0, 50]\) Gyr con ruido \(\sigma = 200\) K
-      \item \textbf{Tareas}:
-        \begin{enumerate}
-          \item Defina función `enfriamiento(t, T_amb, T0, k)`
-          \item Ajuste con `curve\_fit` y extraiga incertidumbres
-          \item Calcule tiempo de semi-enfriamiento: \(t_{1/2} = \frac{\ln 2}{k}\)
-          \item Grafique en escala semi-log (\texttt{plt.semilogy})
-          \item Compare ajuste con valores reales usando \(\chi^2_{\text{red}}\)
-        \end{enumerate}
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Enfriamiento exponencial, escalas temporales largas
-  \\
-  \textbf{Aplicación}: Evolución térmica de objetos compactos
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Soluciones de Referencia
+% SECCIÓN 2: Dataset base
 % ----------------------------------------------------------------------------------------
-\section{Soluciones de Referencia}
+\section{Dataset}
 
-\begin{frame}{Introducción a las Soluciones}
-  \begin{block}{Estructura común de todas las soluciones}
-    \begin{enumerate}
-      \item Definir función del modelo físico
-      \item Generar datos simulados con ruido realista
-      \item Ajustar con `curve\_fit` y proporcionar `p0` si es necesario
-      \item Extraer parámetros óptimos y sus incertidumbres
-      \item Visualizar datos + ajuste + bandas de confianza
-      \item Calcular magnitudes físicas derivadas
-    \end{enumerate}
-  \end{block}
-  
-  \textbf{Estas soluciones son plantillas reutilizables para análisis de datos reales.}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 1: Decaimiento Radiactivo
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Decaimiento Radiactivo}
-\begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{frame}[fragile,shrink=6]{Dataset base: observaciones astronómicas}
 \begin{minted}{python}
-from scipy.optimize import curve_fit
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
-# Modelo de decaimiento exponencial
-def exponencial_decay(t, N0, lambda_val):
-    return N0 * np.exp(-lambda_val * t)
-
-# Parámetros reales
-T_half_real = 5730  # años
-lambda_real = np.log(2) / T_half_real
-N0_real = 1000  # Bq
-
-# Generar datos
-np.random.seed(42)
-t = np.linspace(0, 15000, 15)
-N_real = exponencial_decay(t, N0_real, lambda_real)
-sigma_N = 0.05 * N_real  # 5% de ruido
-N_obs = N_real + np.random.normal(0, sigma_N)
+df = pd.DataFrame({
+    "objeto": ["Sol", "Alpha Cen A", "Proxima Cen", "Sirius A",
+               "Tau Ceti", "Vega", "Barnard", "61 Cyg A",
+               "Altair", "Epsilon Eri", "Betelgeuse", "Rigel"],
+    "tipo": ["Solar", "Solar", "Enana roja", "Caliente",
+             "Solar", "Caliente", "Enana roja", "Enana naranja",
+             "Caliente", "Enana naranja", "Gigante", "Gigante"],
+    "temperatura_K": [5778, 5790, 3042, 9940, 5344, 9602,
+                      3134, 4450, 7550, 5084, 3500, 12100],
+    "radio_Rsol": [1.00, 1.22, 0.15, 1.71, 0.79, 2.36,
+                   0.20, 0.67, 1.63, 0.74, 764.0, 78.9],
+    "distancia_pc": [0.00, 1.34, 1.30, 2.64, 3.65, 7.68,
+                     1.83, 3.48, 5.13, np.nan, 168.0, 264.0],
+    "magnitud_V": [-26.7, 0.01, 11.13, -1.46, 3.50, 0.03,
+                   9.54, np.nan, 0.77, 3.73, 0.42, 0.13]
+})
 \end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=18]{python}
-# Ajustar con curve_fit
-popt, pcov = curve_fit(
-    exponencial_decay, t, N_obs, 
-    sigma=sigma_N, absolute_sigma=True
-)
-N0_fit, lambda_fit = popt
-perr = np.sqrt(np.diag(pcov))
-
-# Calcular T_1/2 ajustado
-T_half_fit = np.log(2) / lambda_fit
-sigma_T_half = T_half_fit * (perr[1]/lambda_fit)
-
-print(f"N0 = {N0_fit:.1f} ± {perr[0]:.1f} Bq")
-print(f"T_1/2 = {T_half_fit:.0f} ± {sigma_T_half:.0f} años")
-print(f"Real: {T_half_real} años")
-print(f"Error relativo: {abs(T_half_fit-T_half_real)/T_half_real*100:.1f}%")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 1 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Visualización}
-\begin{minted}{python}
-# Graficar resultados
-t_fit = np.linspace(0, 15000, 200)
-N_fit = exponencial_decay(t_fit, *popt)
-
-plt.figure(figsize=(10, 6))
-plt.errorbar(t, N_obs, yerr=sigma_N, fmt='o', capsize=3, 
-             label='Mediciones', alpha=0.7)
-plt.plot(t_fit, N_fit, 'r-', lw=2, 
-         label=f'Ajuste: T₁/₂={T_half_fit:.0f}±{sigma_T_half:.0f} años')
-plt.axhline(N0_real/2, color='gray', linestyle='--', alpha=0.5, 
-            label=f'N₀/2 (t={T_half_real} años)')
-plt.xlabel('Tiempo (años)')
-plt.ylabel('Actividad N (Bq)')
-plt.title('Decaimiento Radiactivo de C-14')
-plt.legend()
-plt.grid(alpha=0.3)
-plt.show()
-\end{minted}
-\textbf{Discusión}: La incertidumbre en \(\lambda\) se propaga a \(T_{1/2}\) mediante \(\sigma_{T_{1/2}} = T_{1/2} \cdot (\sigma_\lambda / \lambda)\).
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 2: Oscilador Amortiguado
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Oscilador Amortiguado}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-# Modelo oscilador amortiguado
-def oscilador(t, A, gamma, omega, phi):
-    return A * np.exp(-gamma*t) * np.cos(omega*t + phi)
-
-# Parámetros reales
-A_real, gamma_real = 10, 0.1  # cm, s^-1
-omega_real, phi_real = 2*np.pi, 0  # rad/s
-
-# Generar datos
-np.random.seed(42)
-t = np.linspace(0, 20, 50)
-x_real = oscilador(t, A_real, gamma_real, omega_real, phi_real)
-sigma_x = np.full_like(x_real, 0.3)  # 0.3 cm
-x_obs = x_real + np.random.normal(0, sigma_x)
-
-# Ajustar (necesitamos valores iniciales)
-p0 = [8, 0.05, 6, 0]  # estimaciones
-popt, pcov = curve_fit(
-    oscilador, t, x_obs, p0=p0,
-    sigma=sigma_x, absolute_sigma=True
-)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=20]{python}
-A_fit, gamma_fit, omega_fit, phi_fit = popt
-perr = np.sqrt(np.diag(pcov))
-
-# Magnitudes derivadas
-T_periodo = 2*np.pi / omega_fit
-tau_decay = 1 / gamma_fit
-
-print(f"Amplitud A = {A_fit:.2f} ± {perr[0]:.2f} cm")
-print(f"Amortiguamiento γ = {gamma_fit:.3f} ± {perr[1]:.3f} s⁻¹")
-print(f"Frecuencia ω = {omega_fit:.2f} ± {perr[2]:.2f} rad/s")
-print(f"Fase φ = {phi_fit:.2f} ± {perr[3]:.2f} rad")
-print(f"\nPeriodo T = {T_periodo:.2f} s")
-print(f"Tiempo de decaimiento τ = {tau_decay:.1f} s")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 2 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Banda de Confianza}
-\begin{minted}{python}
-# Graficar con banda de confianza
-t_fit = np.linspace(0, 20, 300)
-x_fit = oscilador(t_fit, *popt)
-
-# Banda de confianza (simplificada: ±1 sigma en amplitud)
-x_upper = oscilador(t_fit, A_fit+perr[0], gamma_fit, omega_fit, phi_fit)
-x_lower = oscilador(t_fit, A_fit-perr[0], gamma_fit, omega_fit, phi_fit)
-
-plt.figure(figsize=(12, 6))
-plt.errorbar(t, x_obs, yerr=sigma_x, fmt='o', capsize=2, 
-             label='Mediciones', alpha=0.6)
-plt.plot(t_fit, x_fit, 'r-', lw=2, label='Ajuste')
-plt.fill_between(t_fit, x_lower, x_upper, color='red', alpha=0.2, 
-                 label='Banda ±1σ')
-plt.xlabel('Tiempo (s)')
-plt.ylabel('Posición x (cm)')
-plt.title('Oscilador Amortiguado')
-plt.legend()
-plt.grid(alpha=0.3)
-plt.show()
-\end{minted}
-\textbf{Nota}: Para banda completa, propagar todas las incertidumbres con Monte Carlo.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 3: Crecimiento Logístico
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Crecimiento Logístico}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-# Modelo logístico
-def logistica(t, K, r, t0):
-    return K / (1 + np.exp(-r*(t - t0)))
-
-# Parámetros reales
-K_real, r_real, t0_real = 500, 0.3, 5  # estrellas, Myr^-1, Myr
-
-# Generar datos
-np.random.seed(42)
-t = np.linspace(0, 20, 25)
-N_real = logistica(t, K_real, r_real, t0_real)
-sigma_N = np.full_like(N_real, 10)  # 10 estrellas
-N_obs = N_real + np.random.normal(0, sigma_N)
-
-# Ajustar
-p0 = [400, 0.2, 4]
-popt, pcov = curve_fit(
-    logistica, t, N_obs, p0=p0,
-    sigma=sigma_N, absolute_sigma=True
-)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=18]{python}
-K_fit, r_fit, t0_fit = popt
-perr = np.sqrt(np.diag(pcov))
-
-print(f"Capacidad K = {K_fit:.0f} ± {perr[0]:.0f} estrellas")
-print(f"Tasa r = {r_fit:.3f} ± {perr[1]:.3f} Myr⁻¹")
-print(f"Punto medio t₀ = {t0_fit:.1f} ± {perr[2]:.1f} Myr")
-
-# Tiempo al 90% de K
-def t_90(K, r, t0):
-    return t0 + np.log(9) / r  # de 0.9K = K/(1+exp(-r(t-t0)))
-
-t_90_val = t_90(K_fit, r_fit, t0_fit)
-print(f"\nTiempo al 90% de K: {t_90_val:.1f} Myr")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 3 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Visualización}
-\begin{minted}{python}
-# Graficar
-t_fit = np.linspace(0, 20, 200)
-N_fit = logistica(t_fit, *popt)
-
-plt.figure(figsize=(10, 6))
-plt.errorbar(t, N_obs, yerr=sigma_N, fmt='o', capsize=3, 
-             label='Observaciones', alpha=0.7)
-plt.plot(t_fit, N_fit, 'r-', lw=2, label='Ajuste logístico')
-plt.axhline(K_fit, color='gray', linestyle='--', alpha=0.5, label=f'K={K_fit:.0f}')
-plt.axhline(0.9*K_fit, color='orange', linestyle=':', alpha=0.5, label='90% de K')
-plt.axvline(t_90_val, color='orange', linestyle=':', alpha=0.5)
-plt.xlabel('Tiempo (Myr)')
-plt.ylabel('Número de Estrellas N')
-plt.title('Formación Estelar en Cúmulo')
-plt.legend()
-plt.grid(alpha=0.3)
-plt.show()
-\end{minted}
-\textbf{Interpretación}: El modelo captura bien la saturación de la formación estelar debido a agotamiento de gas.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 4: Ley de Enfriamiento
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Ley de Enfriamiento}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-# Modelo de enfriamiento
-def enfriamiento(t, T_amb, T0, k):
-    return T_amb + (T0 - T_amb) * np.exp(-k*t)
-
-# Parámetros reales
-T0_real, T_amb_real = 25000, 2.7  # K
-k_real = 0.05  # Gyr^-1
-
-# Generar datos
-np.random.seed(42)
-t = np.linspace(0, 50, 20)
-T_real = enfriamiento(t, T_amb_real, T0_real, k_real)
-sigma_T = np.full_like(T_real, 200)  # 200 K
-T_obs = T_real + np.random.normal(0, sigma_T)
-
-# Ajustar
-popt, pcov = curve_fit(
-    enfriamiento, t, T_obs,
-    sigma=sigma_T, absolute_sigma=True
-)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=18]{python}
-T_amb_fit, T0_fit, k_fit = popt
-perr = np.sqrt(np.diag(pcov))
-
-# Tiempo de semi-enfriamiento
-t_half = np.log(2) / k_fit
-sigma_t_half = t_half * (perr[2]/k_fit)
-
-print(f"T_amb = {T_amb_fit:.1f} ± {perr[0]:.1f} K")
-print(f"T₀ = {T0_fit:.0f} ± {perr[1]:.0f} K")
-print(f"k = {k_fit:.4f} ± {perr[2]:.4f} Gyr⁻¹")
-print(f"\nt_1/2 = {t_half:.1f} ± {sigma_t_half:.1f} Gyr")
-
-# Calcular chi^2 reducido
-residuos = T_obs - enfriamiento(t, *popt)
-chi2_red = np.sum((residuos/sigma_T)**2) / (len(t) - 3)
-print(f"χ²_red = {chi2_red:.2f}")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 4 (cont.): \hfill \textcolor{green}{$\checkmark$} \\ Gráfico Semi-Log}
-\begin{minted}{python}
-# Graficar en escala semi-log
-t_fit = np.linspace(0, 50, 200)
-T_fit = enfriamiento(t_fit, *popt)
-
-plt.figure(figsize=(10, 6))
-plt.errorbar(t, T_obs, yerr=sigma_T, fmt='o', capsize=3, 
-             label='Mediciones', alpha=0.7)
-plt.plot(t_fit, T_fit, 'r-', lw=2, 
-         label=f'Ajuste: t₁/₂={t_half:.1f}±{sigma_t_half:.1f} Gyr')
-plt.axhline(T_amb_real, color='blue', linestyle='--', alpha=0.5, 
-            label=f'T_CMB = {T_amb_real} K')
-plt.yscale('log')
-plt.xlabel('Tiempo (Gyr)')
-plt.ylabel('Temperatura (K) [escala log]')
-plt.title('Enfriamiento de Enana Blanca')
-plt.legend()
-plt.grid(alpha=0.3, which='both')
-plt.show()
-\end{minted}
-\textbf{Nota}: \(\chi^2_{\text{red}} \approx 1\) indica buen ajuste; \(>2\) sugiere modelo inadecuado o errores subestimados.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Análisis Comparativo
-% ------------------------------------------------------------------------
-\begin{frame}{Análisis de las Soluciones}
-  \begin{block}{Estructuras y conceptos integrados}
-    \textbf{Todos los ejercicios comparten:}
-    \begin{itemize}
-      \item Definición de función del modelo físico
-      \item Generación de datos simulados con ruido Gaussiano
-      \item Uso de `curve\_fit` con ponderación por `sigma`
-      \item Extracción de incertidumbres desde `pcov`
-      \item Cálculo de magnitudes físicas derivadas
-      \item Visualización con barras de error
-    \end{itemize}
-  \end{block}
-  
-  \begin{alertblock}{Diferencias clave}
-    \begin{itemize}
-      \item \textbf{Ejercicio 2 y 3}: Requieren valores iniciales `p0` (modelos no lineales complejos)
-      \item \textbf{Ejercicio 4}: Uso de escala logarítmica para visualizar decaimientos largos
-      \item \textbf{Ejercicio 1}: Propagación de errores explícita (\(T_{1/2}\) desde \(\lambda\))
-    \end{itemize}
-  \end{alertblock}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Consolidación y Retroalimentación
+% SECCIÓN 3: Inspección
 % ----------------------------------------------------------------------------------------
-\section{Consolidación y Retroalimentación}
+\section{Inspección}
 
-\begin{frame}{Puesta en Común - ¿Cómo les fue?}
-  \begin{block}{Reflexión sobre los ejercicios}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Reconocer el dataset}
+  \begin{block}{Enunciado}
     \begin{itemize}
-      \item ¿Qué modelo resultó más difícil de ajustar? ¿Por qué?
-      \item ¿Encontraron problemas con valores iniciales en oscilador/logística?
-      \item ¿Cómo interpretaron las incertidumbres en el contexto físico?
-      \item ¿Lograron calcular magnitudes derivadas (T_{1/2}, periodo, etc.)?
+      \item Muestre las primeras filas.
+      \item Revise dimensiones y nombres de columnas.
+      \item Use \texttt{info()} para identificar tipos de datos y valores no nulos.
+      \item Identifique qué columnas son numéricas y cuáles son categóricas.
     \end{itemize}
   \end{block}
-  
-  \begin{alertblock}{Objetivo}
-    Desarrollar intuición para elegir modelos apropiados y validar ajustes con métricas como \(\chi^2_{\text{red}}\).
-  \end{alertblock}
+  \textbf{Conceptos:} inspección, tipos de datos, estructura de DataFrame.
 \end{frame}
 
-\begin{frame}{Errores Comunes con \texttt{curve\_fit}}
-  \begin{block}{Errores frecuentes}
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 1: reconocer el dataset}
+\begin{minted}{python}
+print(df.head())
+print(df.shape)
+print(df.columns.tolist())
+df.info()
+
+numericas = df.select_dtypes(include=[np.number]).columns
+categoricas = df.select_dtypes(exclude=[np.number]).columns
+
+print("Numéricas:", numericas.tolist())
+print("Categóricas:", categoricas.tolist())
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Valores faltantes}
+  \begin{block}{Enunciado}
     \begin{itemize}
-      \item \textbf{Olvidar valores iniciales `p0`}: Modelos no lineales necesitan buenas estimaciones
-      \item \textbf{No usar `absolute\_sigma=True`}: Las incertidumbres quedan en escala relativa
-      \item \textbf{Extrapolar fuera del rango de datos}: `curve\_fit` ajusta, no predice
-      \item \textbf{Ignorar $(\chi^2_{\text{red}})$}: Un valor lejano de 1 indica problemas
-      \item \textbf{No propagar errores correctamente}: Usar fórmulas de propagación para magnitudes derivadas
+      \item Calcule cuántos valores faltantes tiene cada columna.
+      \item Cree un DataFrame sin filas incompletas para \texttt{distancia\_pc} y \texttt{magnitud\_V}.
+      \item Reporte cuántas filas se conservan.
     \end{itemize}
   \end{block}
-  
-  \begin{alertblock}{Consejo}
-    \textbf{Siempre visualiza residuos}: `plt.plot(t, T\_obs - T\_fit)` revela patrones sistemáticos.
-  \end{alertblock}
+  \textbf{Conceptos:} \texttt{isna}, \texttt{dropna}, limpieza mínima.
 \end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 2: valores faltantes}
+\begin{minted}{python}
+print(df.isna().sum())
+
+df_limpio = df.dropna(
+    subset=["distancia_pc", "magnitud_V"]
+)
+
+print(df.shape)
+print(df_limpio.shape)
+\end{minted}
+\end{frame}
+\end{solutionblock}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Conclusiones
+% SECCIÓN 4: Resumen estadístico
 % ----------------------------------------------------------------------------------------
-\section{Conclusiones}
+\section{Resumen estadístico}
 
-\begin{frame}{Síntesis de la Sesión}
-  \begin{block}{Técnicas consolidadas hoy}
-    \textbf{Ajuste con `curve\_fit`:}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Estadística descriptiva}
+  \begin{block}{Enunciado}
+    Para la columna \texttt{temperatura\_K}, calcule:
     \begin{itemize}
-      \item Decaimiento exponencial (radiactividad)
-      \item Oscilaciones amortiguadas (sistemas disipativos)
-      \item Crecimiento saturado (poblaciones)
-      \item Enfriamiento (ley de Newton)
-    \end{itemize}
-    
-    \textbf{Habilidades desarrolladas:}
-    \begin{itemize}
-      \item Extracción e interpretación de incertidumbres
-      \item Propagación de errores a magnitudes derivadas
-      \item Visualización con bandas de confianza
-      \item Validación con $(\chi^2_{\text{red}})$
+      \item media;
+      \item mediana;
+      \item desviación estándar;
+      \item mínimo y máximo;
+      \item cuartiles 25\%, 50\% y 75\%.
     \end{itemize}
   \end{block}
-  
-  \begin{alertblock}{Habilidad adquirida}
-    Ajustar modelos físicos arbitrarios a datos reales con evaluación rigurosa de incertidumbres.
-  \end{alertblock}
+  \textbf{Conceptos:} tendencia central, dispersión y cuantiles.
 \end{frame}
 
-\begin{frame}{Recapitulación: Workflow Completo}
-  \begin{block}{Pasos estándar para análisis con `curve\_fit`}
-    \begin{enumerate}
-      \item \textbf{Definir} función del modelo físico
-      \item \textbf{Estimar} valores iniciales `p0` (si es necesario)
-      \item \textbf{Ajustar} con `curve\_fit` y `sigma`
-      \item \textbf{Extraer} parámetros y `pcov`
-      \item \textbf{Calcular} incertidumbres con `np.sqrt(np.diag(pcov))`
-      \item \textbf{Derivar} magnitudes físicas con propagación de errores
-      \item \textbf{Validar} con $(\chi^2_{\text{red}})$ y gráficos de residuos
-      \item \textbf{Visualizar} datos + ajuste + banda de confianza
-    \end{enumerate}
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 3: estadística descriptiva}
+\begin{minted}{python}
+temp = df["temperatura_K"]
+
+resumen_temp = pd.Series({
+    "media": temp.mean(),
+    "mediana": temp.median(),
+    "desviacion": temp.std(),
+    "minimo": temp.min(),
+    "maximo": temp.max()
+})
+
+print(resumen_temp)
+print(temp.quantile([0.25, 0.50, 0.75]))
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Resumen automático}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Use \texttt{describe()} sobre todo el DataFrame.
+      \item Use \texttt{describe()} solo sobre columnas numéricas.
+      \item Identifique una variable con alta dispersión.
+    \end{itemize}
   \end{block}
-  
-  \textbf{Este workflow es aplicable a cualquier problema de ajuste en física/astronomía.}
+  \textbf{Conceptos:} resumen global, selección de columnas numéricas.
 \end{frame}
 
-\begin{frame}{Preparación para la Próxima Unidad}
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 4: resumen automático}
+\begin{minted}{python}
+print(df.describe())
+
+numericas = df.select_dtypes(include=[np.number])
+print(numericas.describe())
+
+# Una alta dispersión se detecta comparando std
+# con mean o revisando rangos min-max.
+print(numericas.std())
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Comparación por grupos
+% ----------------------------------------------------------------------------------------
+\section{Comparación por grupos}
+
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Agrupar por tipo}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Agrupe el DataFrame por \texttt{tipo}.
+      \item Calcule promedio y mediana de \texttt{temperatura\_K}.
+      \item Calcule promedio y desviación estándar de \texttt{radio\_Rsol}.
+      \item Ordene el resumen por temperatura promedio.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} \texttt{groupby}, \texttt{agg}, comparación entre categorías.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 5: agrupar por tipo}
+\begin{minted}{python}
+resumen_tipo = df.groupby("tipo").agg({
+    "temperatura_K": ["mean", "median"],
+    "radio_Rsol": ["mean", "std"],
+    "objeto": "count"
+})
+
+resumen_tipo = resumen_tipo.sort_values(
+    ("temperatura_K", "mean")
+)
+
+print(resumen_tipo)
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Categoría dominante}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Use \texttt{value\_counts()} para contar objetos por tipo.
+      \item Identifique qué tipo tiene más observaciones.
+      \item Explique por qué el tamaño de grupo importa al comparar promedios.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} frecuencia, tamaño muestral, interpretación.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 6: categoría dominante}
+\begin{minted}{python}
+conteo = df["tipo"].value_counts()
+
+print(conteo)
+print("Tipo más frecuente:", conteo.index[0])
+\end{minted}
+
   \begin{itemize}
-    \item \textbf{Próxima semana}: Técnicas avanzadas (interpolación, bootstrapping, selección de modelos)
-    \item \textbf{Recomendación de estudio:}
-      \begin{itemize}
-        \item Practicar con datasets propios (Kaggle, repositorios astronómicos)
-        \item Explorar `lmfit` (alternativa a `curve\_fit` con más funcionalidades)
-      \end{itemize}
-    \item \textbf{Práctica sugerida:}
-      \begin{itemize}
-        \item Aplicar `curve\_fit` a curvas de luz reales (TESS, Kepler)
-        \item Experimentar con modelos físicos de su área de interés
-      \end{itemize}
+    \item Un grupo con pocos datos puede tener un promedio poco representativo.
+    \item Conviene reportar el conteo junto al promedio.
   \end{itemize}
-  
-  \begin{center}
-    \textbf{¡Excelente trabajo consolidando `curve\_fit`!}
-  \end{center}
 \end{frame}
+\end{solutionblock}
 
 % ----------------------------------------------------------------------------------------
-% APÉNDICE: Extras
+% SECCIÓN 6: Visualización
 % ----------------------------------------------------------------------------------------
-\section{Apéndice: Ver también}
+\section{Visualización}
 
-\begin{frame}[fragile]{Extra: Propagación de Errores con Covarianza Completa}
-\begin{minted}{python}
-# Ejemplo: Si z = f(a, b) con incertidumbres correlacionadas
-# Usar fórmula general de propagación:
-# σ_z² = (∂f/∂a)² σ_a² + (∂f/∂b)² σ_b² + 2(∂f/∂a)(∂f/∂b)cov(a,b)
-
-# Para T_1/2 = ln(2) / lambda:
-def prop_error_T_half(lambda_fit, pcov_lambda):
-    deriv = -np.log(2) / lambda_fit**2
-    var_T = deriv**2 * pcov_lambda
-    return np.sqrt(var_T)
-
-# pcov[1,1] es la varianza de lambda
-sigma_T_half = prop_error_T_half(lambda_fit, pcov[1,1])
-\end{minted}
-\textbf{Nota}: Para funciones de múltiples variables, usar la matriz completa `pcov`.
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Histograma}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Grafique un histograma de \texttt{temperatura\_K}.
+      \item Pruebe dos valores distintos de \texttt{bins}.
+      \item Describa si la distribución parece concentrada o dispersa.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} distribución, frecuencia, bins.
 \end{frame}
 
-\begin{frame}[fragile]{Extra: Validación Cruzada para Valores Iniciales}
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 7: histograma}
 \begin{minted}{python}
-# Si no sabes qué p0 usar, prueba múltiples:
-from scipy.optimize import curve_fit
+df["temperatura_K"].hist(
+    bins=6,
+    edgecolor="black"
+)
 
-p0_candidates = [
-    [8, 0.05, 6, 0],    # conservador
-    [12, 0.15, 7, 0.5], # agresivo
-    [10, 0.1, 2*np.pi, 0]  # basado en física
-]
-
-results = []
-for p0 in p0_candidates:
-    try:
-        popt, pcov = curve_fit(oscilador, t, x_obs, p0=p0, sigma=sigma_x)
-        chi2_red = calcular_chi2_red(t, x_obs, sigma_x, popt)
-        results.append((chi2_red, popt))
-    except RuntimeError:
-        continue
-
-# Elegir el de menor chi2_red
-best = min(results, key=lambda x: x[0])
-print(f"Mejor ajuste: chi2_red={best[0]:.2f}")
+plt.xlabel("Temperatura [K]")
+plt.ylabel("Frecuencia")
+plt.title("Distribución de temperaturas")
+plt.grid(alpha=0.3)
+plt.show()
 \end{minted}
 \end{frame}
+\end{solutionblock}
 
-\begin{frame}[fragile]{Extra: Comparar Modelos con AIC}
+\begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Scatter}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Grafique \texttt{temperatura\_K} versus \texttt{magnitud\_V}.
+      \item Use solo filas donde ambas columnas existan.
+      \item Agregue etiquetas y grilla.
+      \item Escriba una interpretación breve.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} relación entre variables, limpieza previa al gráfico.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 8: scatter}
 \begin{minted}{python}
-# Criterio de Información de Akaike (introducción simple)
-def calcular_AIC(residuos, sigma, n_params):
-    chi2 = np.sum((residuos/sigma)**2)
-    log_likelihood = -0.5 * chi2
-    AIC = 2*n_params - 2*log_likelihood
-    return AIC
+df_plot = df.dropna(
+    subset=["temperatura_K", "magnitud_V"]
+)
 
-# Ejemplo: comparar modelo lineal vs cuadrático
-residuos_lin = y_obs - modelo_lineal(x, *popt_lin)
-residuos_quad = y_obs - modelo_cuadratico(x, *popt_quad)
-
-AIC_lin = calcular_AIC(residuos_lin, sigma, 2)   # 2 parámetros
-AIC_quad = calcular_AIC(residuos_quad, sigma, 3) # 3 parámetros
-
-print(f"AIC lineal: {AIC_lin:.1f}")
-print(f"AIC cuadrático: {AIC_quad:.1f}")
-print("Mejor modelo:", "lineal" if AIC_lin < AIC_quad else "cuadrático")
+plt.scatter(
+    df_plot["temperatura_K"],
+    df_plot["magnitud_V"]
+)
+plt.xlabel("Temperatura [K]")
+plt.ylabel("Magnitud V")
+plt.title("Temperatura vs magnitud")
+plt.grid(alpha=0.3)
+plt.show()
 \end{minted}
-\textbf{Nota}: AIC menor indica mejor balance entre ajuste y complejidad.
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Ejercicio 9: \hfill \textcolor{red}{$\clubsuit$} \\ Boxplot}
+  \begin{block}{Enunciado}
+    \begin{itemize}
+      \item Construya un boxplot de \texttt{temperatura\_K} agrupado por \texttt{tipo}.
+      \item Revise qué grupos tienen mayor rango.
+      \item Compare esta lectura con el resumen por \texttt{groupby}.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} mediana, cuartiles, comparación visual.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile,shrink=5]{Solución 9: boxplot}
+\begin{minted}{python}
+df.boxplot(column="temperatura_K", by="tipo")
+
+plt.suptitle("")
+plt.title("Temperatura por tipo")
+plt.xlabel("Tipo")
+plt.ylabel("Temperatura [K]")
+plt.xticks(rotation=30)
+plt.show()
+\end{minted}
+\end{frame}
+\end{solutionblock}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 7: Cierre
+% ----------------------------------------------------------------------------------------
+\section{Cierre}
+
+\begin{frame}{Ejercicio 10: \hfill \textcolor{red}{$\clubsuit$} \\ Conclusiones}
+  \begin{block}{Enunciado}
+    Escriba tres conclusiones usando evidencia del análisis:
+    \begin{itemize}
+      \item una conclusión basada en una estadística descriptiva;
+      \item una conclusión basada en una comparación por grupo;
+      \item una conclusión basada en un gráfico.
+    \end{itemize}
+  \end{block}
+  \textbf{Conceptos:} comunicación de resultados, evidencia, interpretación.
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}{Solución 10: conclusiones posibles}
+  \begin{itemize}
+    \item Las estrellas calientes presentan temperaturas promedio mayores que las categorías solares y enanas.
+    \item Las gigantes tienen radios mucho mayores, por lo que elevan la dispersión de \texttt{radio\_Rsol}.
+    \item El histograma de temperaturas muestra una muestra heterogénea, con objetos fríos y objetos de alta temperatura.
+  \end{itemize}
+  \begin{alertblock}{Cuidado}
+    Estas conclusiones dependen del dataset disponible y del tamaño de cada grupo.
+  \end{alertblock}
+\end{frame}
+\end{solutionblock}
+
+\begin{frame}{Resumen de la práctica}
+  \begin{itemize}
+    \item Se inspeccionó un DataFrame antes de analizarlo.
+    \item Se trataron valores faltantes de forma explícita.
+    \item Se calcularon medidas descriptivas.
+    \item Se compararon categorías con \texttt{groupby}.
+    \item Se usaron gráficos para interpretar distribuciones y relaciones.
+  \end{itemize}
 \end{frame}
 
 \end{document}

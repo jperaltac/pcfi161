@@ -1,431 +1,341 @@
 \documentclass[10pt]{beamer}
 
-% ------------------------------------------------------------------------
-% Carga de tu preámbulo personalizado (preamble.tex).
-% Asegúrate de tenerlo en la misma carpeta para que \input funcione.
-% ------------------------------------------------------------------------
 \input{../preamble.tex}
+\title[Semana 12 - P1]{Semana 12 - Sesión 1 (Sesión 23)\\Estadística descriptiva con Python}
+\subtitle{Unidad V: análisis de datos con pandas, NumPy y Matplotlib}
 
 \begin{document}
 
-% ------------------------------------------------------------------------
-% Portada de la Presentación
-% ------------------------------------------------------------------------
 \myfront{}
 
 % ------------------------------------------------------------------------
-% Slide 1: Título de la Sesión
+% Portada
 % ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % \title{Semana 12 - Sesión 1 (Sesión 23): Ajuste de Datos con curve\_fit (Parte 2)}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de Contenidos
-% ------------------------------------------------------------------------
 \begin{frame}
   \frametitle{Resumen - Semana 12, Sesión 1 (Sesión 23)}
   \tableofcontents
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Configuración de bloques
-% ------------------------------------------------------------------------
 \metroset{block=fill}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Repaso
+% SECCIÓN 1: Contexto
 % ----------------------------------------------------------------------------------------
-\section{Introducción y Repaso}
+\section{Contexto}
 
-% ------------------------------------------------------------------------
-% Slide: Recapitulación de la Semana Anterior
-% ------------------------------------------------------------------------
-\begin{frame}{Recapitulación de la Semana Anterior}
+\begin{frame}{Continuidad de la Unidad V}
   \begin{itemize}
-    \item \textbf{Semana 11} se centró en:
-      \begin{itemize}
-        \item Ajuste lineal con \texttt{np.polyfit}
-        \item Métricas de calidad: Residuos, \(R^2\), \(\chi^2_{\text{red}}\)
-        \item Ponderación por incertidumbres
-        \item Ejemplo: Ley de Hubble
-      \end{itemize}
-    \item \textbf{Limitación identificada:} \texttt{polyfit} solo funciona con polinomios
-    \item \textbf{Conexión} con la sesión actual: necesitamos flexibilidad para ajustar cualquier función
+    \item En las sesiones anteriores se trabajó el flujo básico con \texttt{pandas}: crear, leer, inspeccionar, filtrar, limpiar y agrupar datos.
+    \item Esta sesión usa ese flujo para obtener resúmenes numéricos e interpretar la variabilidad de un conjunto de datos.
+    \item El foco está en estadística descriptiva: describir una muestra antes de construir modelos más complejos.
   \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Objetivos de la Sesión 12-P1
-% ------------------------------------------------------------------------
-\begin{frame}{Objetivos de la Sesión X}
-  \begin{itemize}
-    \item \textbf{Comprender} \texttt{scipy.optimize.curve\_fit} para modelos arbitrarios
-    \item \textbf{Explorar} la matriz de covarianza y errores de parámetros
-    \item \textbf{Aplicar} ajustes no lineales en leyes de potencia
-    \item \textbf{Desarrollar} criterio para comparar métodos (log-log vs no lineal)
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ajuste con scipy.optimize.curve_fit
-% ----------------------------------------------------------------------------------------
-\section{Ajuste con \texttt{scipy.optimize.curve\_fit}}
-
-\begin{frame}{¿Qué es \texttt{curve\_fit}?}
-  \begin{block}{Definición}
-    \texttt{curve\_fit} es una función de \texttt{scipy.optimize} que ajusta cualquier función arbitraria a datos mediante mínimos cuadrados no lineales.
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Diferencia clave con \texttt{polyfit}:}
-      \begin{itemize}
-        \item \texttt{polyfit}: limitado a polinomios (\(y = a_0 + a_1 x + a_2 x^2 + ...\))
-        \item \texttt{curve\_fit}: \textbf{cualquier función} (exponenciales, trigonométricas, físicas personalizadas, etc.)
-      \end{itemize}
-    \item \textbf{Ventajas principales:}
-      \begin{enumerate}
-        \item Flexibilidad total en la forma funcional
-        \item Calcula automáticamente incertidumbres de parámetros
-        \item Proporciona matriz de covarianza completa
-      \end{enumerate}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Flexibilidad de \texttt{curve\_fit}: Ejemplos de funciones}
-  \begin{block}{Ejemplos físicos}
-    \texttt{curve\_fit} puede ajustar modelos como:
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Decaimiento exponencial:} \(N(t) = N_0 e^{-\lambda t}\) (radiactividad)
-    \item \textbf{Oscilador amortiguado:} \(x(t) = A e^{-\gamma t} \cos(\omega t + \phi)\)
-    \item \textbf{Ley de potencia:} \(L = k M^{\alpha}\) (masa-luminosidad)
-    \item \textbf{Gaussiana:} \(f(x) = A e^{-(x-\mu)^2/(2\sigma^2)}\) (perfiles espectrales)
-    \item \textbf{Planck:} \(B(\lambda, T) = \frac{2hc^2}{\lambda^5} \frac{1}{e^{hc/(\lambda k_B T)} - 1}\)
-    \item \textbf{Y cualquier combinación o modelo personalizado!}
-  \end{itemize}
-  
-  \begin{alertblock}{Clave}
-    Solo necesitas definir tu función en Python y \texttt{curve\_fit} encuentra los parámetros óptimos.
+  \begin{alertblock}{Meta de la sesión}
+    Calcular e interpretar medidas de tendencia central, dispersión y distribución usando \texttt{pandas}, \texttt{NumPy} y \texttt{Matplotlib}.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}[fragile]{Estructura básica de \texttt{curve\_fit}}
-\begin{minted}{python}
-from scipy.optimize import curve_fit
-
-# Paso 1: Definir tu función (modelo físico)
-def mi_modelo(x, param1, param2, ...):
-    """Función que describe tu fenómeno físico"""
-    return ...  # fórmula que depende de x y parámetros
-
-# Paso 2: Llamar a curve_fit
-popt, pcov = curve_fit(
-    mi_modelo,          # función a ajustar
-    x_datos,            # variable independiente
-    y_datos,            # datos observados
-    p0=[...],           # valores iniciales (opcional)
-    sigma=sigma_datos,  # incertidumbres (opcional)
-    absolute_sigma=True # usar sigma como absolutos
-)
-
-# Paso 3: Extraer resultados
-params_optimos = popt       # parámetros ajustados
-incertidumbres = np.sqrt(np.diag(pcov))  # errores
-\end{minted}
+\begin{frame}{Herramientas de la sesión}
+  \begin{itemize}
+    \item \texttt{pandas}: organización tabular, selección de columnas, resúmenes y agrupaciones.
+    \item \texttt{NumPy}: cálculos numéricos y generación de datos reproducibles.
+    \item \texttt{Matplotlib}: visualización de distribuciones y relaciones entre variables.
+  \end{itemize}
+  \begin{block}{Flujo de análisis}
+    Leer datos \(\rightarrow\) inspeccionar \(\rightarrow\) limpiar \(\rightarrow\) resumir \(\rightarrow\) visualizar \(\rightarrow\) interpretar.
+  \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{\texttt{curve\_fit} en un modelo lineal (ejemplo simple)}
+\begin{frame}{Objetivos de aprendizaje}
+  Al terminar la sesión, deberían poder:
+  \begin{itemize}
+    \item calcular media, mediana, varianza y desviación estándar;
+    \item usar \texttt{describe()} y \texttt{quantile()} para resumir una columna;
+    \item decidir cuándo limpiar valores faltantes antes de calcular estadísticas;
+    \item comparar grupos con \texttt{groupby} y \texttt{agg};
+    \item interpretar histogramas, dispersión y valores extremos;
+    \item comunicar conclusiones breves a partir de tablas y gráficos.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 2: Dataset base
+% ----------------------------------------------------------------------------------------
+\section{Dataset base}
+
+\begin{frame}[fragile,shrink=6]{Catálogo de observaciones}
 \begin{minted}{python}
-from scipy.optimize import curve_fit
 import numpy as np
-
-# Definir modelo lineal: y = m*x + b
-def modelo_lineal(x, m, b):
-    return m * x + b
-
-# Datos del ejemplo de Hubble (del código anterior)
-# d = distancias, v_obs = velocidades observadas
-# sigma_v = incertidumbre en velocidades
-
-# Ajustar el modelo a los datos
-popt, pcov = curve_fit(
-    modelo_lineal,           # nuestra función
-    d,                       # x: distancias
-    v_obs,                   # y: velocidades observadas
-    sigma=sigma_v,           # incertidumbres
-    absolute_sigma=True      # tratar sigma como valores reales
-)
-
-m_cf, b_cf = popt  # extraer parámetros optimizados
-print(f"Pendiente: m = {m_cf:.2f} km/s/Mpc")
-print(f"Intercepto: b = {b_cf:.2f} km/s")
-\end{minted}
-\end{frame}
-
-\begin{frame}{Matriz de covarianza: ¿Qué es \texttt{pcov}?}
-  \begin{block}{Definición}
-    \texttt{pcov} es la matriz de covarianza de los parámetros ajustados. Contiene información sobre las incertidumbres y correlaciones entre parámetros.
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Para 2 parámetros} (ej: \(m, b\)):
-    \[
-    \text{pcov} = \begin{pmatrix}
-      \sigma_m^2 & \text{cov}(m,b) \\
-      \text{cov}(m,b) & \sigma_b^2
-    \end{pmatrix}
-    \]
-    \item \textbf{Diagonal} (\texttt{np.diag(pcov)}): varianzas \(\sigma_i^2\) de cada parámetro
-    \item \textbf{Fuera de diagonal}: covarianzas entre parámetros
-    \item \textbf{Incertidumbres:} \(\sigma_i = \sqrt{\text{pcov}[i,i]}\)
-  \end{itemize}
-  
-  \begin{alertblock}{Importante}
-    Si \texttt{absolute\_sigma=True}, las incertidumbres son reales. Si es \texttt{False} (por defecto), son relativas y deben escalarse.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}[fragile]{Extrayendo incertidumbres de \texttt{pcov}}
-\begin{minted}{python}
-# pcov es una matriz 2x2 para el modelo lineal (m, b)
-print("Matriz de covarianza:")
-print(pcov)
-# Ejemplo de salida:
-# [[0.0234  -0.1102]
-#  [-0.1102  1.4567]]
-
-# Extraer incertidumbres (errores estándar)
-perr = np.sqrt(np.diag(pcov))
-sigma_m = perr[0]  # incertidumbre de la pendiente
-sigma_b = perr[1]  # incertidumbre del intercepto
-
-print(f"\nParámetros con incertidumbres:")
-print(f"m = {m_cf:.3f} ± {sigma_m:.3f} km/s/Mpc")
-print(f"b = {b_cf:.3f} ± {sigma_b:.3f} km/s")
-
-# Interpretación física para Hubble:
-# H0 = 70.5 ± 2.3 km/s/Mpc significa que con ~68% de confianza,
-# el valor real está entre 68.2 y 72.8 km/s/Mpc
-\end{minted}
-\end{frame}
-
-\begin{frame}{¿Qué representa \texttt{sigma} (\(\sigma\))?}
-  \begin{block}{Definición simple}
-    \texttt{sigma} (\(\sigma_i\)) es la \textbf{incertidumbre} o \textbf{error} asociado a cada medición. Nos dice qué tan confiable es cada dato.
-  \end{block}
-  
-  \begin{itemize}
-    \item \textbf{Interpretación física:}
-      \begin{itemize}
-        \item \(\sigma\) pequeño: medición precisa, alta confianza
-        \item \(\sigma\) grande: medición imprecisa, baja confianza
-      \end{itemize}
-    \item \textbf{¿De dónde viene \(\sigma\)?}
-      \begin{itemize}
-        \item Especificaciones del instrumento de medición
-        \item Repetición de mediciones (desviación estándar)
-        \item Análisis de fuentes de error experimental
-      \end{itemize}
-    \item \textbf{Ejemplo concreto:} Si medimos una temperatura como \(T = 25.3 \pm 0.5\,°\text{C}\), entonces \(\sigma = 0.5\,°\text{C}\)
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Importancia de \(\sigma\) en los ajustes}
-  \begin{itemize}
-    \item \textbf{En \texttt{curve\_fit}:} el parámetro \texttt{sigma} permite ponderar los datos
-      \begin{itemize}
-        \item Puntos con \(\sigma\) pequeño → mayor peso en el ajuste
-        \item Puntos con \(\sigma\) grande → menor peso en el ajuste
-      \end{itemize}
-    \item \textbf{En \(\chi^2\) reducido:} \(\sigma\) es esencial para evaluar consistencia
-      \[
-      \chi^2_{\text{red}} = \frac{1}{\nu} \sum_{i=1}^{N} \frac{(y_i - y_{\text{fit},i})^2}{\sigma_i^2}
-      \]
-    \item \textbf{Resultado:} Ajustes más realistas que reflejan la calidad de cada medición
-  \end{itemize}
-  
-  \begin{alertblock}{Consejo práctico}
-    Si no conoces \(\sigma_i\) individual, puedes usar el mismo valor para todos los puntos (incertidumbre uniforme).
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}[fragile]{Visualización completa con \texttt{curve\_fit}}
-\begin{minted}{python}
+import pandas as pd
 import matplotlib.pyplot as plt
 
-# Graficar datos con barras de error
-plt.errorbar(d, v_obs, yerr=sigma_v, fmt='o', alpha=0.6, 
-             label='Datos observados', capsize=3)
+df = pd.DataFrame({
+    "objeto": ["A", "B", "C", "D", "E", "F", "G", "H"],
+    "tipo": ["estrella", "estrella", "planeta", "estrella",
+             "planeta", "galaxia", "galaxia", "estrella"],
+    "masa": [1.0, 1.4, 0.003, 0.8, 0.002, 1.2e11, 8.5e10, 2.1],
+    "temperatura": [5800, 7200, 290, 4300, 160, np.nan, np.nan, 9500],
+    "distancia_pc": [4.2, 12.5, 0.00001, 8.1, 0.00002, 1.5e6, 2.1e6, 25.0],
+    "magnitud": [4.8, 2.1, np.nan, 7.3, np.nan, 12.2, 13.1, 0.8]
+})
+\end{minted}
+\end{frame}
 
-# Generar línea de ajuste suave
-d_fit = np.linspace(d.min(), d.max(), 100)
-v_fit = modelo_lineal(d_fit, *popt)
-plt.plot(d_fit, v_fit, 'r-', lw=2, 
-         label=f'Ajuste: H₀={m_cf:.1f}±{perr[0]:.1f} km/s/Mpc')
+\begin{frame}[fragile]{Inspección antes de calcular}
+\begin{minted}{python}
+df.head()
+df.info()
+df.describe()
+df.isna().sum()
+\end{minted}
 
-plt.xlabel('Distancia (Mpc)')
-plt.ylabel('Velocidad (km/s)')
-plt.title('Ley de Hubble con curve_fit')
-plt.legend()
+  \begin{itemize}
+    \item \texttt{info()} permite revisar tipos de datos y valores no nulos.
+    \item \texttt{describe()} entrega un resumen inicial de columnas numéricas.
+    \item \texttt{isna().sum()} muestra cuántos valores faltan por columna.
+  \end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 3: Medidas descriptivas
+% ----------------------------------------------------------------------------------------
+\section{Medidas descriptivas}
+
+\begin{frame}{Tendencia central}
+  \begin{block}{Media}
+    \[
+      \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
+    \]
+  \end{block}
+  \begin{block}{Mediana}
+    Valor central al ordenar los datos. Es menos sensible a valores extremos que la media.
+  \end{block}
+  \begin{itemize}
+    \item La media resume el centro aritmético.
+    \item La mediana resume el centro por posición.
+    \item Si hay valores extremos, ambas pueden diferir bastante.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Media y mediana en pandas}
+\begin{minted}{python}
+temperatura_media = df["temperatura"].mean()
+temperatura_mediana = df["temperatura"].median()
+
+print(temperatura_media)
+print(temperatura_mediana)
+\end{minted}
+
+  \begin{itemize}
+    \item Por defecto, pandas ignora \texttt{NaN} en muchos cálculos estadísticos.
+    \item Aun así, los valores faltantes deben reportarse antes de interpretar resultados.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Dispersión}
+  \begin{block}{Varianza}
+    \[
+      s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2
+    \]
+  \end{block}
+  \begin{block}{Desviación estándar}
+    \[
+      s = \sqrt{s^2}
+    \]
+  \end{block}
+  \begin{itemize}
+    \item La desviación estándar mide dispersión en las mismas unidades de la variable.
+    \item Valores grandes indican datos más extendidos respecto del promedio.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Dispersión en pandas}
+\begin{minted}{python}
+resumen_temp = pd.Series({
+    "media": df["temperatura"].mean(),
+    "mediana": df["temperatura"].median(),
+    "varianza": df["temperatura"].var(),
+    "desviacion": df["temperatura"].std(),
+    "minimo": df["temperatura"].min(),
+    "maximo": df["temperatura"].max()
+})
+
+print(resumen_temp)
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Cuantiles}
+\begin{minted}{python}
+df["temperatura"].quantile([0.25, 0.50, 0.75])
+\end{minted}
+
+  \begin{itemize}
+    \item El cuantil 0.25 marca el primer cuartil.
+    \item El cuantil 0.50 coincide con la mediana.
+    \item El cuantil 0.75 marca el tercer cuartil.
+  \end{itemize}
+  \begin{block}{Uso}
+    Los cuantiles ayudan a describir la distribución sin depender solo de la media.
+  \end{block}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 4: Limpieza mínima
+% ----------------------------------------------------------------------------------------
+\section{Datos faltantes}
+
+\begin{frame}[fragile]{Seleccionar columnas numéricas}
+\begin{minted}{python}
+numericas = df.select_dtypes(include=[np.number])
+
+print(numericas.columns)
+print(numericas.describe())
+\end{minted}
+
+  \begin{itemize}
+    \item Esta selección evita aplicar estadísticas a columnas categóricas.
+    \item Es útil cuando el DataFrame tiene texto, categorías y números mezclados.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Eliminar o rellenar}
+\begin{minted}{python}
+df_sin_nan = df.dropna(subset=["temperatura"])
+
+media_temp = df["temperatura"].mean()
+df_relleno = df.copy()
+df_relleno["temperatura"] = (
+    df_relleno["temperatura"].fillna(media_temp)
+)
+\end{minted}
+
+  \begin{alertblock}{Criterio}
+    Rellenar valores faltantes puede ser práctico, pero no siempre es físicamente justificable. La decisión debe explicarse.
+  \end{alertblock}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 5: Comparación por grupos
+% ----------------------------------------------------------------------------------------
+\section{Agrupación}
+
+\begin{frame}[fragile]{Resumen por categoría}
+\begin{minted}{python}
+df.groupby("tipo")["distancia_pc"].mean()
+\end{minted}
+
+  \begin{itemize}
+    \item \texttt{groupby} separa el DataFrame según una categoría.
+    \item Luego se aplica una operación a cada grupo.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Varias estadísticas con \texttt{agg}}
+\begin{minted}{python}
+resumen_por_tipo = df.groupby("tipo").agg({
+    "distancia_pc": ["count", "mean", "median", "std"],
+    "temperatura": ["mean", "median"],
+    "magnitud": ["mean", "min"]
+})
+
+print(resumen_por_tipo)
+\end{minted}
+
+  \begin{block}{Lectura}
+    Esta tabla permite comparar grupos y detectar si una categoría tiene pocas observaciones.
+  \end{block}
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+% SECCIÓN 6: Distribuciones
+% ----------------------------------------------------------------------------------------
+\section{Distribuciones y gráficos}
+
+\begin{frame}{Histograma}
+  \begin{itemize}
+    \item Un histograma muestra cómo se distribuyen los valores de una variable.
+    \item El eje horizontal representa rangos de valores.
+    \item El eje vertical representa frecuencia o conteo.
+    \item El número de \texttt{bins} controla la partición del rango.
+  \end{itemize}
+  \begin{block}{Interpretación}
+    Revisar forma, concentración, dispersión y posibles valores extremos.
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Histograma con pandas}
+\begin{minted}{python}
+df_sin_nan["temperatura"].hist(bins=5, edgecolor="black")
+
+plt.xlabel("Temperatura [K]")
+plt.ylabel("Frecuencia")
+plt.title("Distribución de temperaturas")
 plt.grid(alpha=0.3)
 plt.show()
-
-print(f"\nIncertidumbre relativa: {(perr[0]/m_cf)*100:.1f}%")
 \end{minted}
 \end{frame}
 
-\begin{frame}{Comparación: \texttt{curve\_fit} vs \texttt{polyfit}}
-  \begin{center}
-  \begin{tabular}{|l|c|c|}
-    \hline
-    \textbf{Característica} & \textbf{polyfit} & \textbf{curve\_fit} \\
-    \hline
-    Tipos de función & Solo polinomios & \textbf{Cualquiera} \\
-    \hline
-    Incertidumbres (\(\sigma_i\)) & Pesos \(w\) & Directo \\
-    \hline
-    Errores de parámetros & No (manual) & \textbf{Sí (automático)} \\
-    \hline
-    Matriz covarianza & No & \textbf{Sí} \\
-    \hline
-    Valores iniciales & No necesita & A veces necesario \\
-    \hline
-    Velocidad & Rápido & Más lento \\
-    \hline
-    Simplicidad & Muy simple & Moderada \\
-    \hline
-  \end{tabular}
-  \end{center}
-  
-  \vspace{0.3cm}
-  \begin{block}{Cuándo usar cada uno}
-    \begin{itemize}
-      \item \textbf{polyfit}: ajustes polinomiales simples, exploración rápida
-      \item \textbf{curve\_fit}: modelos físicos complejos, necesitas errores rigurosos
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Relación masa–luminosidad
-% ----------------------------------------------------------------------------------------
-\section{Relación masa–luminosidad}
-
-\begin{frame}[fragile]{Potencia: \(L = k\, M^{\alpha}\). Enfoque log–log}
-\begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{frame}[fragile]{Scatter para comparar variables}
 \begin{minted}{python}
-# Simular estrellas
-rng = np.random.default_rng(1)
-alpha_true = 3.5
-k_true = 1.0
-M = np.linspace(0.5, 10, 40)
-L_true = k_true * M**alpha_true
-sigma_rel = 0.10
-L_obs = L_true * (1 + rng.normal(0, sigma_rel, size=M.size))
+estrellas = df[df["tipo"] == "estrella"]
 
-# Transformación log10
-X = np.log10(M)
-Y = np.log10(L_obs)
-a, b = np.polyfit(X, Y, 1)  # Y = a X + b
+plt.scatter(estrellas["temperatura"], estrellas["magnitud"])
+plt.xlabel("Temperatura [K]")
+plt.ylabel("Magnitud")
+plt.title("Temperatura vs magnitud")
+plt.grid(alpha=0.3)
+plt.show()
 \end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-alpha_hat = a
-k_hat = 10**b
-print(f"alpha≈{alpha_hat:.2f}, k≈{k_hat:.2f}")
 
-import matplotlib.pyplot as plt
-plt.scatter(X, Y, s=20)
-plt.plot(X, a*X + b, 'r')
-plt.xlabel('log M'); plt.ylabel('log L')
-plt.title('Masa–Luminosidad (log–log)')
-plt.grid(alpha=0.3); plt.show()
-\end{minted}
-\end{column}
-\end{columns}
-\vspace{0.3cm}
-	\textbf{Discusión:} la linealización facilita el ajuste de leyes de potencia.
-\end{frame}
-
-\begin{frame}{¿Qué hace este código (log–log)?}
   \begin{itemize}
-    \item Simula \(M\) y \(L\) con una ley de potencia y ruido multiplicativo (más realista en astrofísica).
-    \item Transforma a \(\log\) para linealizar: \(\log L = \alpha\,\log M + \log k\).
-    \item Ajusta con \texttt{polyfit} en el espacio logarítmico y recupera \(\alpha\) y \(k\).
-    \item Discute diferencias con el ajuste no lineal en el espacio original.
+    \item Un scatter ayuda a explorar relaciones entre dos variables.
+    \item Antes de concluir, conviene revisar escala, unidades y tamaño de muestra.
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Potencia directa con \texttt{curve\_fit} (no lineal)}
+\begin{frame}[fragile]{Boxplot por grupo}
 \begin{minted}{python}
-from scipy.optimize import curve_fit
+df_sin_nan.boxplot(column="temperatura", by="tipo")
 
-def power_law(M, k, alpha):
-    return k * M**alpha
-
-popt, pcov = curve_fit(power_law, M, L_obs, p0=(1.0, 3.0))
-k_cf, alpha_cf = popt
-perr = np.sqrt(np.diag(pcov))
-print(f"k={k_cf:.2f}±{perr[0]:.2f}, alpha={alpha_cf:.2f}±{perr[1]:.2f}")
-# Graficar resultados
-plt.scatter(M, L_obs, s=20, label='estrellas')
-M_fit = np.linspace(0.5, 10, 100)
-plt.plot(M_fit, power_law(M_fit, *popt), 'r', label='fit potencia')
-
+plt.suptitle("")
+plt.title("Temperatura por tipo de objeto")
+plt.xlabel("Tipo")
+plt.ylabel("Temperatura [K]")
+plt.show()
 \end{minted}
-	\textbf{Comparación:} log–log vs ajuste no lineal; considerar sesgos con ruido multiplicativo.
-\end{frame}
 
-\begin{frame}{Física detrás de \(L \propto M^{\alpha}\)}
   \begin{itemize}
-    \item \(\alpha\) captura cómo cambia la \textbf{producción de energía} con la masa (tasa de fusión y estructura interna).
-    \item Para estrellas de la secuencia principal, típicamente \(\alpha \approx 3{-}4\) en ciertos rangos de masa.
-    \item \textbf{Escalas y unidades:} cuidado con trabajar en unidades consistentes; la forma funcional es adimensional si se normaliza.
-    \item \textbf{Log–log vs no lineal:} la transformación logarítmica linealiza pero cambia la distribución de errores; el ajuste no lineal trabaja en el espacio original.
+    \item El boxplot resume mediana, cuartiles y valores extremos.
+    \item Es útil para comparar distribuciones entre categorías.
   \end{itemize}
 \end{frame}
 
 % ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Cierre
+% SECCIÓN 7: Cierre
 % ----------------------------------------------------------------------------------------
 \section{Cierre}
 
-\begin{frame}{Resumen y próximos pasos}
-  \begin{itemize}
-    \item Vimos \texttt{curve\_fit} para ajuste de funciones arbitrarias.
-    \item Extracción de incertidumbres desde la matriz de covarianza.
-    \item Ejemplo: Relación masa-luminosidad (log-log vs no lineal).
-    \item Próxima sesión (P2): Práctica con interpolación, selección de modelos y aplicaciones avanzadas.
-  \end{itemize}
+\begin{frame}{Mini caso guiado}
+  \begin{enumerate}
+    \item Leer o crear un DataFrame.
+    \item Revisar columnas, tipos y valores faltantes.
+    \item Seleccionar columnas numéricas.
+    \item Calcular \texttt{describe()}, media, mediana y desviación estándar.
+    \item Agrupar por una categoría relevante.
+    \item Graficar una distribución y una relación entre variables.
+    \item Escribir tres conclusiones breves.
+  \end{enumerate}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Recursos Adicionales
-% ------------------------------------------------------------------------
-\begin{frame}{Recursos Adicionales}
+\begin{frame}{Resumen}
   \begin{itemize}
-    \item \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html}{\textbf{SciPy curve\_fit}}
-    \item \href{https://numpy.org/doc/stable/reference/routines.polynomials.polyfit.html}{\textbf{NumPy polyfit}}
-    \item \href{https://matplotlib.org/stable/}{\textbf{Matplotlib}} para visualización
-  \end{itemize}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Cierre de la Sesión
-% ------------------------------------------------------------------------
-\begin{frame}
-  \Huge{\centerline{¡Buen trabajo}}
-  \Huge{\centerline{hasta la próxima sesión!}}
-  \vspace{0.3cm}
-  \normalsize
-  \begin{itemize}
-    \item Practicar con datasets propios (p. ej., decaimientos, oscilaciones, relaciones de escala).
-    \item Traer dudas para profundizar en P2.
+    \item La estadística descriptiva resume datos antes de modelar.
+    \item La media, mediana y desviación estándar deben interpretarse junto con valores faltantes y valores extremos.
+    \item \texttt{groupby} permite comparar subconjuntos de datos.
+    \item Histogramas, scatter y boxplots ayudan a leer patrones que no siempre aparecen en una tabla.
   \end{itemize}
 \end{frame}
 
