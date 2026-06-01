@@ -1,0 +1,62 @@
+\item \textbf{Carga e inspección de un catálogo estelar}.
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
+                  before skip=3pt,after skip=5pt,boxsep=3pt,top=3pt,bottom=3pt]
+\small
+\raggedright
+Realice las siguientes operaciones:
+
+\begin{itemize}
+\setlength{\topsep}{4pt}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item[(a)] Importe \texttt{pandas} y cargue los datos en un \texttt{DataFrame}
+           llamado \texttt{estrellas} mediante \texttt{pd.read\_csv()} y la
+           siguiente ruta:
+           \begin{center}
+           \url{https://raw.githubusercontent.com/jperaltac/pcfi161/main/tareas/tarea03/estrellas.csv}
+           \end{center}
+\item[(b)] Muestre las primeras cinco filas del \texttt{DataFrame}.
+\item[(c)] Determine el número de filas y columnas.
+\item[(d)] Muestre los nombres de las columnas.
+\item[(e)] Seleccione solamente las columnas \texttt{estrella}, \texttt{tipo} y
+           \texttt{temperatura\_K}.
+\item[(f)] Calcule la temperatura media para cada tipo estelar.
+\item[(g)] Determine la magnitud mínima registrada para cada tipo estelar.
+\item[(h)] Cuente cuántas estrellas fueron observadas con cada instrumento.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+\begin{pythonjupyter}
+# (a)
+import pandas as pd
+
+url = "https://raw.githubusercontent.com/jperaltac/pcfi161/main/tareas/tarea03/estrellas.csv"
+estrellas = pd.read_csv(url)
+
+# (b)
+print(estrellas.head())
+
+# (c)
+print(estrellas.shape)
+
+# (d)
+print(estrellas.columns)
+
+# (e)
+print(estrellas[["estrella", "tipo", "temperatura_K"]])
+
+# (f)
+temperatura_media = estrellas.groupby("tipo")["temperatura_K"].mean()
+print(temperatura_media)
+
+# (g)
+magnitud_minima = estrellas.groupby("tipo")["magnitud"].min()
+print(magnitud_minima)
+
+# (h)
+conteo_instrumentos = estrellas["instrumento"].value_counts()
+print(conteo_instrumentos)
+\end{pythonjupyter}
+\end{solution}

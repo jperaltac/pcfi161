@@ -1,0 +1,11 @@
+estrella,tipo,instrumento,temperatura_K,magnitud,distancia_pc
+Sirio,A,Telescopio Norte,9940,1.46,2.64
+Vega,A,Telescopio Norte,9602,0.03,7.68
+Betelgeuse,M,Telescopio Sur,3500,0.42,197.00
+Rigel,B,Telescopio Sur,12100,0.13,264.00
+Proxima Centauri,M,Telescopio Norte,3042,11.13,1.30
+Altair,A,Telescopio Norte,7550,0.77,5.13
+Antares,M,Telescopio Sur,3660,1.06,170.00
+Spica,B,Telescopio Sur,22400,0.97,77.00
+Aldebaran,K,Telescopio Norte,3910,0.86,20.43
+Pollux,K,Telescopio Sur,4865,1.14,10.34
