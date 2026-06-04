@@ -82,32 +82,32 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Merge Sort en Python (\(\mathcal{O}(n\log n)\))}
-\begin{minted}[fontsize=\scriptsize]{python}
-def merge_sort(lst):
-    if len(lst) <= 1:
-        return lst                    # caso base
-    mid = len(lst) // 2
-    left  = merge_sort(lst[:mid])     # divide
-    right = merge_sort(lst[mid:])
-    return merge(left, right)         # conquista
-
-def merge(left, right):
-    out, i, j = [], 0, 0                    # apuntadores
-    while i < len(left) and j < len(right): # mezcla ordenada 
-	        if left[i] <= right[j]:             # comparar 
-            out.append(left[i])             # agregar menor
-            i += 1                          # avanzar en left
-        else:
-            out.append(right[j])            # agregar menor
-            j += 1                          # avanzar en right
-    return out + left[i:] + right[j:]       # agregar restos
-\end{minted}
-\begin{itemize}
-  \item Dos fases: división recursiva y mezcla ordenada.
-	  \item Estable (\alert{preserva el orden relativo de iguales}) y predecible.
-\end{itemize}
-\end{frame}
+% \begin{frame}[fragile]{Merge Sort en Python (\(\mathcal{O}(n\log n)\))}
+% \begin{minted}[fontsize=\tiny]{python}
+% def merge(left, right):
+%     out, i, j = [], 0, 0                    # apuntadores
+%     while i < len(left) and j < len(right): # mezcla ordenada 
+%         if left[i] <= right[j]:             # comparar 
+%             out.append(left[i])             # agregar menor
+%             i += 1                          # avanzar en left
+%         else:
+%             out.append(right[j])            # agregar menor
+%             j += 1                          # avanzar en right
+%     return out + left[i:] + right[j:]       # agregar restos
+%
+% def merge_sort(lst):
+%     if len(lst) <= 1:
+%         return lst                    # caso base
+%     mid = len(lst) // 2
+%     left  = merge_sort(lst[:mid])     # divide
+%     right = merge_sort(lst[mid:])
+%     return merge(left, right)         # conquista
+% \end{minted}
+% \begin{itemize}
+%   \item Dos fases: división recursiva y mezcla ordenada.
+%   \item Estable (\alert{preserva el orden relativo de iguales}) y predecible.
+% \end{itemize}
+% \end{frame}
 
 % ========================================================================
 % SECCIÓN 2: Merge Sort - Concepto y Desarrollo
@@ -153,81 +153,83 @@ def merge(left, right):
   \end{center}
   
 
-  \textbf{División recursiva:}
-  \begin{itemize}
-    \item \textbf{Paso 1:} 
-    \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{blue}{blue!20}{\textbf{2}}
-    \quad $|$ \quad
+	  \textbf{División recursiva:}
+	  \textit{En esta fase solo se divide; todavía no se ordena.}
+	  \begin{itemize}
+	    \item \textbf{Paso 1:} 
+	    \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{blue}{blue!20}{\textbf{2}}
+	    \quad $|$ \quad
     \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
     
-    \item \textbf{Paso 2:} 
-    \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad
-    \fcolorbox{blue}{blue!20}{\textbf{2}}
-    \quad $|$ \quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}}
-    \quad
-    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+	    \item \textbf{Paso 2:} 
+	    \fcolorbox{red}{red!20}{\textbf{5}} 
+	    \quad $|$ \quad
+	    \fcolorbox{blue}{blue!20}{\textbf{2}}
+	    \quad $|$ \quad
+	    \fcolorbox{orange}{orange!20}{\textbf{8}}
+	    \quad $|$ \quad
+	    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
     
-    \item \textbf{Paso 3:} 
-    \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad
-    \fcolorbox{blue}{blue!20}{\textbf{2}}
-    \quad $|$ \quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}}
-    \quad
-    \fcolorbox{green}{green!20}{\textbf{1}}
-    \quad
-    \fcolorbox{purple}{purple!20}{\textbf{9}}
+	    \item \textbf{Paso 3:} 
+	    \fcolorbox{red}{red!20}{\textbf{5}} 
+	    \quad $|$ \quad
+	    \fcolorbox{blue}{blue!20}{\textbf{2}}
+	    \quad $|$ \quad
+	    \fcolorbox{orange}{orange!20}{\textbf{8}}
+	    \quad $|$ \quad
+	    \fcolorbox{green}{green!20}{\textbf{1}}
+	    \quad $|$ \quad
+	    \fcolorbox{purple}{purple!20}{\textbf{9}}
   \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Merge Sort: Visualización con Cajas}
-  \begin{center}
-    \textbf{Lista original}
-  \end{center}
-  
-  \begin{center}
+  \textbf{Lista original}
+  \begin{center}\small
     \fcolorbox{red}{red!20}{\textbf{5}} \,
     \fcolorbox{blue}{blue!20}{\textbf{2}} \,
     \fcolorbox{orange}{orange!20}{\textbf{8}} \,
     \fcolorbox{green}{green!20}{\textbf{1}} \,
     \fcolorbox{purple}{purple!20}{\textbf{9}}
   \end{center}
-  
-  \vspace{0.3cm}
-  \textbf{División:}
-  \begin{center}
-    \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{blue}{blue!20}{\textbf{2}} 
-    \quad$|$\quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+
+  \textbf{Después de dividir:}
+  \begin{center}\scriptsize
+    \fcolorbox{red}{red!20}{\textbf{5}} $|$
+    \fcolorbox{blue}{blue!20}{\textbf{2}} $|$
+    \fcolorbox{orange}{orange!20}{\textbf{8}} $|$
+    \fcolorbox{green}{green!20}{\textbf{1}} $|$
+    \fcolorbox{purple}{purple!20}{\textbf{9}}
   \end{center}
-  
-  \begin{center}
-    \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad
-    \fcolorbox{blue}{blue!20}{\textbf{2}} 
-    \quad$|$\quad
-    \fcolorbox{orange}{orange!20}{\textbf{8}} 
-    \quad
+
+  \vspace{0.1cm}
+  \textbf{Mezcla ordenada, paso a paso:}
+  \begin{center}\scriptsize
+    \textbf{1.}
+    \fcolorbox{red}{red!20}{\textbf{5}} $+$ \fcolorbox{blue}{blue!20}{\textbf{2}}
+    $\rightarrow$
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}}
+
+    \vspace{0.12cm}
+    \textbf{2.}
+    \fcolorbox{green}{green!20}{\textbf{1}} $+$ \fcolorbox{purple}{purple!20}{\textbf{9}}
+    $\rightarrow$
     \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-  
-  \vspace{0.3cm}
-  \textbf{Mezcla ordenada:}
-  \begin{center}
-    \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} 
-    \quad$|$\quad
+
+    \vspace{0.12cm}
+    \textbf{3.}
+    \fcolorbox{orange}{orange!20}{\textbf{8}} $+$
+    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+    $\rightarrow$
     \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{purple}{purple!20}{\textbf{9}}
-  \end{center}
-  
-  \begin{center}
-    \fcolorbox{green}{green!20}{\textbf{1}} \,
-    \fcolorbox{blue}{blue!20}{\textbf{2}} \,
-    \fcolorbox{red}{red!20}{\textbf{5}} \,
-    \fcolorbox{orange}{orange!20}{\textbf{8}} \,
-    \fcolorbox{purple}{purple!20}{\textbf{9}}
+
+    \vspace{0.12cm}
+    \textbf{4.}
+    \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} $+$
+    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{purple}{purple!20}{\textbf{9}}
+    $\rightarrow$
+    \fcolorbox{green}{green!20}{\textbf{1}} \fcolorbox{blue}{blue!20}{\textbf{2}} \fcolorbox{red}{red!20}{\textbf{5}} \fcolorbox{orange}{orange!20}{\textbf{8}} \fcolorbox{purple}{purple!20}{\textbf{9}}
   \end{center}
 \end{frame}
 
@@ -245,7 +247,7 @@ def merge(left, right):
     
     # Comparar elementos de ambas listas
     while i < len(left) and j < len(right):
-	        if left[i] <= right[j]:
+        if left[i] <= right[j]:
             resultado.append(left[i])
             i += 1
         else:
@@ -321,7 +323,7 @@ def merge(left, right):
     i, j = 0, 0
     
     while i < len(left) and j < len(right):
-	        if left[i] <= right[j]:
+        if left[i] <= right[j]:
             resultado.append(left[i])
             i += 1
         else:
