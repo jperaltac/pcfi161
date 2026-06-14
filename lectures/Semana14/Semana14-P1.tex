@@ -1,649 +1,338 @@
 \documentclass[10pt]{beamer}
 
 % ------------------------------------------------------------------------
-% Carga de tu preámbulo personalizado (preamble.tex).
+% Carga del preambulo personalizado
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
+\title[Semana 14 - P1]{Semana 14 - P1\\Raíces polinómicas y ajuste de datos}
+\subtitle{Unidad de repaso aplicado: \texttt{np.roots} y \texttt{np.polyfit}}
 
 \begin{document}
 
-% ------------------------------------------------------------------------
-% Portada de la Presentación
-% ------------------------------------------------------------------------
 \myfront{}
 
-% ------------------------------------------------------------------------
-% Slide 1: Título de la Sesión
-% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % \title{Semana 13 - Sesión 1 (Sesión 25): Repaso de Ajuste de Datos y Modelado}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de Contenidos
-% ------------------------------------------------------------------------
 \begin{frame}
   \frametitle{Resumen - Semana 14, Sesión 1 (Sesión 27)}
   \tableofcontents
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Configuración de bloques
-% ------------------------------------------------------------------------
 \metroset{block=fill}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Repaso
-% ----------------------------------------------------------------------------------------
-\section{Introducción y Repaso}
+% ========================================================================
+% SECCIÓN 1: Motivación
+% ========================================================================
+\section{Dos Problemas Frecuentes}
 
-\begin{frame}{Recapitulación de la Semana 14}
-  \begin{itemize}
-    \item \textbf{Semana 14, Sesión 1} se centró en:
-      \begin{itemize}
-        \item Ajuste lineal con \texttt{np.polyfit}
-        \item Métricas de calidad: residuos, \(R^2\), \(\chi^2\) reducido
-        \item Ponderación por incertidumbres
-        \item Introducción a \texttt{scipy.optimize.curve\_fit}
-      \end{itemize}
-    \item \textbf{Semana 14, Sesión 2} consolidó:
-      \begin{itemize}
-        \item Aplicación práctica de ajustes con incertidumbres
-        \item Análisis completo con matriz de covarianza
-        \item Interpolación y selección de modelos
-      \end{itemize}
-    \item \textbf{Conexión} con la sesión actual: reforzar estos conceptos con ejercicios adicionales
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Objetivos de la Sesión 25}
-  \begin{itemize}
-    \item \textbf{Consolidar} el uso de \texttt{np.polyfit} y \texttt{curve\_fit}
-    \item \textbf{Reforzar} la interpretación de métricas de calidad del ajuste
-    \item \textbf{Practicar} el cálculo y análisis de residuos, \(R^2\) y \(\chi^2_{\text{red}}\)
-    \item \textbf{Aplicar} ponderación correcta en ajustes con incertidumbres variables
-    \item \textbf{Desarrollar} habilidades de diagnóstico de modelos
-  \end{itemize}
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Repaso Conceptual
-% ----------------------------------------------------------------------------------------
-\section{Repaso Conceptual}
-
-\begin{frame}{Recordatorio: Ajuste Lineal con \texttt{np.polyfit}}
-  \begin{block}{Sintaxis básica}
-    \texttt{coefs = np.polyfit(x, y, deg=1)} \\
-    Retorna coeficientes \([m, b]\) para \(y = mx + b\)
+\begin{frame}{¿Qué problema queremos resolver?}
+  \begin{block}{Dos situaciones distintas}
+    \begin{enumerate}
+      \item \textbf{Resolver una ecuación:} encontrar los valores de \(x\) donde un polinomio vale cero.
+      \item \textbf{Ajustar datos:} encontrar una recta o curva polinómica que represente mediciones con ruido.
+    \end{enumerate}
   \end{block}
-  
+
+  \begin{alertblock}{Herramientas de hoy}
+    \begin{itemize}
+      \item \texttt{np.roots}: resuelve ecuaciones polinómicas.
+      \item \texttt{np.polyfit}: ajusta un polinomio a datos.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Mapa mental: \texttt{roots} vs \texttt{polyfit}}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\texttt{np.roots}}
+        \begin{itemize}
+          \item Entrada: coeficientes del polinomio.
+          \item Salida: raíces.
+          \item Pregunta típica: ¿cuándo \(p(x)=0\)?
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\texttt{np.polyfit}}
+        \begin{itemize}
+          \item Entrada: datos \(x\), datos \(y\), grado.
+          \item Salida: coeficientes del ajuste.
+          \item Pregunta típica: ¿qué modelo representa mis datos?
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.4cm}
+  \begin{alertblock}{Idea clave}
+    \texttt{roots} trabaja con una ecuación ya conocida. \texttt{polyfit} construye un modelo desde datos.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 2: np.roots
+% ========================================================================
+\section{Resolver Polinomios con \texttt{np.roots}}
+
+\begin{frame}{Polinomios como listas de coeficientes}
+  Para usar \texttt{np.roots}, los coeficientes se escriben desde la potencia mayor hasta el término independiente.
+
+  \begin{block}{Ejemplo}
+    \[
+      x^3 - 6x^2 + 11x - 6 = 0
+    \]
+    \[
+      \texttt{coef = [1, -6, 11, -6]}
+    \]
+  \end{block}
+
   \begin{itemize}
-    \item \textbf{Ventajas:}
-      \begin{itemize}
-        \item Simple y directo para polinomios
-        \item Soporta ponderación con parámetro \texttt{w}
-      \end{itemize}
-    \item \textbf{Limitaciones:}
-      \begin{itemize}
-        \item Solo modelos polinomiales
-        \item No retorna matriz de covarianza directamente
-      \end{itemize}
+    \item Si falta una potencia, se coloca coeficiente cero.
+    \item \(x^4 - 5x^2 + 4 = 0\) se escribe como \texttt{[1, 0, -5, 0, 4]}.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Recordatorio: Las Tres Métricas Clave}
-  \begin{enumerate}
-    \item \textbf{Residuos (\(r_i = y_i - \hat{y}_i\))}:
-      \begin{itemize}
-        \item Diferencia entre datos y modelo
-        \item Deben distribuirse aleatoriamente alrededor de cero
-      \end{itemize}
-    
-    \item \textbf{Coeficiente de determinación (\(R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}\))}:
-      \begin{itemize}
-        \item Fracción de varianza explicada por el modelo
-        \item \(R^2 \approx 1\): excelente ajuste
-      \end{itemize}
-    
-    \item \textbf{Chi cuadrado reducido (\(\chi^2_{\text{red}} = \frac{1}{\nu}\sum\frac{r_i^2}{\sigma_i^2}\))}:
-      \begin{itemize}
-        \item Evalúa consistencia con incertidumbres
-        \item \(\chi^2_{\text{red}} \approx 1\): ajuste óptimo
-      \end{itemize}
-  \end{enumerate}
+\begin{frame}[fragile]{Sintaxis básica de \texttt{np.roots}}
+\begin{minted}{python}
+import numpy as np
+
+# x^3 - 6x^2 + 11x - 6 = 0
+coef = [1, -6, 11, -6]
+
+raices = np.roots(coef)
+print(raices)
+\end{minted}
+
+  \begin{block}{Interpretación}
+    La salida contiene todos los valores de \(x\) que hacen que el polinomio sea cero.
+  \end{block}
 \end{frame}
 
-\begin{frame}{Recordatorio: \texttt{curve\_fit} y Matriz de Covarianza}
+\begin{frame}[fragile]{Raíces reales y raíces complejas}
+  \texttt{np.roots} puede devolver números complejos. En problemas físicos muchas veces interesa filtrar las raíces reales.
+
+\begin{minted}{python}
+raices_reales = []
+
+for raiz in raices:
+    if abs(raiz.imag) < 1e-10:
+        raices_reales.append(raiz.real)
+
+print(raices_reales)
+\end{minted}
+
+  \begin{alertblock}{Criterio práctico}
+    Usamos \texttt{abs(raiz.imag) < 1e-10} porque los cálculos numéricos pueden dejar partes imaginarias muy pequeñas.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 3: np.polyfit
+% ========================================================================
+\section{Ajustar Datos con \texttt{np.polyfit}}
+
+\begin{frame}{Ajuste lineal}
+  Si esperamos una relación aproximadamente lineal,
+  \[
+    y = mx + b,
+  \]
+  podemos estimar la pendiente \(m\) y el intercepto \(b\) desde datos experimentales.
+
   \begin{block}{Sintaxis}
-    \texttt{popt, pcov = curve\_fit(func, x, y, sigma=..., absolute\_sigma=True)}
+    \[
+      \texttt{m, b = np.polyfit(x, y, deg=1)}
+    \]
   \end{block}
-  
+
   \begin{itemize}
-    \item \textbf{Ventajas sobre polyfit:}
-      \begin{itemize}
-        \item Funciona con cualquier función (no solo polinomios)
-        \item Retorna matriz de covarianza \texttt{pcov}
-        \item Permite extraer incertidumbres: \(\sigma_i = \sqrt{\text{pcov}[i,i]}\)
-      \end{itemize}
-    \item \textbf{Parámetros importantes:}
-      \begin{itemize}
-        \item \texttt{sigma}: incertidumbres en \(y\)
-        \item \texttt{absolute\_sigma=True}: usar valores absolutos
-        \item \texttt{p0}: valores iniciales para parámetros
-      \end{itemize}
+    \item \(m\): pendiente del ajuste.
+    \item \(b\): intercepto del ajuste.
+    \item \texttt{deg=1}: polinomio de grado 1, es decir, recta.
   \end{itemize}
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Ejercicios Guiados de Repaso
-% ----------------------------------------------------------------------------------------
-\section{Ejercicios Guiados de Repaso}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 1
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Péndulo Simple - Periodo vs Longitud}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Un péndulo simple tiene periodo \(T = 2\pi\sqrt{\frac{L}{g}}\).
-      \item Para \(g = 9.8\,\text{m/s}^2\), se miden periodos para diferentes longitudes:
-        \begin{itemize}
-          \item \(L = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]\) m
-          \item Generar \(T\) con ruido: \texttt{sigma = 0.05} s
-        \end{itemize}
-      \item Ajustar el modelo \(T = a\sqrt{L}\) usando \texttt{curve\_fit}.
-      \item Calcular \(R^2\) y \(\chi^2_{\text{red}}\).
-      \item Comparar \(a\) estimado con el valor teórico \(2\pi/\sqrt{g} \approx 2.007\).
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Modelo no lineal, ajuste con \texttt{curve\_fit}, validación con teoría física.
-  \\
-  \textbf{Física relevante}: Ley del péndulo simple, relación \(T \propto \sqrt{L}\).
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 2
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Ley de Enfriamiento de Newton}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item La temperatura de un objeto enfriándose sigue: \(T(t) = T_{\text{amb}} + (T_0 - T_{\text{amb}})e^{-kt}\)
-      \item Datos simulados:
-        \begin{itemize}
-          \item \(t = [0, 5, 10, 15, 20, 25, 30]\) minutos
-          \item \(T_{\text{amb}} = 20°\text{C}\), \(T_0 = 80°\text{C}\), \(k = 0.08\,\text{min}^{-1}\)
-          \item Ruido: \(\sigma = 1.5°\text{C}\)
-        \end{itemize}
-      \item Ajustar con \texttt{curve\_fit} para estimar \(T_{\text{amb}}\), \(T_0\) y \(k\).
-      \item Graficar datos con barras de error y curva ajustada.
-      \item Reportar parámetros con incertidumbres desde \texttt{pcov}.
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Ajuste exponencial, múltiples parámetros, extracción de incertidumbres.
-  \\
-  \textbf{Física relevante}: Transferencia de calor por convección.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 3
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Resistividad Eléctrica vs Temperatura}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item La resistividad de un conductor metálico: \(\rho(T) = \rho_0[1 + \alpha(T - T_0)]\)
-      \item Datos experimentales:
-        \begin{itemize}
-          \item \(T = [0, 20, 40, 60, 80, 100]\) °C
-          \item \(\rho_0 = 1.68 \times 10^{-8}\,\Omega\text{·m}\) (cobre a 0°C)
-          \item \(\alpha = 0.00393\,°\text{C}^{-1}\), \(T_0 = 0°\text{C}\)
-          \item Incertidumbres variables: \(\sigma_\rho = 0.02 + 0.0005 \cdot T\) (\(10^{-8}\,\Omega\text{·m}\))
-        \end{itemize}
-      \item Realizar dos ajustes: SIN y CON ponderación.
-      \item Comparar \(\alpha\) estimado en ambos casos.
-      \item Calcular \(\chi^2_{\text{red}}\) para el ajuste ponderado.
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Ajuste lineal, ponderación por incertidumbres, comparación de métodos.
-  \\
-  \textbf{Física relevante}: Coeficiente térmico de resistividad.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 4
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis Completo de Residuos}
-  \begin{block}{Enunciado}
-    \begin{itemize}
-      \item Usar datos del Ejercicio 1 (péndulo simple).
-      \item Calcular y graficar residuos vs \(L\).
-      \item Crear histograma de residuos normalizados: \(r_i/\sigma\).
-      \item Verificar que:
-        \begin{itemize}
-          \item Media de residuos \(\approx 0\)
-          \item Desviación estándar \(\approx \sigma\) esperado
-          \item Distribución aproximadamente gaussiana
-        \end{itemize}
-      \item Identificar si hay patrones sistemáticos en residuos.
-    \end{itemize}
-  \end{block}
-  
-  \textbf{Conceptos}: Diagnóstico de ajuste, análisis estadístico de residuos, detección de sesgos.
-  \\
-  \textbf{Objetivo}: Desarrollar ojo crítico para evaluar calidad de ajustes.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Soluciones de Referencia
-% ----------------------------------------------------------------------------------------
-\section{Soluciones de Referencia}
-
-% ------------------------------------------------------------------------
-% Solución 1
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Péndulo Simple (Parte 1: Ajuste)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{frame}[fragile]{Flujo mínimo de ajuste}
 \begin{minted}{python}
 import numpy as np
-from scipy.optimize import curve_fit
-
-# Generar datos
-g = 9.8  # m/s^2
-L = np.array([0.5, 1.0, 1.5, 
-              2.0, 2.5, 3.0])
-a_true = 2*np.pi/np.sqrt(g)
-T_true = a_true * np.sqrt(L)
-sigma = 0.05  # s
-
-np.random.seed(42)
-T_obs = T_true + np.random.normal(
-    0, sigma, size=L.size)
-
-# Definir modelo
-def pendulo_model(L, a):
-    return a * np.sqrt(L)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=17]{python}
-# Ajustar
-popt, pcov = curve_fit(
-    pendulo_model, L, T_obs,
-    sigma=np.full(L.size, sigma),
-    absolute_sigma=True)
-a_est = popt[0]
-sigma_a = np.sqrt(pcov[0, 0])
-
-# Reportar
-print(f"a teórico = {a_true:.4f}")
-print(f"a estimado = {a_est:.4f} "
-      f"± {sigma_a:.4f}")
-print(f"Diferencia = "
-      f"{abs(a_est-a_true):.4f}")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Péndulo Simple (Parte 2: Métricas)}
-\begin{minted}{python}
-# Calcular predicciones
-T_fit = pendulo_model(L, a_est)
-
-# Calcular R^2
-residuos = T_obs - T_fit
-SS_res = np.sum(residuos**2)
-SS_tot = np.sum((T_obs - np.mean(T_obs))**2)
-R2 = 1 - SS_res/SS_tot
-
-# Calcular chi^2 reducido
-chi2 = np.sum((residuos/sigma)**2)
-nu = L.size - 1  # 1 parámetro ajustado
-chi2_red = chi2/nu
-
-print(f"\nMétricas de calidad:")
-print(f"R² = {R2:.4f}")
-print(f"χ²_red = {chi2_red:.2f}")
-
-if 0.5 < chi2_red < 2.0:
-    print("✓ Ajuste consistente con incertidumbres")
-\end{minted}
-\textbf{Discusión}: \(R^2 \approx 1\) indica excelente ajuste. \(\chi^2_{\text{red}} \approx 1\) confirma que el ruido es consistente con \(\sigma = 0.05\) s.
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 2
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Enfriamiento de Newton (Parte 1)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-from scipy.optimize import curve_fit
-
-# Datos sintéticos
-t = np.array([0, 5, 10, 15, 
-              20, 25, 30])
-T_amb_true = 20.0
-T0_true = 80.0
-k_true = 0.08
-sigma_T = 1.5
-
-T_true = (T_amb_true + 
-          (T0_true - T_amb_true) * 
-          np.exp(-k_true * t))
-np.random.seed(10)
-T_obs = T_true + np.random.normal(
-    0, sigma_T, size=t.size)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-# Modelo de enfriamiento
-def enfriamiento(t, T_amb, 
-                 T0, k):
-    return (T_amb + (T0 - T_amb) * 
-            np.exp(-k * t))
-
-# Ajustar con valores iniciales
-p0 = [25, 75, 0.1]
-popt, pcov = curve_fit(
-    enfriamiento, t, T_obs,
-    p0=p0,
-    sigma=np.full(t.size, 
-                  sigma_T),
-    absolute_sigma=True)
-T_amb, T0, k = popt
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Enfriamiento de Newton (Parte 2)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-# Extraer incertidumbres
-perr = np.sqrt(np.diag(pcov))
-sigma_Tamb, sigma_T0, sigma_k = perr
-
-print("Parámetros ajustados:")
-print(f"T_amb = {T_amb:.2f} ± "
-      f"{sigma_Tamb:.2f} °C")
-print(f"T0 = {T0:.2f} ± "
-      f"{sigma_T0:.2f} °C")
-print(f"k = {k:.4f} ± "
-      f"{sigma_k:.4f} min⁻¹")
-
-print("\nValores reales:")
-print(f"T_amb = {T_amb_true} °C")
-print(f"T0 = {T0_true} °C")
-print(f"k = {k_true} min⁻¹")
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-# Graficar
 import matplotlib.pyplot as plt
 
-t_fine = np.linspace(0, 30, 100)
-T_fit_fine = enfriamiento(
-    t_fine, T_amb, T0, k)
+m, b = np.polyfit(x, y, deg=1)
+y_fit = m*x + b
 
-plt.errorbar(t, T_obs, 
-    yerr=sigma_T, fmt='o',
-    capsize=3, label='Datos')
-plt.plot(t_fine, T_fit_fine, 
-    'r-', label='Ajuste')
-plt.xlabel('Tiempo (min)')
-plt.ylabel('Temperatura (°C)')
+plt.scatter(x, y, label="datos")
+plt.plot(x, y_fit, "r-", label="ajuste")
+plt.xlabel("x")
+plt.ylabel("y")
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.show()
 \end{minted}
-\end{column}
-\end{columns}
-\textbf{Discusión}: Los parámetros ajustados deben estar dentro de \(\pm 2\sigma\) de los valores reales.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Solución 3
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Resistividad vs Temperatura (Parte 1)}
+\begin{frame}[fragile]{Calidad del ajuste: residuos y \(R^2\)}
+  Después de ajustar, conviene evaluar si la recta realmente representa los datos.
+
+\begin{minted}{python}
+residuos = y - y_fit
+
+SS_res = np.sum(residuos**2)
+SS_tot = np.sum((y - np.mean(y))**2)
+R2 = 1 - SS_res/SS_tot
+
+print(f"R2 = {R2:.4f}")
+\end{minted}
+
+  \begin{block}{Interpretación}
+    \(R^2\) cercano a 1 indica que el modelo explica gran parte de la variación de los datos.
+  \end{block}
+\end{frame}
+
+% ========================================================================
+% SECCIÓN 4: Ejercicios guiados
+% ========================================================================
+\section{Ejercicios Guiados}
+
+\begin{frame}{Ejercicio Guiado 1: \hfill \textcolor{red}{$\clubsuit$} \\ Tiempo de vuelo de un proyectil}
+  \begin{block}{Enunciado}
+    La altura de un proyectil está dada por
+    \[
+      h(t) = -4.9t^2 + 18t + 1.5.
+    \]
+    \begin{itemize}
+      \item Resolver \(h(t)=0\) usando \texttt{np.roots}.
+      \item Filtrar raíces reales.
+      \item Identificar cuál raíz tiene sentido físico.
+      \item Interpretar el resultado como tiempo de impacto con el suelo.
+    \end{itemize}
+  \end{block}
+
+  \textbf{Conceptos}: coeficientes, raíces reales, descarte de raíces no físicas.
+\end{frame}
+
+\begin{frame}{Ejercicio Guiado 2: \hfill \textcolor{red}{$\clubsuit$} \\ Calibración de un sensor}
+  \begin{block}{Enunciado}
+    Un sensor entrega voltaje \(V\) para distintas temperaturas \(T\). Se miden:
+    \[
+      T = [0, 10, 20, 30, 40, 50]\,^\circ\mathrm{C}
+    \]
+    \[
+      V = [0.52, 0.71, 0.93, 1.11, 1.32, 1.51]\,\mathrm{V}
+    \]
+    \begin{itemize}
+      \item Ajustar \(V = mT + b\) con \texttt{np.polyfit}.
+      \item Graficar datos y recta ajustada.
+      \item Calcular residuos y \(R^2\).
+      \item Interpretar pendiente e intercepto.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{solutionblock}
+\section{Soluciones de Referencia}
+
+\begin{frame}[fragile]{Solución Guiada 1: \hfill \textcolor{green}{$\checkmark$} \\ Tiempo de vuelo}
+\begin{minted}{python}
+import numpy as np
+
+# h(t) = -4.9t^2 + 18t + 1.5
+coef = [-4.9, 18, 1.5]
+raices = np.roots(coef)
+
+raices_reales = []
+for r in raices:
+    if abs(r.imag) < 1e-10:
+        raices_reales.append(r.real)
+
+print("Raíces reales:", raices_reales)
+
+tiempos_fisicos = []
+for t in raices_reales:
+    if t >= 0:
+        tiempos_fisicos.append(t)
+
+print(f"Tiempo de impacto = {tiempos_fisicos[0]:.3f} s")
+\end{minted}
+
+  \textbf{Discusión}: La raíz negativa aparece matemáticamente, pero no representa un tiempo posterior al lanzamiento.
+\end{frame}
+
+\begin{frame}[fragile]{Solución Guiada 2: \hfill \textcolor{green}{$\checkmark$} \\ Calibración lineal}
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{minted}{python}
 import numpy as np
-from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
 
-# Generar datos
-T = np.array([0, 20, 40, 
-              60, 80, 100])
-rho0_true = 1.68e-8  # Ω·m
-alpha_true = 0.00393  # °C^-1
-T0 = 0.0
+T = np.array([0, 10, 20, 30, 40, 50])
+V = np.array([0.52, 0.71, 0.93,
+              1.11, 1.32, 1.51])
 
-# Modelo lineal
-rho_true = rho0_true * (
-    1 + alpha_true * (T - T0))
+m, b = np.polyfit(T, V, deg=1)
+V_fit = m*T + b
 
-# Incertidumbres variables
-sigma_rho = (0.02 + 0.0005 * T) * 1e-8
-
-np.random.seed(7)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=17]{python}
-rho_obs = rho_true + np.random.normal(
-    0, 1, size=T.size) * sigma_rho
-
-# Modelo de ajuste
-def rho_model(T, rho0, alpha):
-    return rho0 * (1 + alpha * T)
-
-# Ajuste SIN ponderación
-popt_sin, _ = curve_fit(
-    rho_model, T, rho_obs)
-rho0_sin, alpha_sin = popt_sin
-
-print("SIN ponderación:")
-print(f"  α = {alpha_sin:.6f} °C⁻¹")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Resistividad vs Temperatura (Parte 2)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-# Ajuste CON ponderación
-popt_con, pcov_con = curve_fit(
-    rho_model, T, rho_obs,
-    sigma=sigma_rho,
-    absolute_sigma=True)
-rho0_con, alpha_con = popt_con
-
-# Extraer incertidumbres
-perr_con = np.sqrt(np.diag(pcov_con))
-sigma_rho0, sigma_alpha = perr_con
-
-print("\nCON ponderación:")
-print(f"  α = {alpha_con:.6f} ± "
-      f"{sigma_alpha:.6f} °C⁻¹")
-print(f"  α real = {alpha_true:.6f}")
+residuos = V - V_fit
+SS_res = np.sum(residuos**2)
+SS_tot = np.sum((V - np.mean(V))**2)
+R2 = 1 - SS_res/SS_tot
 \end{minted}
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{minted}[firstnumber=15]{python}
-# Calcular chi^2 reducido
-rho_fit = rho_model(T, rho0_con, 
-                    alpha_con)
-res = rho_obs - rho_fit
-chi2 = np.sum((res/sigma_rho)**2)
-nu = T.size - 2
-chi2_red = chi2/nu
+plt.scatter(T, V, label="datos")
+plt.plot(T, V_fit, "r-",
+         label="ajuste lineal")
+plt.xlabel("Temperatura (°C)")
+plt.ylabel("Voltaje (V)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
 
-print(f"  χ²_red = {chi2_red:.2f}")
-
-# Comparación
-print("\nComparación:")
-diff_sin = abs(alpha_sin - 
-               alpha_true)
-diff_con = abs(alpha_con - 
-               alpha_true)
-print(f"Error sin pond: {diff_sin:.6f}")
-print(f"Error con pond: {diff_con:.6f}")
+print(f"m = {m:.4f} V/°C")
+print(f"b = {b:.4f} V")
+print(f"R2 = {R2:.4f}")
 \end{minted}
 \end{column}
 \end{columns}
-\textbf{Discusión}: El ajuste ponderado da resultados más cercanos al valor real cuando las incertidumbres varían.
+
+  \textbf{Discusión}: La pendiente indica sensibilidad del sensor en V/°C.
 \end{frame}
+\end{solutionblock}
 
-% ------------------------------------------------------------------------
-% Solución 4
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Residuos (Parte 1)}
-\begin{minted}{python}
-# Usar datos del Ejercicio 1 (péndulo)
-import matplotlib.pyplot as plt
+% ========================================================================
+% SECCIÓN 5: Cierre
+% ========================================================================
+\section{Cierre}
 
-# Calcular residuos
-residuos = T_obs - T_fit
-
-# Estadísticas básicas
-media_res = np.mean(residuos)
-std_res = np.std(residuos, ddof=1)  # ddof=1 para muestra
-
-print("Estadísticas de residuos:")
-print(f"Media = {media_res:.6f} s (debe ser ≈ 0)")
-print(f"Desv. estándar = {std_res:.4f} s (esperado: {sigma:.4f} s)")
-print(f"Residuo máximo = {np.max(np.abs(residuos)):.4f} s")
-
-# Residuos normalizados
-res_norm = residuos / sigma
-print(f"\nResiduos normalizados:")
-print(f"Media = {np.mean(res_norm):.4f}")
-print(f"Desv. estándar = {np.std(res_norm, ddof=1):.4f} (esperado: ≈ 1)")
-\end{minted}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Análisis de Residuos (Parte 2)}
-\begin{minted}{python}
-# Crear gráficos de diagnóstico
-fig, axes = plt.subplots(1, 3, figsize=(15, 4))
-
-# Panel 1: Residuos vs L
-axes[0].scatter(L, residuos, s=50, alpha=0.6)
-axes[0].axhline(0, color='r', linestyle='--', linewidth=2)
-axes[0].axhline(sigma, color='gray', linestyle=':', label='±σ')
-axes[0].axhline(-sigma, color='gray', linestyle=':')
-axes[0].set_xlabel('Longitud L (m)')
-axes[0].set_ylabel('Residuos (s)')
-axes[0].set_title('Residuos vs Variable Independiente')
-axes[0].legend()
-axes[0].grid(True, alpha=0.3)
-
-# Panel 2: Histograma de residuos normalizados
-axes[1].hist(res_norm, bins=5, alpha=0.7, edgecolor='black', density=True)
-x_gauss = np.linspace(-3, 3, 100)
-axes[1].plot(x_gauss, (1/np.sqrt(2*np.pi))*np.exp(-x_gauss**2/2), 
-             'r-', linewidth=2, label='N(0,1)')
-axes[1].set_xlabel('Residuos normalizados')
-axes[1].set_ylabel('Densidad')
-axes[1].set_title('Distribución de Residuos')
-axes[1].legend()
-axes[1].grid(True, alpha=0.3)
-
-# Panel 3: Q-Q plot (opcional)
-from scipy import stats
-stats.probplot(res_norm, dist="norm", plot=axes[2])
-axes[2].set_title('Q-Q Plot')
-axes[2].grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.show()
-\end{minted}
-\textbf{Discusión}: Residuos distribuidos aleatoriamente sin patrones indican buen ajuste. Histograma debe parecerse a gaussiana.
-\end{frame}
-
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Consolidación y Retroalimentación
-% ----------------------------------------------------------------------------------------
-\section{Consolidación y Retroalimentación}
-
-\begin{frame}{Puesta en Común - ¿Cómo les fue?}
-  \begin{itemize}
-    \item ¿Qué métrica resultó más difícil de calcular o interpretar?
-    \item ¿Encontraron diferencias significativas entre ajustes ponderados y no ponderados?
-    \item ¿Qué revela el análisis de residuos sobre la calidad del modelo?
-    \item ¿Alguna dificultad con la extracción de incertidumbres desde \texttt{pcov}?
-  \end{itemize}
-  
-  \begin{alertblock}{Objetivo}
-    Consolidar la comprensión de diagnóstico riguroso de ajustes antes de la evaluación.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Errores Comunes en Ajuste de Datos}
-  \begin{block}{Errores frecuentes}
+\begin{frame}{Comparación final}
+  \begin{block}{\texttt{np.roots}}
     \begin{itemize}
-      \item \textbf{Olvidar \texttt{absolute\_sigma=True}}: Las incertidumbres quedan mal escaladas
-      \item \textbf{No verificar residuos}: Patrones sistemáticos indican modelo inadecuado
-      \item \textbf{Interpretar mal \(\chi^2_{\text{red}}\)}: Valor muy bajo puede indicar sobreestimación de \(\sigma\)
-      \item \textbf{Ignorar la matriz de covarianza}: Perder información sobre correlación entre parámetros
-      \item \textbf{No ponderar cuando \(\sigma_i\) varía}: Sesgo hacia puntos con mayor incertidumbre
+      \item Se usa cuando ya tenemos una ecuación polinómica.
+      \item El resultado son valores de la variable independiente.
+      \item Requiere interpretar raíces reales, complejas y físicamente válidas.
     \end{itemize}
   \end{block}
-  
-  \begin{alertblock}{Consejo}
-    Siempre realizar análisis completo: ajuste → métricas → residuos → interpretación física.
-  \end{alertblock}
-\end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 6: Conclusiones
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones}
-
-\begin{frame}{Resumen de la Sesión}
-  \begin{itemize}
-    \item \textbf{Repasamos} conceptos fundamentales de ajuste de datos:
-      \begin{itemize}
-        \item \texttt{np.polyfit} vs \texttt{curve\_fit}
-        \item Métricas: residuos, \(R^2\), \(\chi^2_{\text{red}}\)
-        \item Ponderación por incertidumbres
-      \end{itemize}
-    \item \textbf{Practicamos} aplicaciones físicas:
-      \begin{itemize}
-        \item Péndulo simple
-        \item Enfriamiento de Newton
-        \item Resistividad eléctrica
-      \end{itemize}
-    \item \textbf{Desarrollamos} habilidades de diagnóstico mediante análisis de residuos
-  \end{itemize}
-  
-  \begin{block}{Habilidad adquirida}
-    Capacidad de realizar ajustes rigurosos con evaluación crítica de la calidad del modelo y manejo apropiado de incertidumbres.
+  \begin{block}{\texttt{np.polyfit}}
+    \begin{itemize}
+      \item Se usa cuando tenemos datos experimentales.
+      \item El resultado son coeficientes de un modelo.
+      \item Requiere evaluar ajuste con gráfica, residuos y \(R^2\).
+    \end{itemize}
   \end{block}
 \end{frame}
 
-\begin{frame}{Próximos Pasos}
+\begin{frame}{Preparación para la Sesión P2}
   \begin{itemize}
-    \item \textbf{Sesión siguiente (P2):} Ejercicios prácticos integradores con casos más complejos
-    \item \textbf{Recomendación de estudio:}
-      \begin{itemize}
-        \item Repasar documentación de \texttt{scipy.optimize.curve\_fit}
-        \item Practicar análisis de residuos con sus propios datos
-        \item Revisar interpretación física de \(\chi^2_{\text{red}}\)
-      \end{itemize}
-    \item \textbf{Preparación para evaluación:} Dominar el flujo completo de ajuste y diagnóstico
+    \item Practicaremos 7 problemas distintos.
+    \item Algunos serán de raíces, otros de ajuste, y uno combinará ambas ideas.
+    \item El foco será decidir qué herramienta usar antes de escribir código.
   \end{itemize}
+
+  \begin{alertblock}{Pregunta guía}
+    ¿Tengo una ecuación para resolver, o tengo datos para ajustar?
+  \end{alertblock}
 \end{frame}
 
 \end{document}

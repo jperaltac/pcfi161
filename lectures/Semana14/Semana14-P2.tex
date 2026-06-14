@@ -1,707 +1,462 @@
-\documentclass[9pt]{beamer}
+\documentclass[10pt]{beamer}
 
 % ------------------------------------------------------------------------
-% Carga de tu preámbulo personalizado (preamble.tex).
+% Carga del preambulo personalizado
 % ------------------------------------------------------------------------
 \input{../preamble.tex}
+\title[Semana 14 - P2]{Semana 14 - P2\\Práctica de raíces y ajuste polinómico}
+\subtitle{Ejercicios aplicados con \texttt{np.roots} y \texttt{np.polyfit}}
 
 \begin{document}
 
-% ------------------------------------------------------------------------
-% Portada de la Presentación
-% ------------------------------------------------------------------------
 \myfront{}
 
-% ------------------------------------------------------------------------
-% Slide 1: Título de la Sesión
-% ------------------------------------------------------------------------
 \begin{frame}
   \titlepage
-  % \title{Semana 14 - Sesión 2 (Sesión 26): Práctica Intensiva de Ajuste de Datos}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide 2: Índice / Tabla de Contenidos
-% ------------------------------------------------------------------------
 \begin{frame}
   \frametitle{Resumen - Semana 14, Sesión 2 (Sesión 28)}
   \tableofcontents
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Configuración de bloques
-% ------------------------------------------------------------------------
 \metroset{block=fill}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 1: Introducción y Conexión
-% ----------------------------------------------------------------------------------------
-\section{Introducción y Conexión}
+% ========================================================================
+% SECCIÓN 1: Criterio de selección
+% ========================================================================
+\section{Elegir la Herramienta}
 
-\begin{frame}{Repaso de la Sesión Previa (P1)}
-  \begin{block}{Conceptos fundamentales que repasamos}
-    \begin{itemize}
-      \item Ajuste lineal con \texttt{np.polyfit}
-      \item Ajuste flexible con \texttt{scipy.optimize.curve\_fit}
-      \item Métricas de calidad: residuos, \(R^2\), \(\chi^2_{\text{red}}\)
-      \item Ponderación por incertidumbres variables
-      \item Extracción de incertidumbres desde matriz de covarianza
-      \item Análisis de residuos para diagnóstico de modelos
-    \end{itemize}
+\begin{frame}{Antes de programar}
+  \begin{block}{Pregunta 1}
+    ¿El enunciado me entrega una ecuación polinómica y pide encontrar cuándo vale cero?
+
+    \[
+      \Rightarrow \texttt{np.roots}
+    \]
   \end{block}
-  
-  \begin{alertblock}{Objetivo de hoy}
-    Consolidar estos conceptos con ejercicios prácticos integradores y más complejos.
+
+  \begin{block}{Pregunta 2}
+    ¿El enunciado me entrega datos medidos y pide estimar una relación entre variables?
+
+    \[
+      \Rightarrow \texttt{np.polyfit}
+    \]
+  \end{block}
+
+  \begin{alertblock}{Cuidado}
+    Resolver una ecuación y ajustar datos son tareas diferentes, aunque ambas usen polinomios.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Objetivos de la Sesión P2}
-  \begin{itemize}
-    \item \textbf{Consolidar} el uso de \texttt{curve\_fit} en problemas físicos variados
-    \item \textbf{Aplicar} ponderación y cálculo de \(\chi^2_{\text{red}}\) sistemáticamente
-    \item \textbf{Desarrollar} habilidades de diagnóstico con análisis de residuos
-    \item \textbf{Integrar} múltiples conceptos en aplicaciones prácticas complejas
-  \end{itemize}
-\end{frame}
+% ========================================================================
+% SECCIÓN 2: Ejercicios
+% ========================================================================
+\section{Ejercicios}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 2: Ejercicios Prácticos Integrados
-% ----------------------------------------------------------------------------------------
-\section{Ejercicios Prácticos}
-
-\begin{frame}{Enfoque de la Sesión: Aplicación Práctica}
-  \begin{itemize}
-    \item \textbf{Enfoque 100\% práctico:} Resolver 6 problemas de complejidad creciente
-    \item \textbf{Integración de conceptos:} Combinar ajuste + métricas + diagnóstico
-    \item \textbf{Aplicación contextualizada:} Física, astronomía, experimentos reales
-  \end{itemize}
-  
-  \begin{block}{Estructura pedagógica}
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Altura de un cohete}
+  \begin{block}{Enunciado}
+    La altura de un cohete pequeño se modela como
+    \[
+      h(t) = -4.9t^2 + 32t + 2.
+    \]
     \begin{itemize}
-      \item Ejercicios 1-2: Ajustes básicos con \texttt{curve\_fit} y \(R^2\)
-      \item Ejercicios 3-4: Incorporar ponderación y \(\chi^2_{\text{red}}\)
-      \item Ejercicios 5-6: Modelos complejos y selección de modelos
+      \item Use \texttt{np.roots} para resolver \(h(t)=0\).
+      \item Filtre las raíces reales.
+      \item Quédese solo con los tiempos positivos.
+      \item Reporte el tiempo de caída al suelo.
     \end{itemize}
   \end{block}
+
+  \textbf{Idea}: no todas las raíces matemáticas son físicamente válidas.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 1
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Ley de Hooke - Constante Elástica}
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Equilibrios de una fuerza}
   \begin{block}{Enunciado}
+    Una fuerza unidimensional se aproxima por
+    \[
+      F(x) = x^3 - 4x.
+    \]
+    Los puntos de equilibrio cumplen \(F(x)=0\).
     \begin{itemize}
-      \item Un resorte sigue \(F = kx\). Datos:
+      \item Encuentre las raíces reales con \texttt{np.roots}.
+      \item Calcule \(F'(x)=3x^2-4\) en cada raíz.
+      \item Clasifique cualitativamente cada equilibrio:
         \begin{itemize}
-          \item \(x = [0.02, 0.05, 0.08, 0.10, 0.12, 0.15, 0.18, 0.20]\) m
-          \item \(k_{\text{real}} = 250\) N/m, \(\sigma_F = 2.0\) N
+          \item \(F'(x)<0\): estable para esta convención.
+          \item \(F'(x)>0\): inestable para esta convención.
         \end{itemize}
-      \item Tareas:
-        \begin{enumerate}
-          \item Generar datos \(F\) con ruido (seed=42)
-          \item Ajustar con \texttt{curve\_fit} para estimar \(k\)
-          \item Calcular \(R^2\)
-          \item Graficar datos (scatter) y ajuste (línea)
-          \item Reportar \(k_{\text{est}}\) y \(R^2\)
-        \end{enumerate}
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos}: Modelo proporcional directo, ajuste de 1 parámetro.
-  \\
-  \textbf{Física relevante}: Elasticidad, Ley de Hooke.
+
+  \textbf{Idea}: resolver y luego interpretar con una regla adicional.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 2
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Caída Libre - Estimación de g}
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Cruce de dos modelos}
   \begin{block}{Enunciado}
+    Dos modelos de energía dependen de \(x\):
+    \[
+      E_1(x)=x^2+2x+1,\qquad E_2(x)=3x+5.
+    \]
     \begin{itemize}
-      \item Posición: \(y(t) = y_0 - \frac{1}{2}gt^2\). Datos:
-        \begin{itemize}
-          \item \(t = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]\) s
-          \item \(y_0 = 50.0\) m, \(g = 9.8\) m/s², \(\sigma_y = 1.0\) m
-        \end{itemize}
-      \item Tareas:
-        \begin{enumerate}
-          \item Generar datos \(y\) con ruido (seed=15)
-          \item Ajustar modelo \texttt{caida(t, y0, g)}
-          \item Calcular \(R^2\)
-          \item Graficar datos y curva ajustada
-          \item Comparar \(g_{\text{est}}\) con valor real
-        \end{enumerate}
+      \item Plantee \(E_1(x)-E_2(x)=0\).
+      \item Use \texttt{np.roots} para encontrar los puntos de cruce.
+      \item Evalúe \(E_1\) y \(E_2\) en las raíces para verificar.
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos}: Ajuste cuadrático, 2 parámetros.
-  \\
-  \textbf{Conexión}: Más complejo que Ej. 1 (múltiples parámetros).
+
+  \textbf{Idea}: transformar un problema de intersección en una ecuación polinómica.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 3
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Radiación de Cuerpo Negro}
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Calibración de temperatura}
   \begin{block}{Enunciado}
+    Un sensor mide voltaje \(V\) para distintas temperaturas \(T\):
+    \[
+      T=[0,10,20,30,40,50,60]
+    \]
+    \[
+      V=[0.49,0.70,0.91,1.10,1.31,1.50,1.72].
+    \]
     \begin{itemize}
-      \item Stefan-Boltzmann: \(P = \sigma A T^4\), ajustar \(P = c \cdot T^4\). Datos:
-        \begin{itemize}
-          \item \(T = [300, 400, 500, 600, 700, 800, 900, 1000]\) K
-          \item \(c_{\text{real}} = 5.67 \times 10^{-10}\) W/K⁴
-          \item \(\sigma_P = (0.5 + 0.001 \cdot T) \times 10^{-6}\) W
-        \end{itemize}
-      \item Tareas:
-        \begin{enumerate}
-          \item Generar datos \(P\) con ruido (seed=20)
-          \item Ajustar CON ponderación (\texttt{sigma=sigma\_P})
-          \item Extraer \(c\) y \(\sigma_c\) desde \texttt{pcov}
-          \item Calcular \(\chi^2_{\text{red}}\)
-          \item Graficar con \texttt{errorbar}
-          \item Reportar \(c \pm \sigma_c\)
-        \end{enumerate}
+      \item Ajuste \(V=mT+b\) con \texttt{np.polyfit}.
+      \item Grafique datos y recta.
+      \item Calcule residuos y \(R^2\).
+      \item Interprete \(m\).
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos}: Ley de potencia, ponderación, matriz de covarianza.
+
+  \textbf{Idea}: ajuste lineal e interpretación de pendiente.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 4
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Circuito RC - Descarga Exponencial}
+\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Movimiento con aceleración}
   \begin{block}{Enunciado}
+    Se registra la posición de un objeto acelerado:
+    \[
+      t=[0,1,2,3,4,5]
+    \]
+    \[
+      x=[1.1,3.0,7.2,13.1,21.0,31.4].
+    \]
     \begin{itemize}
-      \item Voltaje: \(V(t) = V_0 e^{-t/\tau}\). Datos:
-        \begin{itemize}
-          \item \(t = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\) s
-          \item \(V_0 = 12.0\) V, \(\tau = 3.0\) s
-          \item \(\sigma_V = 0.3 + 0.02 \cdot t\) V
-        \end{itemize}
-      \item Tareas:
-        \begin{enumerate}
-          \item Generar datos (seed=25)
-          \item Ajustar SIN y CON ponderación
-          \item Comparar \(\tau\) en ambos casos
-          \item Calcular \(\chi^2_{\text{red}}\) ponderado
-          \item Crear 2 subplots: datos+ajuste y residuos
-        \end{enumerate}
+      \item Ajuste un polinomio de grado 2 con \texttt{np.polyfit}.
+      \item Use el modelo \(x(t)=at^2+bt+c\).
+      \item Estime la aceleración usando \(a_{\mathrm{fis}}=2a\).
+      \item Grafique datos y curva ajustada.
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos}: Decaimiento exponencial, comparación de métodos.
-  \\
-  \textbf{Conexión}: Similar a Ej. 3 pero con análisis comparativo.
+
+  \textbf{Idea}: los coeficientes del ajuste pueden tener interpretación física.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 5
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Velocidad Orbital Elíptica}
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Enfriamiento linealizado}
   \begin{block}{Enunciado}
+    Un objeto se enfría según
+    \[
+      T(t)-T_{\mathrm{amb}} = A e^{-kt}.
+    \]
+    Si \(T_{\mathrm{amb}}=20^\circ\mathrm{C}\), se miden:
+    \[
+      t=[0,2,4,6,8,10],\quad T=[80,62,49,39,32,27].
+    \]
     \begin{itemize}
-      \item Velocidad: \(v(r) = \sqrt{GM\left(\frac{2}{r} - \frac{1}{a}\right)}\). Datos:
-        \begin{itemize}
-          \item \(r = [0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7]\) AU
-          \item \(GM = 1.0\), \(a = 1.2\) AU, \(\sigma_v = 0.05\) AU/año
-        \end{itemize}
-      \item Tareas:
-        \begin{enumerate}
-          \item Generar datos (seed=30)
-          \item Ajustar con \texttt{p0=[1.5, 1.5]}
-          \item Reportar \(GM\) y \(a\) con incertidumbres
-          \item Calcular \(\chi^2_{\text{red}}\)
-          \item Graficar con intervalo fino de \(r\)
-        \end{enumerate}
+      \item Calcule \(y=\ln(T-T_{\mathrm{amb}})\).
+      \item Ajuste \(y=mt+b\) con \texttt{np.polyfit}.
+      \item Estime \(k=-m\).
+      \item Grafique los datos linealizados y el ajuste.
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos}: Modelo no lineal complejo, importancia de \texttt{p0}.
-  \\
-  \textbf{Física}: Mecánica orbital, Kepler generalizada.
+
+  \textbf{Idea}: convertir un modelo exponencial en un ajuste lineal.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 6
-% ------------------------------------------------------------------------
-\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Selección de Modelo - Oscilador Amortiguado}
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Umbral de seguridad}
   \begin{block}{Enunciado}
+    Una variable de respuesta \(R\) depende de una dosis \(d\). Se mide:
+    \[
+      d=[0,1,2,3,4,5,6]
+    \]
+    \[
+      R=[1.2,2.1,3.9,6.8,10.9,16.1,22.0].
+    \]
     \begin{itemize}
-      \item Modelo completo: \(x(t) = A e^{-\gamma t}\cos(\omega t + \phi)\)
-      \item Modelo simple: \(x(t) = A e^{-\gamma t}\)
-      \item Datos: \(t = \texttt{np.linspace(0, 10, 50)}\), \(A = 5\), \(\gamma = 0.3\), \(\omega = 2\), \(\phi = 0.5\)
-      \item Tareas:
-        \begin{enumerate}
-          \item Generar datos con modelo completo (seed=35)
-          \item Ajustar ambos modelos
-          \item Calcular AIC: \(\text{AIC} = 2k + n\ln(\chi^2/n)\)
-          \item Comparar \(\Delta\text{AIC}\)
-          \item Seleccionar mejor modelo
-          \item Graficar ambos ajustes
-        \end{enumerate}
+      \item Ajuste \(R(d)\) con un polinomio de grado 2.
+      \item Encuentre con \texttt{np.roots} cuándo el ajuste alcanza \(R=12\).
+      \item Filtre soluciones reales dentro del rango medido.
+      \item Grafique datos, ajuste y línea horizontal \(R=12\).
     \end{itemize}
   \end{block}
-  
-  \textbf{Conceptos}: Selección de modelos, trade-off complejidad-ajuste.
-  \\
-  \textbf{Aplicación}: Evitar sobre-ajuste con criterio objetivo.
+
+  \textbf{Idea}: combinar ajuste de datos y resolución de ecuaciones.
 \end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 3: Soluciones de Referencia
-% ----------------------------------------------------------------------------------------
+\begin{solutionblock}
 \section{Soluciones de Referencia}
 
-% ------------------------------------------------------------------------
-% Solución 1
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Ley de Hooke}
+\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Altura de un cohete}
+\begin{minted}{python}
+import numpy as np
+
+coef = [-4.9, 32, 2]
+raices = np.roots(coef)
+
+tiempos = []
+for r in raices:
+    if abs(r.imag) < 1e-10 and r.real >= 0:
+        tiempos.append(r.real)
+
+print("Raíces:", raices)
+print(f"Tiempo físico de impacto = {tiempos[0]:.3f} s")
+\end{minted}
+
+  \textbf{Discusión}: se descarta el tiempo negativo porque corresponde a una extrapolación antes del lanzamiento.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Equilibrios de una fuerza}
+\begin{minted}{python}
+import numpy as np
+
+# F(x) = x^3 - 4x
+coef = [1, 0, -4, 0]
+raices = np.roots(coef)
+
+for r in raices:
+    if abs(r.imag) < 1e-10:
+        x = r.real
+        dF = 3*x**2 - 4
+        tipo = "estable" if dF < 0 else "inestable"
+        print(f"x = {x:.3f}, F'(x) = {dF:.3f}: {tipo}")
+\end{minted}
+
+  \textbf{Discusión}: además de resolver \(F(x)=0\), se usa la derivada para clasificar.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Cruce de dos modelos}
+\begin{minted}{python}
+import numpy as np
+
+def E1(x):
+    return x**2 + 2*x + 1
+
+def E2(x):
+    return 3*x + 5
+
+# E1 - E2 = x^2 - x - 4
+coef = [1, -1, -4]
+raices = np.roots(coef)
+
+for r in raices:
+    if abs(r.imag) < 1e-10:
+        x = r.real
+        print(f"x = {x:.3f}")
+        print(f"E1 = {E1(x):.3f}, E2 = {E2(x):.3f}")
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Calibración de temperatura}
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{minted}{python}
 import numpy as np
-from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
-# Datos
-x = np.array([0.02, 0.05, 0.08, 
-              0.10, 0.12, 0.15, 
-              0.18, 0.20])
-k_real = 250.0
-sigma_F = 2.0
+T = np.array([0, 10, 20, 30,
+              40, 50, 60])
+V = np.array([0.49, 0.70, 0.91,
+              1.10, 1.31, 1.50, 1.72])
 
-# Generar F con ruido
-np.random.seed(42)
-F_true = k_real * x
-F_obs = F_true + np.random.normal(
-    0, sigma_F, size=x.size)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=15]{python}
-# Modelo
-def hooke(x, k):
-    return k * x
+m, b = np.polyfit(T, V, deg=1)
+V_fit = m*T + b
 
-# Ajustar
-popt, _ = curve_fit(hooke, x, F_obs)
-k_est = popt[0]
-F_fit = hooke(x, k_est)
-
-# R²
-R2 = 1 - np.sum((F_obs - F_fit)**2) / \
-         np.sum((F_obs - np.mean(F_obs))**2)
-
-print(f"k = {k_est:.2f} N/m")
-print(f"R² = {R2:.4f}")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 2
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Caída Libre}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-from scipy.optimize import curve_fit
-
-# Datos
-t = np.array([0.0, 0.5, 1.0, 1.5, 
-              2.0, 2.5, 3.0])
-y0_true, g_true = 50.0, 9.8
-sigma_y = 1.0
-
-# Generar y
-np.random.seed(15)
-y_true = y0_true - 0.5 * g_true * t**2
-y_obs = y_true + np.random.normal(
-    0, sigma_y, size=t.size)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=13]{python}
-# Modelo
-def caida(t, y0, g):
-    return y0 - 0.5 * g * t**2
-
-# Ajustar
-popt, _ = curve_fit(caida, t, y_obs)
-y0_est, g_est = popt
-y_fit = caida(t, y0_est, g_est)
-
-# R²
-R2 = 1 - np.sum((y_obs - y_fit)**2) / \
-         np.sum((y_obs - np.mean(y_obs))**2)
-
-print(f"g = {g_est:.3f} m/s²")
-print(f"R² = {R2:.4f}")
-\end{minted}
-\end{column}
-\end{columns}
-\textbf{Discusión}: \(g_{\text{est}}\) debe estar cerca de 9.8 m/s².
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 3
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Radiación de Cuerpo Negro}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-from scipy.optimize import curve_fit
-
-# Datos
-T = np.array([300, 400, 500, 600, 
-              700, 800, 900, 1000])
-c_real = 5.67e-10
-sigma_P = (0.5 + 0.001 * T) * 1e-6
-
-# Generar P
-np.random.seed(20)
-P_true = c_real * T**4
-P_obs = P_true + np.random.normal(
-    0, 1, size=T.size) * sigma_P
-
-# Modelo
-def stefan(T, c):
-    return c * T**4
+res = V - V_fit
+SS_res = np.sum(res**2)
+SS_tot = np.sum((V - np.mean(V))**2)
+R2 = 1 - SS_res/SS_tot
 \end{minted}
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{minted}[firstnumber=16]{python}
-# Ajustar con ponderación
-popt, pcov = curve_fit(
-    stefan, T, P_obs,
-    sigma=sigma_P,
-    absolute_sigma=True)
-c_est = popt[0]
-sigma_c = np.sqrt(pcov[0, 0])
-
-# Chi² reducido
-P_fit = stefan(T, c_est)
-chi2 = np.sum(((P_obs - P_fit) / 
-               sigma_P)**2)
-chi2_red = chi2 / (T.size - 1)
-
-print(f"c = {c_est:.2e} ± "
-      f"{sigma_c:.2e} W/K⁴")
-print(f"χ²_red = {chi2_red:.2f}")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Solución 4
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Circuito RC (Parte 1)}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}{python}
-import numpy as np
-from scipy.optimize import curve_fit
-
-# Datos
-t = np.array(range(11), dtype=float)
-V0_true, tau_true = 12.0, 3.0
-sigma_V = 0.3 + 0.02 * t
-
-# Generar V
-np.random.seed(25)
-V_true = V0_true * np.exp(-t/tau_true)
-V_obs = V_true + np.random.normal(
-    0, 1, size=t.size) * sigma_V
-
-# Modelo
-def rc_decay(t, V0, tau):
-    return V0 * np.exp(-t/tau)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=16]{python}
-# Ajuste SIN ponderación
-popt_sin, _ = curve_fit(
-    rc_decay, t, V_obs)
-V0_sin, tau_sin = popt_sin
-
-# Ajuste CON ponderación
-popt_con, pcov_con = curve_fit(
-    rc_decay, t, V_obs,
-    sigma=sigma_V,
-    absolute_sigma=True)
-V0_con, tau_con = popt_con
-sigma_tau = np.sqrt(pcov_con[1, 1])
-
-print("Sin ponderación:")
-print(f"  τ = {tau_sin:.3f} s")
-print("Con ponderación:")
-print(f"  τ = {tau_con:.3f} ± "
-      f"{sigma_tau:.3f} s")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Circuito RC (Parte 2: Gráficos)}
-\begin{minted}{python}
-import matplotlib.pyplot as plt
-
-# Chi² reducido
-V_fit_con = rc_decay(t, V0_con, tau_con)
-chi2 = np.sum(((V_obs - V_fit_con) / sigma_V)**2)
-chi2_red = chi2 / (t.size - 2)
-print(f"χ²_red = {chi2_red:.2f}")
-
-# Gráficos
-fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-
-# Panel 1: Datos y ajuste
-axes[0].errorbar(t, V_obs, yerr=sigma_V, fmt='o', capsize=3, label='Datos')
-axes[0].plot(t, V_fit_con, 'r-', linewidth=2, label=f'τ={tau_con:.2f}±{sigma_tau:.2f} s')
-axes[0].set_xlabel('Tiempo (s)')
-axes[0].set_ylabel('Voltaje (V)')
-axes[0].legend()
-axes[0].grid(True, alpha=0.3)
-
-# Panel 2: Residuos
-res = V_obs - V_fit_con
-axes[1].scatter(t, res, s=40)
-axes[1].axhline(0, color='r', linestyle='--', linewidth=2)
-axes[1].set_xlabel('Tiempo (s)')
-axes[1].set_ylabel('Residuos (V)')
-axes[1].grid(True, alpha=0.3)
-
-plt.tight_layout()
+plt.scatter(T, V, label="datos")
+plt.plot(T, V_fit, "r-", label="ajuste")
+plt.xlabel("Temperatura (°C)")
+plt.ylabel("Voltaje (V)")
+plt.legend()
+plt.grid(True, alpha=0.3)
 plt.show()
+
+print(f"m = {m:.4f} V/°C")
+print(f"b = {b:.4f} V")
+print(f"R2 = {R2:.4f}")
 \end{minted}
-\textbf{Discusión}: Ajuste ponderado da mejor estimación de \(\tau\).
+\end{column}
+\end{columns}
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Solución 5
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 5: \hfill \textcolor{green}{$\checkmark$} \\ Velocidad Orbital}
+\begin{frame}[fragile]{Solución 5: \hfill \textcolor{green}{$\checkmark$} \\ Movimiento con aceleración}
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{minted}{python}
 import numpy as np
-from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
 
-# Datos
-r = np.array([0.8, 0.9, 1.0, 1.1, 
-              1.2, 1.3, 1.4, 1.5, 
-              1.6, 1.7])
-GM_true, a_true = 1.0, 1.2
-sigma_v = 0.05
+t = np.array([0, 1, 2, 3, 4, 5])
+x = np.array([1.1, 3.0, 7.2,
+              13.1, 21.0, 31.4])
 
-# Generar v
-np.random.seed(30)
-v_true = np.sqrt(GM_true * (2/r - 1/a_true))
-v_obs = v_true + np.random.normal(
-    0, sigma_v, size=r.size)
+a, b, c = np.polyfit(t, x, deg=2)
+aceleracion = 2*a
+
+t_fino = np.linspace(0, 5, 100)
+x_fit = a*t_fino**2 + b*t_fino + c
 \end{minted}
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{minted}[firstnumber=14]{python}
-# Modelo
-def orbital_vel(r, GM, a):
-    return np.sqrt(GM * (2/r - 1/a))
+plt.scatter(t, x, label="datos")
+plt.plot(t_fino, x_fit, "r-",
+         label="ajuste grado 2")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Posición (m)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
 
-# Ajustar con p0
-popt, pcov = curve_fit(
-    orbital_vel, r, v_obs,
-    p0=[1.5, 1.5],
-    sigma=np.full(r.size, sigma_v),
-    absolute_sigma=True)
-GM_est, a_est = popt
-perr = np.sqrt(np.diag(pcov))
-
-print(f"GM = {GM_est:.3f} ± "
-      f"{perr[0]:.3f}")
-print(f"a = {a_est:.3f} ± "
-      f"{perr[1]:.3f} AU")
+print(f"a = {a:.3f}")
+print(f"b = {b:.3f}")
+print(f"c = {c:.3f}")
+print(f"aceleración = {aceleracion:.3f} m/s²")
 \end{minted}
 \end{column}
 \end{columns}
-\textbf{Discusión}: Valores iniciales apropiados son cruciales para convergencia.
 \end{frame}
 
-% ------------------------------------------------------------------------
-% Solución 6
-% ------------------------------------------------------------------------
-\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Selección de Modelo (Parte 1)}
+\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Enfriamiento linealizado}
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{minted}{python}
 import numpy as np
-from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
 
-# Datos
-t = np.linspace(0, 10, 50)
-A, gamma, omega, phi = 5.0, 0.3, 2.0, 0.5
-sigma_x = 0.3
+t = np.array([0, 2, 4, 6, 8, 10])
+T = np.array([80, 62, 49, 39, 32, 27])
+T_amb = 20
 
-# Generar datos
-np.random.seed(35)
-x_true = A * np.exp(-gamma * t) * \
-         np.cos(omega * t + phi)
-x_obs = x_true + np.random.normal(
-    0, sigma_x, size=t.size)
+y = np.log(T - T_amb)
+m, b = np.polyfit(t, y, deg=1)
+k = -m
+y_fit = m*t + b
 \end{minted}
 \end{column}
 \begin{column}{0.5\textwidth}
-\begin{minted}[firstnumber=13]{python}
-# Modelo 1: completo
-def modelo1(t, A, gamma, omega, phi):
-    return A * np.exp(-gamma * t) * \
-           np.cos(omega * t + phi)
+\begin{minted}[firstnumber=12]{python}
+plt.scatter(t, y, label="datos linealizados")
+plt.plot(t, y_fit, "r-", label="ajuste")
+plt.xlabel("Tiempo (min)")
+plt.ylabel("ln(T - T_amb)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
 
-# Modelo 2: simple
-def modelo2(t, A, gamma):
-    return A * np.exp(-gamma * t)
-
-# Ajustar ambos
-popt1, _ = curve_fit(
-    modelo1, t, x_obs, 
-    p0=[5, 0.3, 2, 0.5])
-popt2, _ = curve_fit(
-    modelo2, t, x_obs, p0=[5, 0.3])
+print(f"pendiente = {m:.4f}")
+print(f"k = {k:.4f} 1/min")
+print(f"A = {np.exp(b):.2f} °C")
 \end{minted}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Selección de Modelo (Parte 2)}
+\begin{frame}[fragile]{Solución 7: \hfill \textcolor{green}{$\checkmark$} \\ Umbral de seguridad}
+\begin{columns}
+\begin{column}{0.5\textwidth}
 \begin{minted}{python}
-# Calcular chi² para cada modelo
-x_fit1 = modelo1(t, *popt1)
-x_fit2 = modelo2(t, *popt2)
+import numpy as np
+import matplotlib.pyplot as plt
 
-chi2_1 = np.sum(((x_obs - x_fit1) / sigma_x)**2)
-chi2_2 = np.sum(((x_obs - x_fit2) / sigma_x)**2)
+d = np.array([0, 1, 2, 3, 4, 5, 6])
+R = np.array([1.2, 2.1, 3.9, 6.8,
+              10.9, 16.1, 22.0])
 
-# Calcular AIC
-n = t.size
-k1, k2 = 4, 2  # número de parámetros
-AIC1 = 2*k1 + n*np.log(chi2_1/n)
-AIC2 = 2*k2 + n*np.log(chi2_2/n)
+a, b, c = np.polyfit(d, R, deg=2)
 
-delta_AIC = AIC2 - AIC1
-
-print(f"Modelo 1 (completo): AIC = {AIC1:.2f}, χ² = {chi2_1:.2f}")
-print(f"Modelo 2 (simple): AIC = {AIC2:.2f}, χ² = {chi2_2:.2f}")
-print(f"ΔAIC = {delta_AIC:.2f}")
-
-if delta_AIC > 10:
-    print("→ Modelo 1 es significativamente mejor")
-elif delta_AIC < -10:
-    print("→ Modelo 2 es significativamente mejor")
-else:
-    print("→ Evidencia no concluyente")
+# Resolver a*d^2 + b*d + c = 12
+coef_umbral = [a, b, c - 12]
+raices = np.roots(coef_umbral)
 \end{minted}
-\textbf{Discusión}: AIC penaliza complejidad, favorece modelo que equilibra ajuste y parsimonia.
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{minted}[firstnumber=14]{python}
+soluciones = []
+for r in raices:
+    if abs(r.imag) < 1e-10 and 0 <= r.real <= 6:
+        soluciones.append(r.real)
+
+d_fino = np.linspace(0, 6, 100)
+R_fit = a*d_fino**2 + b*d_fino + c
+
+plt.scatter(d, R, label="datos")
+plt.plot(d_fino, R_fit, "r-", label="ajuste")
+plt.axhline(12, color="gray", linestyle="--")
+plt.xlabel("Dosis")
+plt.ylabel("Respuesta")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+print("Dosis umbral:", soluciones)
+\end{minted}
+\end{column}
+\end{columns}
 \end{frame}
+\end{solutionblock}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 4: Consolidación y Retroalimentación
-% ----------------------------------------------------------------------------------------
-\section{Consolidación y Retroalimentación}
+% ========================================================================
+% SECCIÓN 3: Cierre
+% ========================================================================
+\section{Cierre}
 
-\begin{frame}{Puesta en Común - ¿Cómo les fue?}
-  \begin{itemize}
-    \item ¿Qué ejercicio resultó más desafiante?
-    \item ¿Encontraron diferencias significativas entre ajustes con/sin ponderación?
-    \item ¿El análisis de residuos reveló problemas en algún modelo?
-    \item ¿Dificultades con la interpretación de \(\chi^2_{\text{red}}\) o matriz de covarianza?
-    \item ¿La selección de modelo con AIC fue clara?
-  \end{itemize}
-  
-  \begin{alertblock}{Objetivo}
-    Aprender de las experiencias colectivas y consolidar diagnóstico de modelos.
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Errores Comunes en Ajuste Avanzado}
-  \begin{block}{Errores frecuentes}
+\begin{frame}{Errores comunes}
+  \begin{block}{Con \texttt{np.roots}}
     \begin{itemize}
-      \item \textbf{No usar \texttt{absolute\_sigma=True}}: incertidumbres mal escaladas
-      \item \textbf{Olvidar valores iniciales (\texttt{p0})}: modelos complejos no convergen
-      \item \textbf{Ignorar análisis de residuos}: perder patrones sistemáticos
-      \item \textbf{Interpretar mal \(\chi^2_{\text{red}} \gg 1\)}: puede indicar subestimación de \(\sigma\)
-      \item \textbf{Sobre-ajustar sin criterio objetivo}: AIC ayuda a evitarlo
+      \item Escribir los coeficientes en orden incorrecto.
+      \item Olvidar coeficientes cero para potencias ausentes.
+      \item No filtrar raíces complejas o no físicas.
     \end{itemize}
   \end{block}
-  
-  \begin{alertblock}{Consejo}
-    Siempre: ajuste → métricas → residuos → interpretación física → decisión informada.
-  \end{alertblock}
-\end{frame}
 
-% ----------------------------------------------------------------------------------------
-% SECCIÓN 5: Conclusiones
-% ----------------------------------------------------------------------------------------
-\section{Conclusiones}
-
-\begin{frame}{Síntesis de la Sesión}
-  \begin{itemize}
-    \item \textbf{Consolidamos:} aplicación sistemática de \texttt{curve\_fit} con diagnóstico completo
-      \begin{itemize}
-        \item Ajustes lineales y no lineales
-        \item Ponderación rigurosa
-        \item Extracción de incertidumbres
-      \end{itemize}
-    \item \textbf{Aplicamos:} métricas múltiples para evaluación objetiva
-      \begin{itemize}
-        \item \(R^2\) para bondad general
-        \item \(\chi^2_{\text{red}}\) para consistencia con errores
-        \item AIC para selección de modelos
-      \end{itemize}
-    \item \textbf{Desarrollamos:} habilidades críticas de diagnóstico con análisis de residuos
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Preparación para Evaluación}
-  \begin{block}{Competencias adquiridas}
-    Ahora pueden:
+  \begin{block}{Con \texttt{np.polyfit}}
     \begin{itemize}
-      \item Ajustar cualquier modelo físico con \texttt{curve\_fit}
-      \item Manejar incertidumbres variables correctamente
-      \item Diagnosticar calidad de ajuste con múltiples métricas
-      \item Extraer e interpretar incertidumbres de parámetros
-      \item Seleccionar entre modelos competidores objetivamente
-      \item Analizar residuos para detectar problemas sistemáticos
+      \item Confundir el orden de salida de los coeficientes.
+      \item Graficar solo los datos y no el ajuste.
+      \item No revisar residuos ni \(R^2\).
     \end{itemize}
   \end{block}
-  
-  \begin{alertblock}{Para la evaluación}
-    Practiquen el flujo completo: datos → modelo → ajuste → métricas → diagnóstico → conclusión.
-  \end{alertblock}
 \end{frame}
 
-\begin{frame}{Recursos para Profundizar}
+\begin{frame}{Lista de verificación}
+  \begin{block}{Para resolver ecuaciones}
+    \checkmark\ Identificar el polinomio igualado a cero\\
+    \checkmark\ Construir la lista de coeficientes\\
+    \checkmark\ Usar \texttt{np.roots}\\
+    \checkmark\ Filtrar e interpretar raíces
+  \end{block}
+
+  \begin{block}{Para ajustar datos}
+    \checkmark\ Construir arreglos \texttt{x} e \texttt{y}\\
+    \checkmark\ Elegir el grado del polinomio\\
+    \checkmark\ Usar \texttt{np.polyfit}\\
+    \checkmark\ Graficar, calcular residuos e interpretar
+  \end{block}
+\end{frame}
+
+\begin{frame}{Conexión con Semana 15}
   \begin{itemize}
-    \item \textbf{Documentación oficial:}
-      \begin{itemize}
-        \item \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html}{\texttt{scipy.optimize.curve\_fit}}
-        \item \href{https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html}{\texttt{np.polyfit}}
-      \end{itemize}
-    \item \textbf{Teoría estadística:}
-      \begin{itemize}
-        \item Bevington \& Robinson: "Data Reduction and Error Analysis"
-        \item Taylor: "An Introduction to Error Analysis"
-      \end{itemize}
-    \item \textbf{Práctica:}
-      \begin{itemize}
-        \item Rehacer ejercicios con otros valores de parámetros
-        \item Experimentar con diferentes niveles de ruido
-        \item Aplicar a datos reales de laboratorio
-      \end{itemize}
+    \item Semana 15 queda como repaso para la Solemne.
+    \item Estos dos comandos pueden aparecer como herramientas dentro de problemas más largos.
+    \item Lo importante será reconocer el tipo de tarea antes de programar.
   \end{itemize}
+
+  \begin{alertblock}{Pregunta final}
+    ¿Estoy buscando raíces de una ecuación, o estoy construyendo un modelo desde datos?
+  \end{alertblock}
 \end{frame}
 
 \end{document}
