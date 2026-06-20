@@ -1,0 +1,152 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Limpieza y resumen de un catalogo estelar con pandas}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
+                  before skip=3pt,after skip=5pt,boxsep=3pt,top=3pt,bottom=3pt,
+                  breakable]
+\small
+\raggedright
+Un catalogo pequeno de estrellas fue armado desde distintas fuentes y guardado
+en un archivo CSV. Antes de comparar las estrellas, se debe leer la tabla,
+inspeccionarla, eliminar mediciones incompletas y crear una columna fisica
+derivada.
+
+El archivo CSV se encuentra en la siguiente ruta:
+
+\begin{pythonjupyter}
+url = (
+    "https://raw.githubusercontent.com/jperaltac/pcfi161/"
+    "main/Solemnes/2026/S3/catalogo_estrellas_s3.csv"
+)
+\end{pythonjupyter}
+
+Realice las siguientes operaciones:
+
+\begin{itemize}
+\setlength{\topsep}{4pt}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item[(a)] Importe \texttt{numpy}, \texttt{pandas} y \texttt{matplotlib.pyplot}.
+Lea el archivo CSV usando \texttt{pd.read\_csv(url)} y guardelo en un DataFrame
+llamado \texttt{estrellas}.
+\item[(b)] Inspeccione la tabla mostrando las primeras filas, dimensiones, tipos
+de datos y cantidad de valores faltantes por columna.
+\item[(c)] Cree un DataFrame llamado \texttt{estrellas\_limpias} eliminando solo
+las filas que tengan datos faltantes en
+\texttt{temperatura\_K}, \texttt{radio\_Rsol}, \texttt{distancia\_pc} o
+\texttt{magnitud\_V}. Use \texttt{copy()} al final.
+\item[(d)] En \texttt{estrellas\_limpias}, cree la columna
+\texttt{luminosidad\_rel} usando
+\[
+L_{\rm rel}=R^2\left(\frac{T}{5778}\right)^4,
+\]
+donde \(R\) es \texttt{radio\_Rsol} y \(T\) es \texttt{temperatura\_K}.
+\item[(e)] Seleccione las estrellas candidatas que cumplen simultaneamente:
+\[
+\texttt{distancia\_pc < 20},\qquad
+\texttt{magnitud\_V < 0.5},\qquad
+\texttt{luminosidad\_rel > 5}.
+\]
+Muestre solamente \texttt{nombre}, \texttt{tipo}, \texttt{distancia\_pc},
+\texttt{magnitud\_V} y \texttt{luminosidad\_rel}.
+\item[(f)] Agrupe \texttt{estrellas\_limpias} por \texttt{tipo}. Para cada tipo,
+calcule cantidad de estrellas, temperatura media, distancia mediana y
+luminosidad relativa media. Ordene el resumen de mayor a menor luminosidad
+relativa media.
+\item[(g)] Grafique \texttt{temperatura\_K} versus \texttt{luminosidad\_rel}
+usando un color distinto para cada \texttt{tipo}. Agregue etiquetas, leyenda y
+grilla.
+\item[(h)] Imprima una frase que indique cual es el tipo con mayor luminosidad
+relativa media. La respuesta debe salir desde la tabla agrupada, no escrita a
+mano.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+\begin{pythonjupyter}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+url = (
+    "https://raw.githubusercontent.com/jperaltac/pcfi161/"
+    "main/Solemnes/2026/S3/catalogo_estrellas_s3.csv"
+)
+
+estrellas = pd.read_csv(url)
+
+print(estrellas.head())
+print("Dimensiones:", estrellas.shape)
+print(estrellas.dtypes)
+print("Valores faltantes:")
+print(estrellas.isna().sum())
+
+columnas_necesarias = [
+    "temperatura_K",
+    "radio_Rsol",
+    "distancia_pc",
+    "magnitud_V"
+]
+
+estrellas_limpias = estrellas.dropna(
+    subset=columnas_necesarias
+).copy()
+
+estrellas_limpias["luminosidad_rel"] = (
+    estrellas_limpias["radio_Rsol"]**2 *
+    (estrellas_limpias["temperatura_K"] / 5778)**4
+)
+
+mask = (
+    (estrellas_limpias["distancia_pc"] < 20) &
+    (estrellas_limpias["magnitud_V"] < 0.5) &
+    (estrellas_limpias["luminosidad_rel"] > 5)
+)
+
+candidatas = estrellas_limpias.loc[
+    mask,
+    ["nombre", "tipo", "distancia_pc", "magnitud_V",
+     "luminosidad_rel"]
+]
+print(candidatas)
+
+resumen = estrellas_limpias.groupby("tipo").agg({
+    "nombre": "count",
+    "temperatura_K": "mean",
+    "distancia_pc": "median",
+    "luminosidad_rel": "mean"
+})
+
+resumen = resumen.rename(columns={"nombre": "cantidad"})
+resumen = resumen.sort_values(
+    "luminosidad_rel",
+    ascending=False
+)
+
+print(resumen)
+
+plt.figure(figsize=(7, 5))
+for tipo in estrellas_limpias["tipo"].unique():
+    sub = estrellas_limpias[estrellas_limpias["tipo"] == tipo]
+    plt.scatter(
+        sub["temperatura_K"],
+        sub["luminosidad_rel"],
+        label=f"tipo {tipo}"
+    )
+
+plt.xlabel("Temperatura [K]")
+plt.ylabel("Luminosidad relativa")
+plt.title("Temperatura versus luminosidad relativa")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+tipo_mayor = resumen.index[0]
+lum_mayor = resumen.iloc[0]["luminosidad_rel"]
+
+print(f"El tipo con mayor luminosidad relativa media es {tipo_mayor}")
+print(f"con L_rel media = {lum_mayor:.2f}.")
+\end{pythonjupyter}
+\end{solution}

@@ -1,0 +1,329 @@
+\documentclass[11pt,letterpaper,landscape]{article}
+
+\usepackage[
+  top=0.55cm,
+  bottom=0.55cm,
+  left=0.65cm,
+  right=0.65cm
+]{geometry}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{amsmath}
+
+\setmainfont{Libertinus Sans}
+\setmonofont{Libertinus Mono}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\definecolor{tealbox}{HTML}{079A9A}
+\definecolor{orangeTitle}{HTML}{FF5A00}
+
+\lstdefinestyle{pyinline}{
+  basicstyle=\ttfamily\footnotesize,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  showstringspaces=false
+}
+\lstset{style=pyinline}
+
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\entry}[2]{\textbf{\code{#1}} & #2\\}
+\newcommand{\smallentry}[2]{\code{#1} & #2\\}
+\newcommand{\colw}{0.318\textwidth}
+
+\newtcolorbox{cheatbox}[1]{
+  enhanced,
+  sharp corners,
+  boxrule=0pt,
+  colback=white,
+  left=2.5mm,
+  right=2.5mm,
+  top=1.2mm,
+  bottom=1.2mm,
+  before skip=2.5mm,
+  after skip=2.5mm,
+  title=#1,
+  coltitle=white,
+  fonttitle=\bfseries\large,
+  colbacktitle=tealbox,
+  attach boxed title to top center={yshift=-1mm},
+  boxed title style={sharp corners, boxrule=0pt, colback=tealbox, left=3mm, right=3mm},
+}
+
+\newcommand{\cheattitle}{
+  \begin{center}
+    {\fontsize{23}{25}\selectfont\bfseries\color{orangeTitle} Python para Solemne 3 - Cheat Sheet}
+  \end{center}
+  \vspace{-3mm}
+}
+
+\begin{document}
+\cheattitle
+
+\noindent
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Pandas: crear e inspeccionar}
+\begin{lstlisting}
+import numpy as np
+import pandas as pd
+
+df = pd.DataFrame(datos)
+print(df.head())
+print(df.shape)
+print(df.dtypes)
+print(df.isna().sum())
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{df.head()}{primeras filas}
+\entry{df.shape}{filas y columnas}
+\entry{df.dtypes}{tipo de cada columna}
+\entry{df.isna().sum()}{nulos por columna}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Pandas: limpiar datos}
+\begin{lstlisting}
+cols = ["temperatura_K", "radio_Rsol",
+        "distancia_pc", "magnitud_V"]
+
+df_limpio = df.dropna(subset=cols).copy()
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{dropna(subset=cols)}{elimina filas con nulos en columnas clave}
+\entry{copy()}{crea una copia para modificar sin ambiguedad}
+\entry{len(df)}{cantidad de filas}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Pandas: columnas derivadas}
+\begin{lstlisting}
+df_limpio["luminosidad_rel"] = (
+    df_limpio["radio_Rsol"]**2 *
+    (df_limpio["temperatura_K"] / 5778)**4
+)
+\end{lstlisting}
+Las operaciones con columnas se aplican fila a fila.
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Pandas: filtros}
+\begin{lstlisting}
+mask = (
+    (df["distancia_pc"] < 20) &
+    (df["magnitud_V"] < 0.5) &
+    (df["luminosidad_rel"] > 5)
+)
+
+sub = df.loc[mask, ["nombre", "tipo"]]
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{\&}{combinar condiciones}
+\entry{|}{una condicion u otra}
+\entry{df.loc[mask, cols]}{filas filtradas y columnas elegidas}
+\entry{(...) \& (...)}{use parentesis en cada condicion}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Pandas: agrupar}
+\begin{lstlisting}
+resumen = df.groupby("tipo").agg({
+    "nombre": "count",
+    "temperatura_K": "mean",
+    "distancia_pc": "median",
+    "luminosidad_rel": "mean"
+})
+
+resumen = resumen.rename(columns={"nombre": "cantidad"})
+resumen = resumen.sort_values("luminosidad_rel",
+                              ascending=False)
+\end{lstlisting}
+\end{cheatbox}
+
+\begin{cheatbox}{Pandas: graficar por grupo}
+\begin{lstlisting}
+for tipo in df["tipo"].unique():
+    sub = df[df["tipo"] == tipo]
+    plt.scatter(sub["temperatura_K"],
+                sub["luminosidad_rel"],
+                label=tipo)
+plt.legend()
+\end{lstlisting}
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Algoritmos: usar copia}
+\begin{lstlisting}
+periodos = [12.4, 3.1, 8.7]
+ordenados = bubble_sort(periodos.copy())
+
+print(periodos)    # original
+print(ordenados)   # ordenada
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{lista.copy()}{evita modificar la lista original}
+\entry{ordenados[0]}{minimo si esta ordenada}
+\entry{ordenados[-1]}{maximo si esta ordenada}
+\entry{len(lista)}{cantidad de elementos}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Mediana con lista ordenada}
+\begin{lstlisting}
+n = len(ordenados)
+
+if n % 2 == 1:
+    mediana = ordenados[n//2]
+else:
+    mediana = (ordenados[n//2 - 1] +
+               ordenados[n//2]) / 2
+\end{lstlisting}
+\end{cheatbox}
+
+\begin{cheatbox}{Buscar e interpretar}
+\begin{lstlisting}
+pos = binary_search(ordenados, 14.2)
+
+if pos == -1:
+    print("no encontrado")
+else:
+    print("posicion:", pos)
+\end{lstlisting}
+\end{cheatbox}
+\end{minipage}
+
+\newpage
+\cheattitle
+
+\noindent
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Bubble Sort}
+\begin{lstlisting}
+def bubble_sort(lista):
+    n = len(lista)
+    for i in range(n - 1):
+        for j in range(n - 1 - i):
+            if lista[j] > lista[j + 1]:
+                lista[j], lista[j + 1] = (
+                    lista[j + 1], lista[j]
+                )
+    return lista
+\end{lstlisting}
+Ordena comparando vecinos. Use una copia si quiere conservar la lista original.
+\end{cheatbox}
+
+\begin{cheatbox}{Binary Search}
+\begin{lstlisting}
+def binary_search(lista_ordenada, objetivo):
+    low, high = 0, len(lista_ordenada) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if lista_ordenada[mid] == objetivo:
+            return mid
+        elif objetivo < lista_ordenada[mid]:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return -1
+\end{lstlisting}
+Solo es valida sobre una lista ordenada.
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Ajuste con \texttt{np.polyfit}}
+\begin{lstlisting}
+import numpy as np
+
+a, b, c = np.polyfit(d, R, deg=2)
+R_fit = a*d**2 + b*d + c
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{deg=1}{modelo lineal: \code{m*x + b}}
+\entry{deg=2}{modelo cuadratico: \code{a*x**2 + b*x + c}}
+\entry{polyfit}{retorna coeficientes desde mayor grado}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Residuos y \(R^2\)}
+\begin{lstlisting}
+residuos = R - R_fit
+SS_res = np.sum(residuos**2)
+SS_tot = np.sum((R - np.mean(R))**2)
+R2 = 1 - SS_res/SS_tot
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{residuos}{dato medido menos modelo}
+\entry{R2 cercano a 1}{ajuste explica bien los datos}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Graficar ajuste}
+\begin{lstlisting}
+x_fino = np.linspace(0, 6, 200)
+y_fino = a*x_fino**2 + b*x_fino + c
+
+plt.scatter(d, R, label="datos")
+plt.plot(x_fino, y_fino, label="ajuste")
+plt.legend()
+plt.grid(True)
+\end{lstlisting}
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Raices con \texttt{np.roots}}
+\begin{lstlisting}
+# Resolver a*x**2 + b*x + c = 0
+raices = np.roots([a, b, c])
+
+# Resolver a*d**2 + b*d + c = 12
+raices = np.roots([a, b, c - 12])
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{[a,b,c]}{coeficientes en orden descendente}
+\entry{c - 12}{mover el umbral al lado izquierdo}
+\entry{np.roots}{puede entregar raices complejas}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Filtrar raices fisicas}
+\begin{lstlisting}
+soluciones = []
+for r in raices:
+    if abs(r.imag) < 1e-10 and 0 <= r.real <= 6:
+        soluciones.append(r.real)
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{r.imag}{parte imaginaria}
+\entry{r.real}{parte real}
+\entry{0 <= r.real <= 6}{rango fisico o medido}
+\end{tabularx}
+\end{cheatbox}
+
+\begin{cheatbox}{Errores comunes}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\smallentry{and}{en pandas use \code{\&} con parentesis}
+\smallentry{binary_search(lista)}{debe ser lista ordenada}
+\smallentry{np.roots([c,b,a])}{orden incorrecto}
+\smallentry{tomar toda raiz}{filtre complejas y no fisicas}
+\end{tabularx}
+\end{cheatbox}
+\end{minipage}
+
+\end{document}

@@ -1,0 +1,11 @@
+nombre,tipo,temperatura_K,radio_Rsol,distancia_pc,magnitud_V
+Sirio,A,9940,1.71,2.64,-1.46
+Canopus,F,7350,71.0,95.0,-0.74
+Arturo,K,4290,25.4,11.3,-0.05
+Vega,A,9600,2.36,7.68,0.03
+Capella,G,4970,12.2,13.0,0.08
+Rigel,B,12100,78.9,264.0,0.13
+Procyon,F,6530,2.05,3.51,0.34
+Achernar,B,,7.3,42.8,0.46
+Altair,A,7550,1.63,5.13,0.77
+Acrux,B,28000,8.9,98.0,

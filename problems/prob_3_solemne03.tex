@@ -1,0 +1,121 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Ajuste cuadratico y estimacion de un umbral}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
+                  before skip=3pt,after skip=5pt,boxsep=3pt,top=3pt,bottom=3pt,
+                  breakable]
+\small
+\raggedright
+En una calibracion de laboratorio se mide la respuesta \(R\) de un detector para
+distintas dosis \(d\). Los datos medidos son:
+\[
+d = [0,\ 1,\ 2,\ 3,\ 4,\ 5,\ 6],
+\]
+\[
+R = [1.2,\ 2.0,\ 4.1,\ 6.9,\ 10.8,\ 16.2,\ 22.1].
+\]
+
+Se desea construir un modelo cuadratico
+\[
+R(d)=ad^2+bd+c
+\]
+y usarlo para estimar cuando la respuesta alcanza un umbral de seguridad
+\[
+R=12.
+\]
+
+Realice las siguientes operaciones:
+
+\begin{itemize}
+\setlength{\topsep}{4pt}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item[(a)] Importe \texttt{numpy} y \texttt{matplotlib.pyplot}. Defina los
+arreglos \texttt{d} y \texttt{R} usando \texttt{np.array}.
+\item[(b)] Use \texttt{np.polyfit(d, R, deg=2)} para obtener los coeficientes
+\(a\), \(b\) y \(c\).
+\item[(c)] Calcule los valores ajustados sobre los mismos datos medidos y
+guardelos en \texttt{R\_fit}.
+\item[(d)] Calcule los residuos y el coeficiente \(R^2\):
+\[
+\texttt{residuos = R - R\_fit},
+\]
+\[
+SS_{\mathrm{res}} = \sum_i \left(R_i - R_{\mathrm{fit},i}\right)^2,
+\qquad
+SS_{\mathrm{tot}} = \sum_i \left(R_i - \overline{R}\right)^2,
+\]
+\[
+R^2 = 1 - \frac{SS_{\mathrm{res}}}{SS_{\mathrm{tot}}}.
+\]
+\item[(e)] Use \texttt{np.roots} para resolver cuando el modelo ajustado alcanza
+\(R=12\). Para ello debe resolver
+\[
+ad^2+bd+c-12=0.
+\]
+\item[(f)] Filtre las raices: conserve solo soluciones reales dentro del rango
+medido, es decir, entre \(0\) y \(6\).
+\item[(g)] Grafique los datos medidos con \texttt{plt.scatter}, el ajuste
+cuadratico con \texttt{plt.plot} usando una grilla fina de dosis, y la linea
+horizontal \(R=12\). Agregue etiquetas, leyenda y grilla.
+\item[(h)] Imprima \(a\), \(b\), \(c\), \(R^2\) y la dosis estimada para alcanzar
+el umbral. Agregue una frase que explique por que no basta con tomar cualquier
+raiz entregada por \texttt{np.roots}.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+\begin{pythonjupyter}
+import numpy as np
+import matplotlib.pyplot as plt
+
+d = np.array([0, 1, 2, 3, 4, 5, 6])
+R = np.array([1.2, 2.0, 4.1, 6.9, 10.8, 16.2, 22.1])
+
+a, b, c = np.polyfit(d, R, deg=2)
+
+R_fit = a*d**2 + b*d + c
+
+residuos = R - R_fit
+SS_res = np.sum(residuos**2)
+SS_tot = np.sum((R - np.mean(R))**2)
+R2 = 1 - SS_res/SS_tot
+
+coef_umbral = [a, b, c - 12]
+raices = np.roots(coef_umbral)
+
+soluciones = []
+for r in raices:
+    if abs(r.imag) < 1e-10 and 0 <= r.real <= 6:
+        soluciones.append(r.real)
+
+d_fino = np.linspace(0, 6, 200)
+R_fino = a*d_fino**2 + b*d_fino + c
+
+plt.figure(figsize=(7, 5))
+plt.scatter(d, R, label="datos medidos")
+plt.plot(d_fino, R_fino, "r-", label="ajuste cuadratico")
+plt.axhline(12, color="gray", linestyle="--", label="umbral R=12")
+plt.xlabel("Dosis d")
+plt.ylabel("Respuesta R")
+plt.title("Ajuste cuadratico y umbral de seguridad")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+print(f"a = {a:.4f}")
+print(f"b = {b:.4f}")
+print(f"c = {c:.4f}")
+print(f"R2 = {R2:.4f}")
+
+if len(soluciones) > 0:
+    print(f"Dosis estimada para R=12: {soluciones[0]:.3f}")
+else:
+    print("No hay una solucion real dentro del rango medido")
+
+print("No basta con tomar cualquier raiz de np.roots:")
+print("hay que descartar raices complejas y raices fuera del rango fisico.")
+\end{pythonjupyter}
+\end{solution}
