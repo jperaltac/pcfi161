@@ -20,7 +20,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Sube una semana a Canvas para múltiples usuarios."
     )
-    parser.add_argument("--semana", type=int, default=None, help="Semana a subir (1-15).")
+    parser.add_argument("--semana", type=int, default=None, help="Semana a subir (1-16).")
     parser.add_argument(
         "--usuarios",
         type=str,

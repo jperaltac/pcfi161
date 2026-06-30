@@ -1,0 +1,785 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga del preambulo personalizado
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+\title[Semana 15 - P2]{Semana 15 - P2\\Taller de preparación para la Solemne 3}
+\subtitle{Ejercicios de Pandas, algoritmos, \texttt{np.roots} y \texttt{np.polyfit}}
+
+\begin{document}
+
+\myfront{}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Resumen - Semana 15, Sesión 2 (Sesión 30)}
+  \tableofcontents
+\end{frame}
+
+\metroset{block=fill}
+
+% ========================================================================
+% SECCION 1: Preparacion
+% ========================================================================
+\section{Organización del Taller}
+
+\begin{comment}
+\begin{frame}{Objetivos del taller}
+  \begin{itemize}
+    \item \textbf{Reconocer} qué herramienta corresponde a cada problema.
+    \item \textbf{Organizar} una solución en pasos pequeños y verificables.
+    \item \textbf{Aplicar} Pandas, algoritmos y herramientas numéricas.
+    \item \textbf{Interpretar} tablas, gráficos y resultados computacionales.
+    \item \textbf{Detectar} errores frecuentes antes de entregar una solución.
+  \end{itemize}
+
+  \begin{alertblock}{Enfoque}
+    Primero intente cada ejercicio sin mirar la solución. Compile con \texttt{make pdf-with-answers} para generar la versión docente.
+  \end{alertblock}
+\end{frame}
+\end{comment}
+
+\begin{frame}{Contenidos del repaso}
+  \begin{columns}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Pandas}
+        \begin{itemize}
+          \item Inspección
+          \item Filtros
+          \item Datos faltantes
+          \item \texttt{groupby}
+          \item Gráficos
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Algoritmos}
+        \begin{itemize}
+          \item Búsqueda
+          \item Recursividad
+          \item Bubble Sort
+          \item Merge Sort
+          \item Complejidad
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{NumPy}
+        \begin{itemize}
+          \item \texttt{np.roots}
+          \item \texttt{np.polyfit}
+          \item Residuos
+          \item \(R^2\)
+          \item Interpretación
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{comment}
+\begin{frame}{Método para resolver una pregunta}
+  \begin{enumerate}
+    \item \textbf{Leer}: identificar los datos disponibles y lo solicitado.
+    \item \textbf{Clasificar}: decidir si el problema es de tablas, algoritmos, raíces o ajuste.
+    \item \textbf{Dividir}: transformar el enunciado en tareas pequeñas.
+    \item \textbf{Programar}: ejecutar y revisar cada etapa por separado.
+    \item \textbf{Verificar}: comprobar dimensiones, valores y unidades.
+    \item \textbf{Interpretar}: explicar qué significa el resultado.
+  \end{enumerate}
+
+  \begin{alertblock}{Regla práctica}
+    No escriba toda la solución de una vez. Verifique cada resultado antes de continuar.
+  \end{alertblock}
+\end{frame}
+\end{comment}
+% ========================================================================
+% SECCION 2: PANDAS
+% ========================================================================
+\section{Ejercicios con Pandas}
+
+\begin{frame}{Flujo de trabajo con un DataFrame}
+  \begin{block}{Cinco etapas}
+    \[
+      \text{cargar}
+      \longrightarrow
+      \text{inspeccionar}
+      \longrightarrow
+      \text{limpiar}
+      \longrightarrow
+      \text{resumir}
+      \longrightarrow
+      \text{visualizar}
+    \]
+  \end{block}
+
+  \begin{itemize}
+    \item \texttt{head()}, \texttt{shape}, \texttt{columns}, \texttt{dtypes}
+    \item \texttt{isna()}, \texttt{dropna()}, \texttt{fillna()}
+    \item filtros con condiciones booleanas
+    \item \texttt{groupby()} y \texttt{agg()}
+    \item histogramas, scatter y boxplots
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Datos para los ejercicios de Pandas}
+\begin{minted}{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+datos = {
+    "nombre": ["Sirio", "Canopus", "Arturo", "Vega",
+               "Capella", "Rigel", "Procyon", "Achernar"],
+    "clase": ["A", "F", "K", "A", "G", "B", "F", "B"],
+    "temperatura": [9940, 7350, 4290, 9600,
+                    4970, 12100, 6530, np.nan],
+    "magnitud": [-1.46, -0.74, -0.05, 0.03,
+                  0.08, 0.13, 0.34, 0.46],
+    "distancia_pc": [2.64, 95.0, 11.3, 7.68,
+                     13.0, 264.0, 3.51, 42.8]
+}
+
+estrellas = pd.DataFrame(datos)
+\end{minted}
+
+  Todos los ejercicios de esta sección usan el DataFrame \texttt{estrellas}.
+\end{frame}
+
+\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Inspección y limpieza}
+  \begin{block}{Tareas}
+    \begin{enumerate}
+      \item Muestre las primeras cinco filas.
+      \item Imprima las dimensiones y los tipos de datos.
+      \item Cuente los valores faltantes por columna.
+      \item Cree \texttt{estrellas\_limpias} eliminando las filas sin temperatura.
+      \item Compruebe cuántas filas quedaron.
+    \end{enumerate}
+  \end{block}
+
+  \begin{alertblock}{Pregunta de interpretación}
+    ¿Por qué conviene inspeccionar y limpiar los datos antes de calcular estadísticas?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Filtros y columna derivada}
+  Usando \texttt{estrellas\_limpias}:
+
+  \begin{enumerate}
+    \item Seleccione las estrellas ubicadas a menos de \(15\) pc.
+    \item Seleccione las estrellas con temperatura mayor a \(6000\) K y distancia menor a \(20\) pc.
+    \item Cree una columna \texttt{brillante}:
+    \[
+      \texttt{True si magnitud < 0, False en otro caso.}
+    \]
+    \item Muestre \texttt{nombre}, \texttt{temperatura}, \texttt{distancia\_pc} y \texttt{brillante}.
+  \end{enumerate}
+
+  \begin{alertblock}{Cuidado}
+    En filtros múltiples use paréntesis alrededor de cada condición y \texttt{\&} en lugar de \texttt{and}.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Resumen y visualización}
+  Usando \texttt{estrellas\_limpias}:
+
+  \begin{enumerate}
+    \item Agrupe por \texttt{clase}.
+    \item Calcule temperatura media, magnitud media y cantidad de estrellas.
+    \item Ordene el resumen por temperatura media de mayor a menor.
+    \item Construya un scatter de temperatura versus magnitud.
+    \item Use el color para distinguir la clase espectral.
+  \end{enumerate}
+
+  \begin{block}{Interpretación}
+    Indique qué clase presenta la mayor temperatura media en este pequeño conjunto de datos.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Antes de mirar la solución: Pandas}
+  \begin{block}{Lista de verificación}
+    \begin{itemize}
+      \item ¿Inspeccionó el DataFrame antes de modificarlo?
+      \item ¿Creó una copia limpia sin perder el DataFrame original?
+      \item ¿Usó paréntesis en los filtros múltiples?
+      \item ¿Agrupó solamente después de limpiar los datos?
+      \item ¿Incluyó etiquetas y leyenda en el gráfico?
+      \item ¿Escribió una conclusión basada en los resultados?
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 1: \hfill \textcolor{green}{$\checkmark$} \\ Inspección y limpieza}
+\begin{minted}{python}
+print(estrellas.head())
+print("Dimensiones:", estrellas.shape)
+print(estrellas.dtypes)
+
+print("Valores faltantes:")
+print(estrellas.isna().sum())
+
+estrellas_limpias = estrellas.dropna(
+    subset=["temperatura"]
+).copy()
+
+print("Filas originales:", len(estrellas))
+print("Filas limpias:", len(estrellas_limpias))
+\end{minted}
+
+  \begin{block}{Interpretación}
+    La inspección permite detectar columnas, tipos y datos faltantes antes de aplicar operaciones que podrían producir resultados incorrectos.
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 2: \hfill \textcolor{green}{$\checkmark$} \\ Filtros y columna derivada}
+\begin{minted}{python}
+cercanas = estrellas_limpias[
+    estrellas_limpias["distancia_pc"] < 15
+]
+
+calientes_cercanas = estrellas_limpias[
+    (estrellas_limpias["temperatura"] > 6000) &
+    (estrellas_limpias["distancia_pc"] < 20)
+]
+
+estrellas_limpias["brillante"] = (
+    estrellas_limpias["magnitud"] < 0
+)
+
+columnas = ["nombre", "temperatura",
+            "distancia_pc", "brillante"]
+print(estrellas_limpias[columnas])
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 3: \hfill \textcolor{green}{$\checkmark$} \\ Resumen y visualización}
+\begin{columns}
+\begin{column}{0.52\textwidth}
+\begin{minted}{python}
+resumen = estrellas_limpias.groupby(
+    "clase"
+).agg(
+    temperatura_media=(
+        "temperatura", "mean"
+    ),
+    magnitud_media=(
+        "magnitud", "mean"
+    ),
+    cantidad=("nombre", "count")
+)
+
+resumen = resumen.sort_values(
+    "temperatura_media",
+    ascending=False
+)
+print(resumen)
+\end{minted}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{minted}{python}
+for clase, grupo in \
+        estrellas_limpias.groupby("clase"):
+    plt.scatter(
+        grupo["temperatura"],
+        grupo["magnitud"],
+        label=clase
+    )
+
+plt.xlabel("Temperatura (K)")
+plt.ylabel("Magnitud aparente")
+plt.legend(title="Clase")
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\end{column}
+\end{columns}
+
+  En estos datos, la clase B presenta la mayor temperatura media.
+\end{frame}
+\end{solutionblock}
+
+% ========================================================================
+% SECCION 3: ALGORITMOS
+% ========================================================================
+\section{Ejercicios de Algoritmos}
+
+\begin{frame}{Mapa de algoritmos estudiados}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Búsqueda}
+        \begin{itemize}
+          \item Lineal: revisa uno por uno.
+          \item Binaria: divide una lista ordenada.
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{Recursividad}
+        \begin{itemize}
+          \item Caso base.
+          \item Llamada con un problema menor.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Ordenamiento}
+        \begin{itemize}
+          \item Bubble Sort: \(\mathcal{O}(n^2)\).
+          \item Merge Sort: \(\mathcal{O}(n\log n)\).
+        \end{itemize}
+      \end{block}
+
+      \begin{alertblock}{Idea central}
+        Dos programas correctos pueden necesitar cantidades de trabajo muy diferentes.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Ejercicio 4: \hfill \textcolor{red}{$\clubsuit$} \\ Trazar una función recursiva}
+  Considere la función:
+  \[
+    \texttt{suma\_recursiva([4, 7, 2])}.
+  \]
+
+  \begin{enumerate}
+    \item Escriba una función recursiva que sume los elementos de una lista.
+    \item Identifique claramente el caso base.
+    \item Escriba las llamadas realizadas para la lista \texttt{[4, 7, 2]}.
+    \item Indique qué ocurriría si se elimina el caso base.
+  \end{enumerate}
+
+  \begin{alertblock}{Pista}
+    El problema más pequeño es sumar la lista sin su primer elemento.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Ejercicio 5: \hfill \textcolor{red}{$\clubsuit$} \\ Instrumentar Bubble Sort}
+  Modifique el algoritmo para contar comparaciones e intercambios.
+
+\begin{minted}{python}
+def bubble_sort(lista):
+    n = len(lista)
+    for i in range(n - 1):
+        for j in range(n - 1 - i):
+            if lista[j] > lista[j + 1]:
+                lista[j], lista[j + 1] = \
+                    lista[j + 1], lista[j]
+    return lista
+\end{minted}
+
+  La nueva función debe retornar
+  \texttt{(lista\_ordenada, comparaciones, intercambios)}.
+\end{frame}
+
+\begin{frame}{Ejercicio 6: \hfill \textcolor{red}{$\clubsuit$} \\ Escalamiento del algoritmo}
+  Use listas aleatorias con tamaños:
+  \[
+    n=[10,20,40,80,160].
+  \]
+
+  \begin{enumerate}
+    \item Ejecute \texttt{bubble\_sort\_instrumentado} para cada tamaño.
+    \item Guarde tamaños, comparaciones e intercambios usando \texttt{append()}.
+    \item Grafique las dos cantidades en función de \(n\).
+    \item Compare el crecimiento observado con \(n^2\).
+    \item Explique por qué debe ordenar una copia de cada lista.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Antes de mirar la solución: algoritmos}
+  \begin{block}{Lista de verificación}
+    \begin{itemize}
+      \item ¿La función recursiva tiene un caso base alcanzable?
+      \item ¿El contador de comparaciones está antes del \texttt{if}?
+      \item ¿El contador de intercambios aumenta solo cuando hay intercambio?
+      \item ¿La función retorna los tres resultados solicitados?
+      \item ¿Usó \texttt{lista.copy()} para conservar los datos originales?
+      \item ¿El gráfico permite reconocer la tendencia de crecimiento?
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 4: \hfill \textcolor{green}{$\checkmark$} \\ Suma recursiva}
+\begin{minted}{python}
+def suma_recursiva(lista):
+    # Caso base
+    if len(lista) == 0:
+        return 0
+
+    # Caso recursivo
+    return lista[0] + suma_recursiva(lista[1:])
+
+print(suma_recursiva([4, 7, 2]))
+\end{minted}
+
+  \begin{block}{Seguimiento}
+    \[
+      S([4,7,2])=4+S([7,2])
+      =4+7+S([2])
+      =4+7+2+S([])
+      =13.
+    \]
+  \end{block}
+
+  Sin caso base, las llamadas no terminan y Python genera un \texttt{RecursionError}.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 5: \hfill \textcolor{green}{$\checkmark$} \\ Bubble Sort instrumentado}
+\begin{minted}{python}
+def bubble_sort_instrumentado(lista):
+    n = len(lista)
+    comparaciones = 0
+    intercambios = 0
+
+    for i in range(n - 1):
+        for j in range(n - 1 - i):
+            comparaciones += 1
+
+            if lista[j] > lista[j + 1]:
+                lista[j], lista[j + 1] = \
+                    lista[j + 1], lista[j]
+                intercambios += 1
+
+    return lista, comparaciones, intercambios
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Solución 6: \hfill \textcolor{green}{$\checkmark$} \\ Escalamiento de Bubble Sort}
+\begin{columns}
+\begin{column}{0.52\textwidth}
+\begin{minted}{python}
+np.random.seed(15)
+tamanos = [10, 20, 40, 80, 160]
+comparaciones = []
+intercambios = []
+
+for n in tamanos:
+    datos = np.random.randint(
+        0, 1000, size=n
+    ).tolist()
+
+    ordenada, comp, inter = \
+        bubble_sort_instrumentado(
+            datos.copy()
+        )
+
+    comparaciones.append(comp)
+    intercambios.append(inter)
+\end{minted}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{minted}{python}
+plt.plot(
+    tamanos, comparaciones, "o-",
+    label="comparaciones"
+)
+plt.plot(
+    tamanos, intercambios, "s--",
+    label="intercambios"
+)
+plt.plot(
+    tamanos, np.array(tamanos)**2,
+    "k:", label="referencia n^2"
+)
+plt.xlabel("Tamaño n")
+plt.ylabel("Número de operaciones")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\end{column}
+\end{columns}
+\end{frame}
+\end{solutionblock}
+
+% ========================================================================
+% SECCION 4: ROOTS Y POLYFIT
+% ========================================================================
+\section{Ejercicios con \texttt{roots} y \texttt{polyfit}}
+
+\begin{frame}{¿Qué herramienta corresponde?}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\texttt{np.roots}}
+        \begin{itemize}
+          \item Tenemos una ecuación polinómica.
+          \item Conocemos sus coeficientes.
+          \item Buscamos dónde vale cero.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\texttt{np.polyfit}}
+        \begin{itemize}
+          \item Tenemos pares de datos \(x,y\).
+          \item Elegimos el grado del modelo.
+          \item Buscamos sus coeficientes.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \begin{alertblock}{Pregunta guía}
+    ¿Tengo una ecuación para resolver o mediciones para ajustar?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejercicio 7: \hfill \textcolor{red}{$\clubsuit$} \\ Altura de un objeto}
+  La altura de un objeto está dada por
+  \[
+    h(t)=-4.9t^2+16t+2.
+  \]
+
+  \begin{enumerate}
+    \item Escriba los coeficientes en el orden requerido por \texttt{np.roots}.
+    \item Calcule las raíces de \(h(t)=0\).
+    \item Conserve solamente las raíces reales.
+    \item Seleccione la solución físicamente válida.
+    \item Explique qué representa esa raíz.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Datos para los ejercicios de ajuste}
+\begin{minted}{python}
+t = np.array([0, 1, 2, 3, 4, 5, 6])
+x = np.array([1.2, 3.0, 4.8, 6.9,
+              8.7, 10.6, 12.5])
+
+t2 = np.array([0, 1, 2, 3, 4, 5])
+y2 = np.array([1.1, 3.4, 7.8, 14.1,
+               22.3, 32.2])
+\end{minted}
+
+  \begin{itemize}
+    \item \texttt{t}, \texttt{x}: movimiento aproximadamente uniforme.
+    \item \texttt{t2}, \texttt{y2}: movimiento aproximadamente cuadrático.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejercicio 8: \hfill \textcolor{red}{$\clubsuit$} \\ Ajuste lineal y \(R^2\)}
+  Con los datos \texttt{t} y \texttt{x}:
+
+  \begin{enumerate}
+    \item Ajuste \(x(t)=vt+x_0\) usando \texttt{np.polyfit}.
+    \item Extraiga e interprete \(v\) y \(x_0\).
+    \item Calcule los valores ajustados.
+    \item Calcule residuos y \(R^2\).
+    \item Grafique datos y modelo en la misma figura.
+  \end{enumerate}
+
+  \begin{block}{Interpretación}
+    ¿Qué representa la pendiente en este contexto?
+  \end{block}
+\end{frame}
+
+\begin{frame}{Ejercicio 9: \hfill \textcolor{red}{$\clubsuit$} \\ Ajuste cuadrático y umbral}
+  Con los datos \texttt{t2} y \texttt{y2}:
+
+  \begin{enumerate}
+    \item Ajuste \(y(t)=at^2+bt+c\) usando \texttt{deg=2}.
+    \item Calcule el ajuste sobre una malla fina.
+    \item Grafique datos y modelo.
+    \item Use los coeficientes ajustados para resolver \(y(t)=20\).
+    \item Conserve tiempos reales dentro del intervalo medido.
+  \end{enumerate}
+
+  \begin{alertblock}{Pista}
+    Para resolver \(at^2+bt+c=20\), use los coeficientes \([a,b,c-20]\).
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Antes de mirar la solución: ajuste}
+  \begin{block}{Lista de verificación}
+    \begin{itemize}
+      \item ¿Escribió los coeficientes desde la potencia mayor?
+      \item ¿Incluyó ceros para las potencias ausentes?
+      \item ¿Diferenció raíces matemáticas de soluciones físicas?
+      \item ¿Construyó las predicciones antes de calcular \(R^2\)?
+      \item ¿Graficó datos y ajuste en la misma figura?
+      \item ¿Interpretó los coeficientes con sus unidades?
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{solutionblock}
+\begin{frame}[fragile]{Solución 7: \hfill \textcolor{green}{$\checkmark$} \\ Altura de un objeto}
+\begin{minted}{python}
+coef = [-4.9, 16, 2]
+raices = np.roots(coef)
+
+raices_reales = []
+for raiz in raices:
+    if abs(raiz.imag) < 1e-10:
+        raices_reales.append(raiz.real)
+
+tiempos_fisicos = []
+for tiempo in raices_reales:
+    if tiempo >= 0:
+        tiempos_fisicos.append(tiempo)
+
+print("Raíces:", raices)
+print("Tiempo de impacto:", tiempos_fisicos[0])
+\end{minted}
+
+  La raíz positiva representa el instante posterior al lanzamiento en que el objeto llega al suelo.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 8: \hfill \textcolor{green}{$\checkmark$} \\ Ajuste lineal y \(R^2\)}
+\begin{columns}
+\begin{column}{0.52\textwidth}
+\begin{minted}{python}
+v, x0 = np.polyfit(t, x, deg=1)
+x_fit = v*t + x0
+
+residuos = x - x_fit
+SS_res = np.sum(residuos**2)
+SS_tot = np.sum(
+    (x - np.mean(x))**2
+)
+R2 = 1 - SS_res/SS_tot
+
+print(f"v = {v:.3f}")
+print(f"x0 = {x0:.3f}")
+print(f"R2 = {R2:.4f}")
+\end{minted}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{minted}{python}
+plt.scatter(
+    t, x, label="datos"
+)
+plt.plot(
+    t, x_fit, "r-",
+    label="ajuste lineal"
+)
+plt.xlabel("Tiempo")
+plt.ylabel("Posición")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{minted}
+\end{column}
+\end{columns}
+
+  La pendiente \(v\) representa la velocidad estimada.
+\end{frame}
+
+\begin{frame}[fragile]{Solución 9: \hfill \textcolor{green}{$\checkmark$} \\ Ajuste cuadrático y umbral}
+\begin{columns}
+\begin{column}{0.52\textwidth}
+\begin{minted}{python}
+a, b, c = np.polyfit(
+    t2, y2, deg=2
+)
+
+t_fino = np.linspace(0, 5, 200)
+y_fino = (
+    a*t_fino**2 +
+    b*t_fino + c
+)
+
+coef_umbral = [a, b, c - 20]
+raices = np.roots(coef_umbral)
+
+tiempos = []
+for raiz in raices:
+    if abs(raiz.imag) < 1e-10:
+        if 0 <= raiz.real <= 5:
+            tiempos.append(raiz.real)
+\end{minted}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{minted}{python}
+plt.scatter(
+    t2, y2, label="datos"
+)
+plt.plot(
+    t_fino, y_fino, "r-",
+    label="ajuste grado 2"
+)
+plt.axhline(
+    20, color="black",
+    linestyle="--", label="y = 20"
+)
+plt.xlabel("Tiempo")
+plt.ylabel("Posición")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+print("Tiempos válidos:", tiempos)
+\end{minted}
+\end{column}
+\end{columns}
+\end{frame}
+\end{solutionblock}
+
+% ========================================================================
+% SECCION 5: CIERRE
+% ========================================================================
+\section{Cierre}
+
+\begin{frame}{Errores frecuentes}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Datos y algoritmos}
+        \begin{itemize}
+          \item No revisar valores faltantes.
+          \item Usar \texttt{and} en filtros de Pandas.
+          \item Omitir el caso base.
+          \item Ubicar mal los contadores.
+          \item Modificar la lista original.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Raíces y ajustes}
+        \begin{itemize}
+          \item Desordenar coeficientes.
+          \item Aceptar raíces no físicas.
+          \item Confundir \texttt{roots} con \texttt{polyfit}.
+          \item No calcular predicciones.
+          \item Presentar un gráfico sin interpretación.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Lista de verificación para la Solemne 3}
+  \begin{block}{Puedo resolver una pregunta si...}
+    \begin{itemize}
+      \item identifico los datos de entrada y la salida solicitada;
+      \item selecciono la herramienta adecuada;
+      \item separo la solución en pasos;
+      \item ejecuto y verifico cada paso;
+      \item incluyo etiquetas, unidades y leyendas;
+      \item explico el significado del resultado.
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Última revisión}
+    Un programa no está completo solamente porque ejecuta: también debe responder la pregunta planteada.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Síntesis de la sesión}
+  \begin{itemize}
+    \item \textbf{Pandas}: inspeccionar, limpiar, filtrar, agrupar y visualizar.
+    \item \textbf{Algoritmos}: recursividad, instrumentación y crecimiento del costo.
+    \item \textbf{\texttt{np.roots}}: resolver ecuaciones e interpretar raíces.
+    \item \textbf{\texttt{np.polyfit}}: ajustar datos y evaluar el modelo.
+  \end{itemize}
+
+  \begin{block}{Habilidad integrada}
+    Traducir un problema de física, astronomía o análisis de datos en una secuencia clara de operaciones computacionales.
+  \end{block}
+\end{frame}
+
+\end{document}

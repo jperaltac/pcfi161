@@ -14,7 +14,7 @@ LATEX = $(LATEX_ENV) /Library/TeX/texbin/lualatex -interaction=nonstopmode -halt
 SHOWSOLUTIONS ?= 0
 
 # Archivos fuente
-TEXS = Semana15-P1.tex Semana15-P2.tex
+TEXS = Semana16-P1.tex
 PDFS = $(TEXS:.tex=.pdf)
 
 .PHONY: all clean pdf-with-answers pdf-answers

@@ -1,672 +1,558 @@
 \documentclass[10pt]{beamer}
-\usepackage{xcolor}
 
-% Carga del preámbulo personalizado
+% ------------------------------------------------------------------------
+% Carga del preambulo personalizado
+% ------------------------------------------------------------------------
 \input{../preamble.tex}
+\title[Semana 15 - P1]{Semana 15 - P1\\Repaso para la Solemne 3}
+\subtitle{Análisis de datos, algoritmos y herramientas numéricas}
 
 \begin{document}
 
-% Portada personalizada
 \myfront{}
 
-% Título de la sesión
+% 1
 \begin{frame}
   \titlepage
 \end{frame}
 
-% Índice
+% 2
 \begin{frame}
-  \frametitle{Resumen - Semana 15, Sesión 1}
+  \frametitle{Resumen - Semana 15, Sesión 1 (Sesión 29)}
   \tableofcontents
 \end{frame}
 
-% Configuración de bloques
 \metroset{block=fill}
 
-% ==============================================================================
-% SECCIÓN 1: INTRODUCCIÓN
-% ==============================================================================
+% ========================================================================
+% SECCION 1: CONTEXTO
+% ========================================================================
+\section{Preparación para la Solemne 3}
 
-\section{Introducción y Preparación para la Prueba}
+% 4
+\begin{frame}{Objetivos de aprendizaje}
+  Al finalizar la sesión, cada estudiante debería poder:
 
-\begin{frame}{Objetivos de la Sesión de Preparación}
   \begin{itemize}
-    \item \textbf{Practicar} con ejercicios similares a los de la prueba
-    \item \textbf{Consolidar} el uso de \texttt{np.polyfit} y \texttt{curve\_fit}
-    \item \textbf{Aplicar} análisis de algoritmos con instrumentación
-    \item \textbf{Desarrollar} confianza en resolución de problemas completos
-    \item \textbf{Identificar} áreas de mejora antes de la evaluación
+    \item reconocer el tipo de problema presentado;
+    \item seleccionar una herramienta apropiada;
+    \item dividir una solución en pasos verificables;
+    \item leer y explicar código corto;
+    \item interpretar tablas, gráficos y resultados numéricos;
+    \item detectar errores frecuentes antes de entregar.
   \end{itemize}
-  
+\end{frame}
+
+% 5
+\begin{frame}{Mapa del repaso}
+  \begin{columns}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Pandas}
+        Trabajar con datos organizados en tablas.
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Algoritmos}
+        Comprender pasos, costo y escalamiento.
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{NumPy}
+        Resolver polinomios y ajustar mediciones.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.5cm}
+  \begin{alertblock}{Pregunta central}
+    ¿Qué información tengo y qué resultado necesito obtener?
+  \end{alertblock}
+\end{frame}
+
+% 6
+\begin{frame}{Estrategia general de resolución}
+  \begin{enumerate}
+    \item \textbf{Leer}: identificar datos, variables y resultado solicitado.
+    \item \textbf{Clasificar}: reconocer el tipo de problema.
+    \item \textbf{Planificar}: escribir los pasos antes del código.
+    \item \textbf{Programar}: resolver una etapa a la vez.
+    \item \textbf{Verificar}: revisar tamaños, valores y unidades.
+    \item \textbf{Interpretar}: responder con palabras la pregunta original.
+  \end{enumerate}
+
+  \begin{alertblock}{Buena práctica}
+    Una celda corta que funciona es mejor punto de partida que un programa largo sin verificar.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCION 2: PANDAS
+% ========================================================================
+\section{Repaso de Pandas}
+
+% 7
+\begin{frame}{¿Qué es un DataFrame?}
+  \begin{block}{Idea}
+    Un DataFrame es una tabla bidimensional con filas, columnas, nombres y tipos de datos.
+  \end{block}
+
+  \begin{itemize}
+    \item Cada columna representa una variable.
+    \item Cada fila representa una observación.
+    \item Las columnas pueden contener números, texto o valores lógicos.
+    \item Los valores faltantes suelen representarse con \texttt{NaN}.
+  \end{itemize}
+
+  \begin{alertblock}{Antes de calcular}
+    Debemos conocer la estructura y la calidad de los datos.
+  \end{alertblock}
+\end{frame}
+
+% 8
+\begin{frame}[fragile]{Inspección inicial}
+\begin{minted}{python}
+print(df.head())
+print(df.shape)
+print(df.columns)
+print(df.dtypes)
+print(df.info())
+\end{minted}
+
+  \begin{itemize}
+    \item \texttt{head()}: muestra las primeras filas.
+    \item \texttt{shape}: entrega \texttt{(filas, columnas)}.
+    \item \texttt{columns}: muestra los nombres disponibles.
+    \item \texttt{dtypes}: informa el tipo de cada columna.
+  \end{itemize}
+\end{frame}
+
+% 9
+\begin{frame}[fragile]{Seleccionar columnas}
+  Una columna se selecciona con un nombre; varias columnas, con una lista de nombres.
+
+\begin{minted}{python}
+temperatura = df["temperatura"]
+
+subtabla = df[
+    ["nombre", "temperatura", "distancia"]
+]
+\end{minted}
+
+  \begin{alertblock}{Error frecuente}
+    Para varias columnas se necesitan dos pares de corchetes: uno para seleccionar y otro para construir la lista.
+  \end{alertblock}
+\end{frame}
+
+% 10
+\begin{frame}[fragile]{Filtrar filas}
+\begin{minted}{python}
+cercanas = df[df["distancia"] < 20]
+
+seleccion = df[
+    (df["temperatura"] > 6000) &
+    (df["distancia"] < 20)
+]
+\end{minted}
+
+  \begin{itemize}
+    \item Cada comparación produce valores \texttt{True} o \texttt{False}.
+    \item Pandas conserva las filas donde la condición es verdadera.
+    \item En filtros múltiples usamos \texttt{\&} y paréntesis.
+  \end{itemize}
+\end{frame}
+
+% 11
+\begin{frame}[fragile]{Datos faltantes}
+\begin{minted}{python}
+print(df.isna().sum())
+
+df_limpio = df.dropna(
+    subset=["temperatura"]
+).copy()
+
+df["temperatura"] = df["temperatura"].fillna(
+    df["temperatura"].median()
+)
+\end{minted}
+
+  \begin{block}{Decisión}
+    Eliminar y rellenar no son operaciones equivalentes. La elección depende del significado de los datos.
+  \end{block}
+\end{frame}
+
+% 12
+\begin{frame}{Estadística descriptiva}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Tendencia central}
+        \begin{itemize}
+          \item Media
+          \item Mediana
+        \end{itemize}
+      \end{block}
+
+      La mediana es menos sensible a valores extremos.
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Dispersión}
+        \begin{itemize}
+          \item Desviación estándar
+          \item Mínimo y máximo
+          \item Cuantiles
+        \end{itemize}
+      \end{block}
+
+      La dispersión describe cuánto varían los datos.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 13
+\begin{frame}[fragile]{Agrupar y resumir}
+\begin{minted}{python}
+resumen = df.groupby("clase").agg(
+    temperatura_media=("temperatura", "mean"),
+    magnitud_media=("magnitud", "mean"),
+    cantidad=("nombre", "count")
+)
+
+print(resumen)
+\end{minted}
+
+  \begin{block}{Interpretación}
+    \texttt{groupby} separa las filas por categoría y \texttt{agg} calcula estadísticas dentro de cada grupo.
+  \end{block}
+\end{frame}
+
+% 14
+\begin{frame}{Elegir un gráfico}
+  \begin{itemize}
+    \item \textbf{Histograma}: observar la distribución de una variable.
+    \item \textbf{Scatter}: estudiar la relación entre dos variables numéricas.
+    \item \textbf{Boxplot}: comparar distribuciones entre categorías.
+    \item \textbf{Barras}: comparar cantidades o resúmenes por grupo.
+  \end{itemize}
+
+  \begin{alertblock}{Un gráfico debe incluir}
+    Etiquetas, unidades, título o contexto y, cuando corresponda, una leyenda.
+  \end{alertblock}
+\end{frame}
+
+% 15
+\begin{frame}{Flujo completo con Pandas}
+  \begin{enumerate}
+    \item Cargar o crear el DataFrame.
+    \item Inspeccionar filas, columnas y tipos.
+    \item Detectar y tratar valores faltantes.
+    \item Seleccionar las variables relevantes.
+    \item Filtrar las observaciones necesarias.
+    \item Agrupar y calcular estadísticas.
+    \item Visualizar.
+    \item Escribir una conclusión.
+  \end{enumerate}
+
+  \begin{block}{Resultado esperado}
+    No basta con imprimir una tabla: debemos explicar qué información entrega.
+  \end{block}
+\end{frame}
+
+% ========================================================================
+% SECCION 3: ALGORITMOS
+% ========================================================================
+\section{Repaso de Algoritmos}
+
+% 16
+\begin{frame}{¿Qué es un algoritmo?}
+  \begin{block}{Definición práctica}
+    Un algoritmo es una secuencia finita y ordenada de instrucciones para resolver un problema.
+  \end{block}
+
+  Un algoritmo debe:
+  \begin{itemize}
+    \item recibir datos de entrada;
+    \item realizar operaciones claramente definidas;
+    \item terminar;
+    \item producir un resultado;
+    \item funcionar para más de un caso particular.
+  \end{itemize}
+\end{frame}
+
+% 17
+\begin{frame}{Búsqueda lineal y búsqueda binaria}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Lineal}
+        \begin{itemize}
+          \item Revisa uno por uno.
+          \item Funciona en listas desordenadas.
+          \item Costo aproximado: \(\mathcal{O}(n)\).
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Binaria}
+        \begin{itemize}
+          \item Descarta la mitad en cada paso.
+          \item Requiere una lista ordenada.
+          \item Costo aproximado: \(\mathcal{O}(\log n)\).
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 18
+\begin{frame}{Condición para la búsqueda binaria}
+  Considere la lista:
+  \[
+    [2,\ 5,\ 8,\ 12,\ 20,\ 31,\ 45].
+  \]
+
+  Para buscar \(20\):
+  \begin{enumerate}
+    \item comparar con el elemento central;
+    \item decidir izquierda o derecha;
+    \item repetir sobre la mitad restante.
+  \end{enumerate}
+
   \begin{alertblock}{Importante}
-    Estos ejercicios siguen el mismo formato que la prueba, pero con problemas diferentes.
+    Si la lista no está ordenada, la decisión de descartar una mitad deja de ser válida.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Estructura de la Prueba}
-  \begin{block}{Formato de Evaluación}
-    \begin{itemize}
-      \item \textbf{3 preguntas} de programación aplicada
-      \item \textbf{Datos proporcionados} para cada problema
-      \item \textbf{Tareas paso a paso} claramente especificadas
-      \item \textbf{Librerías permitidas:} \texttt{numpy}, \texttt{matplotlib}, \texttt{scipy}
-    \end{itemize}
+% 19
+\begin{frame}{Estructura de la recursividad}
+  Una función recursiva contiene:
+
+  \begin{block}{Caso base}
+    Situación sencilla que puede resolverse directamente y detiene las llamadas.
   \end{block}
-  
-  \begin{block}{Temas Evaluados}
-    \begin{itemize}
-      \item Ajuste lineal con \texttt{np.polyfit}
-      \item Ajuste no lineal con \texttt{scipy.optimize.curve\_fit}
-      \item Análisis de algoritmos e instrumentación
-    \end{itemize}
+
+  \begin{block}{Caso recursivo}
+    La función se llama a sí misma con una versión más pequeña del problema.
   \end{block}
-\end{frame}
 
-% ==============================================================================
-% SECCIÓN 2: DATOS PROPORCIONADOS PARA TODOS LOS EJERCICIOS
-% ==============================================================================
-
-\section{Datos Proporcionados para los Ejercicios}
-
-\begin{frame}[fragile]{Datos Proporcionados: Ejercicios 1, 2 y 3 \hfill \textcolor{blue}{$\bigstar$}}
-  \begin{alertblock}{Importante: Ejecutar este código primero}
-    En la prueba, este bloque de código estará disponible al inicio. Ejecútalo antes de resolver cualquier ejercicio.
+  \begin{alertblock}{Riesgo}
+    Sin un caso base alcanzable, Python termina con \texttt{RecursionError}.
   \end{alertblock}
-  
-\begin{minted}[fontsize=\tiny]{python}
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-
-# ==================================================================
-# DATOS PARA EJERCICIO 1: Movimiento Rectilíneo Uniforme
-# ==================================================================
-np.random.seed(42)
-t_mru = np.linspace(0, 10, 11) 
-x_real = 2.0 + 2.4 * t_mru
-x_obs = x_real + np.random.normal(0, 0.5, len(t_mru))
-
-# ==================================================================
-# DATOS PARA EJERCICIO 2: Ley de Gravitación Universal
-# ==================================================================
-r_grav = np.linspace(1.0, 10.0, 15)
-K_real = 100.0
-F_real = K_real / r_grav**2
-sigma_F = 0.5 + 0.03 * F_real
-F_obs = F_real + np.random.normal(0, sigma_F)
-\end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{Datos Proporcionados: Ejercicio 3 (continuación) \hfill \textcolor{blue}{$\bigstar$}}
-\begin{minted}[fontsize=\tiny]{python}
-# ==================================================================
-# DATOS PARA EJERCICIO 3: Análisis de Selection Sort
-# ==================================================================
-# 8 listas con tamaños 2^2, 2^3, ..., 2^9
-Lista_1 = np.random.randint(1, 100, size=2**2).tolist()
-Lista_2 = np.random.randint(1, 100, size=2**3).tolist()
-Lista_3 = np.random.randint(1, 100, size=2**4).tolist()
-Lista_4 = np.random.randint(1, 100, size=2**5).tolist()
-Lista_5 = np.random.randint(1, 100, size=2**6).tolist()
-Lista_6 = np.random.randint(1, 100, size=2**7).tolist()
-Lista_7 = np.random.randint(1, 100, size=2**8).tolist()
-Lista_8 = np.random.randint(1, 100, size=2**9).tolist()
-
-print("Datos cargados correctamente para los 3 ejercicios")
-print(f"Ejercicio 1: {len(t_mru)} mediciones de posición vs tiempo")
-print(f"Ejercicio 2: {len(r_grav)} mediciones de fuerza vs distancia")
-print(f"Ejercicio 3: 8 listas con tamaños desde {len(Lista_1)} hasta {len(Lista_8)}")
+% 20
+\begin{frame}[fragile]{Seguimiento de una llamada recursiva}
+\begin{minted}{python}
+def suma_recursiva(lista):
+    if len(lista) == 0:
+        return 0
+    return lista[0] + suma_recursiva(lista[1:])
 \end{minted}
 
-  \textbf{Nota:} Después de ejecutar este código, todas las variables estarán disponibles para resolver los ejercicios.
+  Para \texttt{[4, 7, 2]}:
+  \[
+    S([4,7,2])=4+S([7,2])
+    =4+7+S([2])
+    =4+7+2+S([])
+    =13.
+  \]
 \end{frame}
 
-% ==============================================================================
-% SECCIÓN 3: EJERCICIO 1 - AJUSTE LINEAL
-% ==============================================================================
-
-\section{Ejercicio 1: Movimiento Rectilíneo Uniforme (np.polyfit)}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 1 - Enunciado
-% ------------------------------------------------------------------------
-
-\begin{frame}{Ejercicio 1: \hfill \textcolor{red}{$\clubsuit$} \\ Movimiento Rectilíneo Uniforme}
-  \begin{block}{Contexto Físico}
-    Un carrito se mueve sobre un riel de aire con velocidad constante. Se registra su posición en función del tiempo.
-    
-    \textbf{Modelo matemático:}
-    \[
-    x(t) = x_0 + v \cdot t
-    \]
-    donde: $x_0$ es la posición inicial (m), $v$ es la velocidad (m/s).
+% 21
+\begin{frame}{Bubble Sort}
+  \begin{block}{Idea}
+    Comparar elementos vecinos e intercambiarlos cuando están en el orden incorrecto.
   \end{block}
-  
-  \begin{block}{Datos Experimentales Proporcionados}
-    \begin{itemize}
-      \item \texttt{t\_mru}: tiempos de medición (0, 1, 2, ..., 10 segundos)
-      \item \texttt{x\_obs}: posiciones observadas con ruido experimental
-    \end{itemize}
-  \end{block}
+
+  \begin{itemize}
+    \item En cada pasada, un elemento grande avanza hacia el final.
+    \item Utiliza dos bucles anidados.
+    \item Es fácil de comprender e implementar.
+    \item Para listas grandes realiza muchas comparaciones.
+  \end{itemize}
+
+  \[
+    \text{Costo típico: }\mathcal{O}(n^2).
+  \]
 \end{frame}
 
-\begin{frame}{Ejercicio 1: Tareas a Realizar \hfill \textcolor{red}{$\clubsuit$}}
-  \begin{enumerate}
-    \item \textbf{Ajuste lineal con np.polyfit:}
-    \begin{itemize}
-      \item Usar \texttt{np.polyfit(t\_mru, x\_obs, deg=1)}
-      \item Extraer velocidad ($v$) y posición inicial ($x_0$)
-      \item Calcular posiciones ajustadas: $x_{\text{est}} = x_0 + v \cdot t$
-    \end{itemize}
-    
-    \item \textbf{Cálculo de $R^2$:}
-    \begin{itemize}
-      \item Calcular $SS_{\text{res}} = \sum (x_{\text{obs}} - x_{\text{est}})^2$
-      \item Calcular $SS_{\text{tot}} = \sum (x_{\text{obs}} - \overline{x}_{\text{obs}})^2$
-      \item Obtener $R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}$
-    \end{itemize}
-    
-    \item \textbf{Visualización:} Gráfico con datos observados (scatter) y ajuste (línea)
-    
-    \item \textbf{Reporte:} Imprimir $x_0$, $v$ y $R^2$ con formato adecuado
-  \end{enumerate}
-\end{frame}
-
-% ==============================================================================
-% SECCIÓN 4: SOLUCIÓN EJERCICIO 1
-% ==============================================================================
-
-\section{Solución Ejercicio 1}
-
-% ------------------------------------------------------------------------
-% Slide: Solución Ejercicio 1
-% ------------------------------------------------------------------------
-
-\begin{frame}[fragile]{Solución 1 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Movimiento Rectilíneo Uniforme}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny]{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Datos proporcionados
-#t_mru 
-#x_obs
-
-# Tarea 1: Ajuste lineal
-coef = np.polyfit(t_mru, x_obs, deg=1)
-v_estimado = coef[0]
-x0_estimado = coef[1]
-x_estimado = x0_estimado + v_estimado * t_mru
-
-# Tarea 2: Cálculo de R²
-SS_res = np.sum((x_obs - x_estimado)**2)
-SS_tot = np.sum((x_obs - np.mean(x_obs))**2)
-R2 = 1 - (SS_res / SS_tot)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny,firstnumber=22]{python}
-# Tarea 3: Visualización
-plt.figure(figsize=(8, 5))
-plt.scatter(t_mru, x_obs, 
-            label='Datos observados', 
-            color='blue', s=50)
-plt.plot(t_mru, x_estimado, 'r-', 
-         linewidth=2, label='Ajuste lineal')
-plt.xlabel('Tiempo (s)', fontsize=12)
-plt.ylabel('Posición (m)', fontsize=12)
-plt.title('Movimiento Rectilíneo Uniforme', 
-          fontsize=14)
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.show()
-
-# Tarea 4: Reporte
-print(f"x₀ = {x0_estimado:.3f} m")
-print(f"v = {v_estimado:.3f} m/s")
-print(f"R² = {R2:.4f}")
-calidad = "Bueno" if R2 > 0.95 else "Regular"
-print(f"Calidad del ajuste: {calidad}")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ==============================================================================
-% SECCIÓN 5: EJERCICIO 2 - AJUSTE NO LINEAL
-% ==============================================================================
-
-\section{Ejercicio 2: Ley de Gravitación Universal (curve\_fit)}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 2 - Enunciado
-% ------------------------------------------------------------------------
-
-\begin{frame}{Ejercicio 2: \hfill \textcolor{red}{$\clubsuit$} \\ Ley de Gravitación Universal}
-  \begin{block}{Contexto Físico}
-    Se mide la fuerza gravitacional entre dos masas a diferentes distancias para verificar la ley de gravitación universal.
-    
-    \textbf{Modelo matemático:}
-    \[
-    F(r) = \frac{G M m}{r^2}
-    \]
-    donde: $G$ es la constante gravitacional, $M$ y $m$ son las masas, $r$ es la distancia.
-    
-    Para simplificar: $F(r) = \frac{K}{r^2}$ donde $K = GMm$
-  \end{block}
-  
-  \begin{block}{Datos Experimentales Proporcionados}
-    \begin{itemize}
-      \item \texttt{r\_grav}: distancias (1 a 10 metros)
-      \item \texttt{F\_obs}: fuerzas observadas con incertidumbres
-      \item \texttt{sigma\_F}: incertidumbres en las mediciones
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Ejercicio 2: Tareas a Realizar \hfill \textcolor{red}{$\clubsuit$}}
-  \begin{enumerate}
-    \item \textbf{Definir modelo:} \texttt{def modelo\_gravitacion(r, K)}
-    
-    \item \textbf{Ajuste no lineal:}
-    \begin{itemize}
-      \item Valor inicial: \texttt{p0 = [80]}
-      \item Usar \texttt{curve\_fit} con ponderación por \texttt{sigma\_F}
-      \item Extraer parámetro óptimo y covarianza
-    \end{itemize}
-    
-    \item \textbf{Incertidumbres:} Calcular \texttt{perr = np.sqrt(np.diag(pcov))}
-    
-    \item \textbf{Cálculo de $\chi^2$ reducido:}
-    \begin{itemize}
-      \item Residuos ponderados: $r_i = \frac{F_{\text{obs},i} - F_{\text{fit},i}}{\sigma_{F,i}}$
-      \item $\chi^2 = \sum r_i^2$, $\nu = n - 1$, $\chi^2_{\text{red}} = \chi^2 / \nu$
-    \end{itemize}
-    
-    \item \textbf{Visualización:} Gráfico con barras de error y curva ajustada
-    
-    \item \textbf{Reporte:} Imprimir $K \pm \sigma_K$ y calidad del ajuste
-  \end{enumerate}
-\end{frame}
-
-% ==============================================================================
-% SECCIÓN 6: SOLUCIÓN EJERCICIO 2
-% ==============================================================================
-
-\section{Solución Ejercicio 2}
-
-% ------------------------------------------------------------------------
-% Slide: Solución Ejercicio 2
-% ------------------------------------------------------------------------
-
-\begin{frame}[fragile]{Solución 2 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Ley de Gravitación Universal}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny]{python}
-from scipy.optimize import curve_fit
-
-# Datos proporcionados
-#r_grav 
-#F_obs  
-#sigma_F 
-
-# Tarea 1: Definir modelo
-def modelo_gravitacion(r, K):
-    return K / r**2
-
-# Tarea 2: Ajuste no lineal
-p0 = [80]
-popt, pcov = curve_fit(modelo_gravitacion, 
-                       r_grav, F_obs, p0=p0, 
-                       sigma=sigma_F, 
-                       absolute_sigma=True)
-F_fit = modelo_gravitacion(r_grav, *popt)
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny,firstnumber=29]{python}
-# Tarea 3: Incertidumbres
-perr = np.sqrt(np.diag(pcov))
-sigma_K = perr[0]
-
-# Tarea 4: χ² reducido
-residuos = (F_obs - F_fit) / sigma_F
-chi2 = np.sum(residuos**2)
-nu = len(r_grav) - 1
-chi2_red = chi2 / nu
-
-print(f"χ² = {chi2:.4f}")
-print(f"ν = {nu}")
-print(f"χ²_red = {chi2_red:.4f}")
-
-# Tarea 5: Visualización
-r_fino = np.linspace(1, 10, 200)
-F_fino = modelo_gravitacion(r_fino, *popt)
-
-plt.figure(figsize=(8, 5))
-plt.errorbar(r_grav, F_obs, yerr=sigma_F,fmt='o', label='Datos experimentales')
-plt.plot(r_fino, F_fino, 'r-', linewidth=2,label=f'Ajuste: K={popt[0]:.1f}±{sigma_K:.1f}')
-plt.xlabel('Distancia (m)', fontsize=12)
-plt.ylabel('Fuerza (N)', fontsize=12)
-plt.title('Ley de Gravitación Universal', fontsize=14)
-plt.legend()
-plt.grid(True, alpha=0.3)
-plt.show()
-
-# Tarea 6: Reporte
-print(f"\nK = ({popt[0]:.2f} ± {sigma_K:.2f}) N·m²")
-calidad = "Bueno" if chi2_red < 2 else "Regular"
-print(f"Calidad del ajuste (χ²_red): {calidad}")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ==============================================================================
-% SECCIÓN 7: EJERCICIO 3 - ANÁLISIS DE ALGORITMOS
-% ==============================================================================
-
-\section{Ejercicio 3: Análisis del Algoritmo Selection Sort}
-
-% ------------------------------------------------------------------------
-% Slide: Explicación del Algoritmo Selection Sort
-% ------------------------------------------------------------------------
-
-\begin{frame}{¿Cómo funciona Selection Sort?}
-  \begin{block}{Idea Principal}
-    Selection Sort ordena una lista \textbf{seleccionando} repetidamente el elemento más pequeño de la parte no ordenada y colocándolo al inicio.
-  \end{block}
-  
-  \begin{block}{Proceso Paso a Paso}
+% 22
+\begin{frame}{Merge Sort}
+  \begin{block}{Divide y conquista}
     \begin{enumerate}
-      \item Buscar el elemento \textbf{mínimo} en toda la lista
-      \item Intercambiarlo con el elemento en la \textbf{primera posición}
-      \item Buscar el mínimo en el resto de la lista (desde posición 2)
-      \item Intercambiarlo con el elemento en la \textbf{segunda posición}
-      \item Repetir hasta que toda la lista esté ordenada
+      \item Dividir la lista en dos mitades.
+      \item Ordenar recursivamente cada mitad.
+      \item Mezclar las dos mitades ordenadas.
+    \end{enumerate}
+  \end{block}
+
+  \begin{itemize}
+    \item El caso base es una lista con cero o un elemento.
+    \item La función \texttt{merge} combina listas ya ordenadas.
+    \item Su costo típico es \(\mathcal{O}(n\log n)\).
+  \end{itemize}
+\end{frame}
+
+% 23
+\begin{frame}{Complejidad y escalamiento}
+  \begin{center}
+    \begin{tabular}{lll}
+      \toprule
+      Algoritmo & Complejidad & Al duplicar \(n\) \\
+      \midrule
+      Búsqueda lineal & \(\mathcal{O}(n)\) & trabajo aproximado \(\times 2\) \\
+      Búsqueda binaria & \(\mathcal{O}(\log n)\) & aumenta muy poco \\
+      Bubble Sort & \(\mathcal{O}(n^2)\) & trabajo aproximado \(\times 4\) \\
+      Merge Sort & \(\mathcal{O}(n\log n)\) & algo más que \(\times 2\) \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+
+  \begin{alertblock}{Interpretación}
+    La complejidad describe una tendencia de crecimiento, no un tiempo exacto en segundos.
+  \end{alertblock}
+\end{frame}
+
+% 24
+\begin{frame}{Medir el trabajo de un algoritmo}
+  Podemos estudiar un algoritmo de dos formas:
+
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Tiempo}
+        Medir cuánto tarda con \texttt{time.time()}.
+
+        Depende del computador y de otros procesos.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Operaciones}
+        Contar comparaciones, intercambios o llamadas.
+
+        Describe directamente el trabajo realizado.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.4cm}
+  Al probar varios tamaños podemos graficar costo versus \(n\).
+\end{frame}
+
+% ========================================================================
+% SECCION 4: ROOTS Y POLYFIT
+% ========================================================================
+\section{Repaso de \texttt{roots} y \texttt{polyfit}}
+
+% 25
+\begin{frame}{Resolver ecuaciones con \texttt{np.roots}}
+  \texttt{np.roots} encuentra los valores donde un polinomio es cero.
+
+  \[
+    p(x)=a_nx^n+\cdots+a_2x^2+a_1x+a_0.
+  \]
+
+  La entrada es:
+  \[
+    \texttt{[a\_n, ..., a\_2, a\_1, a\_0]}.
+  \]
+
+  \begin{alertblock}{Orden obligatorio}
+    Los coeficientes se escriben desde la potencia mayor hasta el término independiente.
+  \end{alertblock}
+\end{frame}
+
+% 26
+\begin{frame}[fragile]{Raíces reales y soluciones físicas}
+\begin{minted}{python}
+coef = [-4.9, 16, 2]
+raices = np.roots(coef)
+
+for raiz in raices:
+    if abs(raiz.imag) < 1e-10:
+        tiempo = raiz.real
+        if tiempo >= 0:
+            print(tiempo)
+\end{minted}
+
+  \begin{itemize}
+    \item Una raíz compleja puede ser matemáticamente correcta.
+    \item Una raíz real negativa puede no tener sentido físico.
+    \item El contexto determina cuáles soluciones se aceptan.
+  \end{itemize}
+\end{frame}
+
+% 27
+\begin{frame}{Ajustar datos con \texttt{np.polyfit}}
+  Si tenemos mediciones \((x_i,y_i)\), buscamos un polinomio que represente su tendencia.
+
+  \begin{block}{Ajuste lineal}
+    \[
+      y=mx+b,
+      \qquad
+      \texttt{m, b = np.polyfit(x, y, deg=1)}.
+    \]
+  \end{block}
+
+  \begin{block}{Ajuste cuadrático}
+    \[
+      y=ax^2+bx+c,
+      \qquad
+      \texttt{a, b, c = np.polyfit(x, y, deg=2)}.
+    \]
+  \end{block}
+\end{frame}
+
+% 28
+\begin{frame}[fragile]{Residuos y coeficiente \(R^2\)}
+\begin{minted}{python}
+y_fit = m*x + b
+residuos = y - y_fit
+
+SS_res = np.sum(residuos**2)
+SS_tot = np.sum((y - np.mean(y))**2)
+R2 = 1 - SS_res/SS_tot
+\end{minted}
+
+  \begin{itemize}
+    \item El residuo es la diferencia entre dato y modelo.
+    \item \(R^2\) cercano a 1 indica que el modelo explica gran parte de la variación.
+    \item Un valor alto no reemplaza la inspección del gráfico.
+  \end{itemize}
+\end{frame}
+
+% 29
+\begin{frame}{Combinar \texttt{polyfit} y \texttt{roots}}
+  Podemos ajustar datos y luego resolver una pregunta sobre el modelo.
+
+  \begin{block}{Ejemplo de flujo}
+    \begin{enumerate}
+      \item Ajustar \(y=ax^2+bx+c\).
+      \item Preguntar cuándo el modelo alcanza \(y=20\).
+      \item Reescribir:
+      \[
+        ax^2+bx+(c-20)=0.
+      \]
+      \item Aplicar \texttt{np.roots([a, b, c - 20])}.
+      \item Filtrar soluciones según el contexto.
     \end{enumerate}
   \end{block}
 \end{frame}
 
-\begin{frame}{Visualización del Proceso de Selection Sort}
+% ========================================================================
+% SECCION 5: CIERRE
+% ========================================================================
+\section{Cierre}
 
-  \begin{alertblock}{Ejemplo Visual}
-    Lista inicial: \texttt{[64, 25, 12, 22, 11]}
-    \begin{itemize}
-      \item Iteración 1: Encontrar mín(64,25,12,22,11)=\\ 11 $\rightarrow$ \texttt{[\textbf{11}, 25, 12, 22, 64]}
-      \item Iteración 2: Encontrar mín(25,12,22,64)=\\ 12 $\rightarrow$ \texttt{[11, \textbf{12}, 25, 22, 64]}
-      \item Iteración 3: Encontrar mín(25,22,64)=\\ 22 $\rightarrow$ \texttt{[11, 12, \textbf{22}, 25, 64]}
-      \item Iteración 4: Encontrar mín(25,64)=\\ 25 $\rightarrow$ \texttt{[11, 12, 22, \textbf{25}, 64]}
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
-
-% ------------------------------------------------------------------------
-% Slide: Ejercicio 3 - Enunciado
-% ------------------------------------------------------------------------
-
-\begin{frame}[fragile]{Ejercicio 3: \hfill \textcolor{red}{$\clubsuit$} \\ Análisis del Algoritmo Selection Sort}
-  \begin{block}{Contexto Computacional}
-    Selection Sort es otro algoritmo de ordenamiento simple con complejidad $O(n^2)$. Encuentra el elemento mínimo y lo intercambia con la posición actual.
-    
-    \textbf{Algoritmo proporcionado:}
-\begin{minted}[fontsize=\tiny]{python}
-def selection_sort(lst):
-    n = len(lst)
-    for i in range(n-1):
-        min_idx = i
-        for j in range(i+1, n):
-            if lst[j] < lst[min_idx]:
-                min_idx = j
-        lst[i], lst[min_idx] = lst[min_idx], lst[i]
-    return lst
-\end{minted}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Ejercicio 3: Datos Proporcionados \hfill \textcolor{red}{$\clubsuit$}}
-  \begin{block}{Listas Proporcionadas}
-    Se han generado 8 listas con tamaños potencias de 2:
-    \begin{itemize}
-      \item \texttt{Lista\_1} con $2^2 = 4$ elementos
-      \item \texttt{Lista\_2} con $2^3 = 8$ elementos
-      \item \texttt{Lista\_3} con $2^4 = 16$ elementos
-      \item $\vdots$
-      \item \texttt{Lista\_8} con $2^9 = 512$ elementos
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Ejercicio 3: Tareas a Realizar \hfill \textcolor{red}{$\clubsuit$}}
-  \begin{enumerate}
-    \item \textbf{Instrumentación del algoritmo:}
-    \begin{itemize}
-      \item Crear \texttt{selection\_sort\_instrumentado(lst)}
-      \item Agregar contadores: \texttt{comparaciones} e \texttt{intercambios}
-      \item Retornar: \texttt{(lista\_ordenada, comparaciones, intercambios)}
-    \end{itemize}
-    
-    \item \textbf{Análisis experimental:}
-    \begin{itemize}
-      \item Crear listas: \texttt{longitud\_lista}, \texttt{num\_comparaciones}, \texttt{num\_intercambios}
-      \item Usar bucle para procesar \texttt{Lista\_1} hasta \texttt{Lista\_8}
-      \item Almacenar resultados con \texttt{.append()}
-    \end{itemize}
-    
-    \item \textbf{Visualización:}
-    \begin{itemize}
-      \item Gráfico de comparaciones vs tamaño
-      \item Gráfico de intercambios vs tamaño
-      \item Incluir etiquetas, leyenda y título
-    \end{itemize}
-  \end{enumerate}
-\end{frame}
-
-% ==============================================================================
-% SECCIÓN 8: SOLUCIÓN EJERCICIO 3
-% ==============================================================================
-
-\section{Solución Ejercicio 3}
-
-% ------------------------------------------------------------------------
-% Slide: Solución Ejercicio 3
-% ------------------------------------------------------------------------
-
-\begin{frame}[fragile]{Solución 3 de Referencia: \hfill \textcolor{green}{$\checkmark$} \\ Algoritmo Selection Sort}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny]{python}
-# Tarea 1: Instrumentación
-def selection_sort_instrumentado(lst):
-    n = len(lst)
-    comparaciones = 0
-    intercambios = 0
-    
-    for i in range(n-1):
-        min_idx = i
-        for j in range(i+1, n):
-            comparaciones += 1
-            if lst[j] < lst[min_idx]:
-                min_idx = j
-        
-        if min_idx != i:
-            lst[i], lst[min_idx] = \
-                lst[min_idx], lst[i]
-            intercambios += 1
-    
-    return lst, comparaciones, intercambios
-
-# Tarea 2: Análisis experimental
-longitud_lista = []
-num_comparaciones = []
-num_intercambios = []
-\end{minted}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{minted}[fontsize=\tiny,firstnumber=30]{python}
-for i in range(1, 9):
-    lista = eval(f"Lista_{i}")
-    lista_ord, comp, inter = selection_sort_instrumentado(lista)
-    
-    longitud_lista.append(len(lista_ord))
-    num_comparaciones.append(comp)
-    num_intercambios.append(inter)
-
-# Tarea 3: Visualización
-plt.figure(figsize=(10, 5))
-plt.subplot(1, 2, 1)
-plt.plot(longitud_lista, num_comparaciones,'o-', color='blue', linewidth=2)
-plt.xlabel('Tamaño de lista (n)', fontsize=11)
-plt.ylabel('Comparaciones', fontsize=11)
-plt.title('Comparaciones vs Tamaño', fontsize=12)
-plt.grid(True, alpha=0.3)
-
-plt.subplot(1, 2, 2)
-plt.plot(longitud_lista, num_intercambios,'s--', color='green', linewidth=2)
-plt.xlabel('Tamaño de lista (n)', fontsize=11)
-plt.ylabel('Intercambios', fontsize=11)
-plt.title('Intercambios vs Tamaño',fontsize=12)
-plt.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.show()
-
-print("Análisis completado")
-\end{minted}
-\end{column}
-\end{columns}
-\end{frame}
-
-% ==============================================================================
-% SECCIÓN 9: CONSOLIDACIÓN Y CONSEJOS
-% ==============================================================================
-
-\section{Consolidación y Consejos para la Prueba}
-
-\begin{frame}{Errores Comunes a Evitar}
-  \begin{block}{En Ajustes Lineales (np.polyfit)}
-    \begin{itemize}
-      \item Confundir el orden de los coeficientes (pendiente vs intercepto)
-      \item Olvidar calcular las predicciones ajustadas
-      \item No usar \texttt{np.mean()} correctamente para $R^2$
-    \end{itemize}
-  \end{block}
-  
-  \begin{block}{En Ajustes No Lineales (curve\_fit)}
-    \begin{itemize}
-      \item No definir correctamente la función del modelo
-      \item Olvidar desempaquetar parámetros con \texttt{*popt}
-      \item Confundir \texttt{pcov} con las incertidumbres directas
-      \item No calcular grados de libertad correctamente
-    \end{itemize}
-  \end{block}
-  
-  \begin{block}{En Análisis de Algoritmos}
-    \begin{itemize}
-      \item Olvidar incrementar contadores en todos los lugares necesarios
-      \item No usar \texttt{.append()} para almacenar resultados
-      \item Confundir nombres de variables en bucles
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Consejos para el Día de la Prueba}
-  \begin{alertblock}{Preparación Técnica}
-    \begin{itemize}
-      \item Verificar que todas las librerías funcionen: \texttt{numpy}, \texttt{matplotlib}, \texttt{scipy}
-      \item Tener notebook o script de Python listo para trabajar
-      \item Recordar sintaxis de funciones clave: \texttt{polyfit}, \texttt{curve\_fit}
-    \end{itemize}
-  \end{alertblock}
-  
-  \begin{block}{Estrategia de Resolución}
-    \begin{itemize}
-      \item \textbf{Leer completamente} cada ejercicio antes de empezar
-      \item \textbf{Seguir el orden} de las tareas especificadas
-      \item \textbf{Probar el código} paso a paso (no esperar al final)
-      \item \textbf{Comentar} el código para mantener claridad
-      \item \textbf{Verificar unidades} en resultados físicos
-    \end{itemize}
-  \end{block}
-  
-  \begin{block}{Gestión del Tiempo}
-    \begin{itemize}
-      \item Distribuir tiempo equitativamente entre las 3 preguntas
-      \item Si te atascas, avanzar a la siguiente tarea y volver después
-      \item Dejar tiempo para verificación final
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Lista de Verificación Pre-Prueba}
-  \begin{block}{Conocimientos Técnicos}
-    \checkmark\ Ajuste lineal con \texttt{np.polyfit}\\
-    \checkmark\ Cálculo de $R^2$ manualmente\\
-    \checkmark\ Definición de modelos matemáticos en Python\\
-    \checkmark\ Uso de \texttt{curve\_fit} con incertidumbres\\
-    \checkmark\ Cálculo de $\chi^2$ reducido\\
-    \checkmark\ Instrumentación de algoritmos con contadores\\
-    \checkmark\ Uso de bucles para procesamiento múltiple\\
-    \checkmark\ Creación de gráficos con \texttt{matplotlib}
-  \end{block}
-  
-  \begin{block}{Habilidades Prácticas}
-    \checkmark\ Lectura e interpretación de enunciados físicos\\
-    \checkmark\ Traducción de fórmulas matemáticas a código\\
-    \checkmark\ Debugging sistemático de errores\\
-    \checkmark\ Interpretación de resultados numéricos
-  \end{block}
-\end{frame}
-
-% ==============================================================================
-% SECCIÓN 10: CONCLUSIONES
-% ==============================================================================
-
-\section{Conclusiones}
-
-\begin{frame}{Resumen de la Sesión}
+% 30
+\begin{frame}{Lista final de verificación}
   \begin{itemize}
-    \item \textbf{Practicamos} con tres ejercicios tipo prueba:
-    \begin{itemize}
-      \item Movimiento rectilíneo uniforme (ajuste lineal)
-      \item Ley de gravitación universal (ajuste no lineal)
-      \item Análisis de Selection Sort (instrumentación)
-    \end{itemize}
-    \item \textbf{Consolidamos} el uso de herramientas clave de Python científico
-    \item \textbf{Identificamos} errores comunes y estrategias de resolución
-    \item \textbf{Preparamos} el ambiente técnico para la evaluación
+    \item \textbf{Pandas}: inspeccionar, limpiar, filtrar, agrupar e interpretar.
+    \item \textbf{Algoritmos}: identificar caso base, ciclos, contadores y escalamiento.
+    \item \textbf{\texttt{np.roots}}: ordenar coeficientes y filtrar raíces.
+    \item \textbf{\texttt{np.polyfit}}: construir predicciones, residuos y gráfico.
+    \item \textbf{Siempre}: incluir etiquetas, unidades y una conclusión.
   \end{itemize}
-  
-  \begin{block}{Habilidad Desarrollada}
-    Capacidad para resolver problemas completos de física computacional siguiendo especificaciones detalladas, aplicando ajustes de datos y análisis algorítmico.
-  \end{block}
-\end{frame}
 
-\begin{frame}{Preparación Final}
-  \begin{alertblock}{Antes de la Prueba}
-    \begin{itemize}
-      \item Revisar estos ejercicios de práctica
-      \item Repasar sintaxis de funciones clave
-      \item Verificar instalación de librerías
-      \item Preparar ambiente de trabajo limpio
-    \end{itemize}
+  \begin{alertblock}{Preparación para P2}
+    La segunda parte aplicará este mapa conceptual en ejercicios tipo Solemne 3.
   \end{alertblock}
-  
-  \begin{block}{Durante la Prueba}
-    \begin{itemize}
-      \item Mantener la calma y leer cuidadosamente
-      \item Seguir las tareas paso a paso
-      \item Probar código frecuentemente
-      \item Gestionar bien el tiempo
-    \end{itemize}
-  \end{block}
-  
-  \begin{center}
-    \Large{\textbf{¡Confía en tu preparación!}}\\[0.3cm]
-    \normalsize{Has desarrollado todas las habilidades necesarias}\\
-    \textbf{¡Éxito en la prueba!}
-  \end{center}
 \end{frame}
 
 \end{document}

@@ -1,0 +1,592 @@
+\documentclass[10pt]{beamer}
+
+% ------------------------------------------------------------------------
+% Carga del preambulo personalizado
+% ------------------------------------------------------------------------
+\input{../preamble.tex}
+\title[Semana 16 - P1]{Herramientas para seguir programando}
+\subtitle{Semana 16 - P1\\Entornos, colaboración, documentación y aprendizaje autónomo}
+
+\begin{document}
+
+\myfront{}
+
+% 1
+\begin{frame}[plain]
+  \vspace*{0.35cm}
+  {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}
+  \vspace{0.20cm}
+  {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}
+  \vspace{0.30cm}
+  {\usebeamercolor[fg]{title separator}\rule{\textwidth}{2pt}}
+
+  \vspace{0.42cm}
+  {\usebeamerfont{author}\insertauthor\par}
+  \vspace{0.15cm}
+  {\usebeamerfont{date}\insertdate\par}
+  \vspace{0.20cm}
+  {\usebeamerfont{institute}\insertinstitute\par}
+
+  \vfill
+  \includegraphics[width=.065\textwidth]{1) Logo/logo-tux.png}\hfill
+  \includegraphics[width=.24\textwidth]{1) Logo/logo-unab.png}\hfill
+  \includegraphics[width=.065\textwidth]{1) Logo/logo-python.png}
+  \vspace*{0.30cm}
+\end{frame}
+
+% 2
+\begin{frame}
+  \frametitle{Resumen - Semana 16, Sesión 1 (Sesión 31)}
+  \tableofcontents
+\end{frame}
+
+\metroset{block=fill}
+
+% ========================================================================
+% SECCION 1: CONTEXTO
+% ========================================================================
+\section{Cierre del curso}
+
+% 3
+\begin{frame}{Objetivos de la sesión}
+  Al finalizar la sesión, cada estudiante debería poder:
+
+  \begin{itemize}
+    \item reconocer herramientas habituales en programación científica;
+    \item distinguir editor, intérprete, terminal, repositorio y plataforma;
+    \item ubicar documentación oficial para seguir aprendiendo;
+    \item evaluar cuándo conviene usar cada herramienta;
+    \item preparar una ruta personal de aprendizaje después del curso.
+  \end{itemize}
+\end{frame}
+
+% 4
+\begin{frame}{Idea central}
+  \begin{alertblock}{Programar no es solo escribir código}
+    También implica organizar archivos, ejecutar programas, leer documentación,
+    colaborar, reportar resultados y aprender herramientas nuevas.
+  \end{alertblock}
+
+  \begin{columns}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Entorno}
+        Donde escribimos, ejecutamos y depuramos código.
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Colaboración}
+        Donde compartimos cambios, revisiones y proyectos.
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{Comunidad}
+        Donde practicamos, leemos ejemplos y seguimos aprendiendo.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 5
+\begin{frame}{Mapa de herramientas}
+  \begin{center}
+    \includegraphics[width=0.10\textwidth]{2) Plataformas/vscode.png}\hspace{0.06\textwidth}
+    \includegraphics[width=0.11\textwidth]{1) Logo/logo-python.png}\hspace{0.06\textwidth}
+    \includegraphics[width=0.13\textwidth]{2) Plataformas/bash.png}
+
+    \vspace{0.35cm}
+    \includegraphics[width=0.11\textwidth]{2) Plataformas/github.png}\hspace{0.06\textwidth}
+    \includegraphics[width=0.18\textwidth]{2) Plataformas/kaggle.png}\hspace{0.06\textwidth}
+    \includegraphics[width=0.13\textwidth]{2) Plataformas/latex.png}\hspace{0.06\textwidth}
+    \includegraphics[width=0.10\textwidth]{2) Plataformas/3blue1brown.png}
+  \end{center}
+
+  \begin{block}{Uso de la clase}
+    Esta sesión no busca dominar cada herramienta. Busca que sepan que existen,
+    para qué sirven y dónde investigar por cuenta propia.
+  \end{block}
+\end{frame}
+
+% ========================================================================
+% SECCION 2: ENTORNO LOCAL
+% ========================================================================
+\section{Entorno local}
+
+% 6
+\begin{frame}{VS Code}
+  \begin{columns}
+    \begin{column}{0.22\textwidth}
+      \centering
+      \includegraphics[width=0.8\textwidth]{2) Plataformas/vscode.png}
+    \end{column}
+    \begin{column}{0.72\textwidth}
+      \begin{block}{Qué es}
+        Un editor de código extensible. Permite escribir programas, navegar
+        archivos, ejecutar terminales, depurar y trabajar con extensiones.
+      \end{block}
+
+      \begin{itemize}
+        \item Útil para proyectos con varios archivos.
+        \item Tiene extensión oficial para Python.
+        \item Integra terminal, debugger, control de versiones y notebooks.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \begin{alertblock}{Documentación}
+    \href{https://code.visualstudio.com}{code.visualstudio.com}
+  \end{alertblock}
+\end{frame}
+
+% 7
+\begin{frame}{Previsualización: VS Code}
+  \begin{center}
+    \includegraphics[width=0.92\textwidth]{2) Plataformas/preview-vscode.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  Vista general del editor: explorador de archivos, extensiones, editor de
+  código, autocompletado y terminal integrada.
+\end{frame}
+
+% 8
+\begin{frame}{Intérprete de Python y paquetes}
+  \begin{columns}
+    \begin{column}{0.22\textwidth}
+      \centering
+      \includegraphics[width=0.75\textwidth]{1) Logo/logo-python.png}
+    \end{column}
+    \begin{column}{0.72\textwidth}
+      \begin{block}{Qué conviene distinguir}
+        El editor no ejecuta Python por sí solo: necesita un intérprete. Los
+        paquetes agregan herramientas que no vienen en la instalación mínima.
+      \end{block}
+
+      \begin{itemize}
+        \item \textbf{Intérprete}: programa que ejecuta código Python.
+        \item \textbf{Entorno virtual}: espacio separado para paquetes de un proyecto.
+        \item \textbf{\texttt{pip}}: herramienta para instalar paquetes.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \begin{alertblock}{Documentación}
+    \href{https://docs.python.org/3/tutorial/venv.html}{docs.python.org/3/tutorial/venv.html}
+  \end{alertblock}
+\end{frame}
+
+% 9
+\begin{frame}{Previsualización: documentación de Python}
+  \begin{center}
+    \includegraphics[width=0.92\textwidth]{2) Plataformas/preview-python-docs.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  La documentación oficial suele incluir explicación conceptual, comandos
+  mínimos y ejemplos reproducibles.
+\end{frame}
+
+% 10
+\begin{frame}[fragile]{Bash y terminal}
+  \small
+  \begin{columns}
+    \begin{column}{0.25\textwidth}
+      \centering
+      \includegraphics[width=0.9\textwidth]{2) Plataformas/bash.png}
+    \end{column}
+    \begin{column}{0.69\textwidth}
+      \begin{block}{Qué es}
+        Una shell permite conversar con el sistema usando comandos. Bash es una
+        de las shells más conocidas.
+      \end{block}
+
+      \begin{itemize}
+        \item Moverse entre carpetas y ejecutar programas.
+        \item Automatizar tareas repetitivas.
+        \item Trabajar en servidores y ciencia de datos.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+\vspace{-0.1cm}
+\begin{minted}{bash}
+pwd        # carpeta actual
+ls         # listar archivos
+cd datos   # entrar a una carpeta
+python script.py
+\end{minted}
+
+  \vspace{-0.15cm}
+  \scriptsize\textbf{Documentación:}
+  \href{https://www.gnu.org/software/bash/manual/}{gnu.org/software/bash/manual}
+
+  \textbf{Canal recomendado:}
+  \href{https://www.youtube.com/@mouredev}{MoureDev by Brais Moure}
+\end{frame}
+
+% 11
+\begin{frame}{Previsualización: \texttt{pwd}}
+  \begin{center}
+    \includegraphics[width=0.86\textwidth]{2) Plataformas/terminal-pwd.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  \texttt{pwd} muestra la ruta completa de la carpeta actual.
+\end{frame}
+
+% 12
+\begin{frame}{Previsualización: \texttt{ls}}
+  \begin{center}
+    \includegraphics[width=0.86\textwidth]{2) Plataformas/terminal-ls.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  \texttt{ls} muestra archivos y carpetas disponibles en la ubicación actual.
+\end{frame}
+
+% 13
+\begin{frame}{Previsualización: \texttt{cd}}
+  \begin{center}
+    \includegraphics[width=0.86\textwidth]{2) Plataformas/terminal-cd.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  \texttt{cd datos} entra a la carpeta \texttt{datos}; después, los comandos se
+  ejecutan desde esa nueva ubicación.
+\end{frame}
+
+% 14
+\begin{frame}{Previsualización: \texttt{python archivo.py}}
+  \begin{center}
+    \includegraphics[width=0.86\textwidth]{2) Plataformas/terminal-python.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  Ejecutar un archivo desde la terminal permite reproducir análisis completos
+  sin depender de celdas interactivas.
+\end{frame}
+
+% ========================================================================
+% SECCION 3: COLABORACION
+% ========================================================================
+\section{Colaboración}
+
+% 13
+\begin{frame}{GitHub}
+  \begin{columns}
+    \begin{column}{0.22\textwidth}
+      \centering
+      \includegraphics[width=0.8\textwidth]{2) Plataformas/github.png}
+    \end{column}
+    \begin{column}{0.72\textwidth}
+      \begin{block}{Qué es}
+        Una plataforma para alojar proyectos de código, registrar cambios,
+        discutir problemas y colaborar mediante revisiones.
+      \end{block}
+
+      \begin{itemize}
+        \item Un repositorio guarda código, datos livianos y documentación.
+        \item Los commits registran cambios importantes.
+        \item Las pull requests permiten revisar antes de integrar.
+        \item Un README explica qué hace el proyecto y cómo usarlo.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \begin{alertblock}{Documentación}
+    \href{https://github.com/}{https://github.com/}
+  \end{alertblock}
+\end{frame}
+
+% 14
+\begin{frame}{Previsualización: repositorio en GitHub}
+  \begin{center}
+    \includegraphics[width=0.92\textwidth]{2) Plataformas/preview-github.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  Un repositorio muestra archivos, historial, issues, pull requests, ramas y
+  metadatos del proyecto.
+\end{frame}
+
+% 15
+\begin{frame}{Colaborar de manera ordenada}
+  \begin{enumerate}
+    \item Crear o clonar un repositorio.
+    \item Trabajar en una rama para no romper la versión principal.
+    \item Hacer commits pequeños y con mensajes claros.
+    \item Abrir una pull request para recibir revisión.
+    \item Conversar cambios, corregir y cerrar la tarea.
+  \end{enumerate}
+
+  \begin{alertblock}{Idea práctica}
+    Un proyecto compartido necesita historia, instrucciones y acuerdos. GitHub
+    ayuda a mantener esas tres cosas visibles.
+  \end{alertblock}
+\end{frame}
+
+% ========================================================================
+% SECCION 4: PRACTICA Y COMUNIDAD
+% ========================================================================
+\section{Práctica y comunidad}
+
+% 16
+\begin{frame}{Kaggle}
+  \small
+  \begin{columns}
+    \begin{column}{0.28\textwidth}
+      \centering
+      \includegraphics[width=0.95\textwidth]{2) Plataformas/kaggle.png}
+    \end{column}
+    \begin{column}{0.66\textwidth}
+      \begin{block}{Qué es}
+        Una plataforma para practicar análisis de datos, notebooks, aprendizaje
+        automático y competencias con conjuntos de datos públicos.
+      \end{block}
+
+      \begin{itemize}
+        \item Permite explorar datasets reales.
+        \item Los notebooks se pueden ejecutar en la nube.
+        \item Es útil para leer soluciones de otras personas.
+        \item Sus competencias sirven como desafíos de aprendizaje.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \begin{alertblock}{Documentación}
+    \href{https://www.kaggle.com}{kaggle.com}
+  \end{alertblock}
+\end{frame}
+
+% 17
+\begin{frame}{Previsualización: Kaggle Competitions}
+  \begin{center}
+    \includegraphics[width=0.92\textwidth]{2) Plataformas/preview-kaggle-competitions.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  Las competencias presentan problemas abiertos, datos, reglas de evaluación y
+  soluciones compartidas por la comunidad.
+\end{frame}
+
+% 18
+\begin{frame}{Previsualización: Kaggle Learn}
+  \begin{center}
+    \includegraphics[width=0.92\textwidth]{2) Plataformas/preview-kaggle-learn.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  Los cursos y guías permiten practicar conceptos de ciencia de datos con
+  notebooks y ejercicios guiados.
+\end{frame}
+
+% 19
+\begin{frame}{YouTube como complemento}
+  \small
+  \begin{columns}
+    \begin{column}{0.22\textwidth}
+      \centering
+      \includegraphics[width=0.8\textwidth]{2) Plataformas/3blue1brown.png}
+    \end{column}
+    \begin{column}{0.72\textwidth}
+      \begin{block}{Uso recomendado}
+        Los videos ayudan a formar intuición visual y conceptual. No reemplazan
+        la documentación, pero pueden facilitar temas difíciles.
+      \end{block}
+
+      \begin{itemize}
+        \item \textbf{3Blue1Brown}: matemáticas, álgebra lineal, cálculo e intuición.
+        \item \textbf{MoureDev}: programación, terminal, Git y recursos para practicar.
+        \item \textbf{StatQuest}: estadística y aprendizaje automático.
+        \item \textbf{freeCodeCamp}: tutoriales largos de programación.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \begin{alertblock}{Punto de partida}
+    \href{https://www.youtube.com/@3blue1brown}{youtube.com/@3blue1brown}
+  \end{alertblock}
+\end{frame}
+
+% 20
+\begin{frame}{Previsualización: canal 3Blue1Brown}
+  \begin{center}
+    \includegraphics[width=0.92\textwidth]{2) Plataformas/preview-3blue1brown-youtube.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  Canal recomendado para complementar intuición matemática y visual, no para
+  reemplazar documentación o práctica.
+\end{frame}
+
+% ========================================================================
+% SECCION 5: COMUNICACION TECNICA
+% ========================================================================
+\section{Comunicación técnica}
+
+% 21
+\begin{frame}{LaTeX}
+  \small
+  \begin{columns}
+    \begin{column}{0.30\textwidth}
+      \centering
+      \includegraphics[width=0.95\textwidth]{2) Plataformas/latex.png}
+    \end{column}
+    \begin{column}{0.64\textwidth}
+      \begin{block}{Qué es}
+        Un sistema para escribir documentos técnicos con ecuaciones,
+        referencias, figuras, tablas y bibliografía de manera reproducible.
+      \end{block}
+
+      \begin{itemize}
+        \item Muy usado en física, astronomía, matemática e ingeniería.
+        \item Facilita escribir fórmulas y documentos largos.
+        \item Separa contenido, estructura y formato.
+        \item Overleaf permite escribir, compilar y previsualizar LaTeX desde el navegador.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \begin{alertblock}{Documentación}
+    \href{https://www.latex-project.org/help/documentation/}{latex-project.org/help/documentation}
+  \end{alertblock}
+\end{frame}
+
+% 22
+\begin{frame}{Previsualización: Overleaf}
+  \begin{center}
+    \includegraphics[width=0.84\textwidth]{2) Plataformas/preview-overleaf.png}
+  \end{center}
+
+  \vspace{-0.2cm}
+  \scriptsize
+  \textbf{Enlace:}
+  \href{https://www.overleaf.com/}{overleaf.com}.
+  Overleaf es un editor online para escribir archivos \texttt{.tex}, compilar
+  documentos y revisar la salida PDF desde el navegador.
+\end{frame}
+
+% 23
+\begin{frame}[fragile]{Un ejemplo mínimo de LaTeX}
+  El código se guarda en un archivo de texto con extensión \texttt{.tex},
+  por ejemplo \texttt{ejemplo.tex}.
+
+\vspace{0.15cm}
+\begin{minted}{latex}
+\documentclass{article}
+\begin{document}
+
+La ecuacion de energia cinetica es
+\[
+  K = \frac{1}{2}mv^2
+\]
+
+\end{document}
+\end{minted}
+
+  \begin{block}{Qué observar}
+    El archivo \texttt{.tex} es texto plano. Para ver el documento final hay
+    que compilarlo y revisar la salida.
+  \end{block}
+\end{frame}
+
+% 24
+\begin{frame}{Salida del ejemplo mínimo}
+  \begin{center}
+    \includegraphics[width=0.78\textwidth]{2) Plataformas/latex-output-minimo.png}
+  \end{center}
+
+  \vspace{-0.15cm}
+  \scriptsize
+  El código fuente describe el contenido y la estructura; la compilación genera
+  un documento final, normalmente en PDF.
+\end{frame}
+
+% ========================================================================
+% SECCION 6: ACTIVIDAD
+% ========================================================================
+\section{Actividad de cierre}
+
+% 25
+\begin{frame}{Ficha de exploración}
+  En grupos, elijan una herramienta y preparen una ficha breve:
+
+  \begin{itemize}
+    \item nombre de la herramienta;
+    \item qué problema resuelve;
+    \item cuándo la usaría un estudiante de programación;
+    \item enlace a documentación oficial;
+    \item ejemplo mínimo de uso;
+    \item recurso complementario para seguir aprendiendo.
+  \end{itemize}
+
+  \begin{alertblock}{Entrega}
+    Presentación oral de 3 minutos por grupo.
+  \end{alertblock}
+\end{frame}
+
+% 26
+\begin{frame}{Preguntas guía para investigar}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Uso}
+        \begin{itemize}
+          \item ¿Qué tarea facilita?
+          \item ¿Qué problema evita?
+          \item ¿Qué necesito instalar?
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Aprendizaje}
+        \begin{itemize}
+          \item ¿Dónde está la documentación?
+          \item ¿Cuál es el primer tutorial?
+          \item ¿Qué ejemplo puedo reproducir?
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.45cm}
+  \begin{alertblock}{Criterio}
+    La mejor herramienta no es la más compleja: es la que ayuda a trabajar con
+    más claridad, orden y reproducibilidad.
+  \end{alertblock}
+\end{frame}
+
+% 27
+\begin{comment}
+\begin{frame}{Fuentes de imágenes}
+  \scriptsize
+  \begin{itemize}
+    \item VS Code: \href{https://code.visualstudio.com/assets/apple-touch-icon.png}{ícono oficial de VS Code}
+    \item VS Code: \href{https://code.visualstudio.com/assets/images/product-screenshot.png}{captura oficial de producto}
+    \item Python: \href{https://docs.python.org/3/tutorial/venv.html}{documentación oficial de entornos virtuales}
+    \item GitHub: \href{https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png}{GitHub Mark}
+    \item GitHub: \href{https://github.com/numpy/numpy}{repositorio público NumPy}
+    \item Kaggle: \href{https://commons.wikimedia.org/wiki/File:Kaggle_Logo.svg}{Kaggle Logo en Wikimedia Commons}
+    \item Kaggle: \href{https://www.kaggle.com/competitions}{Kaggle Competitions}
+    \item Kaggle: \href{https://www.kaggle.com/learn}{Kaggle Learn}
+    \item GNU Bash: \href{https://commons.wikimedia.org/wiki/File:Gnu-bash-logo.svg}{GNU Bash logo en Wikimedia Commons}
+    \item Terminal Bash: capturas generadas localmente como ejemplos ilustrativos
+    \item MoureDev: \href{https://www.youtube.com/@mouredev}{canal oficial en YouTube}
+    \item LaTeX: \href{https://commons.wikimedia.org/wiki/File:LaTeX_project_logo_bird.svg}{LaTeX Project logo en Wikimedia Commons}
+    \item LaTeX: \href{https://www.latex-project.org/help/documentation/}{documentación del proyecto LaTeX}
+    \item Overleaf: \href{https://www.overleaf.com/}{captura de la página principal de Overleaf}
+    \item Salida LaTeX: imagen generada localmente como ejemplo ilustrativo
+    \item 3Blue1Brown: \href{https://commons.wikimedia.org/wiki/File:3B1B_Logo.svg}{3B1B Logo en Wikimedia Commons}
+    \item 3Blue1Brown: \href{https://www.youtube.com/@3blue1brown}{canal oficial en YouTube}
+  \end{itemize}
+\end{frame}
+\end{comment}
+\end{document}

@@ -88,7 +88,8 @@ unidades = {
     "UNIDAD III: CONTROLADORES Y ARREGLOS": [6, 7, 8],
     "UNIDAD IV: EL CICLO FOR, GRÁFICAS": [9, 10],
     "UNIDAD V: CLASES & ANALISIS DE DATOS": [11, 12],
-    "UNIDAD VI: ALGORITMOS, & PERFORMANCE": [13, 14, 15]
+    "UNIDAD VI: ALGORITMOS, & PERFORMANCE": [13, 14, 15],
+    "CIERRE DE CURSO": [16]
 }
 
 semanas_por_unidad = {
@@ -106,8 +107,21 @@ semanas_por_unidad = {
     12: "Semana 12 | Estadística descriptiva con Python",
     13: "Semana 13 | Algoritmos",
     14: "Semana 14 | Repaso Final",
-    15: "Semana 15 | Repaso pre-solemnes"
+    15: "Semana 15 | Repaso pre-solemnes",
+    16: "Semana 16 | Herramientas para seguir programando"
 }
+
+
+def _partes_semana(numero_semana):
+    """
+    Retorna las partes disponibles para una semana.
+
+    La mayoría de las semanas tiene dos sesiones (P1 y P2). La Semana 16 es
+    una clase única de cierre, por lo que solo tiene P1.
+    """
+    if numero_semana == 16:
+        return ["P1"]
+    return ["P1", "P2"]
 
 
 # Diccionario base con estructura completa y posiciones
@@ -140,8 +154,8 @@ def _generar_estructura_base():
             }
             posicion += 1
             
-            # Agregar archivos P1 y P2
-            for parte in ['P1', 'P2']:
+            # Agregar archivos existentes para la semana.
+            for parte in _partes_semana(num_semana):
                 archivo_nombre = f"Semana{semana_str}-{parte}.pdf"
                 estructura[unidad_titulo]['semanas'][num_semana]['archivos'][archivo_nombre] = {
                     'position': posicion,
@@ -540,7 +554,7 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     Usa los nombres descriptivos del diccionario semanas_por_unidad
     
     Args:
-        numero_semana: Número de la semana (1-15)
+        numero_semana: Número de la semana (1-16)
         course_id: ID del curso en Canvas (si es None, usa el ID del usuario seleccionado)
         test_mode: Si es False, publica el módulo automáticamente
     
@@ -600,7 +614,9 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     print(f"📤 SUBIENDO CONTENIDO A CANVAS")
     print(f"Semana: {semana_titulo}")
     print(f"Unidad: {nombre_unidad}")
-    print(f"Archivos: Semana{semana_str}-P1.pdf y Semana{semana_str}-P2.pdf")
+    partes = _partes_semana(numero_semana)
+    archivos_semana = [f"Semana{semana_str}-{parte}.pdf" for parte in partes]
+    print(f"Archivos: {', '.join(archivos_semana)}")
     print("=" * 80)
     
     # Buscar si existe el módulo "Material del curso"
@@ -713,12 +729,9 @@ def subir_contenido(numero_semana, course_id=None, test_mode=False):
     )
     print(f"  ✓ '{semana_titulo}' agregada en posición {insert_position}")
     
-    # Definir archivos a subir (P1 y P2)
+    # Definir archivos a subir.
     semana_dir = LECTURES_BASE_PATH / f"Semana{semana_str}"
-    files_to_upload = [
-        semana_dir / f"Semana{semana_str}-P1.pdf",
-        semana_dir / f"Semana{semana_str}-P2.pdf"
-    ]
+    files_to_upload = [semana_dir / archivo for archivo in archivos_semana]
     
     # Subir y agregar archivos al módulo
     print("\n4. Subiendo archivos PDF...")
@@ -787,7 +800,7 @@ def eliminar_semana(numero_semana, course_id=None, test_mode=False):
     Borra:
       - El subheader de la semana, por ejemplo "Semana 13" o "Semana 13 | ..."
       - Los items hijos de la semana con indent mayor a 1
-      - Los archivos SemanaXX-P1.pdf y SemanaXX-P2.pdf desde Canvas Files
+      - Los archivos PDF esperados para esa semana desde Canvas Files
 
     Args:
         numero_semana: Número de semana a eliminar.
@@ -816,7 +829,10 @@ def eliminar_semana(numero_semana, course_id=None, test_mode=False):
         return None
 
     semana_str = f"{numero_semana:02d}"
-    pdf_names = {f"Semana{semana_str}-P1.pdf", f"Semana{semana_str}-P2.pdf"}
+    pdf_names = {
+        f"Semana{semana_str}-{parte}.pdf"
+        for parte in _partes_semana(numero_semana)
+    }
 
     module_name = "Material del curso"
     if test_mode:

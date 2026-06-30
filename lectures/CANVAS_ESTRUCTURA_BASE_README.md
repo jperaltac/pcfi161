@@ -142,6 +142,10 @@ UNIDAD VI: ALGORITMOS, & PERFORMANCE
     Semana 15
         Semana15-P1.pdf
         Semana15-P2.pdf
+
+CIERRE DE CURSO
+    Semana 16
+        Semana16-P1.pdf
 ```
 
 ## 🔧 Ventajas del Nuevo Sistema
