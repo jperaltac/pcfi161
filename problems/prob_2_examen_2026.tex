@@ -1,0 +1,93 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Modelo de decaimiento radiactivo con NumPy y Matplotlib}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
+                  before skip=3pt,after skip=5pt,boxsep=3pt,top=3pt,bottom=3pt,
+                  breakable]
+\small
+\raggedright
+El decaimiento radiactivo de una muestra puede modelarse mediante la ley
+exponencial
+\[
+N(t)=N_0e^{-\lambda t},
+\]
+donde \(N(t)\) representa el número de núcleos radiactivos presentes en el
+instante \(t\), \(N_0\) corresponde al número inicial de núcleos y \(\lambda\)
+es la constante de decaimiento radiactivo.
+
+Use los valores
+\[
+N_0 = 1000,
+\qquad
+\lambda = 0.23.
+\]
+
+Realice las siguientes operaciones:
+
+\begin{itemize}
+\setlength{\topsep}{4pt}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item[(a)] Importe \texttt{numpy} y \texttt{matplotlib.pyplot}. Cree un arreglo
+\texttt{t} con 300 valores igualmente espaciados entre \(0\) y \(20\) usando
+\texttt{np.linspace}.
+\item[(b)] Cree una función llamada \texttt{decaimiento(t, N0, lam)} que retorne
+\(N(t)\).
+\item[(c)] Evalúe la función para obtener el arreglo \texttt{N}.
+\item[(d)] Calcule el número mínimo de núcleos radiactivos, el número máximo y
+el número promedio del arreglo \texttt{N}.
+\item[(e)] Determine el tiempo aproximado en que \(N(t)\) es menor que
+\texttt{250} por primera vez. Puede usar \texttt{np.where}.
+\item[(f)] Grafique \(N(t)\) en función del tiempo usando \texttt{plt.plot}.
+Agregue una línea horizontal en \(N=250\), etiquetas, título, leyenda y grilla.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+\begin{pythonjupyter}
+# (a)
+import numpy as np
+import matplotlib.pyplot as plt
+
+N0 = 1000
+lam = 0.23
+
+t = np.linspace(0, 20, 300)
+
+# (b)
+def decaimiento(t, N0, lam):
+    N = N0 * np.exp(-lam * t)
+    return N
+
+# (c)
+N = decaimiento(t, N0, lam)
+
+# (d)
+N_min = np.min(N)
+N_max = np.max(N)
+N_promedio = np.mean(N)
+
+# (e)
+indices_bajo_250 = np.where(N < 250)[0]
+primer_indice = indices_bajo_250[0]
+tiempo_bajo_250 = t[primer_indice]
+
+print("Número mínimo:", N_min)
+print("Número máximo:", N_max)
+print("Número promedio:", N_promedio)
+print("Primer tiempo con N < 250:", tiempo_bajo_250)
+
+# (f)
+plt.figure(figsize=(7, 5))
+plt.plot(t, N, label="N(t)")
+plt.axhline(250, color="gray", linestyle="--", label="N = 250")
+plt.xlabel("Tiempo t")
+plt.ylabel("Número de núcleos N(t)")
+plt.title("Modelo de decaimiento radiactivo")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{pythonjupyter}
+\end{solution}

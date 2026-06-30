@@ -1,0 +1,120 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Limpieza y resumen de observaciones astronómicas con pandas}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
+                  before skip=3pt,after skip=5pt,boxsep=3pt,top=3pt,bottom=3pt,
+                  breakable]
+\small
+\raggedright
+Se tiene un conjunto pequeño de observaciones astronómicas. Cada observación
+tiene un nombre, un tipo de objeto, un flujo medido, una distancia y una
+estimación del ruido instrumental.
+
+Use el siguiente bloque para crear el DataFrame:
+
+\begin{pythonjupyter}
+datos = {
+    "nombre": ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2"],
+    "tipo": ["estrella", "estrella", "galaxia", "galaxia",
+             "cuásar", "cuásar", "estrella", "galaxia"],
+    "flujo": [12.5, 8.1, 20.4, None, 5.2, 6.3, 10.9, 18.7],
+    "distancia_pc": [4.2, 7.8, 120.0, 98.0, 300.0, None, 5.5, 110.0],
+    "ruido": [0.8, 0.9, 2.5, 2.1, 0.6, 0.7, None, 2.2],
+}
+\end{pythonjupyter}
+
+Realice las siguientes operaciones:
+
+\begin{itemize}
+\setlength{\topsep}{4pt}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item[(a)] Importe \texttt{pandas}, \texttt{numpy} y
+\texttt{matplotlib.pyplot}. Cree un DataFrame llamado \texttt{obs} a partir del
+diccionario \texttt{datos}.
+\item[(b)] Inspeccione el DataFrame mostrando las primeras filas, dimensiones,
+tipos de datos y cantidad de valores faltantes por columna.
+\item[(c)] Cree un DataFrame llamado \texttt{obs\_limpias} eliminando las filas
+con datos faltantes en \texttt{flujo}, \texttt{distancia\_pc} o \texttt{ruido}.
+Use \texttt{copy()}.
+\item[(d)] En \texttt{obs\_limpias}, cree una columna llamada \texttt{snr} usando
+\[
+\texttt{snr}=\frac{\texttt{flujo}}{\texttt{ruido}}.
+\]
+\item[(e)] Agrupe \texttt{obs\_limpias} por \texttt{tipo}. Calcule la cantidad
+de observaciones por tipo usando la columna \texttt{tipo}.
+\item[(f)] Cree una copia sin la columna \texttt{nombre}. Agrupe esa copia por
+\texttt{tipo} y calcule el promedio y la desviación estándar por tipo. Use
+\texttt{numeric\_only=True} si lo necesita.
+\item[(g)] Filtre las observaciones con \texttt{snr > 10} y
+\texttt{distancia\_pc < 150}. Muestre solamente \texttt{nombre}, \texttt{tipo},
+\texttt{flujo}, \texttt{distancia\_pc} y \texttt{snr}.
+\item[(h)] Haga un gráfico de dispersión simple con \texttt{distancia\_pc} en el
+eje horizontal y \texttt{snr} en el eje vertical. Agregue etiquetas, título y
+grilla.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+\begin{pythonjupyter}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+datos = {
+    "nombre": ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2"],
+    "tipo": ["estrella", "estrella", "galaxia", "galaxia",
+             "cuásar", "cuásar", "estrella", "galaxia"],
+    "flujo": [12.5, 8.1, 20.4, None, 5.2, 6.3, 10.9, 18.7],
+    "distancia_pc": [4.2, 7.8, 120.0, 98.0, 300.0, None, 5.5, 110.0],
+    "ruido": [0.8, 0.9, 2.5, 2.1, 0.6, 0.7, None, 2.2],
+}
+
+obs = pd.DataFrame(datos)
+
+print(obs.head())
+print("Dimensiones:", obs.shape)
+print(obs.dtypes)
+print("Valores faltantes:")
+print(obs.isna().sum())
+
+columnas_necesarias = ["flujo", "distancia_pc", "ruido"]
+obs_limpias = obs.dropna(subset=columnas_necesarias).copy()
+
+obs_limpias["snr"] = obs_limpias["flujo"] / obs_limpias["ruido"]
+
+grupo_tipo = obs_limpias.groupby("tipo")
+cantidad_por_tipo = grupo_tipo["tipo"].count()
+print(cantidad_por_tipo)
+
+obs_sin_nombre = obs_limpias.drop(columns=["nombre"]).copy()
+grupo_tipo_num = obs_sin_nombre.groupby("tipo")
+
+promedio_por_tipo = grupo_tipo_num.mean(numeric_only=True)
+desviacion_por_tipo = grupo_tipo_num.std(numeric_only=True)
+
+print(promedio_por_tipo)
+print(desviacion_por_tipo)
+
+filtro = (
+    (obs_limpias["snr"] > 10) &
+    (obs_limpias["distancia_pc"] < 150)
+)
+
+seleccion = obs_limpias.loc[
+    filtro,
+    ["nombre", "tipo", "flujo", "distancia_pc", "snr"]
+]
+print(seleccion)
+
+plt.figure(figsize=(7, 5))
+plt.scatter(obs_limpias["distancia_pc"], obs_limpias["snr"])
+plt.xlabel("Distancia [pc]")
+plt.ylabel("SNR")
+plt.title("SNR versus distancia")
+plt.grid(True, alpha=0.3)
+plt.show()
+\end{pythonjupyter}
+\end{solution}

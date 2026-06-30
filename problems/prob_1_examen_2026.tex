@@ -1,0 +1,98 @@
+\providecommand{\Needspace}[1]{}
+\Needspace{8\baselineskip}
+\item \textbf{Clasificación de mediciones de brillo con funciones y bucles}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
+                  before skip=3pt,after skip=5pt,boxsep=3pt,top=3pt,bottom=3pt,
+                  breakable]
+\small
+\raggedright
+Durante una noche de observación se registran valores de flujo relativo de una
+estrella. Para resumir las mediciones se usará una función, un ciclo y
+condicionales.
+
+Use la siguiente lista:
+\[
+\texttt{flujos = [0.82,\ 1.05,\ 1.18,\ 0.76,\ 1.34,\ 0.91,\ 1.27,\ 0.69]}.
+\]
+
+Una medición se clasifica según su flujo \(F\):
+\[
+F < 0{.}85 \Longrightarrow \text{baja},
+\qquad
+0{.}85 \leq F \leq 1{.}15 \Longrightarrow \text{normal},
+\qquad
+F > 1{.}15 \Longrightarrow \text{alta}.
+\]
+
+Realice las siguientes operaciones:
+
+\begin{itemize}
+\setlength{\topsep}{4pt}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item[(a)] Defina la lista \texttt{flujos}.
+\item[(b)] Cree una función llamada \texttt{clasificar\_flujo(F)} que reciba un
+flujo y retorne el texto \texttt{"baja"}, \texttt{"normal"} o \texttt{"alta"}
+según los criterios anteriores.
+\item[(c)] Recorra la lista con un ciclo \texttt{for}. Para cada flujo, use la
+función creada, imprima el índice, el flujo y su clasificación.
+\item[(d)] Cuente cuántas mediciones quedan en cada categoría. Use contadores
+simples que aumenten dentro del ciclo.
+\item[(e)] Calcule el promedio de los flujos usando una suma acumulada y
+\texttt{len(flujos)}.
+\item[(f)] Use un condicional final para indicar si la noche fue estable o no:
+si la cantidad de mediciones normales es mayor o igual que la suma de mediciones
+bajas y altas, imprima \texttt{"noche estable"}; en caso contrario, imprima
+\texttt{"noche variable"}.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+\begin{pythonjupyter}
+flujos = [0.82, 1.05, 1.18, 0.76, 1.34, 0.91, 1.27, 0.69]
+
+def clasificar_flujo(F):
+    if F < 0.85:
+        return "baja"
+    elif F <= 1.15:
+        return "normal"
+    else:
+        return "alta"
+
+cantidad_baja = 0
+cantidad_normal = 0
+cantidad_alta = 0
+suma_flujos = 0
+
+for i in range(len(flujos)):
+    F = flujos[i]
+    clasificacion = clasificar_flujo(F)
+    suma_flujos = suma_flujos + F
+
+    if clasificacion == "baja":
+        cantidad_baja = cantidad_baja + 1
+    elif clasificacion == "normal":
+        cantidad_normal = cantidad_normal + 1
+    else:
+        cantidad_alta = cantidad_alta + 1
+
+    print("Índice:", i)
+    print("Flujo:", F)
+    print("Clasificación:", clasificacion)
+    print("-" * 20)
+
+promedio = suma_flujos / len(flujos)
+
+print("Cantidad baja:", cantidad_baja)
+print("Cantidad normal:", cantidad_normal)
+print("Cantidad alta:", cantidad_alta)
+print("Promedio:", promedio)
+
+if cantidad_normal >= cantidad_baja + cantidad_alta:
+    print("noche estable")
+else:
+    print("noche variable")
+\end{pythonjupyter}
+\end{solution}
