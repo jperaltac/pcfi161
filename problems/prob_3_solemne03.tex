@@ -1,6 +1,6 @@
 \providecommand{\Needspace}[1]{}
 \Needspace{8\baselineskip}
-\item \textbf{Ajuste cuadratico y estimacion de un umbral}.
+\item \textbf{Ajuste cuadrático y estimación de un umbral}.
 \nopagebreak[4]
 
 \begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
@@ -8,7 +8,7 @@
                   breakable]
 \small
 \raggedright
-En una calibracion de laboratorio se mide la respuesta \(R\) de un detector para
+En una calibración de laboratorio se mide la respuesta \(R\) de un detector para
 distintas dosis \(d\). Los datos medidos son:
 \[
 d = [0,\ 1,\ 2,\ 3,\ 4,\ 5,\ 6],
@@ -17,11 +17,11 @@ d = [0,\ 1,\ 2,\ 3,\ 4,\ 5,\ 6],
 R = [1.2,\ 2.0,\ 4.1,\ 6.9,\ 10.8,\ 16.2,\ 22.1].
 \]
 
-Se desea construir un modelo cuadratico
+Se desea construir un modelo cuadrático
 \[
 R(d)=ad^2+bd+c
 \]
-y usarlo para estimar cuando la respuesta alcanza un umbral de seguridad
+y usarlo para estimar cuándo la respuesta alcanza un umbral de seguridad
 \[
 R=12.
 \]
@@ -37,7 +37,7 @@ arreglos \texttt{d} y \texttt{R} usando \texttt{np.array}.
 \item[(b)] Use \texttt{np.polyfit(d, R, deg=2)} para obtener los coeficientes
 \(a\), \(b\) y \(c\).
 \item[(c)] Calcule los valores ajustados sobre los mismos datos medidos y
-guardelos en \texttt{R\_fit}.
+guárdelos en \texttt{R\_fit}.
 \item[(d)] Calcule los residuos y el coeficiente \(R^2\):
 \[
 \texttt{residuos = R - R\_fit},
@@ -55,14 +55,16 @@ R^2 = 1 - \frac{SS_{\mathrm{res}}}{SS_{\mathrm{tot}}}.
 \[
 ad^2+bd+c-12=0.
 \]
-\item[(f)] Filtre las raices: conserve solo soluciones reales dentro del rango
+\item[(f)] Filtre las raíces: conserve solo soluciones reales dentro del rango
 medido, es decir, entre \(0\) y \(6\).
 \item[(g)] Grafique los datos medidos con \texttt{plt.scatter}, el ajuste
-cuadratico con \texttt{plt.plot} usando una grilla fina de dosis, y la linea
-horizontal \(R=12\). Agregue etiquetas, leyenda y grilla.
+cuadrático con \texttt{plt.plot} usando una grilla fina para la dosis, y la
+línea horizontal \(R=12\). Para esta grilla fina, cree un arreglo con
+\texttt{np.linspace} para la variable independiente. Agregue etiquetas, leyenda
+y active la grilla del gráfico.
 \item[(h)] Imprima \(a\), \(b\), \(c\), \(R^2\) y la dosis estimada para alcanzar
-el umbral. Agregue una frase que explique por que no basta con tomar cualquier
-raiz entregada por \texttt{np.roots}.
+el umbral. Agregue una frase que explique por qué no basta con tomar cualquier
+raíz entregada por \texttt{np.roots}.
 \end{itemize}
 \end{tcolorbox}
 
@@ -96,11 +98,11 @@ R_fino = a*d_fino**2 + b*d_fino + c
 
 plt.figure(figsize=(7, 5))
 plt.scatter(d, R, label="datos medidos")
-plt.plot(d_fino, R_fino, "r-", label="ajuste cuadratico")
+plt.plot(d_fino, R_fino, "r-", label="ajuste cuadrático")
 plt.axhline(12, color="gray", linestyle="--", label="umbral R=12")
 plt.xlabel("Dosis d")
 plt.ylabel("Respuesta R")
-plt.title("Ajuste cuadratico y umbral de seguridad")
+plt.title("Ajuste cuadrático y umbral de seguridad")
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.show()
@@ -113,9 +115,9 @@ print(f"R2 = {R2:.4f}")
 if len(soluciones) > 0:
     print(f"Dosis estimada para R=12: {soluciones[0]:.3f}")
 else:
-    print("No hay una solucion real dentro del rango medido")
+    print("No hay una solución real dentro del rango medido")
 
-print("No basta con tomar cualquier raiz de np.roots:")
-print("hay que descartar raices complejas y raices fuera del rango fisico.")
+print("No basta con tomar cualquier raíz de np.roots:")
+print("hay que descartar raíces complejas y raíces fuera del rango físico.")
 \end{pythonjupyter}
 \end{solution}

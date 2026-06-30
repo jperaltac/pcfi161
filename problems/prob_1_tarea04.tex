@@ -1,6 +1,5 @@
-\providecommand{\Needspace}[1]{}
-\Needspace{8\baselineskip}
-\item \textbf{Ordenamiento y búsqueda de períodos orbitales}.
+\Needspace{10\baselineskip}
+\item \textbf{Ordenamiento y busqueda en una lista de periodos orbitales}.
 \nopagebreak[4]
 
 \begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
@@ -8,15 +7,13 @@
                   breakable]
 \small
 \raggedright
-Un equipo observa exoplanetas y registra sus períodos orbitales en días:
+En una observacion simplificada se registraron los periodos orbitales, en dias, de
+un conjunto de exoplanetas:
 \[
 \texttt{periodos = [12.4,\ 3.1,\ 8.7,\ 25.0,\ 1.9,\ 14.2,\ 6.5,\ 18.3]}.
 \]
 
-Utilice los algoritmos entregados a continuación. No debe escribir otro
-algoritmo de ordenamiento ni otro algoritmo de búsqueda. En una parte del
-ejercicio se le pedirá modificar \texttt{bubble\_sort} para contar
-comparaciones e intercambios:
+Utilice los siguientes algoritmos ya dados. No debe construirlos desde cero:
 
 \begin{pythonjupyter}
 def bubble_sort(lista):
@@ -50,42 +47,28 @@ Realice las siguientes operaciones:
 \setlength{\itemsep}{3pt}
 \setlength{\parsep}{0pt}
 \item[(a)] Defina la lista \texttt{periodos}.
-\item[(b)] Modifique la función \texttt{bubble\_sort} entregada para que
-también cuente cuántas comparaciones entre elementos realiza y cuántos
-intercambios hace. La función modificada debe devolver tres valores: la lista
-ordenada, el número de comparaciones y el número de intercambios. No modifique
-\texttt{binary\_search}.
-\item[(c)] Ordene los períodos de menor a mayor usando la función
-\texttt{bubble\_sort} modificada. Debe ordenar una copia de la lista original,
-no la lista original directamente.
-\item[(d)] Imprima la lista original, la lista ordenada, el número de
-comparaciones y el número de intercambios.
-\item[(e)] Determine el período mínimo y el período máximo usando la lista
-ordenada.
-\item[(f)] Use \texttt{binary\_search} para buscar el período \texttt{14.2} en
-la lista ordenada. Imprima su posición si fue encontrado.
-\item[(g)] Use \texttt{binary\_search} para buscar el período \texttt{10.0}.
-Si no aparece, imprima un mensaje claro indicando que no fue encontrado.
+\item[(b)] Ordene los periodos de menor a mayor usando \texttt{bubble\_sort}. Use una copia de la lista original para no modificarla directamente.
+\item[(c)] Imprima la lista original y la lista ordenada.
+\item[(d)] Determine el periodo minimo y el periodo maximo usando la lista ordenada.
+\item[(e)] Use \texttt{binary\_search} para buscar el periodo \texttt{14.2} en la lista ordenada e imprima su posicion.
+\item[(f)] Use \texttt{binary\_search} para buscar el periodo \texttt{10.0}. Indique con un mensaje si no fue encontrado.
+\item[(g)] Explique brevemente, dentro de un \texttt{print}, por que la busqueda binaria debe aplicarse sobre una lista ordenada.
 \end{itemize}
 \end{tcolorbox}
 
 \begin{solution}
 \begin{pythonjupyter}
+# (a)
 periodos = [12.4, 3.1, 8.7, 25.0, 1.9, 14.2, 6.5, 18.3]
 
+# Algoritmos entregados en el enunciado
 def bubble_sort(lista):
     n = len(lista)
-    comparaciones = 0
-    intercambios = 0
-
     for i in range(n - 1):
         for j in range(n - 1 - i):
-            comparaciones = comparaciones + 1
             if lista[j] > lista[j + 1]:
                 lista[j], lista[j + 1] = lista[j + 1], lista[j]
-                intercambios = intercambios + 1
-
-    return lista, comparaciones, intercambios
+    return lista
 
 def binary_search(lista_ordenada, objetivo):
     low, high = 0, len(lista_ordenada) - 1
@@ -102,31 +85,35 @@ def binary_search(lista_ordenada, objetivo):
 
     return -1
 
-periodos_ordenados, comparaciones, intercambios = bubble_sort(
-    periodos.copy()
-)
+# (b)
+periodos_ordenados = bubble_sort(periodos.copy())
 
+# (c)
 print("Lista original:", periodos)
 print("Lista ordenada:", periodos_ordenados)
-print("Comparaciones:", comparaciones)
-print("Intercambios:", intercambios)
 
+# (d)
 periodo_minimo = periodos_ordenados[0]
 periodo_maximo = periodos_ordenados[-1]
 
-print("Periodo mínimo:", periodo_minimo)
-print("Periodo máximo:", periodo_maximo)
+print("Periodo minimo:", periodo_minimo)
+print("Periodo maximo:", periodo_maximo)
 
+# (e)
 posicion_142 = binary_search(periodos_ordenados, 14.2)
-if posicion_142 == -1:
-print("El período 14.2 no fue encontrado")
-else:
-    print("Posición de 14.2:", posicion_142)
+print("Posicion de 14.2:", posicion_142)
 
+# (f)
 posicion_100 = binary_search(periodos_ordenados, 10.0)
+
 if posicion_100 == -1:
-print("El período 10.0 no fue encontrado")
+    print("El periodo 10.0 no fue encontrado")
 else:
-    print("Posición de 10.0:", posicion_100)
+    print("Posicion de 10.0:", posicion_100)
+
+# (g)
+print("La busqueda binaria necesita una lista ordenada porque en cada paso")
+print("compara el objetivo con el elemento central y descarta una mitad.")
+print("Si los datos no estan ordenados, esa decision no es valida.")
 \end{pythonjupyter}
 \end{solution}

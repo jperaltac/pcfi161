@@ -1,0 +1,100 @@
+\Needspace{10\baselineskip}
+\item \textbf{Ajuste lineal y estimacion de un umbral de temperatura}.
+\nopagebreak[4]
+
+\begin{tcolorbox}[colback=blue!2!white,colframe=blue!55!black,title={Enunciado},
+                  before skip=3pt,after skip=5pt,boxsep=3pt,top=3pt,bottom=3pt,
+                  breakable]
+\small
+\raggedright
+Durante el enfriamiento de una muestra se midio la temperatura \(T\), en grados
+Celsius, en distintos tiempos \(t\), en minutos:
+\[
+t = [0,\ 2,\ 4,\ 6,\ 8,\ 10],
+\]
+\[
+T = [82,\ 70,\ 59,\ 48,\ 38,\ 29].
+\]
+
+Suponga que, en este intervalo, la temperatura puede aproximarse por un modelo
+lineal:
+\[
+T(t) = mt + b.
+\]
+
+Realice las siguientes operaciones:
+
+\begin{itemize}
+\setlength{\topsep}{4pt}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item[(a)] Importe \texttt{numpy} y \texttt{matplotlib.pyplot}. Defina los arreglos \texttt{t} y \texttt{T} usando \texttt{np.array}.
+\item[(b)] Use \texttt{np.polyfit(t, T, deg=1)} para encontrar la pendiente \(m\) y el intercepto \(b\).
+\item[(c)] Calcule los valores ajustados y guardelos en una variable llamada \texttt{T\_fit}.
+\item[(d)] Calcule los residuos y el coeficiente \(R^2\). Para esto use:
+\[
+\texttt{residuos = T - T\_fit},
+\]
+\[
+SS_{\mathrm{res}} = \sum_i \left(T_i - T_{\mathrm{fit},i}\right)^2,
+\]
+\[
+SS_{\mathrm{tot}} = \sum_i \left(T_i - \overline{T}\right)^2,
+\]
+\[
+R^2 = 1 - \frac{SS_{\mathrm{res}}}{SS_{\mathrm{tot}}}.
+\]
+\item[(e)] Grafique los datos medidos con \texttt{plt.scatter} y el ajuste lineal con \texttt{plt.plot}. Agregue etiquetas, leyenda y grilla.
+\item[(f)] Use \texttt{np.roots} para estimar en que tiempo el modelo ajustado alcanza \(T=35^\circ\mathrm{C}\). Para ello resuelva:
+\[
+mt + b - 35 = 0.
+\]
+\item[(g)] Imprima \(m\), \(b\), \(R^2\) y el tiempo estimado para alcanzar \(35^\circ\mathrm{C}\). interprete brevemente dentro de un \texttt{print} el signo de \(m\).
+\end{itemize}
+\end{tcolorbox}
+
+\begin{solution}
+\begin{pythonjupyter}
+# (a)
+import numpy as np
+import matplotlib.pyplot as plt
+
+t = np.array([0, 2, 4, 6, 8, 10])
+T = np.array([82, 70, 59, 48, 38, 29])
+
+# (b)
+m, b = np.polyfit(t, T, deg=1)
+
+# (c)
+T_fit = m*t + b
+
+# (d)
+residuos = T - T_fit
+SS_res = np.sum(residuos**2)
+SS_tot = np.sum((T - np.mean(T))**2)
+R2 = 1 - SS_res/SS_tot
+
+# (e)
+plt.figure(figsize=(7, 5))
+plt.scatter(t, T, label="datos medidos")
+plt.plot(t, T_fit, "r-", label="ajuste lineal")
+plt.xlabel("Tiempo (min)")
+plt.ylabel("Temperatura (C)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# (f)
+coef_umbral = [m, b - 35]
+raices = np.roots(coef_umbral)
+tiempo_35 = raices[0].real
+
+# (g)
+print(f"m = {m:.3f} C/min")
+print(f"b = {b:.3f} C")
+print(f"R2 = {R2:.4f}")
+print(f"Tiempo para T = 35 C: {tiempo_35:.3f} min")
+print("La pendiente m es negativa, por lo tanto la temperatura disminuye")
+print("a medida que avanza el tiempo.")
+\end{pythonjupyter}
+\end{solution}
