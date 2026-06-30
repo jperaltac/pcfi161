@@ -19,14 +19,14 @@
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
 \setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.12}
+\renewcommand{\arraystretch}{1.04}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 \definecolor{tealbox}{HTML}{079A9A}
 \definecolor{orangeTitle}{HTML}{FF5A00}
 
 \lstdefinestyle{pyinline}{
-  basicstyle=\ttfamily\footnotesize,
+  basicstyle=\ttfamily\scriptsize,
   columns=fullflexible,
   keepspaces=true,
   breaklines=true,
@@ -44,15 +44,15 @@
   sharp corners,
   boxrule=0pt,
   colback=white,
-  left=2.5mm,
-  right=2.5mm,
-  top=1.2mm,
-  bottom=1.2mm,
-  before skip=2.5mm,
-  after skip=2.5mm,
+  left=2mm,
+  right=2mm,
+  top=0.8mm,
+  bottom=0.8mm,
+  before skip=1.2mm,
+  after skip=1.2mm,
   title=#1,
   coltitle=white,
-  fonttitle=\bfseries\large,
+  fonttitle=\bfseries\normalsize,
   colbacktitle=tealbox,
   attach boxed title to top center={yshift=-1mm},
   boxed title style={sharp corners, boxrule=0pt, colback=tealbox, left=3mm, right=3mm},
@@ -60,7 +60,7 @@
 
 \newcommand{\cheattitle}{
   \begin{center}
-    {\fontsize{23}{25}\selectfont\bfseries\color{orangeTitle} Python para Solemne 3 - Cheat Sheet}
+    {\fontsize{21}{23}\selectfont\bfseries\color{orangeTitle} Python para Solemne 3 - Cheat Sheet}
   \end{center}
   \vspace{-3mm}
 }
@@ -71,136 +71,122 @@
 \noindent
 \begin{minipage}[t]{\colw}
 \vspace{0pt}
-\begin{cheatbox}{Pandas: crear e inspeccionar}
+\begin{cheatbox}{Pandas: leer e inspeccionar}
 \begin{lstlisting}
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
-df = pd.DataFrame(datos)
+df = pd.read_csv(url)
+
 print(df.head())
 print(df.shape)
 print(df.dtypes)
 print(df.isna().sum())
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\entry{df.head()}{primeras filas}
-\entry{df.shape}{filas y columnas}
-\entry{df.dtypes}{tipo de cada columna}
-\entry{df.isna().sum()}{nulos por columna}
+\entry{pd.read_csv(url)}{lee el CSV y crea el DataFrame}
+\entry{df.head()}{muestra las primeras filas}
+\entry{df.shape}{entrega filas y columnas}
+\entry{df.dtypes}{muestra tipos de datos}
+\entry{df.isna().sum()}{cuenta faltantes por columna}
 \end{tabularx}
 \end{cheatbox}
 
 \begin{cheatbox}{Pandas: limpiar datos}
 \begin{lstlisting}
-cols = ["temperatura_K", "radio_Rsol",
-        "distancia_pc", "magnitud_V"]
+cols = ["col_1", "col_2", "col_3"]
 
 df_limpio = df.dropna(subset=cols).copy()
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\entry{dropna(subset=cols)}{elimina filas con nulos en columnas clave}
-\entry{copy()}{crea una copia para modificar sin ambiguedad}
-\entry{len(df)}{cantidad de filas}
+\entry{cols = [...]}{lista de columnas clave}
+\entry{dropna(subset=cols)}{borra filas incompletas solo en esas columnas}
+\entry{copy()}{crea una tabla independiente}
+\entry{len(df_limpio)}{cuenta filas después de limpiar}
 \end{tabularx}
-\end{cheatbox}
-
-\begin{cheatbox}{Pandas: columnas derivadas}
-\begin{lstlisting}
-df_limpio["luminosidad_rel"] = (
-    df_limpio["radio_Rsol"]**2 *
-    (df_limpio["temperatura_K"] / 5778)**4
-)
-\end{lstlisting}
-Las operaciones con columnas se aplican fila a fila.
 \end{cheatbox}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{\colw}
 \vspace{0pt}
-\begin{cheatbox}{Pandas: filtros}
+\begin{cheatbox}{Pandas: columnas y grupos}
 \begin{lstlisting}
-mask = (
-    (df["distancia_pc"] < 20) &
-    (df["magnitud_V"] < 0.5) &
-    (df["luminosidad_rel"] > 5)
+df_limpio["nueva_col"] = (
+    df_limpio["col_a"]**2 *
+    (df_limpio["col_b"] / valor_ref)**4
 )
 
-sub = df.loc[mask, ["nombre", "tipo"]]
+grupo = df_limpio.groupby("col_categoria")
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\entry{\&}{combinar condiciones}
-\entry{|}{una condicion u otra}
-\entry{df.loc[mask, cols]}{filas filtradas y columnas elegidas}
-\entry{(...) \& (...)}{use parentesis en cada condicion}
+\entry{df["nueva_col"] = ...}{crea o reemplaza una columna}
+\entry{df["col_a"]**2}{eleva una columna al cuadrado}
+\entry{(...)}{permite partir una operación larga}
+\entry{groupby("col")}{agrupa filas por categoría}
+\entry{grupo = ...}{guarda el grupo para usarlo después}
 \end{tabularx}
 \end{cheatbox}
 
-\begin{cheatbox}{Pandas: agrupar}
+\begin{cheatbox}{Pandas: resumen por grupo}
 \begin{lstlisting}
-resumen = df.groupby("tipo").agg({
-    "nombre": "count",
-    "temperatura_K": "mean",
-    "distancia_pc": "median",
-    "luminosidad_rel": "mean"
-})
+df_num = df_limpio.drop(columns=["col_texto"]).copy()
+grupo_num = df_num.groupby("col_categoria")
 
-resumen = resumen.rename(columns={"nombre": "cantidad"})
-resumen = resumen.sort_values("luminosidad_rel",
-                              ascending=False)
+cantidad = grupo_num["col_categoria"].count()
+promedios = grupo_num.mean()
+desv = grupo_num.std()
 \end{lstlisting}
-\end{cheatbox}
-
-\begin{cheatbox}{Pandas: graficar por grupo}
-\begin{lstlisting}
-for tipo in df["tipo"].unique():
-    sub = df[df["tipo"] == tipo]
-    plt.scatter(sub["temperatura_K"],
-                sub["luminosidad_rel"],
-                label=tipo)
-plt.legend()
-\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{drop(columns=[...])}{quita columnas de texto}
+\entry{grupo_num["col"].count()}{cuenta datos por grupo}
+\entry{grupo_num.mean()}{promedio por grupo}
+\entry{grupo_num.std()}{desviación por grupo}
+\end{tabularx}
 \end{cheatbox}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{\colw}
 \vspace{0pt}
-\begin{cheatbox}{Algoritmos: usar copia}
+\begin{cheatbox}{Listas y contadores}
 \begin{lstlisting}
-periodos = [12.4, 3.1, 8.7]
-ordenados = bubble_sort(periodos.copy())
+datos = [valor_1, valor_2, valor_3]
+copia = datos.copy()
 
-print(periodos)    # original
-print(ordenados)   # ordenada
+primero = copia[0]
+ultimo = copia[-1]
+
+contador = 0
+contador = contador + 1
+
+return resultado, contador_1, contador_2
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\entry{lista.copy()}{evita modificar la lista original}
-\entry{ordenados[0]}{minimo si esta ordenada}
-\entry{ordenados[-1]}{maximo si esta ordenada}
-\entry{len(lista)}{cantidad de elementos}
+\entry{datos = [...]}{crea una lista}
+\entry{datos.copy()}{copia una lista sin cambiar la original}
+\entry{copia[0]}{primer elemento}
+\entry{copia[-1]}{último elemento}
+\entry{contador = contador + 1}{aumenta una cuenta}
+\entry{return a, b, c}{devuelve tres valores}
 \end{tabularx}
 \end{cheatbox}
 
-\begin{cheatbox}{Mediana con lista ordenada}
+\begin{cheatbox}{Condiciones y mensajes}
 \begin{lstlisting}
-n = len(ordenados)
-
-if n % 2 == 1:
-    mediana = ordenados[n//2]
-else:
-    mediana = (ordenados[n//2 - 1] +
-               ordenados[n//2]) / 2
-\end{lstlisting}
-\end{cheatbox}
-
-\begin{cheatbox}{Buscar e interpretar}
-\begin{lstlisting}
-pos = binary_search(ordenados, 14.2)
-
-if pos == -1:
+if valor == -1:
     print("no encontrado")
 else:
-    print("posicion:", pos)
+    print("encontrado:", valor)
+
+if len(lista) > 0:
+    print(lista[0])
 \end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{if condicion:}{ejecuta si la condición se cumple}
+\entry{else:}{ejecuta el caso alternativo}
+\entry{len(lista) > 0}{verifica que exista un elemento}
+\entry{print(...)}{muestra texto o variables}
+\end{tabularx}
 \end{cheatbox}
 \end{minipage}
 
@@ -210,78 +196,37 @@ else:
 \noindent
 \begin{minipage}[t]{\colw}
 \vspace{0pt}
-\begin{cheatbox}{Bubble Sort}
+\begin{cheatbox}{NumPy: arreglos y modelo}
 \begin{lstlisting}
-def bubble_sort(lista):
-    n = len(lista)
-    for i in range(n - 1):
-        for j in range(n - 1 - i):
-            if lista[j] > lista[j + 1]:
-                lista[j], lista[j + 1] = (
-                    lista[j + 1], lista[j]
-                )
-    return lista
-\end{lstlisting}
-Ordena comparando vecinos. Use una copia si quiere conservar la lista original.
-\end{cheatbox}
+x = np.array([x0, x1, x2])
+y = np.array([y0, y1, y2])
 
-\begin{cheatbox}{Binary Search}
-\begin{lstlisting}
-def binary_search(lista_ordenada, objetivo):
-    low, high = 0, len(lista_ordenada) - 1
-    while low <= high:
-        mid = (low + high) // 2
-        if lista_ordenada[mid] == objetivo:
-            return mid
-        elif objetivo < lista_ordenada[mid]:
-            high = mid - 1
-        else:
-            low = mid + 1
-    return -1
-\end{lstlisting}
-Solo es valida sobre una lista ordenada.
-\end{cheatbox}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{\colw}
-\vspace{0pt}
-\begin{cheatbox}{Ajuste con \texttt{np.polyfit}}
-\begin{lstlisting}
-import numpy as np
+x_fino = np.linspace(xmin, xmax, 200)
 
-a, b, c = np.polyfit(d, R, deg=2)
-R_fit = a*d**2 + b*d + c
+a, b, c = np.polyfit(x, y, deg=2)
+y_modelo = a*x**2 + b*x + c
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\entry{deg=1}{modelo lineal: \code{m*x + b}}
-\entry{deg=2}{modelo cuadratico: \code{a*x**2 + b*x + c}}
-\entry{polyfit}{retorna coeficientes desde mayor grado}
+\entry{np.array([...])}{crea un arreglo numérico}
+\entry{np.linspace(a,b,n)}{crea una grilla entre a y b}
+\entry{np.polyfit(x,y,deg=2)}{ajusta un polinomio cuadrático}
+\entry{a, b, c = ...}{guarda coeficientes}
+\entry{a*x**2 + b*x + c}{evalua el modelo}
 \end{tabularx}
 \end{cheatbox}
 
-\begin{cheatbox}{Residuos y \(R^2\)}
+\begin{cheatbox}{Cálculos con arreglos}
 \begin{lstlisting}
-residuos = R - R_fit
-SS_res = np.sum(residuos**2)
-SS_tot = np.sum((R - np.mean(R))**2)
-R2 = 1 - SS_res/SS_tot
+diferencia = y - y_modelo
+suma = np.sum(diferencia**2)
+promedio = np.mean(y)
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\entry{residuos}{dato medido menos modelo}
-\entry{R2 cercano a 1}{ajuste explica bien los datos}
+\entry{y - y_modelo}{resta elemento a elemento}
+\entry{diferencia**2}{cuadrado de cada diferencia}
+\entry{np.sum(...)}{suma todos los valores}
+\entry{np.mean(y)}{calcula el promedio}
 \end{tabularx}
-\end{cheatbox}
-
-\begin{cheatbox}{Graficar ajuste}
-\begin{lstlisting}
-x_fino = np.linspace(0, 6, 200)
-y_fino = a*x_fino**2 + b*x_fino + c
-
-plt.scatter(d, R, label="datos")
-plt.plot(x_fino, y_fino, label="ajuste")
-plt.legend()
-plt.grid(True)
-\end{lstlisting}
 \end{cheatbox}
 \end{minipage}
 \hfill
@@ -292,38 +237,69 @@ plt.grid(True)
 # Resolver a*x**2 + b*x + c = 0
 raices = np.roots([a, b, c])
 
-# Resolver a*d**2 + b*d + c = 12
-raices = np.roots([a, b, c - 12])
+# Resolver a*x**2 + b*x + c = umbral
+raices = np.roots([a, b, c - umbral])
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\entry{[a,b,c]}{coeficientes en orden descendente}
-\entry{c - 12}{mover el umbral al lado izquierdo}
-\entry{np.roots}{puede entregar raices complejas}
+\entry{np.roots([...])}{calcula raíces de un polinomio}
+\entry{[a, b, c]}{entrega coeficientes desde mayor a menor grado}
+\entry{c - umbral}{mueve el umbral al lado izquierdo de la ecuación}
+\entry{raices}{puede contener valores reales o complejos}
 \end{tabularx}
 \end{cheatbox}
 
-\begin{cheatbox}{Filtrar raices fisicas}
+\begin{cheatbox}{Filtrar raíces}
 \begin{lstlisting}
 soluciones = []
+
 for r in raices:
-    if abs(r.imag) < 1e-10 and 0 <= r.real <= 6:
+    es_real = abs(r.imag) < tol
+    esta_en_rango = xmin <= r.real <= xmax
+
+    if es_real and esta_en_rango:
         soluciones.append(r.real)
 \end{lstlisting}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{for r in raices:}{recorre una raíz a la vez}
 \entry{r.imag}{parte imaginaria}
 \entry{r.real}{parte real}
-\entry{0 <= r.real <= 6}{rango fisico o medido}
+\entry{abs(r.imag) < tol}{verifica que sea casi real}
+\entry{lista.append(valor)}{agrega una solución}
+\end{tabularx}
+\end{cheatbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{\colw}
+\vspace{0pt}
+\begin{cheatbox}{Imprimir resultados}
+\begin{lstlisting}
+print("valor:", valor)
+print(f"valor = {valor:.3f}")
+
+if len(soluciones) > 0:
+    print(soluciones[0])
+else:
+    print("sin solución")
+\end{lstlisting}
+\begin{tabularx}{\linewidth}{@{}lY@{}}
+\entry{print("texto", x)}{imprime texto y variable}
+\entry{f"...{x:.3f}"}{muestra tres decimales}
+\entry{len(soluciones)}{cuenta soluciones}
+\entry{soluciones[0]}{toma la primera solución}
 \end{tabularx}
 \end{cheatbox}
 
-\begin{cheatbox}{Errores comunes}
+\begin{cheatbox}{Operadores y errores}
 \begin{tabularx}{\linewidth}{@{}lY@{}}
-\smallentry{and}{en pandas use \code{\&} con parentesis}
-\smallentry{binary_search(lista)}{debe ser lista ordenada}
-\smallentry{np.roots([c,b,a])}{orden incorrecto}
-\smallentry{tomar toda raiz}{filtre complejas y no fisicas}
+\textbf{\texttt{and}} & une condiciones normales de Python\\
+\textbf{\texttt{\&}} & une condiciones dentro de filtros de pandas\\
+\textbf{\texttt{|}} & acepta una condición u otra en pandas\\
+\textbf{\texttt{(...)} } & separa condiciones y operaciones largas\\
+\smallentry{np.roots([c,b,a])}{orden incorrecto de coeficientes}
+\smallentry{tomar toda raíz}{revise si es real y está en rango}
 \end{tabularx}
 \end{cheatbox}
+
 \end{minipage}
 
 \end{document}

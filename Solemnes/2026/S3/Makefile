@@ -1,5 +1,6 @@
 # ========= Config =========
 MAIN            := main
+CHEAT_SHEET     := cheat_sheet_s3
 LATEXMK         := latexmk
 LATEXMK_FLAGS   := -lualatex -shell-escape -interaction=nonstopmode -halt-on-error -file-line-error -synctex=1
 TEX_CACHE_DIR   := .texlive-cache
@@ -8,13 +9,16 @@ export TEXMFVAR   := $(CURDIR)/$(TEX_CACHE_DIR)
 
 PROBLEMS := $(wildcard problems/*.tex)
 
-.PHONY: all pdf pdf-with-answers watch watch-answers clean distclean minted-cache tex-cache
+.PHONY: all pdf pdf-with-answers sheet-cheat watch watch-answers clean distclean minted-cache tex-cache
 
 # Compilación por defecto (sin respuestas)
 all: pdf
 
 pdf: minted-cache tex-cache
 	$(LATEXMK) -g $(LATEXMK_FLAGS) $(MAIN).tex
+
+sheet-cheat: tex-cache
+	$(LATEXMK) -g $(LATEXMK_FLAGS) $(CHEAT_SHEET).tex
 
 $(MAIN).pdf: $(MAIN).tex preamble.tex $(PROBLEMS) | minted-cache tex-cache
 	$(LATEXMK) $(LATEXMK_FLAGS) $(MAIN).tex
@@ -45,9 +49,11 @@ minted-cache:
 
 # Limpieza de temporales
 clean:
-	$(LATEXMK) -C
+	$(LATEXMK) -c $(MAIN).tex
+	$(LATEXMK) -c $(CHEAT_SHEET).tex
+	find . -maxdepth 1 \( -name '*.gz' -o -name '*.fls' \) -delete
 	rm -rf _minted-$(MAIN) $(TEX_CACHE_DIR)
 
 # Limpieza total (incluye PDF)
 distclean: clean
-	rm -f $(MAIN).pdf
+	rm -f $(MAIN).pdf $(CHEAT_SHEET).pdf
